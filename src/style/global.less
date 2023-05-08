@@ -1,0 +1,76 @@
+html,body{
+  margin:0;
+  padding: 0;
+  height: 100%;
+}
+#subapp {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  height: 100%;
+}
+// 为了处理数据中台引入页面时的padding问题
+.main-framework--top__main__limit{
+  .manager-page-padding{
+    overflow: visible;
+  }
+}
+.manager-page-padding{
+  padding: 20px;
+  overflow: auto;
+  .manager-page-padding{
+    padding: 0;
+  }
+}
+.el-table{
+  border-top:1px solid #ebeef5;
+  thead tr, thead tr th{
+    background: @tableHeadColor !important;
+    font-weight: @tableHeadFontWeight !important;
+  }
+}
+
+.el-popper{
+  max-width: 80%;
+}
+
+.is-disabled{
+  &.hover{
+    &:hover{
+      color: #C0C4CC;
+    }
+  }
+}
+
+.el-drawer__body{
+  background: @background;
+}
+// 输入框使用继承的字体
+textarea {
+  font-family: inherit
+}
+
+/* 滚动条 */
+::-webkit-scrollbar{
+  width: 6px;
+  height: 6px;
+}
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+  box-shadow: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: rgba(0, 0, 0, 0.5);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.font-bold{
+  font-weight: bold;
+}

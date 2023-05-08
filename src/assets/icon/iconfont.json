@@ -1,0 +1,37 @@
+{
+  "id": "2929100",
+  "name": "sunny-next",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1425647",
+      "name": "My message",
+      "font_class": "wodexiaoxi",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "578383",
+      "name": "books，书架",
+      "font_class": "books",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "2569870",
+      "name": "图书馆",
+      "font_class": "tushuguan",
+      "unicode": "e67c",
+      "unicode_decimal": 59004
+    },
+    {
+      "icon_id": "2678586",
+      "name": "待办事项",
+      "font_class": "daibanshixiang",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    }
+  ]
+}
