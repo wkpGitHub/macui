@@ -1,7 +1,7 @@
 import { accountService } from '@/api'
 import store from '@cip/components/store'
 import { Token } from '@/lib/token'
-import { settingValueTransformState } from '@cip/components/cip-form-input/form-value-store'
+import { settingValueTransformState } from '@d-render/shared'
 /**
  * 根据code获取token
  * @param code

@@ -1,5 +1,10 @@
 <template>
-  <cip-config-provide :search-grid="true" :search-reset="true">
+  <cip-config-provide
+    :search-grid="true"
+    :search-reset="true"
+    :layout="{ pageTheme: 'supergravity', compact: true}"
+    :form="{labelPosition: 'top'}"
+  >
     <el-config-provider :locale="zhCn">
       <router-view/>
     </el-config-provider>

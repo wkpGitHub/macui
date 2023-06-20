@@ -1,7 +1,6 @@
 import ManagerFramework from '@/views/manager/framework'
-import FrontFramework from '@/views/front/framework'
-const ctx = require.context('@/views/manager', true, /(\w+\/)*routes\/index\.js$/i)
-const frontCtx = require.context('@/views/front', true, /(\w+\/)*routes\/index\.js$/i)
+const ctx = require.context('@/views/manager', true, /(\w+\/)*(routes|routes\/index)\.js$/i)
+const configureCtx = require.context('@/views/configure', true, /(\w+\/)*(routes|routes\/index)\.js$/i)
 const getChildren = (ctx) => {
   const result = []
   const paths = ctx.keys()
@@ -12,7 +11,7 @@ const getChildren = (ctx) => {
   return result
 }
 // front 子路由 可用于权限控制
-export const frontChildren = getChildren(frontCtx)
+export const configureChildren = getChildren(configureCtx)
 // manager 子路由 可用于权限控制
 export const mainChildren = getChildren(ctx)
 
@@ -30,11 +29,17 @@ export const hideRoute = {
   props: { layout: 'hide' },
   children: []
 }
-const frontRoute = {
-  path: '/',
-  name: '_frontFramework',
-  component: FrontFramework,
-  children: frontChildren
+const configureRoute = {
+  path: '/configure/:appPath',
+  name: 'configureFramework',
+  props: true,
+  component: () => import('@/views/configure/framework'),
+  children: configureChildren
 }
 
-export const routes = [frontRoute]
+const loginRoute = {
+  path: '/login',
+  name: 'login',
+  component: () => import('@cip/plugins/pages/smart-center/login')
+}
+export const routes = [loginRoute, configureRoute]

@@ -1,0 +1,21 @@
+.wrapper{
+  padding: 10px 20px;
+  .item{
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    cursor: pointer;
+    &+.item{
+      margin-top: 4px;
+    }
+    &:global(.is-active){
+      background: var(--el-color-primary);
+      color: var(--el-color-white);
+    }
+    &:global(.is-disabled){
+      cursor: not-allowed;
+    }
+  }
+}

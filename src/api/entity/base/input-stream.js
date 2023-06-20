@@ -1,0 +1,5 @@
+
+// undefined
+export const inputStreamEntity = {
+  
+}

@@ -1,9 +1,20 @@
 <template>
-    <Main :nav-menu="menu" :privileges="privileges" :hide-footer="true" theme="dark" :layout="layout" :with-tabs="true" :home-view="homeView">
+    <Main :nav-menu="menu"
+          :privileges="privileges"
+          :hide-footer="true"
+          theme="standard"
+          :layout="layout"
+          :with-tabs="false"
+          :home-view="homeView"
+          root-path="/manager"
+    >
       <template #collapse>
       </template>
       <template #expand>
         <span style="margin-left: 8px;">{{platformName}}</span>
+      </template>
+      <template #header-plugin>
+        <div>hi</div>
       </template>
     </Main>
 </template>

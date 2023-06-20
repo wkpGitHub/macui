@@ -5,9 +5,14 @@
  */
 const proxyConfig = [
   {
-    key: 'api', // 基础后端服务
-    target: process.env.VUE_APP_API_TARGET,
-    productionTarget: process.env.VUE_APP_API_PRODUCTION_TARGET
+    key: 'apiChr', // 基础后端服务
+    target: process.env.VUE_APP_API_CHR_TARGET,
+    productionTarget: process.env.VUE_APP_API_CHR_PRODUCTION_TARGET
+  },
+  {
+    key: 'apiBasic', // 基础后端服务
+    target: process.env.VUE_APP_API_BASIC_TARGET,
+    productionTarget: process.env.VUE_APP_API_BASIC_PRODUCTION_TARGET
   }
 ]
 

@@ -20,7 +20,7 @@ import '@/assets/svg-icon'
 // dayjs的中文库
 import 'dayjs/locale/zh-cn'
 // d-render组件配置
-import { DRender } from '@cip/components/helper/d-render'
+import { DRender } from 'd-render'
 import renderConfig from '../d-render.config'
 
 import { request } from '@cip/request'
@@ -32,7 +32,7 @@ import proxyConfig from '_config/proxy-config'
 import CipMessage from '@cip/components/cip-message'
 
 import { menuService } from '@/api'
-
+// import * as xx from 'https://unpkg.com/vue@3/dist/vue.global.js'
 const dRender = new DRender()
 dRender.setConfig(renderConfig)
 request.use({ install: axiosConfig.customAxiosConfig })
@@ -40,12 +40,12 @@ request.setConfig({ ...axiosConfig, MessageError: CipMessage.error })
 request.setApiConfig(proxyConfig)
 
 if (window.__MICRO_APP_ENVIRONMENT__) {
-  microAppRender(render,(cb)=>{
+  microAppRender(render, (cb) => {
     menuService
-    .getManagerMenu()
-    .then(res=>{
-      cb(res.data)
-    })
+      .getManagerMenu()
+      .then(res => {
+        cb(res.data)
+      })
   })
 } else {
   // 独立时的渲染方式

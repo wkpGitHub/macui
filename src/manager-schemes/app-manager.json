@@ -1,0 +1,103 @@
+{
+  "id": "xx",
+  "scheme": {
+    "list": [
+      {
+        "id": "pageLayout-1",
+        "key": "pageLayout-1",
+        "config": {
+          "type": "pageLayoutList",
+          "compact": true,
+          "slotsConfig": {
+            "filter": [
+              {
+                "key": "searchFilter",
+                "config": {
+                  "type": "searchForm",
+                  "dependOn": [
+                    "searchFilter"
+                  ],
+                  "fieldList": [
+                    {
+                      "key": "name",
+                      "config": {
+                        "label": "Name"
+                      }
+                    },
+                    {
+                      "key": "title",
+                      "config": {
+                        "label": "Title"
+                      }
+                    }
+                  ],
+                  "search": "page"
+                }
+              }
+            ],
+            "default": [
+              {
+                "key": "data",
+                "config": {
+                  "type": "table",
+                  "hideAdd": true,
+                  "hideDelete": true,
+                  "options": [
+                    {
+                      "key": "name",
+                      "config": {
+                        "label": "名称"
+                      }
+                    },
+                    {
+                      "key": "path",
+                      "config": {
+                        "label": "基础路径"
+                      }
+                    },
+                    {
+                      "key": "remark",
+                      "config": {
+                        "label": "描述"
+                      }
+                    },
+                    {
+                      "key": "creatorName",
+                      "config": {
+                        "label": "创建者姓名"
+                      }
+                    },
+                    {
+                      "key": "createTime",
+                      "config": {
+                        "label": "创建时间",
+                        "type": "date",
+                        "viewType": "datetime"
+                      }
+                    },
+                    {
+                      "key": "$handler",
+                      "config": {
+                        "label": "操作",
+                        "type": "handler"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "methods": {
+      "page": "console.log('service', service)\nservice.chrAppService.page(model.searchFilter||{}, {}).then( res=> {\nmodel.data = res.data\n})\n"
+    },
+    "init": [
+      "page"
+    ]
+  },
+  "apiList": [
+    "chrAppService.page"
+  ]
+}

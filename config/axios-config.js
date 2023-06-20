@@ -1,8 +1,7 @@
 
 import { smartCenterInterceptors } from '@cip/plugins/axios-interceptors/smart-center'
-
+import store from '@cip/components/store'
 const customAxiosConfig = (axios) => {
-
   // 数据智能开发部数据格式进行转化
   smartCenterInterceptors(axios)
 
@@ -10,6 +9,10 @@ const customAxiosConfig = (axios) => {
     config => {
       // 可在请求前进行统一处理
       // 通常在此处处理token
+      const appId = store.state.app.id
+      if (appId) {
+        config.headers.common['App-Id'] = appId
+      }
       return config
     },
     err => {
