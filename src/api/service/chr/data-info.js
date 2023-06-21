@@ -156,6 +156,28 @@ class DataInfoService extends Model {
     })
   }
 
+  // 同步结构
+  @transformData()
+  sync ({ dataId }) {
+    return req({
+      method: 'get',
+      apiName: 'apiChr',
+      url: '/api/v1/storage/info/sync',
+      params: { dataId }
+    })
+  }
+
+  // 数据模型树
+  @transformData()
+  tree ({ name, withBasic }) {
+    return req({
+      method: 'get',
+      apiName: 'apiChr',
+      url: '/api/v1/storage/info/tree',
+      params: { name, withBasic }
+    })
+  }
+
   // excel数据导入
   @transformData()
   uploadExcelData (data) {

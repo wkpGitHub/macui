@@ -48,12 +48,12 @@ class ApiConfigService extends Model {
 
   // 列表
   @transformData()
-  list ({ apiMethod, name, path, pid }) {
+  list ({ apiMethod, dataId, devMode, name, path, pid }) {
     return req({
       method: 'get',
       apiName: 'apiChr',
       url: '/api/v1/api/config/list',
-      params: { apiMethod, name, path, pid }
+      params: { apiMethod, dataId, devMode, name, path, pid }
     })
   }
 
@@ -70,12 +70,12 @@ class ApiConfigService extends Model {
 
   // 树状结构
   @transformData()
-  tree ({ apiMethod, name, path, pid }) {
+  tree ({ apiMethod, dataId, devMode, name, path, pid }) {
     return req({
       method: 'get',
       apiName: 'apiChr',
       url: '/api/v1/api/config/tree',
-      params: { apiMethod, name, path, pid }
+      params: { apiMethod, dataId, devMode, name, path, pid }
     })
   }
 }

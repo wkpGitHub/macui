@@ -35,6 +35,15 @@ export default defineComponent({
       // 刚刚插入还没选人无法选中需要nextTick
       nextTick().then(() => {
         table$.value.cipTableRef.setCurrentRow(initValue)
+        nextTick().then(() => {
+          console.log(table$.value.cipTableRef.$el.getElementsByClassName('current-row'))
+          const currentRowDom = table$.value.cipTableRef.$el.getElementsByClassName('current-row')[0]
+          if (currentRowDom) {
+            console.log(currentRowDom)
+            currentRowDom.scrollIntoView({ behavior: 'smooth' })
+          }
+        })
+        // console.log(table$.value.cipTableRef.scrollBarRef.$el.scrollToView())
         // table$.value.setCurrentRow(initValue)
       })
     }
@@ -44,37 +53,37 @@ export default defineComponent({
       }).catch((e) => {})
     }
     return () => <Layout
-      style={{ width: width.value }}
-      table={<>
-        <CipTable
-          {...attrs}
-          height={securityConfig.value.height}
-          size={securityConfig.value.size}
-          rowKey={'name'}
-          v-model:data={proxyValue.value}
-          highlightCurrentRow
-          onCurrent-change={handleCurrentChange}
-          ref={table$}
-          columns={options.value}
-          withTableHandle={true}
-          v-slots={{
-            $handler: ({ $index }) => <>
-            <CipButtonText onClick={() => createItem($index)}>插入</CipButtonText>
-            <CipButtonText onClick={() => deleteItem($index)}>删除</CipButtonText>
-          </>
-          }}/>
-        <div style="text-align: center" class="basic-table__add" type="info" v-if="!securityConfig.hideAdd">
-          <CipButton link onClick={createItem} icon={Plus}>
-            添加
-          </CipButton>
-        </div>
-      </>}
-      form={ tempItem.value && <CipForm
-        v-model:model={tempItem.value}
-        grid={securityConfig.value._isGrid}
-        fieldList={securityConfig.value.formFieldList}
-      />}
-    >
+      style={{ width: width.value }} >
+      {{
+        table: () => <>
+          <CipTable
+            {...attrs}
+            height={securityConfig.value.height}
+            size={securityConfig.value.size}
+            v-model:data={proxyValue.value}
+            highlightCurrentRow
+            onCurrent-change={handleCurrentChange}
+            ref={table$}
+            columns={options.value}
+            withTableHandle={true}
+            v-slots={{
+              $handler: ({ $index }) => <>
+                <CipButtonText onClick={() => createItem($index)}>插入</CipButtonText>
+                <CipButtonText onClick={() => deleteItem($index)}>删除</CipButtonText>
+              </>
+            }}/>
+          <div style="text-align: center" class="basic-table__add" type="info">
+            <CipButton link onClick={createItem} icon={Plus}>
+              添加
+            </CipButton>
+          </div>
+        </>,
+        form: () => tempItem.value && <CipForm
+            v-model:model={tempItem.value}
+            grid={securityConfig.value._isGrid}
+            fieldList={securityConfig.value.formFieldList}
+          />
+      }}
     </Layout>
   }
 })

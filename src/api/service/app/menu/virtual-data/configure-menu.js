@@ -5,13 +5,9 @@ export default [
     cache: true
   },
   {
-    name: '_dataModel',
+    name: 'configureDataModel',
     title: '数据模型',
-    children: [
-      { name: 'configureEnum', title: '枚举' },
-      { name: 'configureEntity', title: '实体' },
-      { name: 'configureDataStructure', title: '结构' }
-    ]
+    cache: true
   },
   {
     name: 'configureApi',

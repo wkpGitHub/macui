@@ -1,19 +1,7 @@
 import { dataFieldEntityEntity, dataInfoEntityEntity } from '@/api/entity/chr'
-// import { daa } from '@/api/service/chr'
-import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig, defineSearchFieldConfig } from 'd-render'
-import { keysToConfigMap } from '@d-render/shared'
+import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig } from 'd-render'
 import { baseDicService } from '@/api'
 import { v4 as uuid } from 'uuid'
-
-export const searchFieldList = generateFieldList(defineSearchFieldConfig(keysToConfigMap([
-  'name'
-])), dataInfoEntityEntity)
-
-export const tableColumns = generateFieldList(defineTableFieldConfig(keysToConfigMap([
-  'name', 'tableName', 'remark', 'createTime', 'creatorName', 'updateTime'
-].map(key => ({ key, showOverflowTooltip: true })))), dataInfoEntityEntity, {
-  tableName: { label: '表名称' }
-})
 
 export const formFieldList = generateFieldList(defineFormFieldConfig({
   _layout: {
@@ -47,7 +35,7 @@ export const formFieldList = generateFieldList(defineFormFieldConfig({
               isTree: '树形结构'
             }
           },
-          remark: { span: 6, type: 'textarea', autosize: { minRows: 3, maxRows: 3 } }
+          remark: { span: 6, type: 'textarea', autosize: { minRows: 6, maxRows: 6 } }
         }), dataInfoEntityEntity)
       },
       {
@@ -62,19 +50,23 @@ export const formFieldList = generateFieldList(defineFormFieldConfig({
             hideIndex: true,
             defaultValue: [{}],
             createInitValue: () => ({
-              name: `property-${uuid().substr(0, 6)}`
+              name: `property${uuid().substr(0, 6)}`
             }),
+            dependOn: ['dbId'],
             options: generateFieldList(defineTableFieldConfig({
               isPk: { align: 'center', type: 'tableRadio', writable: true, label: '主键', width: '60px' },
               name: { label: '字段名称', writable: true },
               title: { label: '显示名称', writable: true },
               typeScope: {
                 type: 'dataType',
+                label: '类型',
+                outDependOn: ['dbId'],
                 otherKey: [
                   'typeName', // 基础类型
                   'refDataId',
                   'refDataName'
-                ]
+                ],
+                writable: true
               }, // 此处需要一个自定义组件来处理
               length: {
                 writable: true,
@@ -103,7 +95,7 @@ export const formFieldList = generateFieldList(defineFormFieldConfig({
                   return config
                 }
               },
-              unique: {
+              isUnique: {
                 align: 'center',
                 type: 'singleCheckbox',
                 option: { value: true, label: '' },
@@ -125,13 +117,13 @@ export const formFieldList = generateFieldList(defineFormFieldConfig({
               name: { label: '字段名称', span: 6 },
               title: { label: '显示名称', span: 6 },
               typeScope: {
-
                 type: 'dataType',
                 otherKey: [
                   'typeName', // 基础类型
                   'refDataId',
                   'refDataName'
                 ],
+                dependOn: ['dbId'],
                 span: 6
               }, // 此处需要一个自定义组件来处理
               defaultValue: {
@@ -147,10 +139,6 @@ export const formFieldList = generateFieldList(defineFormFieldConfig({
                   multiable: '允许多选'
                 }
               }
-              // nullable: { type: 'singleCheckbox', option: { value: true, label: '' } },
-              // unique: { type: 'singleCheckbox', option: { value: true, label: '' } },
-              // editable: { type: 'singleCheckbox', option: { value: true, label: '' } },
-              // multiable: { type: 'singleCheckbox', option: { value: true, label: '' } }
             }), dataFieldEntityEntity)
           }
         }), dataInfoEntityEntity)

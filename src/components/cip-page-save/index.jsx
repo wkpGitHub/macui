@@ -5,6 +5,7 @@ import { getUsingConfig } from '@cip/utils/util'
 import CipButton from '@cip/components/cip-button'
 export default defineComponent({
   props: {
+    top: Boolean,
     model: Object,
     formFieldList: {},
     onSave: Function,
