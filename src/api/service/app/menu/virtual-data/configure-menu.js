@@ -18,6 +18,11 @@ export default [
     name: 'configurePagesDesign',
     title: '页面设计',
     cache: true
+  },
+  {
+    name: 'configureServiceDesign',
+    title: '服务编排',
+    cache: true
   }
 
 ]

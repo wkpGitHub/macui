@@ -13,5 +13,10 @@ export const routes = [
     name: 'configurePagesDesign',
     path: 'pages-design',
     component: () => import('./pages-design')
+  },
+  {
+    name: 'configureServiceDesign',
+    path: 'service-design',
+    component: () => import('./service-design')
   }
 ]
