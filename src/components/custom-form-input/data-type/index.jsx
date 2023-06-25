@@ -1,4 +1,4 @@
-import { formInputProps, formInputEmits, useFormInput, isNotEmpty } from '@d-render/shared'
+import { formInputProps, formInputEmits, useFormInput, isNotEmpty, isInputEmpty } from '@d-render/shared'
 // import { CipTable, CipForm } from 'd-render'
 import { ElIcon, ElTreeSelect } from 'element-plus'
 import { ref, computed } from 'vue'
@@ -44,46 +44,26 @@ export default {
     const isDbInfo = (data) => {
       return data.type === 'db'
     }
-    const isEntity = (data) => {
-      return data.type === 'entity'
-    }
-    const isPojo = (data) => {
-      return data.type === 'pojo'
-    }
-    const isEnum = (data) => {
-      return data.type === 'dic'
-    }
-    const isBasic = (data) => {
-      return data.type === 'basic'
-    }
 
     const dataModelIconMap = {
       entity: <Entity/>,
-      pojo: <Pojo/>
+      pojo: <Pojo/>,
+      dic: <Enum />,
+      basic: <Basic/>
     }
 
     const prefixIcon = computed(() => {
-      switch (props.modelValue) {
-        case 'entity':
-          return <Entity/>
-        case 'pojo':
-          return <Pojo/>
-        case 'dic':
-          return <Enum/>
-        case 'basic':
-          return <Basic/>
-        default:
-          return undefined
+      if (props.modelValue) {
+        return dataModelIconMap[props.modelValue]
       }
+      return undefined
     })
     const Icon = ({ node, data }) => {
       if (node.level === 1) return <Folder />
       if (node.level >= 2) {
         if (isDbInfo(data)) return <Database />
-        if (isEntity(data)) return <Entity />
-        if (isPojo(data)) return <Pojo />
-        if (isEnum(data)) return <Enum />
-        if (isBasic(data)) return <Basic />
+        const typeIcon = dataModelIconMap[data.type]
+        if (typeIcon) return typeIcon
       }
       return <Folder />
     }
@@ -95,56 +75,79 @@ export default {
     }
     const treeValue = computed(() => {
       let nodeId
-      switch (props.modelValue) {
-        case 'entity':
-          nodeId = proxyOtherValue[1].value
-          break
-        case 'pojo':
-          nodeId = proxyOtherValue[1].value
-          break
-        case 'dic':
-          nodeId = proxyOtherValue[1].value
-          break
-        default:
-          nodeId = proxyOtherValue[0].value
+      if (['entity', 'pojo', 'dic'].includes(props.modelValue)) {
+        nodeId = proxyOtherValue[1].value
+      } else {
+        nodeId = proxyOtherValue[0].value
       }
       return isNotEmpty(nodeId) ? nodeId + '' : undefined
     })
+    const treeSelect$ = ref()
+    const clearValues = () => {
+      updateStream.appendValue(undefined)
+      updateStream.appendOtherValue(undefined, 1)
+      updateStream.appendOtherValue(undefined, 2)
+      updateStream.appendOtherValue(undefined, 3)
+    }
     const handleCurrentChange = (data, node) => {
-      console.log('handleCurrentChange', data)
-      console.log(updateStream)
       if (['dic', 'entity', 'pojo'].includes(data.type)) {
         updateStream.appendValue(data.type)
+        updateStream.appendOtherValue(undefined, 1)
         updateStream.appendOtherValue(data.id, 2)
         updateStream.appendOtherValue(data.name, 3)
-        updateStream.end()
-      } else {
-        updateStream.appendValue('basic')
+      } else if (data.type === 'basic') {
+        updateStream.appendValue(data.type)
         updateStream.appendOtherValue(data.id, 1)
-        updateStream.end()
+        updateStream.appendOtherValue(undefined, 2)
+        updateStream.appendOtherValue(undefined, 3)
+      } else {
+        clearValues()
       }
     }
+    const handleChange = (val) => {
+      if (isInputEmpty(val)) {
+        clearValues()
+      } else {
+        const currentNode = treeSelect$.value.getNode({ nodeId: val })
+        if (currentNode) {
+          const { data } = currentNode
+          handleCurrentChange(data, currentNode)
+        } else {
+          clearValues()
+        }
+      }
+      // 提交数据
+      updateStream.end()
+    }
+    const slots = computed(() => {
+      const result = {
+        default: ({ node, data }) => {
+          return <div style={{ display: 'flex', alignItems: 'center' }}>
+            <ElIcon style={'margin-right: 10px'}><Icon node={node} data={data} /></ElIcon>
+            <Text node={node} data={data}/>
+          </div>
+        }
+      }
+      if (prefixIcon.value) {
+        result.prefix = () => <ElIcon>{prefixIcon.value}</ElIcon>
+      }
+      return result
+    })
     return () => <div class={'data-type'}>
       <ElTreeSelect
+        ref={treeSelect$}
         modelValue={treeValue.value}
         data={options.value}
         node-key="nodeId"
         props={{ label: 'name' }}
+        clearable={true}
         defaultExpandAll
         highlightCurrent
         expandOnClickNode={false}
-        onCurrent-change={handleCurrentChange}
+        onChange={handleChange}
         prefixIcon={prefixIcon.value}
+        v-slots={slots.value}
       >
-        {{
-          prefix: () => <ElIcon>{prefixIcon.value}</ElIcon>,
-          default: ({ node, data }) => {
-            return <div style={{ display: 'flex', alignItems: 'center' }}>
-              <ElIcon style={'margin-right: 10px'}><Icon node={node} data={data} /></ElIcon>
-              <Text node={node} data={data}/>
-            </div>
-          }
-        }}
       </ElTreeSelect>
     </div>
   }
