@@ -1,0 +1,72 @@
+.page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  position: relative;
+  height: 48px;
+  // min-width: 1280px;
+  border-bottom: 1px solid #e8e9eb;
+  box-sizing: border-box;
+  background: #fff;
+  display: flex;
+
+  .title {
+    flex: 1 1 565px;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+    user-select: none;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  &-actions {
+    flex: 1 1 565px;
+    padding: 0 24px;
+    font-size: 12px;
+    white-space: nowrap;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}
+
+.editor {
+  flex: auto;
+  display: flex;
+  &-view {
+    height: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .view-toolbar {
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .view-container {
+    flex: auto;
+  }
+}
+.right-panel {
+  position: relative;
+  width: 0;
+  right: 0;
+  transition: width ease-in-out .2s;
+  &&-opened {
+    width: 400px;
+    box-shadow: -2px 0 20px 0 rgba(0,0,0,.1);
+  }
+}
+.drawer {
+  width: 424px !important;
+}
+.drawer-modal {
+  left: calc(100% - 424px) !important;
+}
