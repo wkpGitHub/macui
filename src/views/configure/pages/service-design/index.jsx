@@ -7,7 +7,8 @@ import {
   useDialog,
   GlobalSettingDialog,
   PseudoCodeDialog,
-  SourceCodeDialog
+  SourceCodeDialog,
+  CompList
 } from './dialog'
 
 import styles from './index.module.less'
@@ -20,14 +21,16 @@ export default defineComponent({
     const globalSettingVisible = ref(false)
     const pseudoCodeDialogVisible = ref(false)
     const sourceCodeDialogVisible = ref(false)
+    const compListDialogVisible = ref(false)
     const { showRightPanel, dialogBaseProps } = useDialog()
 
     return () => <CipPageLayoutInfo>
       <div class={styles.page}>
         <div class={styles.header}>
-          <div class={styles.title}>title</div>
+          {/* <div class={styles.title}></div> */}
           <div class={styles['header-actions']}>
             <CipButton onClick={() => { sourceCodeDialogVisible.value = true }}>源码</CipButton>
+            <CipButton onClick={() => { compListDialogVisible.value = true }}>组件</CipButton>
             <CipButton onClick={() => { pseudoCodeDialogVisible.value = true }}>伪代码</CipButton>
             <CipButton>调试</CipButton>
             <CipButton type='primary'>保存</CipButton>
@@ -39,12 +42,13 @@ export default defineComponent({
               <ElLink icon={Setting} underline={false} type='primary' onClick={() => { globalSettingVisible.value = true }}>全局设置</ElLink>
               <ElInputNumber size='small' v-model={zoom.value} min={50} max={400} step={10}></ElInputNumber>
             </div>
-            <div class={styles['view-container']}>container</div>
+            <div class={styles['view-container']}>画布区域</div>
           </div>
           <div class={[styles['right-panel'], showRightPanel.value ? styles['right-panel-opened'] : '']}>
             <GlobalSettingDialog {...dialogBaseProps} v-model={globalSettingVisible.value}/>
             <PseudoCodeDialog {...dialogBaseProps} v-model={pseudoCodeDialogVisible.value}/>
             <SourceCodeDialog {...dialogBaseProps} v-model={sourceCodeDialogVisible.value}/>
+            <CompList {...dialogBaseProps} v-model={compListDialogVisible.value}/>
           </div>
         </div>
       </div>
