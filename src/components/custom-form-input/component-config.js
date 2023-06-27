@@ -15,5 +15,6 @@ export default {
   compositionCheckbox: () => () => import('./composition-checkbox'),
   tableForm: () => () => import('./table-form'),
   filterCondition: () => () => import('./filter-condition'),
-  selectField: () => () => import('./select-field')
+  selectField: () => () => import('./select-field'),
+  codemirrorInput: () => () => import('./codemirror-input')
 }
