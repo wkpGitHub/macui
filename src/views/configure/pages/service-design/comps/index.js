@@ -9,6 +9,8 @@ import dateFormatConfig from './date-format'
 import mappingConfig from './mapping'
 import createDataRecordsConfig from './create-data-records'
 import deleteDataRecordsConfig from './delete-data-records'
+import datasourceSqlConfig from './datasource-sql'
+import scriptConfig from './script'
 /**
  * 通过category字段对组件进行分类
  */
@@ -37,7 +39,9 @@ export const compList = [
   dateFormatConfig,
   mappingConfig,
   createDataRecordsConfig,
-  deleteDataRecordsConfig
+  deleteDataRecordsConfig,
+  datasourceSqlConfig,
+  scriptConfig
 ]
 
 // 全部组件
