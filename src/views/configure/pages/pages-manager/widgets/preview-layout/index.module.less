@@ -9,9 +9,11 @@
     box-sizing: border-box;
   }
   .toolbar{
+    align-items: center;
     flex-shrink: 0;
     height: 42px;
     border-bottom: var(--chr-design-border);
+    display: none;
   }
   .main{
     height: 0;
@@ -24,6 +26,7 @@
       width: var(--chr-design-module-size);
       border-right: var(--chr-design-border);
       height: 100%;
+
     }
     .tree{
       flex-shrink: 0;
@@ -36,6 +39,7 @@
       min-width: 300px;
       border-right: var(--chr-design-border);
       height: 100%;
+      padding: 20px;
     }
     .configure{
       flex-shrink: 0;

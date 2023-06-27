@@ -15,9 +15,8 @@ export default [
     cache: true
   },
   {
-    name: 'configurePagesDesign',
-    title: '页面设计',
+    name: 'configurePagesManager',
+    title: '页面管理',
     cache: true
   }
-
 ]

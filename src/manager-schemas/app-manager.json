@@ -1,6 +1,6 @@
 {
   "id": "xx",
-  "scheme": {
+  "schema": {
     "list": [
       {
         "id": "pageLayout-1",
@@ -8,6 +8,7 @@
         "config": {
           "type": "pageLayoutList",
           "compact": true,
+          "theme": "dg",
           "slotsConfig": {
             "filter": [
               {
@@ -21,13 +22,13 @@
                     {
                       "key": "name",
                       "config": {
-                        "label": "Name"
+                        "label": "名称"
                       }
                     },
                     {
-                      "key": "title",
+                      "key": "path",
                       "config": {
-                        "label": "Title"
+                        "label": "路径"
                       }
                     }
                   ],
@@ -91,7 +92,7 @@
       }
     ],
     "methods": {
-      "page": "console.log('service', service)\nservice.chrAppService.page(model.searchFilter||{}, {}).then( res=> {\nmodel.data = res.data\n})\n"
+      "page": "console.log('service', service)\nservice.appService.page(model.searchFilter||{}, {}).then( res=> {\nmodel.data = res.data\n})\n"
     },
     "init": [
       "page"

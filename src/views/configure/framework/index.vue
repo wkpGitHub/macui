@@ -8,7 +8,6 @@
       :layout="layout"
       :with-tabs="true"
       :root-path="`/configure/${appPath}`"
-      :collapseRegex="/\/configure\/(.*)?\/pages-design$/"
     >
       <template #expand>
         <span style="margin-left: 8px;">应用配置({{appInfo.name}})</span>

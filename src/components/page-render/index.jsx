@@ -5,7 +5,7 @@ import { setFieldValue } from '@d-render/shared'
 export default {
   name: 'PageRender',
   props: {
-    scheme: Object,
+    schema: Object,
     model: Object
   },
   emits: ['update:model'],
@@ -16,16 +16,16 @@ export default {
       // const model = toRaw(props.model) // 导致无响应
       const model = props.model
       setFieldValue(model, target, data)
-      console.log(model)
       emit('update:model', model)
     }
+    console.log('props.schema', props.schema)
     return () => <div>
         <CipFormRender
           model={props.model}
           onUpdate:model={val => emit('update:model', val)}
           dataBus={dataBus}
           service={service}
-          scheme={props.scheme}
+          scheme={props.schema}
         />
     </div>
   }

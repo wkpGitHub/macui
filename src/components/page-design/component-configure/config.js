@@ -1,3 +1,4 @@
 export default {
-  grid: () => import('./grid')
+  grid: () => import('./grid'),
+  pageLayoutList: () => import('./page-layout/list')
 }

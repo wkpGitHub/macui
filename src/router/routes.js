@@ -37,9 +37,16 @@ const configureRoute = {
   children: configureChildren
 }
 
+const designRoute = {
+  path: '/configure/:appPath/pages-design/:id',
+  name: 'configurePagesDesign',
+  props: true,
+  component: () => import('@/views/page-design')
+}
+
 const loginRoute = {
   path: '/login',
   name: 'login',
   component: () => import('@cip/plugins/pages/smart-center/login')
 }
-export const routes = [loginRoute, configureRoute]
+export const routes = [loginRoute, configureRoute, designRoute]

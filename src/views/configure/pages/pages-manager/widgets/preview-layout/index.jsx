@@ -8,11 +8,6 @@ export default {
         {slots.toolbar?.()}
       </div>
       <div class={styles.main}>
-        {/* <div class={styles.module}> */}
-        {/*   <ElScrollbar> */}
-        {/*     {slots.modules?.()} */}
-        {/*   </ElScrollbar> */}
-        {/* </div> */}
         <div class={styles.tree}>
           <ElScrollbar>
             {slots.tree?.()}
