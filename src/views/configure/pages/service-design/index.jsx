@@ -8,7 +8,8 @@ import {
   GlobalSettingDialog,
   PseudoCodeDialog,
   SourceCodeDialog,
-  CompList
+  CompList,
+  CompInfo
 } from './dialog'
 
 import styles from './index.module.less'
@@ -20,12 +21,15 @@ export default defineComponent({
   setup (props, ctx) {
     let au
     let selectLink = null
+    const selectNode = ref({})
     const zoom = ref(100)
 
     const globalSettingVisible = ref(false)
     const pseudoCodeDialogVisible = ref(false)
     const sourceCodeDialogVisible = ref(false)
     const compListDialogVisible = ref(false)
+    const compInfoDialogVisible = ref(false)
+
     const { showRightPanel, dialogBaseProps } = useDialog()
 
     function addNode (comp) {
@@ -34,7 +38,9 @@ export default defineComponent({
       showRightPanel.value = false
       selectLink = null
     }
-
+    function updateNode (model) {
+      au.updateNode(model)
+    }
     onMounted(() => {
       d3.json('../../ausyda.json').then(data => {
         au = new Ausyda({
@@ -49,9 +55,9 @@ export default defineComponent({
         })
         // 点击选中节点
         au.on('updateNode', (d) => {
-          d.title = d.title + '2'
           // 更新节点
-          au.updateNode(d)
+          selectNode.value = d
+          compInfoDialogVisible.value = true
         })
         // 点击节点删除按钮
         au.on('deleteNode', (d, cb) => {
@@ -85,6 +91,7 @@ export default defineComponent({
             <PseudoCodeDialog {...dialogBaseProps} v-model={pseudoCodeDialogVisible.value}/>
             <SourceCodeDialog {...dialogBaseProps} v-model={sourceCodeDialogVisible.value}/>
             <CompList {...dialogBaseProps} v-model={compListDialogVisible.value} onClickComp={addNode}/>
+            <CompInfo {...dialogBaseProps} v-model={compInfoDialogVisible.value} selectNode={selectNode.value} onUpdateNode={updateNode}/>
           </div>
         </div>
       </div>
