@@ -21,7 +21,16 @@ module.exports = {
   outputDir,
   lintOnSave: false,
   productionSourceMap: false,
-  devServer, // 开发服务配置
+  devServer: {
+    ...devServer,
+    client: {
+      overlay: {
+        errors: false,
+        warnings: false,
+        runtimeErrors: false
+      }
+    }
+  }, // 开发服务配置
   // css: {
   //   extract: true
   // },
@@ -40,7 +49,7 @@ module.exports = {
   },
   chainWebpack: config => {
     vueAlias(config.resolve.alias) // 文件别名配置
-    svgIconRule(config,  path.resolve(__dirname, 'src/assets/svg-icon'))
+    svgIconRule(config, path.resolve(__dirname, 'src/assets/svg-icon'))
     config.plugin('html').tap(args => {
       args[0].title = process.env.VUE_APP_PLATFORM_NAME
       return args

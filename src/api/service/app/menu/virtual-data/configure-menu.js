@@ -18,5 +18,10 @@ export default [
     name: 'configurePagesManager',
     title: '页面管理',
     cache: true
+  },
+  {
+    name: 'configureServiceDesign',
+    title: '服务编排',
+    cache: true
   }
 ]

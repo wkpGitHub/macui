@@ -42,6 +42,7 @@
     "core-js": "^3.6.5",
     "countup.js": "^2.3.2",
     "d-render": "2.0.0-beta.5",
+    "d3": "^5.16.0",
     "dayjs": "^1.11.6",
     "element-plus": "2.2.22",
     "js-sha1": "^0.6.0",

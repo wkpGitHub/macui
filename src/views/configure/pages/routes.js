@@ -13,5 +13,6 @@ export const routes = [
     name: 'configurePagesManager',
     path: 'pages-preview',
     component: () => import('./pages-manager')
+
   }
 ]

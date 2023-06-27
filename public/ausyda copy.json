@@ -1,0 +1,157 @@
+{
+	"id": "0juy9hzpx2ge",
+	"type": "start",
+  "title": "开始",
+	"conditions": {},
+	"children": [
+		{
+			"id": "980e3417219a",
+			"type": "branch",
+			"title": "分支",
+			"conditions": {},
+			"children": [
+        {
+					"id": "d52b3e97cc68",
+					"type": "set",
+					"title": "设置变量",
+					"expression": "分支",
+					"conditionType": "formula",
+					"conditions": "1 === 1",
+					"children": [],
+					"dataTypeDisabled": false
+				},
+        {
+          "id": "980e34172219a",
+          "type": "branch",
+          "title": "分支deep",
+          "expression": "分支",
+          "conditionType": "formula",
+          "conditions": {},
+          "children": [
+            {
+              "id": "d52b3e292227cc68",
+              "type": "set",
+              "title": "设置变量",
+              "expression": "分支",
+              "conditionType": "formula",
+              "conditions": "1 === 1",
+              "children": [],
+              "dataTypeDisabled": false
+            },
+            {
+              "id": "d52b3e297cc68",
+              "type": "set",
+              "title": "设置变量",
+              "expression": "分支",
+              "conditionType": "formula",
+              "conditions": "1 === 1",
+              "children": [],
+              "dataTypeDisabled": false
+            },
+            {
+              "id": "dcc627922b62225c",
+              "type": "loop",
+              "title": "循环",
+              "validateFailed": true,
+              "children": [
+                {
+                  "id": "e6226925622c48b6",
+                  "type": "delete-data-records",
+                  "title": "删除记录",
+                  "conditions": {},
+                  "children": [],
+                  "objectKey": "",
+                  "filterMode": "normal",
+                  "filterFields": {},
+                  "fields": []
+                }
+              ]
+            }
+          ]
+        },
+				{
+					"id": "dcc6279b625c",
+					"type": "loop",
+					"title": "循环",
+					"expression": "分支",
+					"conditionType": "formula",
+					"conditions": "1===1",
+					"validateFailed": true,
+					"children": [
+						{
+							"id": "e669256c48b6",
+							"type": "delete-data-records",
+							"title": "删除记录",
+							"conditions": {},
+							"children": [],
+							"objectKey": "",
+							"filterMode": "normal",
+							"filterFields": {},
+							"fields": []
+						},
+            {
+              "id": "dcc6279b62225c",
+              "type": "loop",
+              "title": "循环",
+              "validateFailed": true,
+              "children": [
+                {
+                  "id": "e66925622c48b6",
+                  "type": "delete-data-records",
+                  "title": "删除记录",
+                  "conditions": {},
+                  "children": [],
+                  "objectKey": "",
+                  "filterMode": "normal",
+                  "filterFields": {},
+                  "fields": []
+                }
+              ]
+            }
+					]
+				},
+  
+				{
+					"id": "c0733878be9b",
+					"type": "coder",
+					"title": "编码转换",
+					"expression": "分支",
+					"conditionType": "formula",
+					"conditions": "1 === 1",
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "4e86ab5e145e",
+			"type": "break",
+			"title": "跳出循环",
+			"conditions": {},
+			"children": []
+		},
+		{
+			"id": "979fdb54d826",
+			"type": "set",
+			"title": "设置变量2",
+			"conditions": {},
+			"validateFailed": true,
+			"children": [],
+			"dataTypeDisabled": false
+		},
+		{
+			"id": "ef4ae388395b",
+			"type": "end",
+			"title": "结束"
+		}
+	],
+	"trigger": "empty-event",
+	"inputParams": {},
+	"variableParams": {},
+	"fields": [],
+	"updateFields": [],
+	"filterMode": "normal",
+	"filterFields": {},
+	"triggerMode": "interval",
+	"intervalSetting": {},
+	"periodicSetting": {}
+}
