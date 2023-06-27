@@ -31,7 +31,7 @@ const iconHtmlMap = {
 
 const nodeConfig = {
   start: {
-    x: 22,
+    x: 44,
     y: 68,
     enter (selection) {
       selection.html(`
@@ -41,7 +41,7 @@ const nodeConfig = {
     }
   },
   end: {
-    x: 22,
+    x: 44,
     y: 68,
     enter (selection) {
       selection.append('div').attr('class', 'node-end').html('<div class="icon-end"></div>')
@@ -49,7 +49,7 @@ const nodeConfig = {
     }
   },
   set: {
-    x: 70,
+    x: 140,
     y: 64,
     enter (selection) {
       selection.append('div').classed('icon-outer', true).html(`
@@ -72,17 +72,19 @@ const nodeConfig = {
 
   },
   branch: {
-    x: 24,
+    x: 48,
     y: 48,
     enter (selection) {
       const toorBar = selection.select('.node-toolbar')
       toorBar.insert('div', '.trash').attr('class', 'node-tool-outer icon-expand').on('click', d => {
+        d3.event.stopPropagation()
         d.folded = !d.folded
         this.update()
       })
       toorBar.insert('div', '.icon-expand').attr('class', 'node-tool-outer icon-add').attr('title', '添加分支').html('<div class="line-1"></div><div class="line-2"></div>').on('click', d => {
+        d3.event.stopPropagation()
         d.folded = false
-        this.update()
+        this.emit('addBranch', d)
       })
       selection.append('div').attr('class', 'node-logic')
     },
@@ -92,21 +94,21 @@ const nodeConfig = {
     }
   },
   'branch-close': {
-    x: 24,
+    x: 48,
     y: 48,
     enter (selection) {
       selection.append('div').attr('class', 'node-logic').html(iconHtmlMap.branch)
     }
   },
   break: {
-    x: 24,
+    x: 48,
     y: 48,
     enter (selection) {
       selection.append('div').attr('class', 'node-logic node-icon-break-wrapper').html(iconHtmlMap.break)
     }
   },
   'date-format': {
-    x: 70,
+    x: 140,
     y: 64,
     enter (selection) {
       selection.append('div').classed('icon-outer', true).html(iconHtmlMap['date-format'])
@@ -114,7 +116,7 @@ const nodeConfig = {
     }
   },
   coder: {
-    x: 70,
+    x: 140,
     y: 64,
     enter (selection) {
       selection.append('div').classed('icon-outer', true).html(iconHtmlMap.coder)
@@ -122,16 +124,17 @@ const nodeConfig = {
     }
   },
   loop: {
-    x: 24,
+    x: 48,
     y: 48,
     enter (selection) {
       const toorBar = selection.select('.node-toolbar')
       toorBar.insert('div', '.trash').attr('class', 'node-tool-outer icon-expand').on('click', d => {
+        d3.event.stopPropagation()
         d.folded = !d.folded
         this.update()
       })
       selection.append('div').attr('class', 'node-logic node-icon-loop-wrapper')
-      selection.append('span').classed('node-label', true)
+      selection.append('span').attr('class', 'loop-label').text(d => d.title).style('left', d => `${-d.width / 2 + 32}px`)
     },
     update (selection, data) {
       selection.select('.icon-expand').attr('title', d => d.folded ? '展开子节点' : '收起子节点').html(d => d.folded ? iconHtmlMap.folded : iconHtmlMap.expand)
@@ -141,10 +144,10 @@ const nodeConfig = {
         selection.select('.loop-label').remove()
         selection.select('.loop-mask').remove()
       } else {
-        const height = data.children.at(-1).top - data.top - 24
+        // const height = data.children.at(-1).top - data.top - 24
         const loopMask = selection.select('.loop-mask').size() ? selection.select('.loop-mask') : selection.append('div').attr('class', 'loop-mask')
-        loopMask.style('width', '232px').style('height', `${height}px`)
-        selection.select('.loop-label') || selection.append('span').attr('class', 'loop-label').text('循环')
+        loopMask.style('width', d => d.width + 'px').style('height', d => `${d.height}px`)
+        selection.select('.loop-label') || selection.append('span').attr('class', 'loop-label').text(d => d.title).style('left', d => `${-d.width / 2 + 32}px`)
       }
     }
   },
@@ -153,7 +156,7 @@ const nodeConfig = {
     y: 0
   },
   'delete-data-records': {
-    x: 70,
+    x: 140,
     y: 64,
     enter (selection) {
       selection.append('div').classed('icon-outer', true).html(iconHtmlMap['delete-data-records'])
@@ -161,7 +164,7 @@ const nodeConfig = {
     }
   },
   'create-data-records': {
-    x: 70,
+    x: 140,
     y: 64,
     enter (selection) {
       selection.append('div').attr('class', 'icon-outer icon-crud').html(iconHtmlMap['create-data-records'])
@@ -169,7 +172,7 @@ const nodeConfig = {
     }
   },
   'update-data-records': {
-    x: 70,
+    x: 140,
     y: 64,
     enter (selection) {
       selection.append('div').attr('class', 'icon-outer icon-crud').html(iconHtmlMap['update-data-records'])
@@ -177,7 +180,7 @@ const nodeConfig = {
     }
   },
   'query-data-records': {
-    x: 70,
+    x: 140,
     y: 64,
     enter (selection) {
       selection.append('div').attr('class', 'icon-outer icon-crud').html(iconHtmlMap['query-data-records'])
@@ -185,7 +188,7 @@ const nodeConfig = {
     }
   },
   mapping: {
-    x: 70,
+    x: 140,
     y: 64,
     enter (selection) {
       selection.append('div').classed('icon-outer', true).html(iconHtmlMap.mapping)
@@ -193,7 +196,7 @@ const nodeConfig = {
     }
   },
   http: {
-    x: 70,
+    x: 140,
     y: 64,
     enter (selection) {
       selection.append('div').classed('icon-outer', true).html(iconHtmlMap.http)
@@ -201,7 +204,7 @@ const nodeConfig = {
     }
   },
   apicenter: {
-    x: 70,
+    x: 140,
     y: 64,
     enter (selection) {
       selection.append('div').classed('icon-outer', true).html(iconHtmlMap.apicenter)
@@ -209,7 +212,7 @@ const nodeConfig = {
     }
   },
   flow: {
-    x: 70,
+    x: 140,
     y: 64,
     enter (selection) {
       selection.append('div').classed('icon-outer', true).html(iconHtmlMap.flow)
@@ -217,7 +220,7 @@ const nodeConfig = {
     }
   },
   connector: {
-    x: 70,
+    x: 140,
     y: 64,
     enter (selection) {
       selection.append('div').classed('icon-outer', true).html(iconHtmlMap.connector)
@@ -225,7 +228,7 @@ const nodeConfig = {
     }
   },
   email: {
-    x: 70,
+    x: 140,
     y: 64,
     enter (selection) {
       selection.append('div').classed('icon-outer', true).html(iconHtmlMap.email)
@@ -233,7 +236,7 @@ const nodeConfig = {
     }
   },
   notification: {
-    x: 70,
+    x: 140,
     y: 64,
     enter (selection) {
       selection.append('div').classed('icon-outer', true).html(iconHtmlMap.notification)
@@ -241,7 +244,7 @@ const nodeConfig = {
     }
   },
   script: {
-    x: 70,
+    x: 140,
     y: 64,
     enter (selection) {
       selection.append('div').classed('icon-outer', true).html(iconHtmlMap.script)
@@ -249,7 +252,7 @@ const nodeConfig = {
     }
   },
   'datasource-sql': {
-    x: 70,
+    x: 140,
     y: 64,
     enter (selection) {
       selection.append('div').classed('icon-outer', true).html(iconHtmlMap['datasource-sql'])
@@ -257,14 +260,14 @@ const nodeConfig = {
     }
   },
   continue: {
-    x: 24,
+    x: 48,
     y: 48,
     enter (selection) {
       selection.append('div').attr('class', 'node-logic node-icon-continue-wrapper').html(iconHtmlMap.continue)
     }
   },
   exit: {
-    x: 24,
+    x: 48,
     y: 48,
     enter (selection) {
       selection.append('div').attr('class', 'node-logic').html(iconHtmlMap.exit)
@@ -371,7 +374,7 @@ export class Ausyda {
     g.append('path').attr('class', 'link-path')
     g.append('g').attr('class', 'line-add-button').html('<circle r="8" cx="0" cy="0"></circle><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="-3" x2="3" y1="0" y2="0"></line><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="0" x2="0" y1="-3" y2="3"></line>')
       .on('click', d => this.emit('addNode', d))
-    g.append('path').attr('class', 'link-path-marker-end').attr('transform', 'translate(0, 72)').attr('d', 'M-6,0 L6,0 L0,8 Z')
+    g.append('path').attr('class', 'link-path-marker-end')
     const mergeSelections = updateSelections.merge(enterSelections).classed('is-active', d => d.active).attr('transform', ({ source }) => {
       const x = source.left || 0
       const y = (source.top || 0) + nodeConfig[source.type].y
@@ -385,22 +388,73 @@ export class Ausyda {
     mergeSelections.select('.link-path').attr('d', ({ source, target }) => {
       const diffX = (target.left || 0) - (source.left || 0)
       const diffY = (target.top || 0) - ((source.top || 0) + nodeConfig[source.type].y)
+      const moveX = diffX > 0 ? 24 : -24
+      if (source.type === 'branch' && diffX !== 0 && !source.folded) {
+        return `M${moveX},-24 L${diffX},-24 L${diffX},${diffY}`
+      }
+      if (target.type === 'branch-close' && diffX !== 0) {
+        return `M0,0 L0,${diffY + 24} L${diffX - moveX},${diffY + 24}`
+      }
       return `M0,0 L0,${diffY} L${diffX},${diffY}`
+    })
+    mergeSelections.select('.line-add-button').attr('transform', ({ source, target }) => {
+      const diffX = (target.left || 0) - (source.left || 0)
+      const x = source.type === 'branch' ? diffX : 0
+      let y = (target.top || 0) - (source.top || 0) - nodeConfig[source.type].y
+      if (source.type === 'branch' && diffX !== 0 && !source.folded) y -= 12
+      else if (target.type === 'branch-close' && diffX !== 0) y += 24
+      return `translate(${x}, ${y / 2 - 4})` // 这里 -4 是移动圆形的半径距离
+    })
+    mergeSelections.select('.link-path-marker-end').attr('transform', ({ source, target }) => {
+      const diffX = (target.left || 0) - (source.left || 0)
+      const diffY = (target.top || 0) - ((source.top || 0) + nodeConfig[source.type].y)
+      let x = diffX
+      let y = diffY - 8
+      if (target.type === 'branch-close' && diffX !== 0) {
+        x = diffX > 0 ? diffX - 32 : diffX + 32
+        y = diffY + 24
+        return `translate(${x}, ${y}) rotate(${diffX < 0 ? 180 : 0})`
+      }
+      return `translate(${x}, ${y})`
+    }).attr('d', ({ source, target }) => {
+      const diffX = (target.left || 0) - (source.left || 0)
+      if (target.type === 'branch-close' && diffX !== 0) {
+        return 'M0,-6 L0,6 L8,0 Z'
+      }
+      return 'M-6,0 L6,0 L0,8 Z'
     })
     updateSelections.exit().remove()
   }
 
   setPosition () {
     let nextTop = 0
-    const computedPosition = (children, parent) => {
+    const computedPositionTop = (children, parent) => {
       if (parent.type === 'branch' && children.at(-1)?.type !== 'branch-close') children.push({ type: 'branch-close', id: getId() })
       if (parent.type === 'loop' && children.at(-1)?.type !== 'loop-close') children.push({ type: 'loop-close', id: getId() })
+      // 设置top
       children.forEach((item, index) => {
         item.parent = parent
         item.index = index
-        // 第一个子节点，继承父亲的高度
-        if (index === 0) {
+        if (Object.prototype.hasOwnProperty.call(item, 'expression')) {
+          // 如果是分支，继承父亲的高度
           item.top = nodeConfig[parent.type].y + (parent.top || 0) + 80
+          // 如果从第一个分支跳出来，进入下一个刚好是分支，那就清空nextTop
+          nextTop = 0
+        } else if (index === 0) {
+          // 第一个子节点，继承父亲的高度
+          item.top = nodeConfig[parent.type].y + (parent.top || 0) + 80
+        } else if (item.type === 'branch-close') {
+          // 排除 结束分支节点 本身
+          const _children = children.filter(c => c.type !== 'branch-close')
+          // 获取当前分支最大的一个高度，作为 branch-close 结束分支的参考高度
+          const h = Math.max(..._children.map(c => {
+            // 分支和循环在展开状态下
+            if (['loop', 'branch'].includes(c.type) && !c.folded) {
+              return (c.top || 0) + c.height + 56 // (80-24=56)
+            }
+            return (c.top || 0) + nodeConfig[c.type].y
+          }))
+          item.top = h + 80
         } else {
           // 其他的子节点，继承上一个子节点的高度
           const prevNode = children[index - 1]
@@ -412,17 +466,82 @@ export class Ausyda {
             item.top = nodeConfig[prevNode.type].y + prevNode.top + 80
           }
         }
-        if (item.folded) return false
+
         if (index === children.length - 1) {
           nextTop = item.top + nodeConfig[item.type].y // <--1
+          if (['loop-close', 'branch-close'].includes(item.type)) {
+            parent.height = item.top - parent.top - 24
+          }
         }
+        if (item.folded) return false
         // console.log(item.title, item.top,  item, 'pre')
-        item.children && computedPosition(item.children, item)
+        item.children && computedPositionTop(item.children, item)
       })
       // 后续遍历，拿到所有子节点最大的高度（总高度），赋值给父节点，为父节点的下一个子节点算高度
       // parent.nextTop = nextTop // <--1
     }
-    computedPosition(this._data.children, this._data)
+    computedPositionTop(this._data.children, this._data)
+
+    // 设置width
+    // 1. 先确定每个最里面节点的宽度
+    // 2. 根据每个children的最大宽度，设置父元素的宽度
+    const computedWidth = (children, parent) => {
+      children.forEach(item => {
+        item.width = nodeConfig[item.type].x
+        item.children && computedWidth(item.children, item)
+      })
+      if (parent.type === 'loop') {
+        parent.width = (Math.max(...children.map(c => c.width)) || 0) + 80
+      }
+      if (parent.type === 'branch') {
+        parent.width = 0
+        // 获取当前分支最大的宽度
+        let currentBranchMaxWidth = 0
+        let currentBranchs = []
+        children.forEach((item, index) => {
+          currentBranchs.push(item)
+          // 如果下一个节点是分支
+          const nextItem = children[index + 1]
+          currentBranchMaxWidth = Math.max(currentBranchMaxWidth, item.width)
+          if (nextItem && Object.prototype.hasOwnProperty.call(nextItem, 'expression')) {
+            currentBranchs.forEach(item => { item.branchWidth = currentBranchMaxWidth })
+            parent.width += currentBranchMaxWidth + 40
+            currentBranchs = []
+          }
+          if (item.type === 'branch-close') {
+            currentBranchs.forEach(item => { item.branchWidth = currentBranchMaxWidth })
+            parent.width += currentBranchMaxWidth
+          }
+        })
+      }
+    }
+    computedWidth(this._data.children, this._data)
+    // 设置left
+    // 1.  根据每个元素的宽度，设置left
+    const computedPositionLeft = (children, parent) => {
+      let branchLeft = 0
+      children.forEach((item, index) => {
+        if (parent.type === 'branch') {
+          if (item.type === 'branch-close') {
+            item.left = parent.left
+          } else {
+            // 根据分支的宽度，往左侧平移一般分支的宽度, 再 根据第一个子节点往右平移一半（因为第一个子节点本身就是居中的），再相对于父节点的位置
+            item.left = branchLeft - (parent.width / 2) + item.branchWidth / 2 + parent.left
+          }
+          // 如果下一个节点是分支
+          const nextItem = children[index + 1]
+          if (nextItem && Object.prototype.hasOwnProperty.call(nextItem, 'expression')) {
+            branchLeft += (nextItem.width / 2 + item.width / 2 + 40)
+          }
+        } else {
+          item.left = parent.left || 0
+        }
+        item.children && computedPositionLeft(item.children, item)
+      })
+    }
+    computedPositionLeft(this._data.children, this._data)
+
+    console.log(this._data)
   }
 
   getNodes () {
@@ -452,8 +571,27 @@ export class Ausyda {
             target: item,
             source: parent
           })
+        } else if (Object.prototype.hasOwnProperty.call(item, 'expression')) {
+          // 分支的开始节点，连接父节点
+          links.push({
+            id: `${item.id}-${parent.id}`,
+            name: '',
+            target: item,
+            source: parent
+          })
+          if (nextSource) {
+            // 如果从第一个分支跳出来，进入下一个刚好是分支，那就清空nextSource
+            const _target = children.at(-1)
+            links.push({
+              id: `${_target.id}-${nextSource.id}`,
+              name: '',
+              target: _target,
+              source: nextSource
+            })
+            nextSource = null
+          }
         } else {
-          // 如果是最后一个子节点是分支结尾节点的下一个节点，连接分支结尾
+          // 如果最后一个子节点是分支结尾节点的下一个节点，连接分支结尾
           if (nextSource) {
             links.push({
               id: `${item.id}-${nextSource.id}`,
@@ -478,6 +616,24 @@ export class Ausyda {
           nextSource = item
         }
         // console.log(item.title, item.top,  item, 'pre')
+        if (parent.type === 'branch') {
+          const branchClose = children.at(-1)
+          // 如果下一个节点是分支
+          const nextItem = children[index + 1]
+          // 这样判断，就断定这个节点不可能是最后一个节点。最后一个节点没有下一个节点
+          if (nextItem && (Object.prototype.hasOwnProperty.call(nextItem, 'expression') || nextItem.type === 'branch-close')) {
+            // 排排除分支，分支一定是有branch-close节点，当前branch不和下个节点连线，让branch-close再和下个节点，或者结束节点（父节点的branch-close节点）连接
+            // 再排除掉loop. 循环一定是有loop-close节点，当前loop不和下个节点连线，让loop-close节点再和下个节点，或者结束节点（父节点的branch-close节点）连接
+            if (!['branch', 'loop'].includes(item.type) || item.folded) {
+              links.push({
+                id: `${item.id}-${parent.id}`,
+                name: '',
+                target: branchClose,
+                source: item
+              })
+            }
+          }
+        }
         if (item.folded) return false
         item.children?.length && pushLink(item.children, item)
       })
@@ -499,11 +655,32 @@ export class Ausyda {
     // 在两个有相同父节点的节点中插入节点
     // const sourceParent = source.parent
     const { parent, index } = target
-    // if (sourceParent === parent) {
-    //   parent.children.splice(index, 0, node)
-    // } else if (parent === source) {
-    // }
-    parent.children.splice(index, 0, node)
+    // 这里要考虑 loop-close??
+    if (target.type === 'branch-close') {
+      // 如果这个分支是空的，追加第一个子节点
+      if (parent.children.length === 1) {
+        parent.children.unshift(node)
+      } else {
+        // 这里要考虑 loop-close??
+        // 如果source也是branch-close，那么就是给他父节点下面插入一个节点
+        if (['branch-close', 'loop-close'].includes(source.type)) {
+          parent.children.splice(source.parent.index + 1, 0, node)
+        } else {
+          parent.children.splice(source.index + 1, 0, node)
+        }
+      }
+    } else if (source.type === 'branch') {
+      // 如果在分支的头部添加分支，那么替换分支的第一个节点
+      console.log('头部')
+      const branchKeys = ['expression', 'conditionType', 'conditions']
+      branchKeys.forEach(key => {
+        node[key] = target[key]
+        delete target[key]
+      })
+      parent.children.splice(index, 0, node)
+    } else {
+      parent.children.splice(index, 0, node)
+    }
     this.update()
   }
 
@@ -514,6 +691,17 @@ export class Ausyda {
         this.update()
       }
     })
+  }
+
+  addBranch (node, parent) {
+    const index = parent.children.length - 1
+    parent.children.splice(index, 0, {
+      expression: '分支',
+      conditionType: 'formula',
+      conditions: '1 === 1',
+      ...node
+    })
+    this.update()
   }
 
   getChildrenSize (data, deep) {

@@ -35,7 +35,13 @@ export default defineComponent({
         // 点击连接线上的+
         au.on('addNode', (link) => {
           // 添加节点
-          au.addNode({ id: Math.random().toString(16).slice(2), type: 'branch', title: 'http请求' }, link)
+          au.addNode({ id: Math.random().toString(16).slice(2), type: 'http', children: [], title: 'http请求' }, link)
+        })
+        // 点击连接线上的+
+        au.on('addBranch', (parent) => {
+          debugger
+          // 添加节点
+          au.addBranch({ id: Math.random().toString(16).slice(2), type: 'http', children: [], title: 'http请求' }, parent)
         })
         // 点击选中节点
         au.on('updateNode', (d) => {
