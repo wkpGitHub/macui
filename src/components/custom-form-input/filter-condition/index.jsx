@@ -1,4 +1,4 @@
-import { computed, defineComponent, watchEffect } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { CipTable } from 'd-render'
 import CipTableButton from '@cip/components/cip-table-button'
 import CipButton from '@cip/components/cip-button'
@@ -55,9 +55,7 @@ export default defineComponent({
     const { optionProps, options } = useOptions(props, multiple)
 
     const tableColumns = computed(() => getTableColumn(options, optionProps))
-    watchEffect(() => {
-      console.log(tableColumns.value)
-    })
+
     function handleClick () {
       if (proxyValue.value) {
         proxyValue.value.children.push({})

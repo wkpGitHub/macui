@@ -14,5 +14,6 @@ export default {
   dataType: (mode) => () => import((`./data-type${mode}`)),
   compositionCheckbox: () => () => import('./composition-checkbox'),
   tableForm: () => () => import('./table-form'),
-  filterCondition: () => () => import('./filter-condition')
+  filterCondition: () => () => import('./filter-condition'),
+  selectField: () => () => import('./select-field')
 }
