@@ -7,7 +7,8 @@ import setConfig from './set'
 import coderConfig from './coder'
 import dateFormatConfig from './date-format'
 import mappingConfig from './mapping'
-
+import createDataRecordsConfig from './create-data-records'
+import deleteDataRecordsConfig from './delete-data-records'
 /**
  * 通过category字段对组件进行分类
  */
@@ -34,7 +35,9 @@ export const compList = [
   setConfig,
   coderConfig,
   dateFormatConfig,
-  mappingConfig
+  mappingConfig,
+  createDataRecordsConfig,
+  deleteDataRecordsConfig
 ]
 
 // 全部组件
