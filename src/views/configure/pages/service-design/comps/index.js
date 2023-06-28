@@ -11,6 +11,8 @@ import createDataRecordsConfig from './create-data-records'
 import deleteDataRecordsConfig from './delete-data-records'
 import updateDataRecordsConfig from './update-data-records'
 import queryDataRecordsConfig from './query-data-records'
+import httpConfig from './http'
+import apicenterConfig from './apicenter'
 import datasourceSqlConfig from './datasource-sql'
 import scriptConfig from './script'
 /**
@@ -44,6 +46,8 @@ export const compList = [
   deleteDataRecordsConfig,
   updateDataRecordsConfig,
   queryDataRecordsConfig,
+  httpConfig,
+  apicenterConfig,
   datasourceSqlConfig,
   scriptConfig
 ]
