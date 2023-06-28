@@ -29,7 +29,7 @@ export default defineComponent({
       // eslint-disable-next-line array-callback-return
       activeComp.value.formField.map(v => {
         v.config.changeEffect = async (value, key, model) => {
-          // 节流更新
+          // 更新
           if (timer) {
             clearTimeout(timer)
             timer = null

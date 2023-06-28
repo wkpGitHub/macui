@@ -16,5 +16,7 @@ export default {
   tableForm: () => () => import('./table-form'),
   filterCondition: () => () => import('./filter-condition'),
   selectField: () => () => import('./select-field'),
-  codemirrorInput: () => () => import('./codemirror-input')
+  sortField: () => () => import('./sort-field'),
+  codemirrorInput: () => () => import('./codemirror-input'),
+  dataSource: () => () => import('./data-source')
 }

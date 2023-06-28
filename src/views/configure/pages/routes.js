@@ -10,9 +10,9 @@ export const routes = [
     component: () => import('./api')
   },
   {
-    name: 'configurePagesDesign',
-    path: 'pages-design',
-    component: () => import('./pages-design')
+    name: 'configurePagesManager',
+    path: 'pages-preview',
+    component: () => import('./pages-manager')
   },
   {
     name: 'configureServiceDesign',

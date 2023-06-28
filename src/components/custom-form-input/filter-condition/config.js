@@ -37,7 +37,7 @@ export function getTableColumn (options, optionProps) {
       writable: true,
       withObject: true,
       otherKey: 'left',
-      optionProps: optionProps.value,
+      optionProps: { label: 'ename', value: 'name' } || optionProps.value,
       options: options.value
     },
     op: {

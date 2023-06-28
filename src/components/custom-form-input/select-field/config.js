@@ -1,7 +1,7 @@
 import { generateFieldList, defineTableFieldConfig } from 'd-render'
 
 export const tableColumns = generateFieldList(defineTableFieldConfig({
-  label: {},
+  ename: {},
   formula: {
     writable: true,
     dynamic: true,

@@ -22,16 +22,18 @@ export const formFieldList = generateFieldList(defineFormFieldConfig(keysToConfi
     key: 'name',
     required: true,
     dependOn: ['id'],
-    validateExistRemote: (value, { id }) => {
-      return appService.checkName({ name: value, id })
+    validateExistRemote: async (value, { id }) => {
+      const { data } = await appService.checkName({ name: value, id })
+      return { data: !data }
     }
   },
   {
     key: 'path',
     required: true,
     dependOn: ['id'],
-    validateExistRemote: (value, { id }) => {
-      return appService.checkPath({ path: value, id })
+    validateExistRemote: async (value, { id }) => {
+      const { data } = await appService.checkPath({ path: value, id })
+      return { data: !data }
     }
   },
   'logo',
