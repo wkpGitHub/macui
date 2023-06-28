@@ -6,7 +6,7 @@
           :layout="layout"
           :with-tabs="false"
           :home-view="homeView"
-          root-path="/manager"
+          root-path="/"
     >
       <template #collapse>
       </template>
