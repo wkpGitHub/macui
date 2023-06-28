@@ -55,10 +55,12 @@ export default defineComponent({
           // 打开组件面板
           compListDialogVisible.value = true
         })
+        let index = 0
         // 点击分支+，增加分支
         au.on('addBranch', (parent) => {
           // 添加节点
-          au.addBranch({ id: Math.random().toString(16).slice(2), type: 'http', children: [], title: 'http请求' }, parent)
+          index++
+          au.addBranch({ id: Math.random().toString(16).slice(2), type: index % 2 ? 'http' : 'exit', children: [], title: 'http请求' }, parent)
         })
         // 点击选中节点
         au.on('updateNode', (d) => {
