@@ -5,10 +5,10 @@ export const tableColumns = generateFieldList(defineTableFieldConfig({
   formula: {
     writable: true,
     dynamic: true,
-    dependOn: ['isNullable'],
-    changeConfig (config, { isNullable }) {
-      config.required = !isNullable
-      return config
-    }
+    type: 'radio',
+    options: [
+      { label: '升序', value: 'ASC' },
+      { label: '降序', value: 'DESC' }
+    ]
   }
 }))

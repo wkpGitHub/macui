@@ -37,7 +37,7 @@ import { getTableColumn } from './config'
 // }
 
 export default defineComponent({
-  name: 'filter',
+  name: 'filter-condition',
   props: formInputProps,
   emits: fromInputEmits,
   setup (props, ctx) {

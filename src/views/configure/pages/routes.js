@@ -13,6 +13,10 @@ export const routes = [
     name: 'configurePagesManager',
     path: 'pages-preview',
     component: () => import('./pages-manager')
-
+  },
+  {
+    name: 'configureServiceDesign',
+    path: 'service-design',
+    component: () => import('./service-design')
   }
 ]
