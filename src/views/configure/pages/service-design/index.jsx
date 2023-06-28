@@ -50,7 +50,7 @@ export default defineComponent({
         // 点击连接线上的+
         au.on('addNode', (link) => {
           // 添加节点
-          au.addNode({ id: Math.random().toString(16).slice(2), type: 'http', children: [], title: 'http请求' }, link)
+          // au.addNode({ id: Math.random().toString(16).slice(2), type: 'http', children: [], title: 'http请求' }, link)
           selectLink = link
           // 打开组件面板
           compListDialogVisible.value = true

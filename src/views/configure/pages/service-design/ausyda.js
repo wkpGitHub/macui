@@ -146,8 +146,9 @@ const nodeConfig = {
       } else {
         // const height = data.children.at(-1).top - data.top - 24
         const loopMask = selection.select('.loop-mask').size() ? selection.select('.loop-mask') : selection.append('div').attr('class', 'loop-mask')
+        const loopLabel = selection.select('.loop-label').size() ? selection.select('.loop-label') : selection.append('span').attr('class', 'loop-label')
         loopMask.style('width', d => d.width + 'px').style('height', d => `${d.height}px`)
-        selection.select('.loop-label') || selection.append('span').attr('class', 'loop-label').text(d => d.title).style('left', d => `${-d.width / 2 + 32}px`)
+        loopLabel.text(d => d.title).style('left', d => `${-d.width / 2 + 32}px`)
       }
     }
   },
@@ -399,9 +400,9 @@ export class Ausyda {
     })
     mergeSelections.select('.line-add-button').attr('transform', ({ source, target }) => {
       const diffX = (target.left || 0) - (source.left || 0)
-      const x = source.type === 'branch' ? diffX : 0
+      const x = (source.type === 'branch' && !source.folded) ? diffX : 0
       let y = (target.top || 0) - (source.top || 0) - nodeConfig[source.type].y
-      if (source.type === 'branch' && diffX !== 0 && !source.folded) y -= 12
+      if (source.type === 'branch' && diffX !== 0) y -= 12
       else if (target.type === 'branch-close' && diffX !== 0) y += 24
       return `translate(${x}, ${y / 2 - 4})` // 这里 -4 是移动圆形的半径距离
     })
@@ -450,7 +451,7 @@ export class Ausyda {
           const h = Math.max(..._children.map(c => {
             // 分支和循环在展开状态下
             if (['loop', 'branch'].includes(c.type) && !c.folded) {
-              return (c.top || 0) + c.height + 56 // (80-24=56)
+              return (c.top || 0) + c.height + 24
             }
             return (c.top || 0) + nodeConfig[c.type].y
           }))
@@ -492,8 +493,7 @@ export class Ausyda {
       })
       if (parent.type === 'loop') {
         parent.width = (Math.max(...children.map(c => c.width)) || 0) + 80
-      }
-      if (parent.type === 'branch') {
+      } else if (parent.type === 'branch') {
         parent.width = 0
         // 获取当前分支最大的宽度
         let currentBranchMaxWidth = 0
@@ -506,6 +506,7 @@ export class Ausyda {
           if (nextItem && Object.prototype.hasOwnProperty.call(nextItem, 'expression')) {
             currentBranchs.forEach(item => { item.branchWidth = currentBranchMaxWidth })
             parent.width += currentBranchMaxWidth + 40
+            currentBranchMaxWidth = 0
             currentBranchs = []
           }
           if (item.type === 'branch-close') {
@@ -527,11 +528,13 @@ export class Ausyda {
           } else {
             // 根据分支的宽度，往左侧平移一般分支的宽度, 再 根据第一个子节点往右平移一半（因为第一个子节点本身就是居中的），再相对于父节点的位置
             item.left = branchLeft - (parent.width / 2) + item.branchWidth / 2 + parent.left
+            // item.left = branchLeft + parent.left
           }
           // 如果下一个节点是分支
           const nextItem = children[index + 1]
-          if (nextItem && Object.prototype.hasOwnProperty.call(nextItem, 'expression')) {
-            branchLeft += (nextItem.width / 2 + item.width / 2 + 40)
+          if ((nextItem && Object.prototype.hasOwnProperty.call(nextItem, 'expression')) || item.type === 'branch-close') {
+            // branchLeft += (nextItem.branchWidth / 2 + item.branchWidth / 2 + 40)
+            branchLeft += item.branchWidth + 40
           }
         } else {
           item.left = parent.left || 0
