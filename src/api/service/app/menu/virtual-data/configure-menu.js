@@ -12,7 +12,14 @@ export default [
   {
     name: 'configureApi',
     title: '接口配置',
-    cache: true
+    cache: true,
+    children: [
+      {
+        name: 'configureServiceDesign',
+        title: '服务编排',
+        hideInMenu: true
+      }
+    ]
   },
   {
     name: 'configurePagesManager',

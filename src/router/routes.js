@@ -16,7 +16,7 @@ export const configureChildren = getChildren(configureCtx)
 export const mainChildren = getChildren(ctx)
 
 export const mainRoute = {
-  path: '/manager',
+  path: '/',
   name: '_mainFramework',
   component: ManagerFramework,
   props: { layout: 'left-2' },
