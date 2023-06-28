@@ -1,7 +1,7 @@
 import { defineComponent, ref, onMounted } from 'vue'
 import { ElInputNumber, ElLink } from 'element-plus'
 import { Setting } from '@element-plus/icons-vue'
-import CipPageLayoutInfo from '@cip/components/page-layout/info'
+import CipPageLayoutHandle from '@cip/components/page-layout/handle'
 import CipButton from '@cip/components/cip-button'
 import {
   useDialog,
@@ -82,33 +82,37 @@ export default defineComponent({
       })
     })
 
-    return () => <CipPageLayoutInfo>
-      <div class={styles.page}>
-        <div class={styles.header}>
-          <div class={styles['header-actions']}>
-            <CipButton onClick={() => { sourceCodeDialogVisible.value = true }}>源码</CipButton>
-            <CipButton onClick={() => { pseudoCodeDialogVisible.value = true }}>伪代码</CipButton>
-            <CipButton>调试</CipButton>
-            <CipButton type='primary'>保存</CipButton>
-          </div>
-        </div>
-        <div class={styles.editor}>
-          <div class={styles['editor-view']}>
-            <div class={styles['view-toolbar']}>
-              <ElLink icon={Setting} underline={false} type='primary' onClick={() => { globalSettingVisible.value = true }}>全局设置</ElLink>
-              <ElInputNumber size='small' v-model={zoom.value} min={50} max={400} step={10}></ElInputNumber>
+    return () => <CipPageLayoutHandle top={true}>
+      {{
+        handler: () => <>
+          <CipButton onClick={() => { sourceCodeDialogVisible.value = true }}>源码</CipButton>
+          <CipButton onClick={() => { pseudoCodeDialogVisible.value = true }}>伪代码</CipButton>
+          <CipButton>调试</CipButton>
+          <CipButton type='primary'>保存</CipButton>
+        </>,
+        default: () => <div className={styles.page}>
+          <div className={styles.editor}>
+            <div className={styles['editor-view']}>
+              <div className={styles['view-toolbar']}>
+                <ElLink icon={Setting} underline={false} type='primary' onClick={() => {
+                  globalSettingVisible.value = true
+                }}>全局设置</ElLink>
+                <ElInputNumber size='small' v-model={zoom.value} min={50} max={400} step={10}></ElInputNumber>
+              </div>
+              <div className={styles['view-container']} id="api-editor"></div>
             </div>
-            <div class={styles['view-container']} id="api-editor"></div>
-          </div>
-          <div class={[styles['right-panel'], showRightPanel.value ? styles['right-panel-opened'] : '']}>
-            <GlobalSettingDialog {...dialogBaseProps} v-model={globalSettingVisible.value}/>
-            <PseudoCodeDialog {...dialogBaseProps} v-model={pseudoCodeDialogVisible.value}/>
-            <SourceCodeDialog {...dialogBaseProps} v-model={sourceCodeDialogVisible.value}/>
-            <CompList {...dialogBaseProps} v-model={compListDialogVisible.value} onClickComp={addNode}/>
-            <CompInfo {...dialogBaseProps} v-model={compInfoDialogVisible.value} selectNode={selectNode.value} onUpdateNode={updateNode}/>
+            <div className={[styles['right-panel'], showRightPanel.value ? styles['right-panel-opened'] : '']}>
+              <GlobalSettingDialog {...dialogBaseProps} v-model={globalSettingVisible.value}/>
+              <PseudoCodeDialog {...dialogBaseProps} v-model={pseudoCodeDialogVisible.value}/>
+              <SourceCodeDialog {...dialogBaseProps} v-model={sourceCodeDialogVisible.value}/>
+              <CompList {...dialogBaseProps} v-model={compListDialogVisible.value} onClickComp={addNode}/>
+              <CompInfo {...dialogBaseProps} v-model={compInfoDialogVisible.value} selectNode={selectNode.value}
+                        onUpdateNode={updateNode}/>
+            </div>
           </div>
         </div>
-      </div>
-    </CipPageLayoutInfo>
+      }}
+
+    </CipPageLayoutHandle>
   }
 })
