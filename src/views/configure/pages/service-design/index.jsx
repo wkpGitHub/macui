@@ -56,17 +56,22 @@ export default defineComponent({
           compListDialogVisible.value = true
         })
         let index = 0
+        // 点击选中节点
+        au.on('updateNode', (d) => {
+          // 更新节点
+          selectNode.value = d
+          compInfoDialogVisible.value = true
+        })
         // 点击分支+，增加分支
         au.on('addBranch', (parent) => {
           // 添加节点
           index++
           au.addBranch({ id: Math.random().toString(16).slice(2), type: index % 2 ? 'http' : 'exit', children: [], title: 'http请求' }, parent)
         })
-        // 点击选中节点
-        au.on('updateNode', (d) => {
-          // 更新节点
-          selectNode.value = d
-          compInfoDialogVisible.value = true
+        // 点击分支文字或者线段，修改分支
+        au.on('updateBranch', (branch) => {
+          // 更新分支
+          au.updateBranch({ ...branch, expression: '分支新名称' })
         })
         // 点击节点删除按钮
         au.on('deleteNode', (d, cb) => {

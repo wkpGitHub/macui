@@ -389,13 +389,17 @@ export class Ausyda {
     g.append('path').attr('class', 'link-path')
     g.append('g').attr('class', 'line-add-button').html('<circle r="8" cx="0" cy="0"></circle><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="-3" x2="3" y1="0" y2="0"></line><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="0" x2="0" y1="-3" y2="3"></line>')
       .on('click', d => this.emit('addNode', d))
+    g.append('text').attr('y', -8).attr('fill', 'currentColor')
     g.append('path').attr('class', 'link-path-marker-end')
     const mergeSelections = updateSelections.merge(enterSelections).classed('is-active', d => d.active)
       .on('click', d => {
         d3.event.stopPropagation()
         this.links.forEach(link => { link.active = link.id === d.id })
         this.updateLinks()
+        // 如果点击的是path 和 text, 并且是分支
+        if (['path', 'text'].includes(d3.event.target.tagName) && d.source?.type === 'branch') this.emit('updateBranch', d.target)
       })
+
     mergeSelections.select('.link-path').attr('d', (d) => {
       const { source, target } = d
       const x0 = 0
@@ -433,7 +437,8 @@ export class Ausyda {
       }
       d.clientRect = {
         width: Math.abs(x2 - x0) || 16,
-        height: Math.abs(y2 - y0)
+        height: Math.abs(y2 - y0),
+        diffX
       }
       return `M${x0},${y0} L${x1},${y1} L${x2},${y2}`
     })
@@ -444,6 +449,14 @@ export class Ausyda {
       const isNeedX = (source.type === 'branch' && !source.folded && diffX > 0) || (target.type === 'branch-close' && diffX < 0)
       const x = isNeedX ? (clientRect.width || 0) : 0
       return `translate(${x}, ${h})`
+    })
+    mergeSelections.select('text').text(({ source, target }) => {
+      return source.type === 'branch' ? target.expression : ''
+    }).attr('x', function ({ clientRect, source }) {
+      if (source.type === 'branch') {
+        const _width = this.getComputedTextLength()
+        return (clientRect?.width - _width) / 2
+      }
     })
     mergeSelections.select('.link-path-marker-end').attr('transform', ({ source, target, clientRect }) => {
       const h = clientRect.height || 0
@@ -489,6 +502,29 @@ export class Ausyda {
         if (diffX < 0) _w = (clientRect?.width || 0)
       }
       return `translate(${x - _w}, ${y})`
+    }).style('z-index', d => {
+      const { clientRect, source, target } = d
+      const { diffX } = clientRect
+      if (source.type === 'branch' && diffX !== 0 && !source.folded) {
+        // 左边
+        if (diffX < 0) {
+          source.branchIndex = (source.branchIndex || 0) + 1
+        } else {
+          // 右边
+          source.branchIndex = (source.branchIndex || 1) - 1
+        }
+        return source.branchIndex + source.depth * 10
+      }
+      if (target.type === 'branch-close' && diffX !== 0) {
+        // 左边
+        if (diffX > 0) {
+          target.branchCloseIndex = (target.branchCloseIndex || 0) + 1
+        } else {
+          // 右边
+          target.branchCloseIndex = (target.branchCloseIndex || 1) - 1
+        }
+        return target.branchCloseIndex + target.parent.depth * 10
+      }
     })
     updateSelections.exit().remove()
   }
@@ -539,6 +575,10 @@ export class Ausyda {
           if (['loop-close', 'branch-close'].includes(item.type)) {
             parent.height = item.top - parent.top - 24
           }
+        }
+        // 这个层级，用来结算连线的zIndex。防止外面的线更宽更高，覆盖了里面的线，操作不到
+        if (item.type === 'branch') {
+          item.depth = (parent.depth || 0) + 1
         }
         if (item.folded) return false
         // console.log(item.title, item.top,  item, 'pre')
@@ -720,6 +760,11 @@ export class Ausyda {
     this.updateLinks()
   }
 
+  /**
+   * 新增节点
+   * @param {*} node
+   * @param {*} param1
+   */
   addNode (node, { source, target }) {
     node = JSON.parse(JSON.stringify(node))
     // 在两个有相同父节点的节点中插入节点
@@ -753,6 +798,10 @@ export class Ausyda {
     this.update()
   }
 
+  /**
+   * 更新节点
+   * @param {*} node
+   */
   updateNode (node) {
     this.nodes.forEach(n => {
       if (n.id === node?.id) {
@@ -762,6 +811,11 @@ export class Ausyda {
     })
   }
 
+  /**
+   * 新增分支
+   * @param {*} node
+   * @param {*} parent
+   */
   addBranch (node, parent) {
     const index = parent.children.length - 1
     parent.children.splice(index, 0, {
@@ -771,6 +825,14 @@ export class Ausyda {
       ...node
     })
     this.update()
+  }
+
+  /**
+   * 更新分支
+   * @param {} node
+   */
+  updateBranch (node) {
+    this.updateNode(node)
   }
 
   getChildrenSize (data, deep) {
