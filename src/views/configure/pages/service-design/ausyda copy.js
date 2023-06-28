@@ -396,70 +396,37 @@ export class Ausyda {
         this.links.forEach(link => { link.active = link.id === d.id })
         this.updateLinks()
       })
-    mergeSelections.select('.link-path').attr('d', (d) => {
-      const { source, target } = d
-      const x0 = 0
-      let y0 = 0
-      let x1 = 0
-      let y1 = 0
-      let x2 = 0
+    mergeSelections.select('.link-path').attr('d', ({ source, target }) => {
       const diffX = (target.left || 0) - (source.left || 0)
-      let y2 = 0
       const diffY = (target.top || 0) - ((source.top || 0) + nodeConfig[source.type].y)
-
-      if (diffX === 0) y2 = diffY
-      else if (diffX < 0) {
-        // 左边
-        if (source.type === 'branch' && !source.folded) {
-          y0 = diffY + 24
-          x2 = -diffX - 24
-        }
-        // 右边
-        if (target.type === 'branch-close') {
-          y0 = y1 = diffY + 24
-          x1 = x2 = -diffX - 24
-        }
-      } else {
-        // 右边
-        if (source.type === 'branch' && !source.folded) {
-          x1 = x2 = diffX - 24
-          y2 = diffY + 24
-        }
-        // 左边
-        if (target.type === 'branch-close') {
-          y1 = y2 = diffY + 24
-          x2 = diffX - 24
-        }
+      const moveX = diffX > 0 ? 24 : -24
+      if (source.type === 'branch' && diffX !== 0 && !source.folded) {
+        return `M${moveX},-24 L${diffX},-24 L${diffX},${diffY}`
       }
-      d.clientRect = {
-        width: Math.abs(x2 - x0) || 16,
-        height: Math.abs(y2 - y0)
-      }
-      return `M${x0},${y0} L${x1},${y1} L${x2},${y2}`
-    })
-    mergeSelections.select('.line-add-button').attr('transform', ({ source, target, clientRect }) => {
-      const h = clientRect.height / 2 || 0
-      const diffX = (target.left || 0) - (source.left || 0)
-      // 分支的开始节点 右侧 、 分支结束节点的右侧，需要做位移
-      const isNeedX = (source.type === 'branch' && !source.folded && diffX > 0) || (target.type === 'branch-close' && diffX < 0)
-      const x = isNeedX ? (clientRect.width || 0) : 0
-      return `translate(${x}, ${h})`
-    })
-    mergeSelections.select('.link-path-marker-end').attr('transform', ({ source, target, clientRect }) => {
-      const h = clientRect.height || 0
-      const diffX = (target.left || 0) - (source.left || 0)
-      // 分支的开始节点 右侧 、 分支结束节点的右侧，需要做位移
-      const isNeedX = (source.type === 'branch' && !source.folded && diffX > 0) || (target.type === 'branch-close' && diffX > 0)
-      const x = isNeedX ? (clientRect.width || 0) : 0
-      // 分支的开始节点 右侧 、 分支结束节点的右侧，需要做位移
       if (target.type === 'branch-close' && diffX !== 0) {
-        if (diffX < 0) {
-          return `translate(${8}, ${h}) rotate(180)`
-        } else {
-          return `translate(${x - 8}, ${h})`
-        }
+        return `M0,0 L0,${diffY + 24} L${diffX - moveX},${diffY + 24}`
       }
-      return `translate(${x}, ${h - 8})`
+      return `M0,0 L0,${diffY} L${diffX},${diffY}`
+    })
+    mergeSelections.select('.line-add-button').attr('transform', ({ source, target }) => {
+      const diffX = (target.left || 0) - (source.left || 0)
+      const x = (source.type === 'branch' && !source.folded) ? diffX : 0
+      let y = (target.top || 0) - (source.top || 0) - nodeConfig[source.type].y
+      if (source.type === 'branch' && diffX !== 0) y -= 12
+      else if (target.type === 'branch-close' && diffX !== 0) y += 24
+      return `translate(${x}, ${y / 2 - 4})` // 这里 -4 是移动圆形的半径距离
+    })
+    mergeSelections.select('.link-path-marker-end').attr('transform', ({ source, target }) => {
+      const diffX = (target.left || 0) - (source.left || 0)
+      const diffY = (target.top || 0) - ((source.top || 0) + nodeConfig[source.type].y)
+      let x = diffX
+      let y = diffY - 8
+      if (target.type === 'branch-close' && diffX !== 0) {
+        x = diffX > 0 ? diffX - 32 : diffX + 32
+        y = diffY + 24
+        return `translate(${x}, ${y}) rotate(${diffX < 0 ? 180 : 0})`
+      }
+      return `translate(${x}, ${y})`
     }).attr('d', ({ source, target }) => {
       const diffX = (target.left || 0) - (source.left || 0)
       if (target.type === 'branch-close' && diffX !== 0) {
@@ -469,26 +436,17 @@ export class Ausyda {
     })
 
     mergeSelections.attr('width', function (d) {
+      d.clientRect = d3.select(this).select('.link-group').node().getBoundingClientRect()
       return d.clientRect.width
     }).attr('height', function (d) {
       return d.clientRect.height
-    }).attr('transform', ({ source, target, clientRect }) => {
+    }).attr('transform', ({ source, target }) => {
       const x = source.left || 0
-      const diffX = (target.left || 0) - (source.left || 0)
-      let y = (source.top || 0) + nodeConfig[source.type].y
-      let _w = 0
-      if (source.type === 'branch' && diffX !== 0 && !source.folded) {
-        y -= 24
-        if (diffX < 0) {
-          _w = (clientRect?.width || 0) + 24
-        } else {
-          _w = -24
-        }
-      }
-      if (target.type === 'branch-close' && diffX !== 0) {
-        if (diffX < 0) _w = (clientRect?.width || 0)
-      }
-      return `translate(${x - _w}, ${y})`
+      const y = (source.top || 0) + nodeConfig[source.type].y
+      // const diffX = (target.left || 0) - (source.left || 0)
+      // const diffY = (target.top || 0) - ((source.top || 0) + nodeConfig[source.type].y)
+      // if (source.type === 'branch' && diffX !== 0 && !source.folded) y -= 24
+      return `translate(${x}, ${y})`
     })
     updateSelections.exit().remove()
   }
