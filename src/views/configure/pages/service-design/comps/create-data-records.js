@@ -1,5 +1,27 @@
 import { generateFieldList, defineFormFieldConfig } from 'd-render'
-
+import { cloneDeep } from 'lodash-es'
+// {
+//   id: '' 唯一id
+//   type: '' 节点类型
+//   title: '' 节点标题
+//   conditions: '' 条件
+//   validateFailed: '' form是否通过验证
+//   children: '' 子节点
+//   targetName:''
+//   otherKey:''指定节点
+//   fields:[
+//    {
+//      id: '' 唯一id,
+//      fid:''
+//      label:''
+//      type:''
+//      name:''
+//      isNullable:''
+//      tag:''
+//      typeLabel
+//    }
+//    ]
+// }
 export default {
   category: '实体活动',
   type: 'create-data-records',
@@ -9,7 +31,8 @@ export default {
     objectKey: {
       label: '数据源',
       required: true,
-      otherKey: 'fields'
+      otherKey: 'fields',
+      type: 'dataSource'
     },
     dataMode: {
       label: '新增模式',
@@ -30,7 +53,8 @@ export default {
       resetValue: true,
       changeConfig (config, { fields }) {
         config.writable = !!fields
-        config.options = fields || []
+        const temp = (fields || []).filter(v => !v.isPrimaryKey)
+        config.options = cloneDeep(temp)
         return config
       }
     }
