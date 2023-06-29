@@ -51,7 +51,7 @@ export default defineComponent({
     function handleConfirm (reslove) {
       const temp = treeRef.value.tree.getCheckedNodes(true)
       console.log(temp, 'temp')
-      proxyValue.value = temp
+      proxyValue.value ? proxyValue.value.push(...temp) : (proxyValue.value = temp)
       reslove()
     }
     return () => <>

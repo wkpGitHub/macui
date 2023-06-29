@@ -20,7 +20,7 @@ export default {
         config.writable = !!objectKey
         return config
       },
-      label: '新增模式',
+      label: '类型选择',
       required: true,
       type: 'radio',
       defaultValue: 'normal',
@@ -40,6 +40,12 @@ export default {
       }
     },
     createRelationRecord: {
+      dependOn: ['objectKey'],
+      readable: false,
+      changeConfig (config, { objectKey }) {
+        config.writable = !!objectKey
+        return config
+      },
       label: '新增1:n、n:n关联表记录',
       type: 'switch'
     },
