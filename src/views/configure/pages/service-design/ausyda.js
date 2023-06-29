@@ -614,9 +614,9 @@ export class Ausyda {
         item.width = nodeConfig[item.type].x
         item.children && computedWidth(item.children, item)
       })
-      if (parent.type === 'loop') {
+      if (parent.type === 'loop' && !parent.folded) {
         parent.width = (Math.max(...children.map(c => c.width)) || 0) + 80
-      } else if (parent.type === 'branch') {
+      } else if (parent.type === 'branch' && !parent.folded) {
         parent.width = 0
         // 获取当前分支最大的宽度
         let currentBranchMaxWidth = 0
