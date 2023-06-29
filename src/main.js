@@ -30,14 +30,17 @@ import axiosConfig from '_config/axios-config'
 import proxyConfig from '_config/proxy-config'
 // 求错出错时的提示组件
 import CipMessage from '@cip/components/cip-message'
+import redirectLogin from '@cip/request-plugin-redirect-login'
 
 import { menuService } from '@/api'
 // import * as xx from 'https://unpkg.com/vue@3/dist/vue.global.js'
 const dRender = new DRender()
 dRender.setConfig(renderConfig)
-request.use({ install: axiosConfig.customAxiosConfig })
 request.setConfig({ ...axiosConfig, MessageError: CipMessage.error })
 request.setApiConfig(proxyConfig)
+request
+  .use({ install: axiosConfig.customAxiosConfig })
+  .use(redirectLogin())
 
 if (window.__MICRO_APP_ENVIRONMENT__) {
   microAppRender(render, (cb) => {
