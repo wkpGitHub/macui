@@ -6,7 +6,27 @@ export default {
   title: 'API中心节点',
   formField: generateFieldList(defineFormFieldConfig({
     title: { label: '节点标题' },
-    apiKey: { label: '调用服务', required: true, otherKey: ['inputSource', 'outputSource'] },
+    apiKey: {
+      label: '调用服务',
+      required: true,
+      otherKey: ['inputSource', 'outputSource'],
+      type: 'cascader',
+      optionProps: { label: 'name', value: 'id', emitPath: false },
+      asyncOptions () {
+        return [
+          {
+            name: '拜访跟进',
+            id: 'bqwesadzxc',
+            children: [
+              {
+                name: '添加合同',
+                id: '123axzcads'
+              }
+            ]
+          }
+        ]
+      }
+    },
     targetName: { label: '节点出参' },
 
     inputParams: {
