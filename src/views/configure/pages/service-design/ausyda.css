@@ -170,7 +170,7 @@
 
 .api-editor .api-editor-view-layer > svg {
 	position: absolute;
-	z-index: 5;
+	z-index: 9999;
 	overflow: visible;
 	transform-origin: 0px 0px;
 }
@@ -196,7 +196,7 @@
 
 .api-editor .api-editor-view-layer > svg:hover,
 .api-editor .api-editor-view-layer > svg.is-active {
-	z-index: 6;
+	z-index: 10000;
 }
 
 .api-editor
