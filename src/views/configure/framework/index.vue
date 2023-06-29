@@ -6,7 +6,7 @@
       :hide-footer="true"
       theme="standard"
       :layout="layout"
-      :with-tabs="true"
+      :with-tabs="false"
       :root-path="`/configure/${appPath}`"
     >
       <template #expand>

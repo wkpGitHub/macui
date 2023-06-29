@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { pageInfoService } from '@/api/service/chr'
 import CipMessage from '@cip/components/cip-message'
-export const usePage = (pages) => {
+export const usePage = (pages, getPages) => {
   const page = ref({})
   const pageDialog = ref(false)
   const createPage = ({ data }) => {
@@ -21,6 +21,7 @@ export const usePage = (pages) => {
       .save(params)
       .then((res) => {
         CipMessage.success(res.message)
+        getPages()
         resolve(res)
       })
       .catch(reject)

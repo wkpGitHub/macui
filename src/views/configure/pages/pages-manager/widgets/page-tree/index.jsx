@@ -37,7 +37,7 @@ export default {
         emit('update:modelValue', firstLeaf.id)
       })
     }
-    const { page, pageDialog, createPage, savePage, updatePage } = usePage(pages)
+    const { page, pageDialog, createPage, savePage, updatePage } = usePage(pages, getPages)
 
     const router = useRouter()
     const toDesign = ({ data, node, store }) => {
