@@ -47,7 +47,7 @@ export default {
         selectItem(list.value[0])
       }
     }, { immediate: true })
-    console.log('props.data', props.data)
+
     return () => <div class={'cip-fd-form-drawing-container'}>
       {list.value.length === 0 && <div class={'empty-form--text'}>从左侧拖拽来添加字段</div>}
       <div class={['cip-fd-form-drawing', `cip-fd-form-drawing--${props.equipment}`]}>
