@@ -22,7 +22,6 @@ export default {
       const { modelValue = {}, dataBus, search, options, ...componentProps } = props
 
       const fieldList = options[0] ? options[0].children : []
-      console.log('fieldList', fieldList)
       return <CipSearchForm
         {...componentProps}
         model={modelValue}

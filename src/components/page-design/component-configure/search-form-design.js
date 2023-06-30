@@ -1,4 +1,5 @@
 export default {
   key: {},
-  label: {}
+  label: {},
+  hideSearch: { type: 'switch', label: '是否因此搜索按钮' }
 }
