@@ -1,4 +1,4 @@
-import { watch, provide } from 'vue'
+import { watch, provide, ref } from 'vue'
 import { useSelect } from '@d-render/design/esm/cip-form-design/hooks/index'
 import Layout from './widgets/layout'
 import CipButton from '@cip/components/cip-button'
@@ -6,7 +6,8 @@ import PageModules from './widgets/modules'
 import PageDrawing from './widgets/page-drawing'
 import PageComponents from '@d-render/design/esm/cip-form-design/widgets/form-components'
 import PageConfigure from '@d-render/design/esm/cip-form-design/widgets/form-property'
-
+import PageParams from './widgets/side-components/page-params'
+import CodeSource from './widgets/side-components/code-source'
 import './index.less'
 import { reactive } from '@vue/reactivity'
 export default {
@@ -18,6 +19,7 @@ export default {
   },
   inheritAttrs: false,
   setup (props, { attrs, emit, slots }) {
+    const currentModule = ref('renderer')
     const { selectItem, selectItemId, changeSelect, updateSelectItem } = useSelect()
     provide('pageDesign', reactive({
       drawTypeMap: props.drawTypeMap
@@ -48,15 +50,19 @@ export default {
       }
     }, { immediate: true })
     // 设计为组件，与接口完全脱离
-    return () => <Layout style={'height: 100%'}>
+    return () => <Layout style={`height: 100%; ${currentModule.value === 'code' ? '--page-design-nav-width: 800px' : ''}`}>
       {{
         title: slots.title,
-        modules: () => <PageModules />,
+        modules: () => <PageModules v-model={currentModule.value}/>,
         handle: () => <>
           {slots.handle?.()}
           {props.onSave && <CipButton onClick={() => props.onSave()}>保存</CipButton>}
         </>,
-        nav: () => <PageComponents groupList={props.componentsGroupList}/>,
+        nav: () => <>
+          {currentModule.value === 'pageParams' && <PageParams />}
+          {currentModule.value === 'renderer' && <PageComponents groupList={props.componentsGroupList}/>}
+          {currentModule.value === 'code' && <CodeSource modelValue={props.scheme} onUpdate:modelValue={updateScheme}/>}
+        </>,
         content: () => <PageDrawing
           data={props.scheme}
           selectId={selectItemId.value}

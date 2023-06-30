@@ -26,18 +26,21 @@ export default {
         console.log(scheme.value)
       })
     }
+    const handleBack = () => {
+      window.close()
+    }
     const drawTypeMap = {
       searchForm: 'searchFormDesign'
     }
     setPageInfo()
-    return () => <Framework appPath={props.appPath}>
+    return () => <Framework appPath={props.appPath} >
      <PageDesign
        v-model:scheme={scheme.value}
        onSave={handleSave}
        componentsGroupList={componentsGroupList}
        drawTypeMap={drawTypeMap}
      >
-        {{ title: () => <ToolBar pageInfo={pageInfo.value}/> }}
+        {{ title: () => <ToolBar pageInfo={pageInfo.value} onBack={() => handleBack()}/> }}
       </PageDesign>
     </Framework>
   }

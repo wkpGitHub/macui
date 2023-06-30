@@ -1,17 +1,22 @@
-import { PageParams, EditorCode, EditorTpl, EditorOutline, EditorRenderer } from './svg/editor-renderer'
 import { ElIcon } from 'element-plus'
+import styles from './index.module.less'
+import { modulesConfig } from '../../config'
 export default {
-  setup () {
-    const modulesConfig = [
-      { name: 'pageParams', icon: <PageParams/> },
-      { name: 'renderer', icon: <EditorRenderer/> },
-      { name: 'code', icon: <EditorCode/> },
-      { name: 'outline', icon: <EditorOutline/> },
-      { name: 'tpl', icon: <EditorTpl/> }
-    ]
-    return () => <div>
-      {modulesConfig.map(module => <div>
-        <ElIcon style={'font-size: 24px;'}>{module.icon}</ElIcon>
+  props: {
+    modelValue: String
+  },
+  emits: ['update:modelValue'],
+  setup (props, { emit }) {
+    return () => <div class={styles.wrapper}>
+      {modulesConfig.map(module => <div
+        key={module.name}
+        class={[
+          styles.item,
+          props.modelValue === module.name ? styles['is-active'] : undefined]
+        }
+        onClick={() => emit('update:modelValue', module.name)}
+      >
+        <ElIcon style={'font-size: 18px;'}>{module.icon}</ElIcon>
       </div>)}
     </div>
   }
