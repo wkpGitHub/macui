@@ -4,10 +4,11 @@ export default {
   hideSearch: {
     label: '是否隐藏操作按钮',
     type: 'switch',
-    default: true
+    defaultValue: true
   },
   labelPosition: {
     type: 'select',
+    defaultValue: 'top',
     options: [
       {
         label: '上对齐',
