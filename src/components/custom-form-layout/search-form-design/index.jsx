@@ -22,16 +22,21 @@ export default {
     const labelPosition = computed(() => {
       return props.config.labelPosition
     })
+    const searchButtonText = computed(() => {
+      return props.config.searchButtonText
+    })
     // fieldList 存放地址 options.value[0].children
     return () => {
       return <CipForm class="cip-search-form" fieldList={[]} grid={1} labelPosition={labelPosition.value}>
-        <div className="search-form-design-wrapper">
-          <div className="search-form-design-content">
+        <div class="search-form-design-wrapper">
+          <div class="search-form-design-content">
             {componentSlots.value.default?.()}
           </div>
           {
-            !isHideSearch.value && <div className="search-form-design-operate">
-              <CipButton type="primary">查询</CipButton>
+            !isHideSearch.value && <div class="search-form-design-operate">
+              <CipButton type="primary">{
+                searchButtonText.value
+              }</CipButton>
               <CipButton>重置</CipButton>
             </div>
           }
