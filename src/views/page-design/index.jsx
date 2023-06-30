@@ -26,12 +26,16 @@ export default {
         console.log(scheme.value)
       })
     }
+    const drawTypeMap = {
+      searchForm: 'searchFormDesign'
+    }
     setPageInfo()
     return () => <Framework appPath={props.appPath}>
      <PageDesign
        v-model:scheme={scheme.value}
        onSave={handleSave}
        componentsGroupList={componentsGroupList}
+       drawTypeMap={drawTypeMap}
      >
         {{ title: () => <ToolBar pageInfo={pageInfo.value}/> }}
       </PageDesign>

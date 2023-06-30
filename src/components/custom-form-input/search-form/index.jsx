@@ -4,7 +4,7 @@ export default {
   emits: ['update:modelValue'],
   setup () {
     const searchFromProps = [
-      'fieldList',
+      'options',
       'hideSearch',
       'handleAbsolute',
       'collapse',
@@ -19,11 +19,15 @@ export default {
     ]
     const cipFormRender = inject('cipFormRender', {})
     const TransformModelSearchForm = (props, { emit }) => {
-      const { modelValue = {}, dataBus, search, ...componentProps } = props
+      const { modelValue = {}, dataBus, search, options, ...componentProps } = props
+
+      const fieldList = options[0] ? options[0].children : []
+      console.log('fieldList', fieldList)
       return <CipSearchForm
         {...componentProps}
         model={modelValue}
         onUpdate:model={componentProps['onUpdate:modelValue']}
+        fieldList={fieldList}
         onSearch={() => {
           const method = cipFormRender.methods[search]
           if (method) method()

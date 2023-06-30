@@ -1,5 +1,4 @@
 // 将configure文件注入 render组件
-import { defineAsyncComponent } from 'vue'
 export const insertConfigureFile = (plugin, configures) => {
   return Object.keys(configures).reduce((acc, key) => {
     const originConfig = plugin[key]
@@ -11,7 +10,7 @@ export const insertConfigureFile = (plugin, configures) => {
           if (mode === '/configure') {
             return configures[key]
           } else {
-            return originConfig
+            return originConfig(mode)
           }
         }
       } else {

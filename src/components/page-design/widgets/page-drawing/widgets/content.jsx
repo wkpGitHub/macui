@@ -1,4 +1,4 @@
-import { computed, defineAsyncComponent, defineComponent } from 'vue'
+import { computed, defineAsyncComponent, defineComponent, inject } from 'vue'
 import { isLayoutType } from '../../../utils'
 // import './content.less'
 export default defineComponent({
@@ -41,11 +41,13 @@ export default defineComponent({
     const getFormContentComponent = (type) => {
       return defineAsyncComponent(() => import(`./${type}`))
     }
+    const pageDeisgn = inject('pageDesign')
     const getComponentType = (element) => {
       const { config: { type } } = element
-      if (type === 'table') {
+      const usingType = pageDeisgn.drawTypeMap?.[type] || type
+      if (usingType === 'table') {
         return 'table'
-      } else if (isLayoutType(type)) {
+      } else if (isLayoutType(usingType)) {
         return 'layout'
       } else {
         return 'item'

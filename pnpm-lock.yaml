@@ -23,7 +23,7 @@ specifiers:
   '@cip/styles': ^6.0.11
   '@cip/utils': ^5.0.6
   '@ctrl/tinycolor': ^3.4.1
-  '@d-render/design': ^1.0.1
+  '@d-render/design': ^1.0.2
   '@d-render/shared': ^1.0.8
   '@element-plus/icons-vue': ^2.0.6
   '@micro-zoe/micro-app': ^0.8.10
@@ -55,7 +55,7 @@ specifiers:
   core-js: ^3.6.5
   countup.js: ^2.3.2
   cz-conventional-changelog: ^3.3.0
-  d-render: 2.0.0-beta.5
+  d-render: 2.0.0-beta.8
   d3: ^5.16.0
   dayjs: ^1.11.6
   element-plus: 2.2.22
@@ -97,8 +97,8 @@ dependencies:
   '@cip/build': 5.1.1_3gl5qztwmij6nqrmk754fgqv3m
   '@cip/cci-standard-theme': 0.0.2
   '@cip/code-mirror': 1.0.4_jlk5mbuv5gyin32jufgqaevlrm
-  '@cip/components': 6.0.21_h3t23jwk4r3ibhk4m7z4bi4qai
-  '@cip/d-render-plugin-cci': 1.0.7_aym643hncuxdy64q2eudrnndya
+  '@cip/components': 6.0.21_5xzbs6g3l4idlbiojbcu7nybwm
+  '@cip/d-render-plugin-cci': 1.0.7_qxrfrnf5gnkzunxmc4zlhdb2x4
   '@cip/hooks': 5.0.1_gf4bmeicpw7n6nk4y5rnddagcy
   '@cip/plugins': 6.0.4_fvp5w7u6jlyzijdvw4zne5b5tm
   '@cip/request': 5.0.4_qqrrkbvoqhjcu3zn6nfecm7aka
@@ -108,7 +108,7 @@ dependencies:
   '@cip/styles': 6.0.11
   '@cip/utils': 5.0.7_isl3enqmeroyitsow62o6qw2ie
   '@ctrl/tinycolor': 3.6.0
-  '@d-render/design': 1.0.1_uc7je4viam72gxnafpvir7ppim
+  '@d-render/design': 1.0.2_kns5nozqnen3fzuwtnnfj7rpoa
   '@d-render/shared': 1.0.8_b6trzumhu6qfd6volochl6v2hu
   '@element-plus/icons-vue': 2.1.0_vue@3.3.4
   '@micro-zoe/micro-app': 0.8.11
@@ -121,7 +121,7 @@ dependencies:
   codemirror: 5.65.13
   core-js: 3.31.0
   countup.js: 2.6.2
-  d-render: 2.0.0-beta.5_juu3snc3lrwauutfgtszwlayre
+  d-render: 2.0.0-beta.8_juu3snc3lrwauutfgtszwlayre
   d3: 5.16.0
   dayjs: 1.11.8
   element-plus: 2.2.22_vue@3.3.4
@@ -1694,7 +1694,7 @@ packages:
       vue: 3.3.4
     dev: false
 
-  /@cip/components/6.0.21_h3t23jwk4r3ibhk4m7z4bi4qai:
+  /@cip/components/6.0.21_5xzbs6g3l4idlbiojbcu7nybwm:
     resolution: {integrity: sha512-Xp0fWDD5THjLHUxI6Q/zo4l31nWxeamOk9qNI9SveU+VxYww1ogDR7TKE507Gs8dI2UyTPQvirTkjQpsBeKC6Q==}
     peerDependencies:
       '@cip/hooks': ' ^5.0.0'
@@ -1723,7 +1723,7 @@ packages:
       '@vue/shared': 3.3.4
       '@xdp/button': 1.0.5_nmyysagq3hre46fnr4n2rzhycq
       countup.js: 2.6.2
-      d-render: 2.0.0-beta.5_juu3snc3lrwauutfgtszwlayre
+      d-render: 2.0.0-beta.8_juu3snc3lrwauutfgtszwlayre
       dayjs: 1.11.8
       element-plus: 2.2.22_vue@3.3.4
       mui-player: 1.8.1
@@ -1733,7 +1733,7 @@ packages:
       wangeditor: 4.7.15
     dev: false
 
-  /@cip/d-render-plugin-cci/1.0.7_aym643hncuxdy64q2eudrnndya:
+  /@cip/d-render-plugin-cci/1.0.7_qxrfrnf5gnkzunxmc4zlhdb2x4:
     resolution: {integrity: sha512-QvXGvYfTuZBEPiIzzsE3YE05txyVGC3dxwATIn7FamgJdJFrdksg9C7wy84t9DUR7g3s+aNlm46XIq22SR9fLw==}
     peerDependencies:
       '@cip/components': ^6.0.0
@@ -1748,12 +1748,12 @@ packages:
       vant: ^3.0.0
       vue: ^3.2.47
     dependencies:
-      '@cip/components': 6.0.21_h3t23jwk4r3ibhk4m7z4bi4qai
+      '@cip/components': 6.0.21_5xzbs6g3l4idlbiojbcu7nybwm
       '@cip/utils': 5.0.7_isl3enqmeroyitsow62o6qw2ie
       '@d-render/shared': 1.0.8_b6trzumhu6qfd6volochl6v2hu
       '@element-plus/icons-vue': 2.1.0_vue@3.3.4
       '@xdp/button': 1.0.5_nmyysagq3hre46fnr4n2rzhycq
-      d-render: 2.0.0-beta.5_juu3snc3lrwauutfgtszwlayre
+      d-render: 2.0.0-beta.8_juu3snc3lrwauutfgtszwlayre
       dayjs: 1.11.8
       element-plus: 2.2.22_vue@3.3.4
       uuid: 8.3.2
@@ -1770,7 +1770,7 @@ packages:
       vue: 3.x
       vue-router: 4.x
     dependencies:
-      '@cip/components': 6.0.21_h3t23jwk4r3ibhk4m7z4bi4qai
+      '@cip/components': 6.0.21_5xzbs6g3l4idlbiojbcu7nybwm
       '@cip/utils': 5.0.7_isl3enqmeroyitsow62o6qw2ie
       element-plus: 2.2.22_vue@3.3.4
       vue: 3.3.4
@@ -1787,7 +1787,7 @@ packages:
       vue: 3.x
       vue-router: 4.x
     dependencies:
-      '@cip/components': 6.0.21_h3t23jwk4r3ibhk4m7z4bi4qai
+      '@cip/components': 6.0.21_5xzbs6g3l4idlbiojbcu7nybwm
       '@cip/utils': 5.0.7_isl3enqmeroyitsow62o6qw2ie
       js-sha1: 0.6.0
       vue: 3.3.4
@@ -1827,7 +1827,7 @@ packages:
       qs: 6.x
       url-template: 2.x
     dependencies:
-      '@cip/components': 6.0.21_h3t23jwk4r3ibhk4m7z4bi4qai
+      '@cip/components': 6.0.21_5xzbs6g3l4idlbiojbcu7nybwm
       '@cip/utils': 5.0.7_isl3enqmeroyitsow62o6qw2ie
       axios: 0.21.4
       qs: 6.11.2
@@ -1933,11 +1933,11 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /@d-render/design/1.0.1_uc7je4viam72gxnafpvir7ppim:
-    resolution: {integrity: sha512-znIgMwx1TukrQSdDwx5/UbROefSis+brt7jBJaSGOcv9MHzsvfy29pjCumY1iJ1YBRMrJYh4QpCAziWE5fbStg==}
+  /@d-render/design/1.0.2_kns5nozqnen3fzuwtnnfj7rpoa:
+    resolution: {integrity: sha512-TMX4o8AwFmnRV/Qq66sGPN2L5Z9Pyz3uhqRD3+kBXFqFyKVhs/YEz7APW+QwFrpo4SJ6J4xtr9nlWu3Bumyr0A==}
     peerDependencies:
       '@cip/code-mirror': ^1.0.0
-      '@cip/components': ^5.0.22
+      '@cip/components': ' >= 5.0.22'
       '@cip/utils': ^5.0.5
       '@d-render/shared': ^1.0.0
       '@xdp/button': 'wrokspace: ^1.0.0'
@@ -1948,11 +1948,11 @@ packages:
       vuedraggable: 4.x
     dependencies:
       '@cip/code-mirror': 1.0.4_jlk5mbuv5gyin32jufgqaevlrm
-      '@cip/components': 6.0.21_h3t23jwk4r3ibhk4m7z4bi4qai
+      '@cip/components': 6.0.21_5xzbs6g3l4idlbiojbcu7nybwm
       '@cip/utils': 5.0.7_isl3enqmeroyitsow62o6qw2ie
       '@d-render/shared': 1.0.8_b6trzumhu6qfd6volochl6v2hu
       '@xdp/button': 1.0.5_nmyysagq3hre46fnr4n2rzhycq
-      d-render: 2.0.0-beta.5_juu3snc3lrwauutfgtszwlayre
+      d-render: 2.0.0-beta.8_juu3snc3lrwauutfgtszwlayre
       element-plus: 2.2.22_vue@3.3.4
       uuid: 8.3.2
       vue: 3.3.4
@@ -5363,8 +5363,8 @@ packages:
       - '@swc/wasm'
     dev: true
 
-  /d-render/2.0.0-beta.5_juu3snc3lrwauutfgtszwlayre:
-    resolution: {integrity: sha512-+FJ4rkVeQmllNB+7Ci7kulLaOPrIKYnA+tK9yBiC6Pcyxc1DeQsdpNmDm4YmFMMKgXjtRqVbJzXuvE73W3Rxkw==}
+  /d-render/2.0.0-beta.8_juu3snc3lrwauutfgtszwlayre:
+    resolution: {integrity: sha512-vNZuKXPby0WJWBS++ZtuzPQQ/KSH4nurhFWkYe66RXXJfzhQf+DqVVoKQZEfAmkvFdd3HUU8qliZruil5WIbBg==}
     peerDependencies:
       '@d-render/shared': '>= 1.0.2'
       '@element-plus/icons-vue': ^2.1.0

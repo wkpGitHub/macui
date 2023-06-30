@@ -18,6 +18,22 @@ export const componentsGroupList = [
           { key: 'filter', children: [] },
           { key: 'default', children: [] }
         ]
+      },
+      {
+        type: 'grid',
+        icon: 'el-icon-edit',
+        label: '栅格布局',
+        gutter: 0,
+        options: [
+          {
+            span: 12,
+            children: []
+          },
+          {
+            span: 12,
+            children: []
+          }
+        ]
       }
     ]
   },
@@ -38,6 +54,41 @@ export const componentsGroupList = [
         class: 'disabled-table',
         icon: 'el-icon-menu',
         label: '表格',
+        hideLabel: true,
+        options: []
+      },
+      {
+        type: 'searchForm',
+        class: 'disabled-table',
+        icon: 'el-icon-menu',
+        label: '搜索表单',
+        hideLabel: true,
+        options: [
+          {
+            key: 'default',
+            children: []
+          }
+        ]
+      },
+      {
+        type: 'form',
+        class: 'disabled-table',
+        icon: 'el-icon-menu',
+        label: '表单',
+        hideLabel: true,
+        options: [
+          {
+            key: 'default',
+            children: [
+            ]
+          }
+        ]
+      },
+      {
+        type: 'dialogForm',
+        class: 'disabled-table',
+        icon: 'el-icon-menu',
+        label: '弹窗表单',
         hideLabel: true,
         options: []
       }

@@ -10,7 +10,7 @@
 // }
 
 export default {
-  searchForm: () => () => import('./search-form/index'),
+  searchForm: (mode) => () => import(`./search-form${mode}`),
   dataType: (mode) => () => import((`./data-type${mode}`)),
   compositionCheckbox: () => () => import('./composition-checkbox'),
   tableForm: () => () => import('./table-form'),

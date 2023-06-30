@@ -19,7 +19,7 @@ export default {
     }
     const updateConfig = (element, val) => {
       const cloneList = props.data?.list || []
-      element.config = val
+      element.config = val // element.config.type
       updateList(cloneList, 'layoutUpdate')
     }
 

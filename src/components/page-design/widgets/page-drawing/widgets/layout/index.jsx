@@ -10,9 +10,10 @@ export default {
   props: drawingContentProps,
   emits: ['delete', 'copy', 'selectItem', 'update:config'],
   setup (props, { emit }) {
-    const { computedConfig } = useFormDrawingItem({ props, emit })
-
+    const { computedConfig, drawType } = useFormDrawingItem({ props, emit })
+    console.log('layout', drawType.value)
     const updateConfig = (val) => {
+      console.log('updateConfig', val)
       emit('update:config', val)
     }
 
@@ -25,6 +26,7 @@ export default {
         element,
         optionIndex,
         onUpdateConfig: (val) => {
+          console.log('onUpdateConfig-->', val)
           updateOptionChild(optionIndex, childIndex, val)
         },
         onClick: (e) => {
@@ -39,6 +41,8 @@ export default {
     }
     return () => (
       <CipFormLayout
+        isDesign={true}
+        drawType={drawType.value}
         config={computedConfig.value}
         onUpdate:config={(val) => updateConfig(val)}
         onSelectItem={(element) => selectItem(element)}

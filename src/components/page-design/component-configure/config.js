@@ -1,4 +1,5 @@
 export default {
   grid: () => import('./grid'),
-  pageLayoutList: () => import('./page-layout/list')
+  pageLayoutList: () => import('./page-layout/list'),
+  searchForm: () => import('./search-form-design')
 }
