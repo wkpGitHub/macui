@@ -1,5 +1,26 @@
 export default {
   key: {},
   label: {},
-  hideSearch: { type: 'switch', label: '是否因此搜索按钮' }
+  hideSearch: {
+    label: '是否隐藏操作按钮',
+    type: 'switch',
+    default: true
+  },
+  labelPosition: {
+    type: 'select',
+    options: [
+      {
+        label: '上对齐',
+        value: 'top'
+      },
+      {
+        label: '左对齐',
+        value: 'left'
+      },
+      {
+        label: '右对齐',
+        value: 'right'
+      }
+    ]
+  }
 }
