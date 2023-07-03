@@ -8,6 +8,7 @@ export default {
   setup (props) {
     const pageSchema = ref({})
     const model = ref({
+      filter: {}
     })
     const getPageScheme = (val) => {
       pageInfoService.detail({ id: val }).then(res => {

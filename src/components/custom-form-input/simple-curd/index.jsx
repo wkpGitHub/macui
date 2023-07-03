@@ -7,6 +7,7 @@ import { cloneDeep, getFieldValue } from '@d-render/shared'
 import { MoreFilled } from '@element-plus/icons-vue'
 import { ElDropdown, ElDropdownMenu, ElDropdownItem } from 'element-plus'
 import CipMessageBox from '@cip/components/cip-message-box'
+import VueDraggable from 'vuedraggable'
 export const SimpleCurd = {
   props: {
     modelValue: Array,
@@ -63,25 +64,31 @@ export const SimpleCurd = {
       commands[command](args)
     }
     return () => <div class={styles.wrapper} >
-      {props.modelValue?.map((v, i) => {
-        return <div class={styles['item-wrapper']}>
-          <div class={styles.info}>
-            {props.infoRender(h, { item: v, $index: i })}
-          </div>
-          <div class={styles.handler}>
-            <ElDropdown onCommand={(command) => handleCommand(command, { item: v, index: i })}>
-              {{
-                default: () => <CipButton square icon={MoreFilled}></CipButton>,
-                dropdown: () => <ElDropdownMenu>
-                  <ElDropdownItem command={'update'}>编辑{props.itemType}</ElDropdownItem>
-                  <ElDropdownItem command={'delete'}>删除{props.itemType}</ElDropdownItem>
-                </ElDropdownMenu>
-              }}
-            </ElDropdown>
+         <VueDraggable modelValue={props.modelValue} onUpdate:modelValue={emitModelValue} >
+          {{
+            item: ({ element: v, index: i }) => <div class={styles['item-wrapper']}>
+              <div class={styles.info}>
+                {props.infoRender(h, {
+                  item: v,
+                  $index: i
+                })}
+              </div>
+              <div class={styles.handler}>
+                <ElDropdown onCommand={(command) => handleCommand(command, { item: v, index: i })}>
+                  {{
+                    default: () => <CipButton square icon={MoreFilled}></CipButton>,
+                    dropdown: () => <ElDropdownMenu>
+                      <ElDropdownItem command={'update'}>编辑{props.itemType}</ElDropdownItem>
+                      <ElDropdownItem command={'delete'}>删除{props.itemType}</ElDropdownItem>
+                    </ElDropdownMenu>
+                  }}
+                </ElDropdown>
 
-          </div>
-        </div>
-      })}
+              </div>
+            </div>
+          }}
+
+        </VueDraggable>
       {!props.modelValue && '<空>'}
       <CipButton class={styles.create} onClick={() => createItem()}>新增{props.itemType}</CipButton>
       <CipDialog title={`${item.value.$index > -1 ? '编辑' : '新增'}${props.itemType}`} {...props.dialogProps} v-model={dialog.value} onConfirm={saveItem} >

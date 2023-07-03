@@ -3,5 +3,5 @@ export default {
   pageLayoutList: () => import('./page-layout/list'),
   searchForm: () => import('./search-form-design'),
   pageTable: () => import('./page-table'),
-  button: () => import('./button')
+  tableButton: () => import('./table-button')
 }

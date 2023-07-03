@@ -25,14 +25,12 @@ export default {
     type: 'arrayObject',
     dependOn: ['usingSlots', 'options'],
     changeValue: ({ usingSlots, options }) => {
-      console.log('options', { usingSlots, options })
       const value = options.concat(usingSlots.filter(name => {
         return !options.find(option => option.key === name)
       }).map(name => ({ key: name, children: [] })))
-      console.log('options', value)
-      // return {
-      //   value: value
-      // }
+      return {
+        value
+      }
     }
   }
 }

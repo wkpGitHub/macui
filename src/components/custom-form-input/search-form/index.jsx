@@ -20,7 +20,6 @@ export default {
     const cipFormRender = inject('cipFormRender', {})
     const TransformModelSearchForm = (props, { emit }) => {
       const { modelValue = {}, dataBus, search, options, ...componentProps } = props
-
       const fieldList = options[0] ? options[0].children : []
       return <CipSearchForm
         {...componentProps}
