@@ -23,7 +23,7 @@ export default {
       return props.config.labelPosition
     })
     const searchButtonText = computed(() => {
-      return props.config.searchButtonText || '查询'
+      return props.config.searchButtonText
     })
     // fieldList 存放地址 options.value[0].children
     return () => {

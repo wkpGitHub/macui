@@ -3,5 +3,7 @@ export default {
   pageLayoutList: () => import('./page-layout/list'),
   searchForm: () => import('./search-form-design'),
   pageTable: () => import('./page-table'),
-  tableButton: () => import('./table-button')
+  tableButton: () => import('./table-button'),
+  dialog: () => import('./dialog-design'),
+  pagination: () => import('./pagination')
 }

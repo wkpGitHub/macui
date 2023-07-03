@@ -6,5 +6,9 @@ export default {
   pageTableDesign: {
     component: () => () => import('./page-table-design'),
     layout: true
+  },
+  dialogDesign: {
+    component: () => () => import('./dialog-design'),
+    layout: true
   }
 }
