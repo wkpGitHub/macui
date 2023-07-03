@@ -246,6 +246,22 @@ const nodeConfig = {
       selection.append('span').classed('node-label', true)
     }
   },
+  'web-api': {
+    x: 140,
+    y: 64,
+    enter (selection) {
+      selection.append('div').classed('icon-outer', true).html(iconHtmlMap.notification)
+      selection.append('span').classed('node-label', true)
+    }
+  },
+  manualnode: {
+    x: 140,
+    y: 64,
+    enter (selection) {
+      selection.append('div').classed('icon-outer', true).html(iconHtmlMap.notification)
+      selection.append('span').classed('node-label', true)
+    }
+  },
   script: {
     x: 140,
     y: 64,
