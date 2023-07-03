@@ -18,6 +18,8 @@ import httpConfig from './http'
 import apicenterConfig from './apicenter'
 import datasourceSqlConfig from './datasource-sql'
 import scriptConfig from './script'
+import connectorConfig from './connector'
+import emailConfig from './email'
 import startConfig from './start'
 import endConfig from './end'
 /**
@@ -57,7 +59,9 @@ export const compList = [
   webApiConfig,
   manualNodeConfig,
   datasourceSqlConfig,
-  scriptConfig
+  scriptConfig,
+  connectorConfig,
+  emailConfig
 ]
 
 // 全部组件
