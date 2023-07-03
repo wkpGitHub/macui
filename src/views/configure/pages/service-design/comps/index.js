@@ -5,6 +5,9 @@ import exitConfig from './exit'
 import loopConfig from './loop'
 import setConfig from './set'
 import coderConfig from './coder'
+import notificationConfig from './notification'
+import webApiConfig from './web-api'
+import manualNodeConfig from './manual-node'
 import dateFormatConfig from './date-format'
 import mappingConfig from './mapping'
 import createDataRecordsConfig from './create-data-records'
@@ -48,6 +51,9 @@ export const compList = [
   queryDataRecordsConfig,
   httpConfig,
   apicenterConfig,
+  notificationConfig,
+  webApiConfig,
+  manualNodeConfig,
   datasourceSqlConfig,
   scriptConfig
 ]
