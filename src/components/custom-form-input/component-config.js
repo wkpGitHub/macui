@@ -21,5 +21,6 @@ export default {
   dataSource: () => () => import('./data-source'),
   tableButton: () => () => import('./table-button'),
   pageTable: () => () => import('./page-table'),
-  simpleCurd: () => () => import('./simple-curd')
+  simpleCurd: () => () => import('./simple-curd'),
+  dialog: (mode) => () => import((`./dialog${mode}`))
 }

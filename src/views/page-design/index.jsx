@@ -31,7 +31,8 @@ export default {
     }
     const drawTypeMap = {
       searchForm: 'searchFormDesign',
-      pageTable: 'pageTableDesign'
+      pageTable: 'pageTableDesign',
+      dialog: 'dialogDesign'
     }
     setPageInfo()
     return () => <Framework appPath={props.appPath} >

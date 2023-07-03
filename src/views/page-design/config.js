@@ -104,12 +104,18 @@ export const componentsGroupList = [
         ]
       },
       {
-        type: 'dialogForm',
+        type: 'dialog',
         class: 'disabled-table',
         icon: 'el-icon-menu',
-        label: '弹窗表单',
+        label: '弹窗',
         hideLabel: true,
-        options: []
+        usingSlots: ['default'],
+        options: [
+          {
+            key: 'default',
+            children: []
+          }
+        ]
       }
     ]
   },
