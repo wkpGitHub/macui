@@ -34,6 +34,9 @@ export default defineComponent({
     showCopy: {
       type: Boolean,
       default: true
+    },
+    parentType: {
+      type: String
     }
   },
   setup (props, { attrs }) {
@@ -45,9 +48,11 @@ export default defineComponent({
     const getComponentType = (element) => {
       const { config: { type } } = element
       const usingType = pageDeisgn.drawTypeMap?.[type] || type
-      if (usingType === 'table') {
-        return 'table'
-      } else if (isLayoutType(usingType)) {
+      // 废弃table使用layout内的组件进行设计
+      // if (usingType === 'table') {
+      //         return 'table'
+      //       } else
+      if (isLayoutType(usingType)) {
         return 'layout'
       } else {
         return 'item'
@@ -55,6 +60,7 @@ export default defineComponent({
     }
     // 配置组件props
     const formContentProps = computed(() => ({
+      parentType: props.parentType,
       isActive: props.selectId === props.element.id,
       fieldKey: props.element.key,
       selectId: props.selectId,

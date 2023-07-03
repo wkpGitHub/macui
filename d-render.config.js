@@ -5,6 +5,7 @@ import '@cip/d-render-plugin-cci/dist/index.css'
 // 自定义的输入插件
 import customInputsPlugin from '@/components/custom-form-input/component-config'
 import customLayoutPlugin from '@/components/custom-form-layout/component-config'
+import pageDesignPlugin from '@/components/page-design-components/component-config'
 import customConfigurePlugin from '@/components/page-design/component-configure/config'
 export default {
   components: {
@@ -14,6 +15,7 @@ export default {
   plugins: [
     CCIPlugin,
     customInputsPlugin,
-    customLayoutPlugin
+    customLayoutPlugin,
+    pageDesignPlugin
   ].map(v => insertConfigureFile(v, customConfigurePlugin))
 }

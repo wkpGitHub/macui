@@ -20,12 +20,14 @@ export default {
     const selectItem = (element) => {
       emit('selectItem', element)
     }
-    const FormContent = ({ element, optionIndex, childIndex, updateOptionChild, copyOptionChild, deleteOptionChild }) => {
+    const FormContent = ({ element, parentType, optionIndex, childIndex, updateOptionChild, copyOptionChild, deleteOptionChild }) => {
       const formContentProps = {
+        parentType,
         selectId: props.selectId,
         element,
         optionIndex,
         onUpdateConfig: (val) => {
+          val.parentType = props.config.type
           console.log('onUpdateConfig-->', val)
           updateOptionChild(optionIndex, childIndex, val)
         },
@@ -62,6 +64,7 @@ export default {
             >
               {{
                 item: ({ element, index: childIndex, draggable }) => FormContent({
+                  parentType: props.config.type,
                   element,
                   optionIndex,
                   childIndex,

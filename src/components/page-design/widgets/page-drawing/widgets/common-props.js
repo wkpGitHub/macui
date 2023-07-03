@@ -7,5 +7,6 @@ export const drawingContentProps = {
   showCopy: {
     type: Boolean,
     default: true
-  }
+  },
+  parentType: String
 }

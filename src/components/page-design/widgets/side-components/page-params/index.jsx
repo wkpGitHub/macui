@@ -1,7 +1,17 @@
+import { CipForm } from 'd-render'
+import { formFieldList } from './config'
 export default {
-  setup () {
+  props: {
+    modelValue: Object
+  },
+  emits: ['update:modelValue'],
+  setup (props, { emit }) {
     return () => <div>
-      页面参数配置
+      <CipForm
+        model={props.modelValue}
+        onUpdate:model={(val) => emit('update:modelValue', val)}
+        fieldList={formFieldList}
+      />
     </div>
   }
 }

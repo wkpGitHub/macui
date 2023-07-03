@@ -14,6 +14,7 @@ import { modulesConfig } from '@/components/page-design/config'
 export default {
   props: {
     scheme: Object,
+    config: Object,
     onSave: Function,
     componentsGroupList: Array,
     drawTypeMap: Object
@@ -33,7 +34,11 @@ export default {
       console.log('scheme', scheme)
       emit('update:scheme', scheme)
     }
-
+    const updateConfig = (config) => {
+      const scheme = props.scheme
+      scheme.config = config
+      emit('update:config', config)
+    }
     const updateList = (list) => {
       const scheme = props.scheme
       scheme.list = list
@@ -66,7 +71,7 @@ export default {
           {props.onSave && <CipButton onClick={() => props.onSave()}>保存</CipButton>}
         </>,
         nav: () => <>
-          {currentModuleName.value === 'pageParams' && <PageParams />}
+          {currentModuleName.value === 'pageParams' && <PageParams modelValue={props.scheme.config} onUpdate:modelValue={updateConfig}/>}
           {currentModuleName.value === 'renderer' && <PageComponents groupList={props.componentsGroupList}/>}
           {currentModuleName.value === 'code' && <CodeSource modelValue={props.scheme} onUpdate:modelValue={updateScheme}/>}
         </>,
