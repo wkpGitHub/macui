@@ -6,6 +6,7 @@ function getId () {
   return Math.random().toString(16).slice(2) + '-' + Math.random().toString(16).slice(6)
 }
 const iconHtmlMap = {
+  start: '<svg viewBox="0 0 14 14" class="icon-flow-start"><title>开始</title><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g  transform="translate(-24.000000, -119.000000)"><g  transform="translate(24.000000, 119.000000)"><rect  x="0" y="0" width="14" height="14"></rect><g  transform="translate(4.843553, 3.875000)" fill="#FFFFFF" fill-rule="nonzero"><g ><path d="M0.567757553,6.13057769 C0.706753664,6.20845457 0.862462291,6.24950026 1.0207913,6.25 C1.21481242,6.24844339 1.40422283,6.18907595 1.56603546,6.07910258 L4.48870452,4.10039864 C4.81177035,3.88084907 5.00426901,3.5078842 4.99987093,3.11001717 C5.0056203,2.72309889 4.81897612,2.35985472 4.50474111,2.14640277 L1.55601259,0.171816849 C1.25777121,-0.0371088557 0.870768955,-0.0569843925 0.553725525,0.120341714 C0.200639293,0.334511484 -0.011268745,0.728826826 0.000463074478,1.1498443 L0.000463074478,5.10107513 C-0.0097328944,5.52543861 0.208301484,5.92111839 0.567757553,6.13057769 Z" ></path></g></g></g></g></g></svg>',
   delete: '<svg viewBox="0 0 16 16" class=" icon-flow-node-trash"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-1461.000000, -194.000000)"><g  transform="translate(1339.000000, 192.000000)"><g  transform="translate(96.000000, 0.000000)"><g  transform="translate(26.000000, 2.000000)"><g ><rect  x="0" y="0" width="16" height="16"></rect></g><line x1="6" y1="1.52178925" x2="10" y2="1.52178925"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2" y1="3.46254494" x2="14" y2="3.46254494"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><rect  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" x="3.4936589" y="3.46254494" width="9" height="10.5374551"></rect><line x1="6.73081313" y1="7.5" x2="6.73081313" y2="10.5"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><line x1="9.26918687" y1="7.5" x2="9.26918687" y2="10.5"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line></g></g></g></g></g></svg>',
   folded: '<svg viewBox="0 0 20 20" class=" icon-api-folded"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g  transform="translate(-2008.000000, -165.000000)"><g  transform="translate(2008.000000, 165.000000)"><g  fill="#2468F2"><rect  x="0" y="0" width="20" height="20"></rect></g><g  transform="translate(4.000000, 4.000000)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="0" x2="6" y2="2.5" ></line><polyline  transform="translate(5.990102, 2.345051) scale(-1, 1) rotate(-180.000000) translate(-5.990102, -2.345051) " points="4.3 3.190102 5.99010177 1.50000023 7.68020353 3.190102"></polyline><line x1="0" y1="5.5" x2="12" y2="5.5" ></line><polyline  points="4.3 9.4401018 5.99010177 7.75 7.68020353 9.4401018"></polyline><line x1="6" y1="8" x2="6" y2="11"  transform="translate(6.000000, 9.500000) scale(-1, 1) rotate(-180.000000) translate(-6.000000, -9.500000) "></line></g></g></g></g></svg>',
   expand: '<svg viewBox="0 0 20 20" class=" icon-api-unfold"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g  transform="translate(-2008.000000, -351.000000)"><g  transform="translate(1969.000000, 351.000000)"><g  transform="translate(39.000000, 0.000000)"><rect  fill="#2468F2" x="0" y="0" width="20" height="20"></rect><g  transform="translate(4.000000, 5.000000)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"><polyline  points="4.3 1.69010177 5.99010177 0 7.68020353 1.69010177"></polyline><line x1="6" y1="0.25" x2="6" y2="3.75" ></line><line x1="0" y1="3.75" x2="12" y2="3.75" ></line><line x1="0" y1="6.75" x2="12" y2="6.75" ></line><line x1="6" y1="6.75" x2="6" y2="9.75"  transform="translate(6.000000, 8.250000) scale(-1, 1) rotate(-180.000000) translate(-6.000000, -8.250000) "></line><polyline  transform="translate(5.990102, 9.595051) scale(-1, 1) rotate(-180.000000) translate(-5.990102, -9.595051) " points="4.3 10.440102 5.99010177 8.7500002 7.68020353 10.440102"></polyline></g></g></g></g></g></svg>',
@@ -28,7 +29,20 @@ const iconHtmlMap = {
   email: '<svg viewBox="0 0 16 16" class=" icon-api-email"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g ><g  fill-rule="nonzero"><rect  x="0" y="0" width="16" height="16"></rect><rect  fill-opacity="0.01" fill="#FFFFFF" x="0" y="0" width="16" height="16"></rect></g><g  transform="translate(1.333333, 2.000000)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"><polyline  points="10.6666667 3.33333333 13.3333333 3.33333333 13.3333333 7.66666667 13.3333333 12 0 12 0 7.66666667 0 3.33333333 2.66666667 3.33333333"></polyline><line x1="6.66666667" y1="4.66666667" x2="6.66666667" y2="0" ></line><polyline  points="8.66666667 2 6.66666667 0 4.66666667 2"></polyline><polyline  points="0 3.33333333 6.66666667 8.33333333 13.3333333 3.33333333"></polyline></g></g></g></svg>',
   notification: '<svg viewBox="0 0 16 16" class=" icon-api-notification"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g ><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><g ><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><polygon  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="14.6666667 2 1.33333333 2 1.33333333 12 4.33333333 12 4.33333333 13.6666667 7.66666667 12 14.6666667 12"></polygon><line x1="4.66666667" y1="6.5" x2="4.66666667" y2="7.5"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><line x1="8" y1="6.5" x2="8" y2="7.5"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.3333333" y1="6.5" x2="11.3333333" y2="7.5"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line></g></g></g></svg>',
   'datasource-sql': '<svg viewBox="0 0 16 16" class=" icon-api-sql"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g ><g ></g><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0.0000145833333" y="0" width="16" height="16"></rect><path d="M13.8333625,4.20833333 C13.8333625,4.20833333 13.8333625,11.5181708 13.8333625,12.0833333 C13.8333625,13.0498292 11.2216625,13.8333333 8,13.8333333 C4.7783375,13.8333333 2.16666667,13.0498292 2.16666667,12.0833333 C2.16666667,11.5415042 2.16666667,4.20833333 2.16666667,4.20833333"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></path><path d="M13.8333333,9.45833333 C13.8333333,10.4248292 11.2216625,11.2083333 8,11.2083333 C4.7783375,11.2083333 2.16666667,10.4248292 2.16666667,9.45833333"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></path><path d="M13.8333333,6.83333333 C13.8333333,7.79982917 11.2216625,8.58333333 8,8.58333333 C4.7783375,8.58333333 2.16666667,7.79982917 2.16666667,6.83333333"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></path><ellipse  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" cx="8" cy="3.91666667" rx="5.83333333" ry="1.75"></ellipse></g></g></svg>',
-  script: '<svg viewBox="0 0 16 16" class=" icon-api-script"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><g ><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><g  transform="translate(2.000000, 2.000000)" stroke="#FFFFFF" stroke-linecap="round"><polyline  stroke-linejoin="round" points="3.6 2.7 0 6.42966 3.6 9.9"></polyline><polyline  stroke-linejoin="round" points="8.4 2.7 12 6.42966 8.4 9.9"></polyline><line x1="7.2" y1="0" x2="5.1" y2="12" ></line></g></g></g></svg>'
+  script: '<svg viewBox="0 0 16 16" class=" icon-api-script"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><g ><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><g  transform="translate(2.000000, 2.000000)" stroke="#FFFFFF" stroke-linecap="round"><polyline  stroke-linejoin="round" points="3.6 2.7 0 6.42966 3.6 9.9"></polyline><polyline  stroke-linejoin="round" points="8.4 2.7 12 6.42966 8.4 9.9"></polyline><line x1="7.2" y1="0" x2="5.1" y2="12" ></line></g></g></g></svg>',
+  set: `<svg viewBox="0 0 16 16" class=" icon-api-set">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+      <g></g>
+      <g>
+        <g>
+          <rect x="0" y="0" width="16" height="16"></rect>
+          <polygon stroke="#FFFFFF" stroke-linejoin="round" points="2 2 8.0012 2 14 2 14 14 2 14"></polygon>
+          <path d="M7.1751718,4.45633542 C7.60924166,4.17835264 8.3252388,4.22909125 8.6671506,4.26741509 C8.81111347,4.28360826 9.12794084,4.31275597 9.09522201,4.62474441 C9.06959225,4.87411925 8.70150538,4.84874995 8.60389419,4.84874995 C8.0073208,4.84874995 7.36166915,4.54323878 7.01539483,5.80090844 L7.01539483,5.80090844 L6.85343661,6.59005567 L7.67249807,6.59005567 C7.8230047,6.59005567 7.94515501,6.71096468 7.94515501,6.85994186 C7.94515501,7.00891904 7.8230047,7.12982806 7.67249807,7.12982806 L7.67249807,7.12982806 L6.73728475,7.12982806 L6.001111,10.7090588 C6.001111,10.7090588 5.93022019,11.2844561 5.5730396,11.2623254 C5.5561858,11.26128 5.54034416,11.2592996 5.52545987,11.2564631 L5.56521029,11.2430535 C5.53430007,11.2561818 5.50106164,11.2629478 5.46747899,11.2629478 L4.47124867,11.2629478 C4.34190551,11.2629478 4.23705215,11.1580945 4.23705215,11.0287513 L4.23705215,11.0261898 C4.2369092,10.8974298 4.33465452,10.7897039 4.46280835,10.7772245 C4.71628018,10.7525418 4.93703598,10.712122 5.12507575,10.6559649 C5.24601401,10.6198473 5.33214614,10.571486 5.38347213,10.5108808 L6.08127214,7.12982806 L4.97319432,7.12982806 C4.8783097,7.12982806 4.79627026,7.08136849 4.74856539,7.00827931 L4.72705199,6.96505215 L4.73683182,6.94874317 C4.75310987,6.93361406 4.77915475,6.9211161 4.78892157,6.90335583 C4.77427133,6.88855562 4.72299548,6.87572876 4.72299548,6.85994186 L4.72205199,6.95505215 L4.71956024,6.94921672 L4.7054452,6.88315207 C4.7174421,6.6305386 4.83086739,6.59005567 4.97319432,6.59005567 L4.97319432,6.59005567 L6.19851463,6.59005567 L6.36919787,5.78471527 C6.49025756,5.21471563 6.74001132,4.73539775 7.1751718,4.45633542 Z M11.1292428,6.68505561 C11.2132212,6.72985672 11.2568463,6.78167487 11.2622994,6.83997028 C11.2672072,6.8982657 11.244304,6.95548157 11.1919539,7.01215767 L10.2065717,8.07011155 L11.1788664,9.38985504 C11.209404,9.42925842 11.2170384,9.47675839 11.1995883,9.52857654 C11.1843195,9.58147424 11.11561,9.61817876 11.0245425,9.66675827 C10.9258407,9.71803665 10.8402265,9.7131787 10.7791513,9.69644575 C10.7197121,9.67917304 10.6662713,9.64030943 10.6215556,9.58147424 L9.80140349,8.50732719 L8.80620565,9.57607651 C8.68732722,9.7034628 8.55263469,9.72235483 8.39885617,9.63221284 C8.33559976,9.59550832 8.21999321,9.45948568 8.20636037,9.39795162 C8.19327283,9.33695734 8.21781196,9.27272443 8.28106837,9.20417334 L9.3815118,8.01883318 L8.57990038,6.96897588 C8.54663623,6.92093614 8.54336435,6.86479981 8.56953942,6.80110667 C8.59462386,6.73741353 8.65406307,6.69962946 8.71731948,6.66238517 C8.8083869,6.61164656 8.89181993,6.61002725 8.9534404,6.6148852 C9.01560618,6.6186636 9.07177351,6.65374881 9.12357833,6.7185215 L9.7899519,7.57837891 L10.5964711,6.70880559 C10.6662713,6.63215791 10.7453418,6.6051693 10.8216858,6.5835784 C10.8974844,6.5619875 11.0474457,6.63971473 11.1292428,6.68505561 Z" fill="#FFFFFF" fill-rule="nonzero"></path>
+        </g>
+        <path d="M0,0 L14.5,0 C15.3284271,-5.96268804e-16 16,0.671572875 16,1.5 L16,1.5 L16,14.5 C16,15.3284271 15.3284271,16 14.5,16 L14.5,16 L0,16 L0,15.5 L14.5,15.5 C15.0522847,15.5 15.5,15.0522847 15.5,14.5 L15.5,1.5 C15.5,0.94771525 15.0522847,0.5 14.5,0.5 L0,0.5 L0,0 Z"></path>
+      </g>
+    </g>
+  </svg>`
 }
 
 const nodeConfig = {
@@ -37,7 +51,7 @@ const nodeConfig = {
     y: 68,
     enter (selection) {
       selection.html(`
-        <div class="node-start"><svg viewBox="0 0 14 14" class="icon-flow-start"><title>开始</title><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g  transform="translate(-24.000000, -119.000000)"><g  transform="translate(24.000000, 119.000000)"><rect  x="0" y="0" width="14" height="14"></rect><g  transform="translate(4.843553, 3.875000)" fill="#FFFFFF" fill-rule="nonzero"><g ><path d="M0.567757553,6.13057769 C0.706753664,6.20845457 0.862462291,6.24950026 1.0207913,6.25 C1.21481242,6.24844339 1.40422283,6.18907595 1.56603546,6.07910258 L4.48870452,4.10039864 C4.81177035,3.88084907 5.00426901,3.5078842 4.99987093,3.11001717 C5.0056203,2.72309889 4.81897612,2.35985472 4.50474111,2.14640277 L1.55601259,0.171816849 C1.25777121,-0.0371088557 0.870768955,-0.0569843925 0.553725525,0.120341714 C0.200639293,0.334511484 -0.011268745,0.728826826 0.000463074478,1.1498443 L0.000463074478,5.10107513 C-0.0097328944,5.52543861 0.208301484,5.92111839 0.567757553,6.13057769 Z" ></path></g></g></g></g></g></svg></div>
+        <div class="node-start">${iconHtmlMap.start}</div>
         <span class="node-label">开始</span>
       `)
     }
@@ -54,21 +68,7 @@ const nodeConfig = {
     x: 140,
     y: 64,
     enter (selection) {
-      selection.append('div').classed('icon-outer', true).html(`
-        <svg viewBox="0 0 16 16" class=" icon-api-set">
-          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-            <g></g>
-            <g>
-              <g>
-                <rect x="0" y="0" width="16" height="16"></rect>
-                <polygon stroke="#FFFFFF" stroke-linejoin="round" points="2 2 8.0012 2 14 2 14 14 2 14"></polygon>
-                <path d="M7.1751718,4.45633542 C7.60924166,4.17835264 8.3252388,4.22909125 8.6671506,4.26741509 C8.81111347,4.28360826 9.12794084,4.31275597 9.09522201,4.62474441 C9.06959225,4.87411925 8.70150538,4.84874995 8.60389419,4.84874995 C8.0073208,4.84874995 7.36166915,4.54323878 7.01539483,5.80090844 L7.01539483,5.80090844 L6.85343661,6.59005567 L7.67249807,6.59005567 C7.8230047,6.59005567 7.94515501,6.71096468 7.94515501,6.85994186 C7.94515501,7.00891904 7.8230047,7.12982806 7.67249807,7.12982806 L7.67249807,7.12982806 L6.73728475,7.12982806 L6.001111,10.7090588 C6.001111,10.7090588 5.93022019,11.2844561 5.5730396,11.2623254 C5.5561858,11.26128 5.54034416,11.2592996 5.52545987,11.2564631 L5.56521029,11.2430535 C5.53430007,11.2561818 5.50106164,11.2629478 5.46747899,11.2629478 L4.47124867,11.2629478 C4.34190551,11.2629478 4.23705215,11.1580945 4.23705215,11.0287513 L4.23705215,11.0261898 C4.2369092,10.8974298 4.33465452,10.7897039 4.46280835,10.7772245 C4.71628018,10.7525418 4.93703598,10.712122 5.12507575,10.6559649 C5.24601401,10.6198473 5.33214614,10.571486 5.38347213,10.5108808 L6.08127214,7.12982806 L4.97319432,7.12982806 C4.8783097,7.12982806 4.79627026,7.08136849 4.74856539,7.00827931 L4.72705199,6.96505215 L4.73683182,6.94874317 C4.75310987,6.93361406 4.77915475,6.9211161 4.78892157,6.90335583 C4.77427133,6.88855562 4.72299548,6.87572876 4.72299548,6.85994186 L4.72205199,6.95505215 L4.71956024,6.94921672 L4.7054452,6.88315207 C4.7174421,6.6305386 4.83086739,6.59005567 4.97319432,6.59005567 L4.97319432,6.59005567 L6.19851463,6.59005567 L6.36919787,5.78471527 C6.49025756,5.21471563 6.74001132,4.73539775 7.1751718,4.45633542 Z M11.1292428,6.68505561 C11.2132212,6.72985672 11.2568463,6.78167487 11.2622994,6.83997028 C11.2672072,6.8982657 11.244304,6.95548157 11.1919539,7.01215767 L10.2065717,8.07011155 L11.1788664,9.38985504 C11.209404,9.42925842 11.2170384,9.47675839 11.1995883,9.52857654 C11.1843195,9.58147424 11.11561,9.61817876 11.0245425,9.66675827 C10.9258407,9.71803665 10.8402265,9.7131787 10.7791513,9.69644575 C10.7197121,9.67917304 10.6662713,9.64030943 10.6215556,9.58147424 L9.80140349,8.50732719 L8.80620565,9.57607651 C8.68732722,9.7034628 8.55263469,9.72235483 8.39885617,9.63221284 C8.33559976,9.59550832 8.21999321,9.45948568 8.20636037,9.39795162 C8.19327283,9.33695734 8.21781196,9.27272443 8.28106837,9.20417334 L9.3815118,8.01883318 L8.57990038,6.96897588 C8.54663623,6.92093614 8.54336435,6.86479981 8.56953942,6.80110667 C8.59462386,6.73741353 8.65406307,6.69962946 8.71731948,6.66238517 C8.8083869,6.61164656 8.89181993,6.61002725 8.9534404,6.6148852 C9.01560618,6.6186636 9.07177351,6.65374881 9.12357833,6.7185215 L9.7899519,7.57837891 L10.5964711,6.70880559 C10.6662713,6.63215791 10.7453418,6.6051693 10.8216858,6.5835784 C10.8974844,6.5619875 11.0474457,6.63971473 11.1292428,6.68505561 Z" fill="#FFFFFF" fill-rule="nonzero"></path>
-              </g>
-              <path d="M0,0 L14.5,0 C15.3284271,-5.96268804e-16 16,0.671572875 16,1.5 L16,1.5 L16,14.5 C16,15.3284271 15.3284271,16 14.5,16 L14.5,16 L0,16 L0,15.5 L14.5,15.5 C15.0522847,15.5 15.5,15.0522847 15.5,14.5 L15.5,1.5 C15.5,0.94771525 15.0522847,0.5 14.5,0.5 L0,0.5 L0,0 Z"></path>
-            </g>
-          </g>
-        </svg>
-      `)
+      selection.append('div').classed('icon-outer', true).html(iconHtmlMap.set)
       selection.append('span').classed('node-label', true)
     }
 
@@ -293,27 +293,6 @@ const nodeConfig = {
     }
   }
 }
-
-// 三种线段
-// 1. 垂直
-// function appendVerLine (g) {
-//   g.append('path').attr('class', 'link-path').attr('d', 'M0,0 L0,80')
-//   g.append('g').attr('class', 'line-add-button').html('<circle r="8" cx="0" cy="0"></circle><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="-3" x2="3" y1="0" y2="0"></line><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="0" x2="0" y1="-3" y2="3"></line>')
-//   g.append('path').attr('class', 'link-path-marker-end').attr('transform', 'translate(0, 72)').attr('d', 'M-6,0 L6,0 L0,8 Z')
-// }
-
-// function appendBranchLine (g) {
-//   g.append('path').attr('class', 'link-path')
-//   g.append('g').attr('class', 'line-add-button').html('<circle r="8" cx="0" cy="0"></circle><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="-3" x2="3" y1="0" y2="0"></line><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="0" x2="0" y1="-3" y2="3"></line>')
-//   g.append('path').attr('class', 'link-path-marker-end')
-// }
-
-// function appendBranchEndLine (g) {
-//   g.append('path').attr('class', 'link-path')
-//   g.append('g').attr('class', 'line-add-button').html('<circle r="8" cx="0" cy="0"></circle><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="-3" x2="3" y1="0" y2="0"></line><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="0" x2="0" y1="-3" y2="3"></line>')
-//   g.append('path').attr('class', 'link-path-marker-end')
-// }
-
 export class Ausyda {
   constructor ({ el, data }) {
     this.initDom(el)
@@ -414,7 +393,6 @@ export class Ausyda {
     g.append('path').attr('class', 'link-path-marker-end')
     const mergeSelections = updateSelections.merge(enterSelections).classed('is-active', d => d.active)
       .on('click', d => {
-        console.log(d, this.links)
         d3.event.stopPropagation()
         // 如果点击的是path 和 text, 并且是分支
         if (['path', 'text'].includes(d3.event.target.tagName)) {
@@ -579,7 +557,7 @@ export class Ausyda {
           // 右边
           target.branchCloseIndex = target.branchCloseIndex - 1
         }
-        return target.branchCloseIndex + target.parent.depth * 100
+        return target.branchCloseIndex + target.parent.depth * 10
       }
     })
     updateSelections.exit().remove()
@@ -633,11 +611,10 @@ export class Ausyda {
           }
         }
         // 这个层级，用来结算连线的zIndex。防止外面的线更宽更高，覆盖了里面的线，操作不到
-        if (item.type === 'branch') {
+        if (['branch', 'loop'].includes(item.type)) {
           item.depth = (parent.depth || 0) + 1
         }
         if (item.folded) return false
-        // console.log(item.title, item.top,  item, 'pre')
         item.children && computedPositionTop(item.children, item)
       })
       // 后续遍历，拿到所有子节点最大的高度（总高度），赋值给父节点，为父节点的下一个子节点算高度
@@ -653,9 +630,9 @@ export class Ausyda {
         item.width = nodeConfig[item.type].x
         item.children && computedWidth(item.children, item)
       })
-      if (parent.type === 'loop') {
+      if (parent.type === 'loop' && !parent.folded) {
         parent.width = (Math.max(...children.map(c => c.width)) || 0) + 80
-      } else if (parent.type === 'branch') {
+      } else if (parent.type === 'branch' && !parent.folded) {
         parent.width = 0
         // 获取当前分支最大的宽度
         let currentBranchMaxWidth = 0
@@ -781,7 +758,6 @@ export class Ausyda {
         if (index === children.length - 1) {
           nextSource = item
         }
-        // console.log(item.title, item.top,  item, 'pre')
         if (parent.type === 'branch') {
           const branchClose = children.at(-1)
           // 如果下一个节点是分支
@@ -806,7 +782,6 @@ export class Ausyda {
     }
     pushLink(this._data.children, this._data)
     this.links = links
-    // console.log(this.links)
   }
 
   update () {
@@ -831,7 +806,12 @@ export class Ausyda {
     if (target.type === 'branch-close') {
       // 如果这个分支是空的，追加第一个子节点
       if (parent.children.length === 1) {
-        parent.children.unshift(node)
+        parent.children.unshift({
+          expression: '分支',
+          conditionType: 'formula',
+          conditions: '1 === 1',
+          ...node
+        })
       } else {
         // 这里要考虑 loop-close??
         // 如果source也是branch-close，那么就是给他父节点下面插入一个节点
@@ -843,7 +823,6 @@ export class Ausyda {
       }
     } else if (source.type === 'branch') {
       // 如果在分支的头部添加分支，那么替换分支的第一个节点
-      console.log('头部')
       BRANCH_KEYS.forEach(key => {
         node[key] = target[key]
         delete target[key]

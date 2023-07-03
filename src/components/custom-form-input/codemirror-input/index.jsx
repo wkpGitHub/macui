@@ -5,7 +5,7 @@ import CipCodeMirror from '@cip/code-mirror'
 import 'codemirror/theme/eclipse.css'
 
 export default defineComponent({
-  name: 'code-mirrror-input',
+  name: 'code-mirror-input',
   props: formInputProps,
   emits: [...fromInputEmits],
   setup (props, ctx) {

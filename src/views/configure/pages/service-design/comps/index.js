@@ -18,6 +18,8 @@ import httpConfig from './http'
 import apicenterConfig from './apicenter'
 import datasourceSqlConfig from './datasource-sql'
 import scriptConfig from './script'
+import startConfig from './start'
+import endConfig from './end'
 /**
  * 通过category字段对组件进行分类
  */
@@ -60,5 +62,7 @@ export const compList = [
 
 // 全部组件
 export const allCopms = [
-  ...compList
+  ...compList,
+  startConfig,
+  endConfig
 ]
