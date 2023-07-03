@@ -56,7 +56,9 @@ export const componentsGroupList = [
       { type: 'switch', icon: 'el-icon-open', label: '开关' },
       { type: 'rate', icon: 'el-icon-star-off', label: '评分', max: 5 },
       { type: 'slider', icon: 'el-icon-s-operation', label: '滑块', max: 100, min: 0, step: 1 },
-      { type: 'text', icon: 'el-icon-tickets', label: '文字', hideLabel: true, defaultValue: '这里是文字', fontWeight: 'normal', fontSize: 14, textAlign: 'left' }
+      { type: 'text', icon: 'el-icon-tickets', label: '文字', hideLabel: true, defaultValue: '这里是文字', fontWeight: 'normal', fontSize: 14, textAlign: 'left' },
+      { type: 'text', icon: 'el-icon-edit', label: '展示值' },
+      { type: 'pagenation', icon: 'el-icon-edit', label: '分页器' }
     ]
   },
   {
