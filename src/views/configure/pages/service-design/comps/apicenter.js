@@ -6,6 +6,10 @@ export default {
   title: 'API中心节点',
   formField: generateFieldList(defineFormFieldConfig({
     title: { label: '节点标题' },
+    validateFailed: {
+      hideItem: true,
+      defaultValue: false
+    },
     apiKey: {
       label: '调用服务',
       required: true,
