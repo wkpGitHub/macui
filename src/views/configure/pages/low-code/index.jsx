@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import PageRender from '@/components/page-render'
 import { pageInfoService } from '@/api'
 export default {
@@ -10,27 +10,31 @@ export default {
     const model = ref({
       filter: {}
     })
+    const apiList = ref([])
+    const service = computed(() => {
+      return apiList.value?.reduce((acc, api) => {
+        acc[api.apiName] = api
+        return acc
+      }, {})
+    })
     const getPageScheme = (val) => {
       pageInfoService.detail({ id: val }).then(res => {
         pageSchema.value = res.data.schema
+        apiList.value = res.data.apiList ?? []
       })
-      // pageSchemaService.info({ id: val }).then(res => {
-      //   pageSchema.value = res.data.schema
-      // })
     }
 
     // 根据id获取页面scheme
     watch(() => props.id, (val) => {
       getPageScheme(val)
     }, { immediate: true })
-
-    return () => <div>
-      <PageRender
+    return () => <PageRender
         v-model:model={model.value}
         onUpdate:model={(val) => {
           model.value = val
-        }} schema={pageSchema.value}
+        }}
+        scheme={pageSchema.value}
+        service={service.value}
       />
-    </div>
   }
 }
