@@ -1,4 +1,4 @@
-import { watch, provide, ref } from 'vue'
+import { watch, provide, ref, computed } from 'vue'
 import { useSelect } from '@d-render/design/esm/cip-form-design/hooks/index'
 import Layout from './widgets/layout'
 import CipButton from '@cip/components/cip-button'
@@ -10,6 +10,7 @@ import PageParams from './widgets/side-components/page-params'
 import CodeSource from './widgets/side-components/code-source'
 import './index.less'
 import { reactive } from '@vue/reactivity'
+import { modulesConfig } from '@/components/page-design/config'
 export default {
   props: {
     scheme: Object,
@@ -19,7 +20,10 @@ export default {
   },
   inheritAttrs: false,
   setup (props, { attrs, emit, slots }) {
-    const currentModule = ref('renderer')
+    const currentModuleName = ref('renderer')
+    const currentModuleTitle = computed(() => {
+      return modulesConfig.find(module => module.name === currentModuleName.value).title
+    })
     const { selectItem, selectItemId, changeSelect, updateSelectItem } = useSelect()
     provide('pageDesign', reactive({
       drawTypeMap: props.drawTypeMap
@@ -50,18 +54,21 @@ export default {
       }
     }, { immediate: true })
     // 设计为组件，与接口完全脱离
-    return () => <Layout style={`height: 100%; ${currentModule.value === 'code' ? '--page-design-nav-width: 800px' : ''}`}>
+    return () => <Layout
+      style={`height: 100%; ${currentModuleName.value === 'code' ? '--page-design-nav-width: 800px' : ''}`}
+      navTitle={currentModuleTitle.value}
+    >
       {{
         title: slots.title,
-        modules: () => <PageModules v-model={currentModule.value}/>,
+        modules: () => <PageModules v-model={currentModuleName.value}/>,
         handle: () => <>
           {slots.handle?.()}
           {props.onSave && <CipButton onClick={() => props.onSave()}>保存</CipButton>}
         </>,
         nav: () => <>
-          {currentModule.value === 'pageParams' && <PageParams />}
-          {currentModule.value === 'renderer' && <PageComponents groupList={props.componentsGroupList}/>}
-          {currentModule.value === 'code' && <CodeSource modelValue={props.scheme} onUpdate:modelValue={updateScheme}/>}
+          {currentModuleName.value === 'pageParams' && <PageParams />}
+          {currentModuleName.value === 'renderer' && <PageComponents groupList={props.componentsGroupList}/>}
+          {currentModuleName.value === 'code' && <CodeSource modelValue={props.scheme} onUpdate:modelValue={updateScheme}/>}
         </>,
         content: () => <PageDrawing
           data={props.scheme}

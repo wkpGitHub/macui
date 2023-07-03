@@ -2,7 +2,7 @@ import styles from './index.module.less'
 import { ElScrollbar } from 'element-plus'
 
 export default {
-  props: { title: String },
+  props: { navTitle: String },
   setup (props, { slots }) {
     return () => <div class={styles.wrapper}>
       <div class={styles.header}>
@@ -15,11 +15,13 @@ export default {
         </div>
         <div class={styles.nav}>
           <div class={styles.nav__title}>
-            {props.title}
+            {props.navTitle}
           </div>
-          <ElScrollbar>
-            {slots.nav?.()}
-          </ElScrollbar>
+          <div class={styles.nav__content}>
+            <ElScrollbar>
+              {slots.nav?.()}
+            </ElScrollbar>
+          </div>
         </div>
         <div class={styles.content}>
           {slots.content?.()}
