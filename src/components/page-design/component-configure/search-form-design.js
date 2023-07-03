@@ -6,6 +6,10 @@ export default {
     type: 'switch',
     defaultValue: true
   },
+  searchButtonText: {
+    label: '查询按钮文本',
+    defaultValue: '查询'
+  },
   labelPosition: {
     type: 'select',
     defaultValue: 'top',
