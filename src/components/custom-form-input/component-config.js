@@ -18,5 +18,6 @@ export default {
   selectField: () => () => import('./select-field'),
   sortField: () => () => import('./sort-field'),
   codemirrorInput: () => () => import('./codemirror-input'),
-  dataSource: () => () => import('./data-source')
+  dataSource: () => () => import('./data-source'),
+  transactorSelect: () => () => import('./transactor-select')
 }
