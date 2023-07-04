@@ -97,6 +97,7 @@ export const componentsGroupList = [
         icon: 'el-icon-menu',
         label: '表单',
         hideLabel: true,
+        usingSlots: ['default'],
         options: [
           {
             key: 'default',
