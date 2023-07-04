@@ -17,11 +17,31 @@ export default {
   type: 'manualnode',
   title: '人工节点',
   formField: generateFieldList(defineFormFieldConfig({
+    actionGroup: {
+      hideItem: true,
+      defaultValue: 0
+    },
     taskTitle: { label: '任务标题' },
+    fieldAclGroup: {
+      hideItem: true,
+      defaultValue: uuid()
+    },
+    formViewBody: {
+      hideItem: true,
+      defaultValue: [{
+        name: '产品编号',
+        type: 'input-text',
+        label: '产品编号',
+        required: false,
+        validations: {},
+        validationErrors: {}
+      }]
+    },
     viewType: {
       label: '渲染类型',
       type: 'radio',
       isButton: true,
+      defaultValue: 'formView',
       options: [
         { label: '标准表单', value: 'formView' },
         { label: '自定义页面', value: 'pageView' }
@@ -134,9 +154,14 @@ export default {
         }
       ]
     },
+    inputSource: {
+      hideItem: true,
+      defaultValue: [{ label: 'id', value: 'id' }]
+    },
     processStrategies: {
       label: '合并处理策略',
       type: 'checkbox',
+      multiple: true,
       options: [
         {
           label: '处理人与发起人相同时',
@@ -181,12 +206,7 @@ export default {
     },
     rootId: {
       hideItem: true,
-      writable: false,
-      readable: true,
       defaultValue: uuid()
-    },
-    inputSource: { // label:'id' value:'id'
-      hideItem: true
     },
     outputParamName: {
       hideItem: true,
@@ -199,7 +219,7 @@ export default {
   initData: {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'manualnode',
-    title: '人工节点',
+    label: '人工节点',
     conditions: {},
     children: []
   }
