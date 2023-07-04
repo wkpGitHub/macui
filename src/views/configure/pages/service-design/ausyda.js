@@ -270,7 +270,7 @@ const nodeConfig = {
       selection.append('span').classed('node-label', true)
     }
   },
-  manualnode: {
+  'examine-and-approve-task': {
     x: 140,
     y: 64,
     enter (selection) {
