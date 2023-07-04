@@ -72,12 +72,12 @@ export default defineComponent({
       onCopy: props.onCopy,
       onSelectItem: props.onSelectItem
     }))
-    const itemFieldKey = computed(() => {
-      const fieldKey = formContentProps.value.fieldKey
-      const otherKey = formContentProps.value.config.otherKey
-      const fieldKeyTotalName = [fieldKey].concat(otherKey).filter(v => !!v).join('-')
-      return fieldKeyTotalName
-    })
+    // const itemFieldKey = computed(() => {
+    //   const fieldKey = formContentProps.value.fieldKey
+    //   const otherKey = formContentProps.value.config.otherKey
+    //   const fieldKeyTotalName = [fieldKey].concat(otherKey).filter(v => !!v).join('-')
+    //   return fieldKeyTotalName
+    // })
     const type = computed(() => getComponentType(props.element))
     const FormContent = computed(() => getFormContentComponent(type.value))
     return () => <div

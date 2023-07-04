@@ -13,9 +13,9 @@ export default {
     })
     // fieldList 存放地址 options.value[0].children
     return () => {
-      return <CipForm class="cip-form" fieldList={[]} grid={props.config.grid} labelPosition={labelPosition.value}>
+      return <CipForm class="cip-form" fieldList={[]} grid={1} labelPosition={labelPosition.value}>
         <div class="form-design-wrapper">
-          <div class="form-design-content">
+          <div class="form-design-content" style={`--dr-page-render-cols: ${props.config.grid}`}>
             {componentSlots.value.default?.()}
           </div>
         </div>

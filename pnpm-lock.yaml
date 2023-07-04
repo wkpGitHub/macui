@@ -54,8 +54,8 @@ dependencies:
     specifier: ^3.4.1
     version: 3.6.0
   '@d-render/design':
-    specifier: ^1.0.2
-    version: 1.0.2(@cip/code-mirror@1.0.4)(@cip/components@6.0.21)(@cip/utils@5.0.7)(@d-render/shared@1.1.5)(@xdp/button@1.0.5)(d-render@2.0.3)(element-plus@2.2.22)(uuid@8.3.2)(vue@3.3.4)(vuedraggable@4.1.0)
+    specifier: ^1.0.4
+    version: 1.0.4(@cip/code-mirror@1.0.4)(@cip/components@6.0.21)(@cip/utils@5.0.7)(@d-render/shared@1.1.5)(@xdp/button@1.0.5)(d-render@2.0.3)(element-plus@2.2.22)(uuid@8.3.2)(vue@3.3.4)(vuedraggable@4.1.0)
   '@d-render/shared':
     specifier: ^1.1.5
     version: 1.1.5(element-plus@2.2.22)(lodash-es@4.17.21)(uuid@8.3.2)(vue@3.3.4)
@@ -2047,8 +2047,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /@d-render/design@1.0.2(@cip/code-mirror@1.0.4)(@cip/components@6.0.21)(@cip/utils@5.0.7)(@d-render/shared@1.1.5)(@xdp/button@1.0.5)(d-render@2.0.3)(element-plus@2.2.22)(uuid@8.3.2)(vue@3.3.4)(vuedraggable@4.1.0):
-    resolution: {integrity: sha512-TMX4o8AwFmnRV/Qq66sGPN2L5Z9Pyz3uhqRD3+kBXFqFyKVhs/YEz7APW+QwFrpo4SJ6J4xtr9nlWu3Bumyr0A==}
+  /@d-render/design@1.0.4(@cip/code-mirror@1.0.4)(@cip/components@6.0.21)(@cip/utils@5.0.7)(@d-render/shared@1.1.5)(@xdp/button@1.0.5)(d-render@2.0.3)(element-plus@2.2.22)(uuid@8.3.2)(vue@3.3.4)(vuedraggable@4.1.0):
+    resolution: {integrity: sha512-K0BjoBs3YghMXnt+0Gvo1caw8Kpx5IPBvAyq0bxNhFh8LwL94yNte+m/JtTVN87MzRfFRVRklAX2WtOxlKMc4w==}
     peerDependencies:
       '@cip/code-mirror': ^1.0.0
       '@cip/components': ' >= 5.0.22'

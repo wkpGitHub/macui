@@ -6,6 +6,7 @@ export const useList = ({ props, emit }) => {
     return props.data?.list || []
   })
   const updateList = (value) => {
+    console.log('updateList', value)
     emit('updateList', value)
   }
   return { list, updateList }
