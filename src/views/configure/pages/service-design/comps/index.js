@@ -20,6 +20,7 @@ import datasourceSqlConfig from './datasource-sql'
 import scriptConfig from './script'
 import connectorConfig from './connector'
 import emailConfig from './email'
+import writeConfig from './write'
 import startConfig from './start'
 import endConfig from './end'
 /**
@@ -61,7 +62,8 @@ export const compList = [
   datasourceSqlConfig,
   scriptConfig,
   connectorConfig,
-  emailConfig
+  emailConfig,
+  writeConfig
 ]
 
 // 全部组件

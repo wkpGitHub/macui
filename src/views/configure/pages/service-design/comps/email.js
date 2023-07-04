@@ -36,7 +36,7 @@ export default {
     }
   })),
   initData: {
-    id: '0976f1d45c8c',
+    id: '',
     type: 'email',
     title: '发送邮件',
     conditions: {},
