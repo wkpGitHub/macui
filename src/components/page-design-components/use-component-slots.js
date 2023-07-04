@@ -3,7 +3,7 @@ import { isArray } from '@cip/utils/util'
 import { useFormLayoutOptions } from '@d-render/shared'
 
 export const useComponentSlots = (props, context) => {
-  const { options, updateConfig, ...handler } = useFormLayoutOptions({ props, emit: context.emit })
+  const { options, proxyValue, updateConfig, ...handler } = useFormLayoutOptions({ props, emit: context.emit })
   const componentSlots = computed(() => {
     if (props.config.usingSlots) {
       return props.config.usingSlots.reduce((acc, name, idx) => {
@@ -19,5 +19,5 @@ export const useComponentSlots = (props, context) => {
       return acc
     }, {})
   })
-  return { componentSlots }
+  return { componentSlots, proxyValue }
 }
