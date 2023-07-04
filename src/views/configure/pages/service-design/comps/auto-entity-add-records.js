@@ -1,5 +1,6 @@
 import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig } from 'd-render'
 import { v4 as uuid } from 'uuid'
+import { fields } from '../config'
 export default {
   category: '流程管理',
   type: 'auto-entity-add-records',
@@ -10,7 +11,8 @@ export default {
       label: '选择对象',
       required: true,
       otherKey: 'fields',
-      type: 'dataSource'
+      type: 'dataSource',
+      fields
     },
     dataMode: {
       label: '实体对象',
@@ -62,14 +64,19 @@ export default {
     },
     initFields: {
       type: 'table',
+      dependOn: ['fields'],
       options: generateFieldList(defineTableFieldConfig({
         key: {
           dynamic: true,
           writable: true,
-          dependOn: ['fields'],
+          outDependOn: ['fields'],
           type: 'select',
-          asyncOptions ({ fields }) {
-            debugger
+          optionProps: {
+            label: 'label',
+            value: 'name'
+          },
+          asyncOptions (_, { fields }) {
+            if (!fields) return
             return fields || []
           }
         },
