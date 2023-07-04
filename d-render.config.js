@@ -1,6 +1,6 @@
 // cci插件
 import CCIPlugin from '@cip/d-render-plugin-cci'
-import { insertConfigureFile } from '@/lib/helper'
+import { insertConfig } from '@d-render/shared'
 import '@cip/d-render-plugin-cci/dist/index.css'
 // 自定义的输入插件
 import customInputsPlugin from '@/components/custom-form-input/component-config'
@@ -17,5 +17,5 @@ export default {
     customInputsPlugin,
     customLayoutPlugin,
     pageDesignPlugin
-  ].map(v => insertConfigureFile(v, customConfigurePlugin))
+  ].map(v => insertConfig(v, customConfigurePlugin, 'configure')) // insertConfigureFile(v, customConfigurePlugin))
 }

@@ -1,4 +1,4 @@
-import { h, ref, toRefs } from 'vue'
+import { h, reactive, ref, toRefs, provide } from 'vue'
 import {
   toUpperFirstCase,
   getFieldValue,
@@ -122,6 +122,7 @@ export default {
     const getFormDefaultSlots = () => {
       return fieldList.value.map((v) => getFormDefaultSlot(v))
     }
+    provide('cipForm', reactive({ equipment: props.equipment }))
     const page$ = ref()
     return () => h('div', {
       ref: page$,

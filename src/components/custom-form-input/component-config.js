@@ -22,6 +22,9 @@ export default {
   tableButton: () => () => import('./table-button'),
   pageTable: () => () => import('./page-table'),
   simpleCurd: () => () => import('./simple-curd'),
-  dialog: (mode) => () => import((`./dialog${mode}`)),
+  dialog: {
+    component: (mode) => () => import((`./dialog${mode}`)),
+    layout: true
+  },
   pagination: () => () => import('./pagination')
 }

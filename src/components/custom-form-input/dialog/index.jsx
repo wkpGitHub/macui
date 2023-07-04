@@ -35,6 +35,7 @@ export default {
           return acc
         }, {})
       })
+      console.log('props', props)
       return <CipDialog
         {...props}
       >

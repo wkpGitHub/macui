@@ -1,12 +1,10 @@
 export default {
   key: {},
-  limit: {
-    label: '每页条数',
-    type: 'number'
-  },
-  offset: {
-    label: '偏移量',
-    type: 'number'
+  otherKey: {
+    type: 'select',
+    allowCreate: true,
+    multiple: true,
+    limit: 2
   },
   layout: {
     label: '布局',
