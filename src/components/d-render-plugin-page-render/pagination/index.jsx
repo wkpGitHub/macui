@@ -4,8 +4,9 @@ export default {
   props: formInputProps,
   emits: fromInputEmits,
   setup (props, ctx) {
-    const { proxyValue } = useFormInput(props, ctx, { maxOtherKey: 2 })
-    const inputProps = useInputProps(props, ['layout'])
-    return () => <CipPagination { ...inputProps.value } v-model:limit={proxyValue.value}></CipPagination>
+    const formInput = useFormInput(props, ctx, { maxOtherKey: 2 })
+    console.log(formInput)
+    const inputProps = useInputProps(props, ['layout', 'limit', 'offset'])
+    return () => <CipPagination { ...inputProps.value }></CipPagination>
   }
 }

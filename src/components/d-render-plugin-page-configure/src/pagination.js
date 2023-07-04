@@ -1,3 +1,4 @@
+const defaultLayout = 'total,sizes,prev,pager,next,jumper'
 export default {
   key: {},
   otherKey: {
@@ -10,6 +11,7 @@ export default {
     label: '布局',
     type: 'select',
     multiple: true,
-    options: 'prev,pager,next,jumper,total'.split(',')
+    defaultValue: defaultLayout,
+    options: defaultLayout.split(',')
   }
 }

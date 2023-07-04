@@ -58,7 +58,6 @@ export const componentsGroupList = [
       { type: 'slider', icon: 'el-icon-s-operation', label: '滑块', max: 100, min: 0, step: 1 },
       { type: 'text', icon: 'el-icon-tickets', label: '文字', hideLabel: true, defaultValue: '这里是文字', fontWeight: 'normal', fontSize: 14, textAlign: 'left' },
       { type: 'text', icon: 'el-icon-edit', label: '展示值' },
-      { type: 'text', icon: 'el-icon-edit', label: '展示值' },
       { type: 'pagination', icon: 'el-icon-edit', label: '分页器', limit: 10, offset: 1 }
     ]
   },
@@ -119,7 +118,8 @@ export const componentsGroupList = [
             children: []
           }
         ]
-      }
+      },
+      { type: 'pagination', icon: 'el-icon-menu', label: '分页器', limit: 10, offset: 1 }
     ]
   },
   {
