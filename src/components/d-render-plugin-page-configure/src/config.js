@@ -5,5 +5,6 @@ export default {
   pageTable: () => import('./page-table'),
   tableButton: () => import('./table-button'),
   dialog: () => import('./dialog-design'),
-  pagination: () => import('./pagination')
+  pagination: () => import('./pagination'),
+  form: () => import('./form-design')
 }

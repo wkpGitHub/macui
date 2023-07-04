@@ -11,5 +11,9 @@ export default {
     component: () => () => import('./dialog-design'),
     layout: true
   },
+  formDesign: {
+    component: () => () => import('./form-design'),
+    layout: true
+  },
   simpleCurd: () => () => import('./simple-curd')
 }
