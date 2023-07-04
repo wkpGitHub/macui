@@ -10,7 +10,7 @@ export default {
 
     return () => {
       return <div class="dialog-design">
-        <div class="dialog-design__title">{props.config.label}</div>
+        <div class="dialog-design__title">{props.config.title}</div>
         <div>
           {componentSlots.value.default?.()}
         </div>

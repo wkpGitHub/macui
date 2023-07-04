@@ -3,12 +3,8 @@ export default {
     component: () => () => import('./page-layout-list/index'),
     layout: true
   },
-  searchFormDesign: {
-    component: () => () => import('./search-form-design/index'),
+  dialog: {
+    component: (mode) => () => import((`./dialog${mode}`)),
     layout: true
   }
-  // dialogDesign: {
-  //   component: () => () => import('./dialog-design/index'),
-  //   layout: true
-  // }
 }
