@@ -10,7 +10,6 @@
 // }
 
 export default {
-  searchForm: (mode) => () => import(`./search-form${mode}`),
   dataType: (mode) => () => import((`./data-type${mode}`)),
   compositionCheckbox: () => () => import('./composition-checkbox'),
   tableForm: () => () => import('./table-form'),
@@ -18,9 +17,6 @@ export default {
   selectField: () => () => import('./select-field'),
   sortField: () => () => import('./sort-field'),
   codemirrorInput: () => () => import('./codemirror-input'),
-  dataSource: () => () => import('./data-source'),
-  tableButton: () => () => import('./table-button'),
-  pageTable: () => () => import('./page-table'),
-  simpleCurd: () => () => import('./simple-curd'),
-  pagination: () => () => import('./pagination')
+  dataSource: () => () => import('./data-source')
+
 }

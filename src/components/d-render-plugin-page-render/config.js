@@ -1,13 +1,10 @@
 export default {
+  searchForm: (mode) => () => import(`./search-form${mode}`),
   pageLayoutList: {
     component: () => () => import('./page-layout-list/index'),
     layout: true
   },
   tableButton: () => () => import('./table-button'),
   pageTable: () => () => import('./page-table'),
-  dialog: {
-    component: () => () => import(('./dialog')),
-    layout: true
-  },
   pagination: () => () => import('./pagination')
 }

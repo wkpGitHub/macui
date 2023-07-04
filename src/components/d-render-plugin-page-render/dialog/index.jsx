@@ -1,51 +1,14 @@
-import { CipFormInputTransform } from 'd-render'
-import { computed } from 'vue'
 import CipDialog from '@cip/components/cip-dialog'
-import { isArray } from '@cip/utils/util'
+import { layoutProps } from '@d-render/shared'
+import { useComponentSlots } from '@/components/page-design-components/use-component-slots'
 
 export default {
-  emits: ['update:modelValue'],
-  setup () {
-    const searchFromProps = [
-      'title',
-      'dialogType',
-      'subTitle',
-      'onConfirm',
-      'beforeConfirm',
-      'size',
-      'width',
-      'top',
-      'closeOnClickModal',
-      'showOnly',
-      'buttonSize',
-      'confirmText',
-      'cancelText',
-      'showCancel',
-      'destroyOnClose',
-      'maxDepth',
-      'fullscreen'
-    ]
-    // const cipFormRender = inject('cipFormRender', {})
-    const TransformModelDialog = (props, { emit, slots }) => {
-      const componentSlots = computed(() => {
-        return props.options.value.reduce((acc, slotConfig, idx) => {
-          if (isArray(slotConfig.children)) {
-            acc[slotConfig.key] = () => slots.item({ children: slotConfig.children, optionIndex: idx, isShow: props.config._isShow, ...handler })
-          }
-          return acc
-        }, {})
-      })
-      console.log('props', props)
-      return <CipDialog
-        {...props}
-      >
-        {componentSlots.value.default?.()}
-      </CipDialog>
+  props: layoutProps,
+  setup (props, context) {
+    const { componentSlots, proxyValue } = useComponentSlots(props, context)
+    return () => {
+      const { options, type, ...attr } = props.config
+      return <CipDialog {...attr} v-model={proxyValue} v-slots={componentSlots.value} />
     }
-
-    return () => <CipFormInputTransform
-      inputPropsConfig={searchFromProps}
-      comp={TransformModelDialog}
-    />
   }
 }
