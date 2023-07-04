@@ -4,7 +4,8 @@ import {
   getFieldValue,
   DRender
 } from '@d-render/shared'
-import { CipFormLayout, CipFormItem } from 'd-render'
+import { CipFormItem, CipFormLayout } from 'd-render'
+// import CipFormLayout from 'd-render/src/cip-form-layout'
 const dRender = new DRender()
 export default {
   name: 'DrPage',
@@ -57,6 +58,7 @@ export default {
         dataBus: props.dataBus,
         grid: props.grid,
         'onUpdate:model': (val) => {
+          console.log('onUpdate:model', key, val)
           if (componentKey === generateComponentKey(key)) {
             updateModel(val)
           }

@@ -21,3 +21,5 @@ export default {
   ].map(v => insertConfig(v, CCIPluginConfigure, 'configure'))
     .map(v => insertConfig(v, pageRenderConfigurePlugin, 'configure')) // insertConfigureFile(v, customConfigurePlugin))
 }
+
+console.log(CCIPlugin.grid)

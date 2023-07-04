@@ -35,6 +35,7 @@ export default {
     provide('drPageRender', reactive({
       methods
     }))
+    provide('cipForm', reactive({ equipment: props.equipment }))
     const dataBus = (target, data) => {
       // 目标数据， data
       console.log('define', target, data)
@@ -47,7 +48,6 @@ export default {
     expose({
       drPageRef
     })
-    console.log('props.schema', props.schema)
     return () => <DrPage
       ref={drPageRef}
       model={props.model}

@@ -134,6 +134,12 @@ export const componentsGroupList = [
           { key: '', text: '详情', click: 'info' },
           { key: '', text: '删除', click: 'delete' }
         ]
+      },
+      {
+        type: 'button',
+        icon: 'el-icon-edit',
+        label: '按钮',
+        text: '按钮'
       }
     ]
   }

@@ -35,9 +35,9 @@ export const SimpleCurd = {
     const saveItem = (resolve, reject) => {
       let modelValue = props.modelValue
       if (modelValue) {
-        const { $index } = item.value
-        if ($index > -1) {
-          modelValue.splice($index, 1, item.value)
+        const { index } = item.value
+        if (index > -1) {
+          modelValue.splice(index, 1, item.value)
         } else {
           modelValue.push(item.value)
         }
@@ -49,7 +49,8 @@ export const SimpleCurd = {
     }
     const commands = {
       update: ({ item: row, index }) => {
-        item.value = cloneDeep({ ...row, $index: index })
+        console.log({ ...row, index: index })
+        item.value = cloneDeep({ ...row, index: index })
         dialog.value = true
       },
       delete: ({ item, index }) => {
@@ -64,9 +65,10 @@ export const SimpleCurd = {
       commands[command](args)
     }
     return () => <div class={styles.wrapper} >
-         <VueDraggable modelValue={props.modelValue} onUpdate:modelValue={emitModelValue} >
+         <VueDraggable modelValue={props.modelValue} onUpdate:modelValue={emitModelValue} itemKey={props.itemKey}>
           {{
-            item: ({ element: v, index: i }) => <div class={styles['item-wrapper']}>
+            item: ({ element: v, index: i }) => {
+              return <div class={styles['item-wrapper']}>
               <div class={styles.info}>
                 {props.infoRender(h, {
                   item: v,
@@ -86,12 +88,13 @@ export const SimpleCurd = {
 
               </div>
             </div>
+            }
           }}
 
         </VueDraggable>
       {!props.modelValue && '<空>'}
       <CipButton class={styles.create} onClick={() => createItem()}>新增{props.itemType}</CipButton>
-      <CipDialog title={`${item.value.$index > -1 ? '编辑' : '新增'}${props.itemType}`} {...props.dialogProps} v-model={dialog.value} onConfirm={saveItem} >
+      <CipDialog title={`${item.value.index > -1 ? '编辑' : '新增'}${props.itemType}`} {...props.dialogProps} v-model={dialog.value} onConfirm={saveItem} >
         <CipForm {...props.formProps} v-model:model={item.value} fieldList={fromFieldList.value}></CipForm>
       </CipDialog>
     </div>
