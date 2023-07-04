@@ -69,7 +69,23 @@ export default {
         ...securityConfig.value.optionProps
       }
     })
-
+    const tempFields = [
+      {
+        name: 'id',
+        ename: '主键',
+        type: 'int'
+      },
+      {
+        name: 'name',
+        ename: '姓名',
+        type: 'text'
+      },
+      {
+        name: 'time',
+        ename: '日期',
+        type: 'date'
+      }
+    ]
     const tempOps = ref([
       {
         label: 'model',
@@ -78,23 +94,7 @@ export default {
           {
             label: 'user',
             value: 'model:user',
-            fields: [
-              {
-                name: 'id',
-                ename: '主键',
-                type: 'int'
-              },
-              {
-                name: 'name',
-                ename: '姓名',
-                type: 'text'
-              },
-              {
-                name: 'time',
-                ename: '日期',
-                type: 'date'
-              }
-            ]
+            fields: securityConfig.value.fields || tempFields
           }
         ]
       }
