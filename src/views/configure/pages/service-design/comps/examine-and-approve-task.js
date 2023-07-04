@@ -14,7 +14,7 @@ const showConfig = params => {
 }
 export default {
   category: '流程管理',
-  type: 'manualnode',
+  type: 'examine-and-approve-task',
   title: '人工节点',
   formField: generateFieldList(defineFormFieldConfig({
     actionGroup: {
@@ -218,8 +218,8 @@ export default {
   })),
   initData: {
     id: '', // 不重复 前端生成 建议使用 uuid
-    type: 'manualnode',
-    label: '人工节点',
+    type: 'examine-and-approve-task',
+    title: '人工节点',
     conditions: {},
     children: []
   }

@@ -7,7 +7,7 @@ import setConfig from './set'
 import coderConfig from './coder'
 import notificationConfig from './notification'
 import webApiConfig from './web-api'
-import manualNodeConfig from './manual-node'
+import examineAndApproveTaskConfig from './examine-and-approve-task'
 import dateFormatConfig from './date-format'
 import flowConfig from './flow'
 import mappingConfig from './mapping'
@@ -61,7 +61,7 @@ export const compList = [
   updateRecordsConfig,
   notificationConfig,
   webApiConfig,
-  manualNodeConfig,
+  examineAndApproveTaskConfig,
   datasourceSqlConfig,
   scriptConfig
 ]
