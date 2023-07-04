@@ -45,6 +45,18 @@ export default {
       ]
     },
     targetName: { label: '节点出参' },
+    relationFields: {
+      hideItem: true,
+      defaultValue: []
+    },
+    mFields: {
+      hideItem: true,
+      defaultValue: []
+    },
+    rFields: {
+      hideItem: true,
+      defaultValue: []
+    },
     initFields: {
       type: 'selectField',
       label: '字段赋值',
@@ -57,6 +69,14 @@ export default {
         config.options = cloneDeep(temp)
         return config
       }
+    },
+    fieldLabel: {
+      dependOn: ['objectKey'],
+      hideItem: true,
+      changeValue ({ objectKey }) {
+        if (!objectKey) return
+        return { value: objectKey.split(':')[1] }
+      }
     }
   })),
   initData: {
@@ -64,6 +84,7 @@ export default {
     type: 'create-data-records',
     title: '新增记录',
     conditions: {},
-    children: []
+    children: [],
+    validateFailed: false
   }
 }

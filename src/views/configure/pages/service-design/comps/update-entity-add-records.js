@@ -1,17 +1,43 @@
-import { generateFieldList, defineFormFieldConfig } from 'd-render'
-import { cloneDeep } from 'lodash-es'
-
+import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig } from 'd-render'
+import { v4 as uuid } from 'uuid'
 export default {
-  category: '实体活动',
-  type: 'update-data-records',
+  category: '流程管理',
+  type: 'update-entity-add-records',
   title: '更新记录',
   formField: generateFieldList(defineFormFieldConfig({
-    title: { label: '节点标题' },
+    label: { label: '节点名称' },
     objectKey: {
       type: 'dataSource',
-      label: '数据源',
+      label: '更新对象',
       required: true,
       otherKey: 'fields'
+    },
+    objectType: {
+      dependOn: ['objectKey'],
+      hideItem: true,
+      changeValue ({ objectKey }) {
+        if (!objectKey) return
+        return { value: objectKey.split(':')[0] }
+      }
+    },
+    form: {
+      dependOn: ['fields', 'objectKey'],
+      hideItem: true,
+      changeValue ({ fields, objectKey }) {
+        if (!objectKey) return
+        const label = objectKey.split(':')[1]
+        return {
+          value: {
+            description: '',
+            fields,
+            originRelation: [],
+            relationFields: [],
+            label,
+            title: label,
+            value: label
+          }
+        }
+      }
     },
     filterMode: {
       dependOn: ['objectKey'],
@@ -39,10 +65,6 @@ export default {
         return config
       }
     },
-    showCreateRelationRecord: {
-      hideItem: true,
-      defaultValue: true
-    },
     createRelationRecord: {
       dependOn: ['objectKey'],
       readable: false,
@@ -54,37 +76,40 @@ export default {
       type: 'switch'
     },
     updateFields: {
-      type: 'selectField',
-      label: '',
+      type: 'table',
       readable: false,
-      dependOn: ['fields'],
-      resetValue: true,
+      dependOn: ['fields', 'inputSource'],
       changeConfig (config, { fields }) {
         config.writable = !!fields
-        const temp = (fields || []).filter(v => !v.isPrimaryKey)
-        config.options = cloneDeep(temp)
         return config
-      }
+      },
+      options: generateFieldList(defineTableFieldConfig({
+        key: {
+          dynamic: true,
+          writable: true,
+          outDependOn: ['inputSource'],
+          type: 'select',
+          asyncOptions ({ inputSource }) {
+            return inputSource || []
+          }
+        },
+        formula: { writable: true }
+      }))
     },
     relationFields: {
       hideItem: true,
       defaultValue: []
     },
-    mFields: {
+    rootId: {
       hideItem: true,
-      defaultValue: []
-    },
-    rFields: {
-      hideItem: true,
-      defaultValue: []
+      defaultValue: uuid()
     }
   })),
   initData: {
     id: '', // 不重复 前端生成 建议使用 uuid
-    type: 'update-data-records',
+    type: 'update-entity-add-records',
     title: '更新记录',
     conditions: {},
-    children: [],
-    validateFailed: false
+    children: []
   }
 }

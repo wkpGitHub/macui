@@ -13,6 +13,7 @@ export default {
     type: 'flow',
     title: '调用流程',
     conditions: {},
+    validateFailed: false,
     children: []
   }
 }

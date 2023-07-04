@@ -1,5 +1,19 @@
 import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig } from 'd-render'
 import { v4 as uuid } from 'uuid'
+function findObjectById (arr, id) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].id === id) {
+      return arr[i]
+    } else if (arr[i].children && arr[i].children.length > 0) {
+      const result = findObjectById(arr[i].children, id)
+      if (result) {
+        return result
+      }
+    }
+  }
+  return null
+}
+let apiList = ''
 export default {
   category: '流程管理',
   type: 'web-api',
@@ -9,22 +23,54 @@ export default {
     apiKey: {
       label: '调用服务',
       required: true,
-      otherKey: ['inputSource', 'outputSource'],
       type: 'cascader',
       optionProps: { label: 'name', value: 'id', emitPath: false },
       asyncOptions () {
-        return [
-          {
-            name: '拜访跟进',
-            id: 'bqwesadzxc',
-            children: [
-              {
-                name: '添加合同',
-                id: '123axzcads'
-              }
-            ]
-          }
-        ]
+        apiList = [{
+          name: '拜访跟进',
+          id: 'bqwesadzxc',
+          children: [
+            {
+              name: '添加合同',
+              id: '123axzcads',
+              apiInputParams: '',
+              apiOutputParams: {
+                type: 'object',
+                requried: [],
+                properties: {
+                  data: {
+                    type: 'string'
+                  },
+                  msg: {
+                    type: 'string'
+                  },
+                  status: {
+                    type: 'number'
+                  }
+                }
+              },
+              inputSource: [],
+              outputSource: [
+                {
+                  label: 'msg',
+                  value: 'msg',
+                  type: 'string'
+                },
+                {
+                  label: 'data',
+                  value: 'data',
+                  type: 'string'
+                },
+                {
+                  label: 'status',
+                  value: 'status',
+                  type: 'number'
+                }
+              ]
+            }
+          ]
+        }]
+        return apiList
       }
     },
     outputParamName: {
@@ -39,7 +85,7 @@ export default {
       label: '输入参数',
       type: 'table',
       options: generateFieldList(defineTableFieldConfig({
-        key: { required: true, writable: true },
+        key: { writable: true },
         formula: { writable: true }
       }))
     },
@@ -81,21 +127,53 @@ export default {
     id: {
       label: '节点id',
       hideItem: true,
-      writable: false,
-      readable: true,
       defaultValue: uuid()
     },
     rootId: {
       hideItem: true,
-      writable: false,
-      readable: true,
       defaultValue: uuid()
+    },
+    inputSource: {
+      hideItem: true,
+      dependOn: ['apiKey'],
+      changeValue ({ apiKey }) {
+        const obj = findObjectById(apiList, apiKey)
+        console.log(obj)
+        return { value: obj ? obj.inputSource : '' }
+      }
+    },
+    outputSource: {
+      hideItem: true,
+      dependOn: ['apiKey'],
+      changeValue ({ apiKey }) {
+        const obj = findObjectById(apiList, apiKey)
+        console.log(obj)
+        return { value: obj ? obj.outputSource : '' }
+      }
+    },
+    apiInputParams: {
+      hideItem: true,
+      dependOn: ['apiKey'],
+      changeValue ({ apiKey }) {
+        const obj = findObjectById(apiList, apiKey)
+        console.log(obj)
+        return { value: obj ? obj.apiOutputParams : '' }
+      }
+    },
+    apiOutputParams: {
+      hideItem: true,
+      dependOn: ['apiKey'],
+      changeValue ({ apiKey }) {
+        const obj = findObjectById(apiList, apiKey)
+        console.log(obj)
+        return { value: obj ? obj.apiOutputParams : '' }
+      }
     }
   })),
   initData: {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'web-api',
-    title: '流程管理',
+    title: '调用服务',
     conditions: {},
     children: []
   }
