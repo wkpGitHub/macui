@@ -21,6 +21,7 @@ import scriptConfig from './script'
 import connectorConfig from './connector'
 import emailConfig from './email'
 import writeConfig from './write'
+import captureTimeConfig from './capture-time'
 import startConfig from './start'
 import endConfig from './end'
 /**
@@ -63,7 +64,8 @@ export const compList = [
   scriptConfig,
   connectorConfig,
   emailConfig,
-  writeConfig
+  writeConfig,
+  captureTimeConfig
 ]
 
 // 全部组件
