@@ -21,8 +21,11 @@ dependencies:
     specifier: ^6.0.21
     version: 6.0.21(@cip/hooks@5.0.1)(@cip/request@5.0.4)(@cip/styles@6.0.11)(@cip/utils@5.0.7)(@element-plus/icons-vue@2.1.0)(@vue/shared@3.3.4)(@xdp/button@1.0.5)(countup.js@2.6.2)(d-render@2.0.0)(dayjs@1.11.8)(element-plus@2.2.22)(mui-player@1.8.1)(qiankun@2.10.10)(vant@3.6.11)(vue-router@4.2.2)(vue@3.3.4)(wangeditor@4.7.15)
   '@cip/d-render-plugin-cci':
-    specifier: ^1.0.7
-    version: 1.0.7(@cip/components@6.0.21)(@cip/utils@5.0.7)(@d-render/shared@1.1.3)(@element-plus/icons-vue@2.1.0)(@xdp/button@1.0.5)(d-render@2.0.0)(dayjs@1.11.8)(element-plus@2.2.22)(uuid@8.3.2)(vant@3.6.11)(vue@3.3.4)
+    specifier: ^2.0.0
+    version: 2.0.0(@cip/components@6.0.21)(@cip/utils@5.0.7)(@d-render/shared@1.1.5)(@element-plus/icons-vue@2.1.0)(@xdp/button@1.0.5)(d-render@2.0.0)(dayjs@1.11.8)(element-plus@2.2.22)(uuid@8.3.2)(vant@3.6.11)(vue@3.3.4)
+  '@cip/d-render-plugin-cci-configure':
+    specifier: ^1.0.1
+    version: 1.0.1(@cip/d-render-plugin-cci@2.0.0)(@d-render/shared@1.1.5)
   '@cip/hooks':
     specifier: ^5.0.0
     version: 5.0.1(@cip/components@6.0.21)(@cip/utils@5.0.7)(element-plus@2.2.22)(vue-router@4.2.2)(vue@3.3.4)
@@ -52,10 +55,10 @@ dependencies:
     version: 3.6.0
   '@d-render/design':
     specifier: ^1.0.2
-    version: 1.0.2(@cip/code-mirror@1.0.4)(@cip/components@6.0.21)(@cip/utils@5.0.7)(@d-render/shared@1.1.3)(@xdp/button@1.0.5)(d-render@2.0.0)(element-plus@2.2.22)(uuid@8.3.2)(vue@3.3.4)(vuedraggable@4.1.0)
+    version: 1.0.2(@cip/code-mirror@1.0.4)(@cip/components@6.0.21)(@cip/utils@5.0.7)(@d-render/shared@1.1.5)(@xdp/button@1.0.5)(d-render@2.0.0)(element-plus@2.2.22)(uuid@8.3.2)(vue@3.3.4)(vuedraggable@4.1.0)
   '@d-render/shared':
-    specifier: ^1.1.3
-    version: 1.1.3(element-plus@2.2.22)(lodash-es@4.17.21)(uuid@8.3.2)(vue@3.3.4)
+    specifier: ^1.1.5
+    version: 1.1.5(element-plus@2.2.22)(lodash-es@4.17.21)(uuid@8.3.2)(vue@3.3.4)
   '@element-plus/icons-vue':
     specifier: ^2.0.6
     version: 2.1.0(vue@3.3.4)
@@ -73,7 +76,7 @@ dependencies:
     version: 3.3.4
   '@xdp/button':
     specifier: ^1.0.4
-    version: 1.0.5(@d-render/shared@1.1.3)(@element-plus/icons-vue@2.1.0)(element-plus@2.2.22)(vue@3.3.4)
+    version: 1.0.5(@d-render/shared@1.1.5)(@element-plus/icons-vue@2.1.0)(element-plus@2.2.22)(vue@3.3.4)
   app-root-path:
     specifier: ^3.1.0
     version: 3.1.0
@@ -91,7 +94,7 @@ dependencies:
     version: 2.6.2
   d-render:
     specifier: 2.0.0
-    version: 2.0.0(@d-render/shared@1.1.3)(@element-plus/icons-vue@2.1.0)(@xdp/button@1.0.5)(element-plus@2.2.22)(vue@3.3.4)
+    version: 2.0.0(@d-render/shared@1.1.5)(@element-plus/icons-vue@2.1.0)(@xdp/button@1.0.5)(element-plus@2.2.22)(vue@3.3.4)
   d3:
     specifier: ^5.16.0
     version: 5.16.0
@@ -1814,9 +1817,9 @@ packages:
       '@cip/utils': 5.0.7(@ctrl/tinycolor@3.6.0)(lodash-es@4.17.21)(uuid@8.3.2)
       '@element-plus/icons-vue': 2.1.0(vue@3.3.4)
       '@vue/shared': 3.3.4
-      '@xdp/button': 1.0.5(@d-render/shared@1.1.3)(@element-plus/icons-vue@2.1.0)(element-plus@2.2.22)(vue@3.3.4)
+      '@xdp/button': 1.0.5(@d-render/shared@1.1.5)(@element-plus/icons-vue@2.1.0)(element-plus@2.2.22)(vue@3.3.4)
       countup.js: 2.6.2
-      d-render: 2.0.0(@d-render/shared@1.1.3)(@element-plus/icons-vue@2.1.0)(@xdp/button@1.0.5)(element-plus@2.2.22)(vue@3.3.4)
+      d-render: 2.0.0(@d-render/shared@1.1.5)(@element-plus/icons-vue@2.1.0)(@xdp/button@1.0.5)(element-plus@2.2.22)(vue@3.3.4)
       dayjs: 1.11.8
       element-plus: 2.2.22(vue@3.3.4)
       mui-player: 1.8.1
@@ -1827,8 +1830,18 @@ packages:
       wangeditor: 4.7.15
     dev: false
 
-  /@cip/d-render-plugin-cci@1.0.7(@cip/components@6.0.21)(@cip/utils@5.0.7)(@d-render/shared@1.1.3)(@element-plus/icons-vue@2.1.0)(@xdp/button@1.0.5)(d-render@2.0.0)(dayjs@1.11.8)(element-plus@2.2.22)(uuid@8.3.2)(vant@3.6.11)(vue@3.3.4):
-    resolution: {integrity: sha512-QvXGvYfTuZBEPiIzzsE3YE05txyVGC3dxwATIn7FamgJdJFrdksg9C7wy84t9DUR7g3s+aNlm46XIq22SR9fLw==}
+  /@cip/d-render-plugin-cci-configure@1.0.1(@cip/d-render-plugin-cci@2.0.0)(@d-render/shared@1.1.5):
+    resolution: {integrity: sha512-rrOoCQaZO0xgFQMHs7tIdMqpcpVY+1GEgwBGpWlYRoXC8fYGBaiKMBGB4dbF3lrtlVis3bmJngSA6nWGUR9xow==}
+    peerDependencies:
+      '@cip/d-render-plugin-cci': 2.0.0
+      '@d-render/shared': '>= 1.1.0'
+    dependencies:
+      '@cip/d-render-plugin-cci': 2.0.0(@cip/components@6.0.21)(@cip/utils@5.0.7)(@d-render/shared@1.1.5)(@element-plus/icons-vue@2.1.0)(@xdp/button@1.0.5)(d-render@2.0.0)(dayjs@1.11.8)(element-plus@2.2.22)(uuid@8.3.2)(vant@3.6.11)(vue@3.3.4)
+      '@d-render/shared': 1.1.5(element-plus@2.2.22)(lodash-es@4.17.21)(uuid@8.3.2)(vue@3.3.4)
+    dev: false
+
+  /@cip/d-render-plugin-cci@2.0.0(@cip/components@6.0.21)(@cip/utils@5.0.7)(@d-render/shared@1.1.5)(@element-plus/icons-vue@2.1.0)(@xdp/button@1.0.5)(d-render@2.0.0)(dayjs@1.11.8)(element-plus@2.2.22)(uuid@8.3.2)(vant@3.6.11)(vue@3.3.4):
+    resolution: {integrity: sha512-p0JPjfX4YXjGTlF5UQtSDbKRWZIQS0s68PdrF3JNadm03yI7rxMhL9jimXwDiOuIEndQ7dCrhZQpdrZDtBUJLg==}
     peerDependencies:
       '@cip/components': ^6.0.0
       '@cip/utils': ^5.0.5
@@ -1844,10 +1857,10 @@ packages:
     dependencies:
       '@cip/components': 6.0.21(@cip/hooks@5.0.1)(@cip/request@5.0.4)(@cip/styles@6.0.11)(@cip/utils@5.0.7)(@element-plus/icons-vue@2.1.0)(@vue/shared@3.3.4)(@xdp/button@1.0.5)(countup.js@2.6.2)(d-render@2.0.0)(dayjs@1.11.8)(element-plus@2.2.22)(mui-player@1.8.1)(qiankun@2.10.10)(vant@3.6.11)(vue-router@4.2.2)(vue@3.3.4)(wangeditor@4.7.15)
       '@cip/utils': 5.0.7(@ctrl/tinycolor@3.6.0)(lodash-es@4.17.21)(uuid@8.3.2)
-      '@d-render/shared': 1.1.3(element-plus@2.2.22)(lodash-es@4.17.21)(uuid@8.3.2)(vue@3.3.4)
+      '@d-render/shared': 1.1.5(element-plus@2.2.22)(lodash-es@4.17.21)(uuid@8.3.2)(vue@3.3.4)
       '@element-plus/icons-vue': 2.1.0(vue@3.3.4)
-      '@xdp/button': 1.0.5(@d-render/shared@1.1.3)(@element-plus/icons-vue@2.1.0)(element-plus@2.2.22)(vue@3.3.4)
-      d-render: 2.0.0(@d-render/shared@1.1.3)(@element-plus/icons-vue@2.1.0)(@xdp/button@1.0.5)(element-plus@2.2.22)(vue@3.3.4)
+      '@xdp/button': 1.0.5(@d-render/shared@1.1.5)(@element-plus/icons-vue@2.1.0)(element-plus@2.2.22)(vue@3.3.4)
+      d-render: 2.0.0(@d-render/shared@1.1.5)(@element-plus/icons-vue@2.1.0)(@xdp/button@1.0.5)(element-plus@2.2.22)(vue@3.3.4)
       dayjs: 1.11.8
       element-plus: 2.2.22(vue@3.3.4)
       uuid: 8.3.2
@@ -2037,7 +2050,7 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /@d-render/design@1.0.2(@cip/code-mirror@1.0.4)(@cip/components@6.0.21)(@cip/utils@5.0.7)(@d-render/shared@1.1.3)(@xdp/button@1.0.5)(d-render@2.0.0)(element-plus@2.2.22)(uuid@8.3.2)(vue@3.3.4)(vuedraggable@4.1.0):
+  /@d-render/design@1.0.2(@cip/code-mirror@1.0.4)(@cip/components@6.0.21)(@cip/utils@5.0.7)(@d-render/shared@1.1.5)(@xdp/button@1.0.5)(d-render@2.0.0)(element-plus@2.2.22)(uuid@8.3.2)(vue@3.3.4)(vuedraggable@4.1.0):
     resolution: {integrity: sha512-TMX4o8AwFmnRV/Qq66sGPN2L5Z9Pyz3uhqRD3+kBXFqFyKVhs/YEz7APW+QwFrpo4SJ6J4xtr9nlWu3Bumyr0A==}
     peerDependencies:
       '@cip/code-mirror': ^1.0.0
@@ -2054,17 +2067,17 @@ packages:
       '@cip/code-mirror': 1.0.4(@cip/shared@5.0.0)(@cip/utils@5.0.7)(codemirror@5.65.13)(vue@3.3.4)
       '@cip/components': 6.0.21(@cip/hooks@5.0.1)(@cip/request@5.0.4)(@cip/styles@6.0.11)(@cip/utils@5.0.7)(@element-plus/icons-vue@2.1.0)(@vue/shared@3.3.4)(@xdp/button@1.0.5)(countup.js@2.6.2)(d-render@2.0.0)(dayjs@1.11.8)(element-plus@2.2.22)(mui-player@1.8.1)(qiankun@2.10.10)(vant@3.6.11)(vue-router@4.2.2)(vue@3.3.4)(wangeditor@4.7.15)
       '@cip/utils': 5.0.7(@ctrl/tinycolor@3.6.0)(lodash-es@4.17.21)(uuid@8.3.2)
-      '@d-render/shared': 1.1.3(element-plus@2.2.22)(lodash-es@4.17.21)(uuid@8.3.2)(vue@3.3.4)
-      '@xdp/button': 1.0.5(@d-render/shared@1.1.3)(@element-plus/icons-vue@2.1.0)(element-plus@2.2.22)(vue@3.3.4)
-      d-render: 2.0.0(@d-render/shared@1.1.3)(@element-plus/icons-vue@2.1.0)(@xdp/button@1.0.5)(element-plus@2.2.22)(vue@3.3.4)
+      '@d-render/shared': 1.1.5(element-plus@2.2.22)(lodash-es@4.17.21)(uuid@8.3.2)(vue@3.3.4)
+      '@xdp/button': 1.0.5(@d-render/shared@1.1.5)(@element-plus/icons-vue@2.1.0)(element-plus@2.2.22)(vue@3.3.4)
+      d-render: 2.0.0(@d-render/shared@1.1.5)(@element-plus/icons-vue@2.1.0)(@xdp/button@1.0.5)(element-plus@2.2.22)(vue@3.3.4)
       element-plus: 2.2.22(vue@3.3.4)
       uuid: 8.3.2
       vue: 3.3.4
       vuedraggable: 4.1.0(vue@3.3.4)
     dev: false
 
-  /@d-render/shared@1.1.3(element-plus@2.2.22)(lodash-es@4.17.21)(uuid@8.3.2)(vue@3.3.4):
-    resolution: {integrity: sha512-eF3+iowAq+o3grwtM0YWrXLguFBpowebzUEsHULqB7G1Eqwo8qt3syrQyUhSCX8lUbF0YznnPLGu0raO2wouAA==}
+  /@d-render/shared@1.1.5(element-plus@2.2.22)(lodash-es@4.17.21)(uuid@8.3.2)(vue@3.3.4):
+    resolution: {integrity: sha512-vxYT1gNjqWipexbGnb5wp0eK+v0QqOFtZNa1NUQDB2r9+AhAHot0oWko+CWOEcgsNTAcHWwfar1R/s5wR9MchQ==}
     peerDependencies:
       element-plus: 2.2.22
       lodash-es: 4.17.x
@@ -3622,7 +3635,7 @@ packages:
     dependencies:
       webpack-cli: 4.10.0(webpack@5.86.0)
 
-  /@xdp/button@1.0.5(@d-render/shared@1.1.3)(@element-plus/icons-vue@2.1.0)(element-plus@2.2.22)(vue@3.3.4):
+  /@xdp/button@1.0.5(@d-render/shared@1.1.5)(@element-plus/icons-vue@2.1.0)(element-plus@2.2.22)(vue@3.3.4):
     resolution: {integrity: sha512-mwHl4Hn3X+CpVsIa1bPHDpihjMSeMKgxc/GMYvhE0TzN9H6LfhSRKp4goSZzU5i2D8N8fXQRl+KjKoZo1BXNEw==}
     peerDependencies:
       '@d-render/shared': ^1.0.0
@@ -3630,7 +3643,7 @@ packages:
       element-plus: 2.2.22
       vue: ^3.2.47
     dependencies:
-      '@d-render/shared': 1.1.3(element-plus@2.2.22)(lodash-es@4.17.21)(uuid@8.3.2)(vue@3.3.4)
+      '@d-render/shared': 1.1.5(element-plus@2.2.22)(lodash-es@4.17.21)(uuid@8.3.2)(vue@3.3.4)
       '@element-plus/icons-vue': 2.1.0(vue@3.3.4)
       element-plus: 2.2.22(vue@3.3.4)
       vue: 3.3.4
@@ -5463,7 +5476,7 @@ packages:
       - '@swc/wasm'
     dev: true
 
-  /d-render@2.0.0(@d-render/shared@1.1.3)(@element-plus/icons-vue@2.1.0)(@xdp/button@1.0.5)(element-plus@2.2.22)(vue@3.3.4):
+  /d-render@2.0.0(@d-render/shared@1.1.5)(@element-plus/icons-vue@2.1.0)(@xdp/button@1.0.5)(element-plus@2.2.22)(vue@3.3.4):
     resolution: {integrity: sha512-429pUJYcwvHBH7hwXcwHYyi6IK2LpmVHUq65WjERtLQkGYjUjWZnYKqAOiocbHUwR0qY0y6vdE2g3/u7jQHlOQ==}
     peerDependencies:
       '@d-render/shared': '>=1.1.3'
@@ -5472,9 +5485,9 @@ packages:
       element-plus: 2.2.22
       vue: ^3.2.47
     dependencies:
-      '@d-render/shared': 1.1.3(element-plus@2.2.22)(lodash-es@4.17.21)(uuid@8.3.2)(vue@3.3.4)
+      '@d-render/shared': 1.1.5(element-plus@2.2.22)(lodash-es@4.17.21)(uuid@8.3.2)(vue@3.3.4)
       '@element-plus/icons-vue': 2.1.0(vue@3.3.4)
-      '@xdp/button': 1.0.5(@d-render/shared@1.1.3)(@element-plus/icons-vue@2.1.0)(element-plus@2.2.22)(vue@3.3.4)
+      '@xdp/button': 1.0.5(@d-render/shared@1.1.5)(@element-plus/icons-vue@2.1.0)(element-plus@2.2.22)(vue@3.3.4)
       element-plus: 2.2.22(vue@3.3.4)
       vue: 3.3.4
     dev: false

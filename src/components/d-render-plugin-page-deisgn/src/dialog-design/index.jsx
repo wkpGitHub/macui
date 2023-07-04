@@ -1,5 +1,5 @@
 import { layoutProps } from '@d-render/shared'
-import { useComponentSlots } from '../use-component-slots'
+import { useComponentSlots } from '@/components/d-render-plugin-page-render/use-component-slots'
 
 import './index.less'
 

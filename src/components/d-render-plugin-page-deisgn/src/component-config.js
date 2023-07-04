@@ -10,5 +10,6 @@ export default {
   dialogDesign: {
     component: () => () => import('./dialog-design'),
     layout: true
-  }
+  },
+  simpleCurd: () => () => import('./simple-curd')
 }
