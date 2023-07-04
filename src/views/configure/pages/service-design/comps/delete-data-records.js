@@ -1,4 +1,6 @@
 import { generateFieldList, defineFormFieldConfig } from 'd-render'
+import { cloneDeep } from 'lodash-es'
+
 // 删除记录简单模式
 // {
 //   "id": "0c829f0887b0",
@@ -131,7 +133,7 @@ export default {
       readable: false,
       changeConfig (config, { objectKey, fields }) {
         config.writable = !!objectKey
-        config.options = fields || []
+        config.options = cloneDeep(fields || [])
         return config
       }
     }
