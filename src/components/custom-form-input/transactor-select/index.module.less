@@ -1,0 +1,54 @@
+.form{
+    flex-basis: 0;
+    flex-grow: 1;
+    font-size:12px;
+    .usePicker{
+      display:flex;
+      .resultList{
+        flex: 1;
+        background: #fff;
+        border: 1px solid #e8e9eb;
+        border-radius: 3px;
+        margin-right: 10px;
+        .txt{
+          text-align: center;
+          color:#b8babf
+        }
+        .item{
+          background: #f7f8fa;
+          color: #151b26;
+          font-size: 14px;
+          padding: 0 .25rem;
+          margin: 6px;
+          .list-item{
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            justify-content: space-between;
+            .babel{
+              flex: 1;
+              max-width: 8.75rem;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+            .opr{
+              flex-basis: 40px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              :global{
+                .el-icon:hover{
+                  color: blue;
+                }
+              }
+            }
+          }
+        }
+      }
+      .menu{
+        padding-bottom: 5px;
+      }
+    }
+    
+}

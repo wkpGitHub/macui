@@ -72,6 +72,7 @@ export const formFieldList = generateFieldList(defineFormFieldConfig({
   'params.reportType': {
     label: '汇报类型',
     type: 'radio',
+    defaultValue: 'basePost',
     options: [
       { label: '基于部门层级', value: 'basePost' },
       { label: '基于人员汇报', value: 'baseUserId' }
