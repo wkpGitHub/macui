@@ -131,9 +131,6 @@ dependencies:
   uuid:
     specifier: ^8.3.2
     version: 8.3.2
-  vant:
-    specifier: ^3.5.1
-    version: 3.6.11(vue@3.3.4)
   vue:
     specifier: ^3.2.27
     version: 3.3.4
