@@ -39,6 +39,10 @@ export default {
         return config
       }
     },
+    showCreateRelationRecord: {
+      hideItem: true,
+      defaultValue: true
+    },
     createRelationRecord: {
       dependOn: ['objectKey'],
       readable: false,
@@ -61,6 +65,18 @@ export default {
         config.options = cloneDeep(temp)
         return config
       }
+    },
+    relationFields: {
+      hideItem: true,
+      defaultValue: []
+    },
+    mFields: {
+      hideItem: true,
+      defaultValue: []
+    },
+    rFields: {
+      hideItem: true,
+      defaultValue: []
     }
   })),
   initData: {
@@ -68,6 +84,7 @@ export default {
     type: 'update-data-records',
     title: '更新记录',
     conditions: {},
-    children: []
+    children: [],
+    validateFailed: false
   }
 }
