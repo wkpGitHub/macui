@@ -25,6 +25,7 @@ import connectorConfig from './connector'
 import emailConfig from './email'
 import writeConfig from './write'
 import captureTimeConfig from './capture-time'
+import autoEntitySearchRecordsConfig from './auto-entity-search-records'
 import startConfig from './start'
 import endConfig from './end'
 /**
@@ -71,7 +72,8 @@ export const compList = [
   connectorConfig,
   emailConfig,
   writeConfig,
-  captureTimeConfig
+  captureTimeConfig,
+  autoEntitySearchRecordsConfig
 ]
 
 // 全部组件
