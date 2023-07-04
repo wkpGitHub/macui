@@ -91,7 +91,7 @@ export default {
           writable: true,
           outDependOn: ['inputSource'],
           type: 'select',
-          asyncOptions ({ inputSource }) {
+          asyncOptions (_, { inputSource }) {
             return inputSource || []
           }
         },

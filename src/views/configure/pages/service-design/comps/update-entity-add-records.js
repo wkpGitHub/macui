@@ -1,5 +1,6 @@
 import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig } from 'd-render'
 import { v4 as uuid } from 'uuid'
+import { fields } from '../config'
 export default {
   category: '流程管理',
   type: 'update-entity-add-records',
@@ -10,7 +11,8 @@ export default {
       type: 'dataSource',
       label: '更新对象',
       required: true,
-      otherKey: 'fields'
+      otherKey: 'fields',
+      fields
     },
     objectType: {
       dependOn: ['objectKey'],
@@ -61,7 +63,7 @@ export default {
       readable: false,
       changeConfig (config, { objectKey, fields }) {
         config.writable = !!objectKey
-        config.options = fields || []
+        config.options = fields.map(item => ({ name: item.label, ename: item.name, type: item.type })) || []
         return config
       }
     },
@@ -77,20 +79,20 @@ export default {
     },
     updateFields: {
       type: 'table',
-      readable: false,
-      dependOn: ['fields', 'inputSource'],
-      changeConfig (config, { fields }) {
-        config.writable = !!fields
-        return config
-      },
+      dependOn: ['fields'],
       options: generateFieldList(defineTableFieldConfig({
         key: {
           dynamic: true,
           writable: true,
-          outDependOn: ['inputSource'],
+          outDependOn: ['fields'],
           type: 'select',
-          asyncOptions ({ inputSource }) {
-            return inputSource || []
+          optionProps: {
+            label: 'label',
+            value: 'name'
+          },
+          asyncOptions (_, { fields }) {
+            if (!fields) return
+            return fields || []
           }
         },
         formula: { writable: true }
