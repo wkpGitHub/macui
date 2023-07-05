@@ -3,7 +3,8 @@ import PageRender from '@/components/page-render'
 import { pageInfoService } from '@/api'
 export default {
   props: {
-    id: [Number, String] // 支持uuid 数字id
+    id: [Number, String],
+    path: [Number, String] // 支持uuid 数字id
   },
   setup (props) {
     const pageSchema = ref({})

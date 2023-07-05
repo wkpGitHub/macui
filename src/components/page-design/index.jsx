@@ -15,6 +15,7 @@ export default {
   props: {
     scheme: Object,
     config: Object,
+    appendModules: Array,
     onSave: Function,
     componentsGroupList: Array,
     drawTypeMap: Object
@@ -22,8 +23,11 @@ export default {
   inheritAttrs: false,
   setup (props, { attrs, emit, slots }) {
     const currentModuleName = ref('renderer')
+    const modulesBridge = computed(() => {
+      return modulesConfig.concat(props.appendModules)
+    })
     const currentModuleTitle = computed(() => {
-      return modulesConfig.find(module => module.name === currentModuleName.value).title
+      return modulesBridge.value.find(module => module.name === currentModuleName.value).title
     })
     const { selectItem, selectItemId, changeSelect, updateSelectItem } = useSelect()
     provide('pageDesign', reactive({
@@ -65,7 +69,7 @@ export default {
     >
       {{
         title: slots.title,
-        modules: () => <PageModules v-model={currentModuleName.value}/>,
+        modules: () => <PageModules modules={modulesBridge.value} v-model={currentModuleName.value}/>,
         handle: () => <>
           {slots.handle?.()}
           {props.onSave && <CipButton onClick={() => props.onSave()}>保存</CipButton>}
@@ -74,6 +78,9 @@ export default {
           {currentModuleName.value === 'pageParams' && <PageParams modelValue={props.scheme.config} onUpdate:modelValue={updateConfig}/>}
           {currentModuleName.value === 'renderer' && <PageComponents groupList={props.componentsGroupList}/>}
           {currentModuleName.value === 'code' && <CodeSource modelValue={props.scheme} onUpdate:modelValue={updateScheme}/>}
+          {currentModuleName.value === 'methods' && <Methods />}
+          {slots.nav?.({ name: currentModuleName.value })}
+          {/* {currentModuleName.value === 'api' && <ApiConfig modelValue={props.scheme} onUpdate:modelValue={updateScheme}/>} */}
         </>,
         content: () => <PageDrawing
           data={props.scheme}

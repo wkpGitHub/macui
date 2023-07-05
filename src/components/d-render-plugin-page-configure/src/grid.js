@@ -1,5 +1,5 @@
 import { generateFieldList } from 'd-render'
-
+import { ElInputNumber } from 'element-plus'
 export default {
   key: {},
   gutter: {
@@ -11,7 +11,12 @@ export default {
   options: {
     label: '列配置',
     type: 'simpleCurd',
-    infoRender: (h, { item }) => h('div', null, [item.span]),
+    infoRender: (h, { item }) => h(ElInputNumber, {
+      modelValue: item.span,
+      'onUpdate:modelValue': (val) => {
+        item.span = val
+      }
+    }, {}),
     itemType: 'col',
     itemKey: '$index',
     dialogProps: {

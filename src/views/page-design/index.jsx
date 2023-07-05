@@ -1,10 +1,12 @@
 import { ref } from 'vue'
 import Framework from './framework/index.vue'
 import ToolBar from './widgets/tool-bar'
+import ApiConfig from './widgets/api-config'
 import PageDesign from '@/components/page-design'
 import { componentsGroupList } from './config'
 import { pageInfoService } from '@/api'
 import CipMessage from '@cip/components/cip-message'
+import { Plus } from '@element-plus/icons-vue'
 export default {
   props: {
     appPath: {},
@@ -42,8 +44,18 @@ export default {
        onSave={handleSave}
        componentsGroupList={componentsGroupList}
        drawTypeMap={drawTypeMap}
+       appendModules={[
+         { name: 'api', title: 'API Config', icon: <Plus /> }
+
+       ]}
      >
-        {{ title: () => <ToolBar pageInfo={pageInfo.value} onBack={() => handleBack()}/> }}
+        {{
+          title: () => <ToolBar pageInfo={pageInfo.value} onBack={() => handleBack()}/>,
+          nav: ({ name }) => <>
+            {name === 'api' && <ApiConfig />}
+
+          </>
+        }}
       </PageDesign>
     </Framework>
   }
