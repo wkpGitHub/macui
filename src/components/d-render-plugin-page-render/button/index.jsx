@@ -14,6 +14,7 @@ export default {
     const TransformComp = (props, { attrs }) => {
       const { click, text, dataBus, ...otherConfig } = props
       return <CipButton {...otherConfig} onClick={() => {
+        console.log('click')
         handleEvent(click, cipFormRender, dataBus)
         // const method = cipFormRender.methods[click]
         // if (method) method()
