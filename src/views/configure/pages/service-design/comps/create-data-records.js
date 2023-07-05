@@ -1,5 +1,27 @@
 import { generateFieldList, defineFormFieldConfig } from 'd-render'
-
+import { cloneDeep } from 'lodash-es'
+// {
+//   id: '' 唯一id
+//   type: '' 节点类型
+//   title: '' 节点标题
+//   conditions: '' 条件
+//   validateFailed: '' form是否通过验证
+//   children: '' 子节点
+//   targetName:''
+//   otherKey:''指定节点
+//   fields:[
+//    {
+//      id: '' 唯一id,
+//      fid:''
+//      label:''
+//      type:''
+//      name:''
+//      isNullable:''
+//      tag:''
+//      typeLabel
+//    }
+//    ]
+// }
 export default {
   category: '实体活动',
   type: 'create-data-records',
@@ -9,7 +31,8 @@ export default {
     objectKey: {
       label: '数据源',
       required: true,
-      otherKey: 'fields'
+      otherKey: 'fields',
+      type: 'dataSource'
     },
     dataMode: {
       label: '新增模式',
@@ -22,6 +45,18 @@ export default {
       ]
     },
     targetName: { label: '节点出参' },
+    relationFields: {
+      hideItem: true,
+      defaultValue: []
+    },
+    mFields: {
+      hideItem: true,
+      defaultValue: []
+    },
+    rFields: {
+      hideItem: true,
+      defaultValue: []
+    },
     initFields: {
       type: 'selectField',
       label: '字段赋值',
@@ -30,8 +65,17 @@ export default {
       resetValue: true,
       changeConfig (config, { fields }) {
         config.writable = !!fields
-        config.options = fields || []
+        const temp = (fields || []).filter(v => !v.isPrimaryKey)
+        config.options = cloneDeep(temp)
         return config
+      }
+    },
+    fieldLabel: {
+      dependOn: ['objectKey'],
+      hideItem: true,
+      changeValue ({ objectKey }) {
+        if (!objectKey) return
+        return { value: objectKey.split(':')[1] }
       }
     }
   })),
@@ -40,6 +84,7 @@ export default {
     type: 'create-data-records',
     title: '新增记录',
     conditions: {},
-    children: []
+    children: [],
+    validateFailed: false
   }
 }

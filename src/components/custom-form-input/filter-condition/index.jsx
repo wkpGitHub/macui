@@ -57,7 +57,7 @@ export default defineComponent({
     const tableColumns = computed(() => getTableColumn(options, optionProps))
 
     function handleClick () {
-      if (proxyValue.value) {
+      if (proxyValue.value && proxyValue.value.children) {
         proxyValue.value.children.push({})
       } else {
         proxyValue.value = {

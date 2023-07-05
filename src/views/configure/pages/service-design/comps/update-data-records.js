@@ -20,7 +20,7 @@ export default {
         config.writable = !!objectKey
         return config
       },
-      label: '新增模式',
+      label: '类型选择',
       required: true,
       type: 'radio',
       defaultValue: 'normal',
@@ -39,7 +39,17 @@ export default {
         return config
       }
     },
+    showCreateRelationRecord: {
+      hideItem: true,
+      defaultValue: true
+    },
     createRelationRecord: {
+      dependOn: ['objectKey'],
+      readable: false,
+      changeConfig (config, { objectKey }) {
+        config.writable = !!objectKey
+        return config
+      },
       label: '新增1:n、n:n关联表记录',
       type: 'switch'
     },
@@ -55,6 +65,18 @@ export default {
         config.options = cloneDeep(temp)
         return config
       }
+    },
+    relationFields: {
+      hideItem: true,
+      defaultValue: []
+    },
+    mFields: {
+      hideItem: true,
+      defaultValue: []
+    },
+    rFields: {
+      hideItem: true,
+      defaultValue: []
     }
   })),
   initData: {
@@ -62,6 +84,7 @@ export default {
     type: 'update-data-records',
     title: '更新记录',
     conditions: {},
-    children: []
+    children: [],
+    validateFailed: false
   }
 }
