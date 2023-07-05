@@ -43,7 +43,7 @@ export default defineComponent({
       await pageInfoService.tree({}).then(res => {
         console.log(res.data)
         const m = pageInfoToMenu.fromDataSet(res.data)
-        console.log('m', m)
+        console.log('m11', m)
         menu.value = m
         ready.value = true
         // menu.value = res.data || []

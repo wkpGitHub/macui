@@ -1,19 +1,22 @@
 import store from '@cip/components/store'
 
 export const pageInfoToMenu = {
-  fromData (data) {
+  fromData (data, parentPath) {
     const appPath = store.state.app.path
     const result = {
-      route: `/preview/${appPath}/${data.path}?id=${data.id}`,
+      route: `/preview/${appPath}/${parentPath}/${data.path}?id=${data.id}`,
       title: data.name,
       name: `lowCodePage-${data.id}`
     }
+    console.log(appPath, parentPath)
     if (data.children) {
-      result.children = this.fromDataSet(data.children)
+      parentPath = parentPath ? `${parentPath}/${data.path}` : data.path
+      console.log('parentPath', parentPath)
+      result.children = this.fromDataSet(data.children, parentPath)
     }
     return result
   },
-  fromDataSet (list) {
-    return list.map(v => this.fromData(v))
+  fromDataSet (list, parentPath = '') {
+    return list.map(v => this.fromData(v, parentPath))
   }
 }

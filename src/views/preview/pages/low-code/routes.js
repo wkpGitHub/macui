@@ -1,6 +1,6 @@
 export const routes = [
   {
-    path: ':path',
+    path: ':path(.*)',
     name: 'lowCodePage',
     props: ({ params, query }) => ({
       path: params.path,
