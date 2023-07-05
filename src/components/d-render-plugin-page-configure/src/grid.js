@@ -3,9 +3,13 @@ import { generateFieldList } from 'd-render'
 export default {
   key: {},
   gutter: {
-    type: 'number'
+    label: '列间隙',
+    type: 'number',
+    unit: 'px',
+    width: '80px'
   },
   options: {
+    label: '列配置',
     type: 'simpleCurd',
     infoRender: (h, { item }) => h('div', null, [item.span]),
     itemType: 'col',
