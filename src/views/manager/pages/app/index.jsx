@@ -12,6 +12,11 @@ export default defineComponent({
       const resolved = router.resolve({ name: 'configureFramework', params: { appPath: path } })
       window.open(resolved.href)
     }
+    const preview = ({ path }) => {
+      const resolved = router.resolve({ name: 'previewFramework', params: { appPath: path } })
+      console.log(resolved)
+      window.open(resolved.href)
+    }
 
     return () => <CipPageCurd
       entity={appService}
@@ -26,6 +31,7 @@ export default defineComponent({
       {{
         'table-handle': ({ row, editItem, showItem, deleteItem }) => <>
           <CipButtonText onClick={() => configure(row)}>设计</CipButtonText>
+          <CipButtonText onClick={() => preview(row)}>预览</CipButtonText>
           <CipButtonText onClick={() => showItem(row)}>查看</CipButtonText>
           <CipButtonText onClick={() => editItem(row)}>编辑</CipButtonText>
           <CipButtonText onClick={() => deleteItem(row, row.name)}>删除</CipButtonText>
