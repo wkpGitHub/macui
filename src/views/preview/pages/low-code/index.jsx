@@ -3,7 +3,7 @@ import PageRender from '@/components/page-render'
 import { pageInfoService } from '@/api'
 export default {
   props: {
-    id: [Number, String], // 支持uuid 数字id,
+    appPath: [Number, String], // 支持uuid 数字id,
     path: [Number, String] // 支持uuid 数字id
   },
   setup (props) {
@@ -19,7 +19,7 @@ export default {
       }, {})
     })
     const getPageScheme = (id, path) => {
-      pageInfoService.detail({ id, fullPath: path }).then(res => {
+      pageInfoService.detail({ app: props.appPath, fullPath: path }).then(res => {
         pageSchema.value = res.data.schema
         apiList.value = res.data.apiList ?? []
       })
