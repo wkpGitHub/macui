@@ -15,16 +15,18 @@ export default {
   setup (props) {
     const scheme = ref({})
     const handleSave = (item) => {
-      const data = { ...pageInfo.value, schema: scheme.value }
+      const data = { ...pageInfo.value, schema: scheme.value, apiList: apiList.value }
       pageInfoService.save(data).then(res => {
         CipMessage.success(res.message)
       })
     }
     const pageInfo = ref({})
+    const apiList = ref([])
     const setPageInfo = () => {
       pageInfoService.detail({ id: props.id }).then(res => {
         pageInfo.value = res.data
         scheme.value = res.data.schema
+        apiList.value = res.data.apiList || []
         console.log(scheme.value)
       })
     }
@@ -52,8 +54,7 @@ export default {
         {{
           title: () => <ToolBar pageInfo={pageInfo.value} onBack={() => handleBack()}/>,
           nav: ({ name }) => <>
-            {name === 'api' && <ApiConfig />}
-
+            {name === 'api' && <ApiConfig v-model={apiList.value} />}
           </>
         }}
       </PageDesign>

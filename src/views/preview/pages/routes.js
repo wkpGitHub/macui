@@ -3,6 +3,6 @@ export const routes = [
     path: ':path(.*)',
     name: 'lowCodePage',
     props: true,
-    component: () => import('./index')
+    component: () => import('@/views/app/pages/low-code')
   }
 ]

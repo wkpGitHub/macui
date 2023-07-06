@@ -12,6 +12,7 @@ export default {
   },
   emits: ['update:model'],
   setup (props, { emit, expose }) {
+    console.log(props.service)
     const securityScheme = computed(() => {
       return props.scheme || {}
     })
@@ -27,6 +28,7 @@ export default {
     const init = computed(() => securityScheme.value.init)
     watch(() => props.scheme, () => {
       if (init.value) {
+        console.log(methods.value)
         init.value.forEach(key => {
           const method = methods.value[key]
           if (method) {
