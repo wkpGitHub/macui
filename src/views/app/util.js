@@ -4,11 +4,10 @@ export const pageInfoToMenu = {
   fromData (data, parentPath) {
     const appPath = store.state.app.path
     const result = {
-      route: `/preview/${appPath}/${parentPath}/${data.path}`,
+      route: `/${appPath}/${parentPath}/${data.path}`,
       title: data.name,
       name: `lowCodePage-${data.id}`
     }
-    console.log(appPath, parentPath)
     if (data.children) {
       parentPath = parentPath ? `${parentPath}/${data.path}` : data.path
       console.log('parentPath', parentPath)

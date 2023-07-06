@@ -6,7 +6,7 @@
           theme="standard"
           :layout="layout"
           :with-tabs="false"
-          :root-path="`/preview/${appPath}`"
+          :root-path="`/${appPath}`"
     >
       <template #collapse>
       </template>
@@ -35,6 +35,7 @@ export default defineComponent({
     const appInfo = ref({})
     const menu = ref([])
     const getAppInfo = async () => {
+      console.log(props.appPath)
       const { data } = await appService.info({ path: props.appPath })
       appInfo.value = data
       store.dispatch('setApp', data)
@@ -42,9 +43,7 @@ export default defineComponent({
     }
     const getMenu = async () => {
       await pageInfoService.tree({}).then(res => {
-        console.log(res.data)
         const m = pageInfoToMenu.fromDataSet(res.data)
-        console.log('m11', m)
         menu.value = m
         ready.value = true
         // menu.value = res.data || []

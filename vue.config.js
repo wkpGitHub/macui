@@ -1,3 +1,4 @@
+const { defineConfig } = require('@vue/cli-service')
 const path = require('path')
 // 防止webpack报错
 require('events').EventEmitter.defaultMaxListeners = 0
@@ -12,10 +13,10 @@ const { vueAlias, webpackAlias } = require('@cip/build/alias') // 文件别名�
 const { svgIconRule } = require('@cip/build/svg-icon')
 console.log(webpackAlias)
 const staticGzip = require('@cip/build/static_gzip') // 生成静态gzip文件
-
+console.log('vue.config.js')
 // 从command中获取publicPath、outputDir
-const { publicPath = '/', outputDir = 'dist', assetsDir } = getParamsFromCommand(process.argv)
-module.exports = {
+const { publicPath = '/', outputDir = 'dist', assetsDir, entryFile = './src/main.js' } = getParamsFromCommand(process.argv)
+module.exports = defineConfig({
   publicPath,
   assetsDir, // 智能平台的需要使用public
   outputDir,
@@ -32,7 +33,9 @@ module.exports = {
     }
   }, // 开发服务配置
   // css: {
-  //   extract: true
+  //   extract: true,
+  //   loaderOptions: {
+  //   }
   // },
   transpileDependencies: [
     /[/\\]node_modules[/\\]@cip[/\\]components[/\\]/,
@@ -50,6 +53,11 @@ module.exports = {
   chainWebpack: config => {
     vueAlias(config.resolve.alias) // 文件别名配置
     svgIconRule(config, path.resolve(__dirname, 'src/assets/svg-icon'))
+    config
+      .entry('app')
+      .delete('./src/main.js')
+      .add(entryFile)
+      .end()
     config.plugin('html').tap(args => {
       args[0].title = process.env.VUE_APP_PLATFORM_NAME
       return args
@@ -69,7 +77,7 @@ module.exports = {
       config.plugins.push(new BuildVersionWebpackPlugin()) // 打包git信息
     }
   }
-}
+})
 
 /**
  * 获取打包时输入的参数
@@ -78,15 +86,16 @@ module.exports = {
  */
 function getParamsFromCommand (argv) {
   const item = {}
-  if (NODE_ENV !== 'development') {
-    let arr = []
-    argv.forEach((v, k) => {
-      if (k > 2) {
-        arr = v.replace('--', '').split('=')
-        item[arr[0]] = arr[1]
-      }
-    })
-  }
+  // if (NODE_ENV !== 'development') {
+  let arr = []
+  console.log('argv', argv)
+  argv.forEach((v, k) => {
+    if (k > 2) {
+      arr = v.replace('--', '').split('=')
+      item[arr[0]] = arr[1]
+    }
+  })
+  // }
   console.log(item)
   return item
 }

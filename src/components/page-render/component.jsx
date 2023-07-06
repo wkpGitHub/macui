@@ -5,6 +5,7 @@ import {
   DRender
 } from '@d-render/shared'
 import { CipFormItem, CipFormLayout } from 'd-render'
+import './component.less'
 // import CipFormLayout from 'd-render/src/cip-form-layout'
 const dRender = new DRender()
 export default {
