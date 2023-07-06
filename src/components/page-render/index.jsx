@@ -5,23 +5,26 @@ import DrPage from './component.jsx'
 export default {
   name: 'PageRender',
   props: {
-    scheme: Object,
+    scheme: { type: Object, default: () => ({}) },
     model: Object,
     service: Object,
     equipment: { type: String, default: 'pc' }
   },
   emits: ['update:model'],
   setup (props, { emit, expose }) {
-    const fieldList = computed(() => props.scheme.list || [])
-    const grid = computed(() => props.scheme.grid || 1)
+    const securityScheme = computed(() => {
+      return props.scheme || {}
+    })
+    const fieldList = computed(() => securityScheme.value.list || [])
+    const grid = computed(() => securityScheme.value.grid || 1)
     const methods = computed(() => {
-      return Object.keys(props.scheme.methods || {}).reduce((acc, key) => {
+      return Object.keys(securityScheme.value.methods || {}).reduce((acc, key) => {
         // eslint-disable-next-line no-new-func
-        acc[key] = (new Function('model', 'service', props.scheme.methods[key])).bind(null, props.model, props.service)
+        acc[key] = (new Function('model', 'service', securityScheme.value.methods[key])).bind(null, props.model, props.service)
         return acc
       }, {})
     })
-    const init = computed(() => props.scheme.init)
+    const init = computed(() => securityScheme.value.init)
     watch(() => props.scheme, () => {
       if (init.value) {
         init.value.forEach(key => {
