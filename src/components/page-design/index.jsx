@@ -1,26 +1,48 @@
-import { watch } from 'vue'
+import { watch, provide, ref, computed } from 'vue'
 import { useSelect } from '@d-render/design/esm/cip-form-design/hooks/index'
 import Layout from './widgets/layout'
 import CipButton from '@cip/components/cip-button'
+import PageModules from './widgets/modules'
 import PageDrawing from './widgets/page-drawing'
 import PageComponents from '@d-render/design/esm/cip-form-design/widgets/form-components'
 import PageConfigure from '@d-render/design/esm/cip-form-design/widgets/form-property'
+import PageParams from './widgets/side-components/page-params'
+import CodeSource from './widgets/side-components/code-source'
 import './index.less'
+import { reactive } from '@vue/reactivity'
+import { modulesConfig } from '@/components/page-design/config'
 export default {
   props: {
     scheme: Object,
+    config: Object,
+    appendModules: Array,
     onSave: Function,
-    componentsGroupList: Array
+    componentsGroupList: Array,
+    drawTypeMap: Object
   },
   inheritAttrs: false,
   setup (props, { attrs, emit, slots }) {
+    const currentModuleName = ref('renderer')
+    const modulesBridge = computed(() => {
+      return modulesConfig.concat(props.appendModules)
+    })
+    const currentModuleTitle = computed(() => {
+      return modulesBridge.value.find(module => module.name === currentModuleName.value).title
+    })
     const { selectItem, selectItemId, changeSelect, updateSelectItem } = useSelect()
-
+    provide('pageDesign', reactive({
+      drawTypeMap: props.drawTypeMap
+    }))
     const updateScheme = (scheme) => {
+      // 进入使用designType 出来使用type
       console.log('scheme', scheme)
       emit('update:scheme', scheme)
     }
-
+    const updateConfig = (config) => {
+      const scheme = props.scheme
+      scheme.config = config
+      emit('update:config', config)
+    }
     const updateList = (list) => {
       const scheme = props.scheme
       scheme.list = list
@@ -37,19 +59,29 @@ export default {
     watch(() => props.scheme, (val) => {
       if (!val) {
         // 如果scheme为空则直接进行初始化
-        console.log(initScheme())
         updateScheme(initScheme())
       }
     }, { immediate: true })
     // 设计为组件，与接口完全脱离
-    return () => <Layout style={'height: 100%'}>
+    return () => <Layout
+      style={`height: 100%; ${currentModuleName.value === 'code' ? '--page-design-nav-width: 800px' : ''}`}
+      navTitle={currentModuleTitle.value}
+    >
       {{
-        title: slots.title, // 保存功能又外部提供
+        title: slots.title,
+        modules: () => <PageModules modules={modulesBridge.value} v-model={currentModuleName.value}/>,
         handle: () => <>
           {slots.handle?.()}
           {props.onSave && <CipButton onClick={() => props.onSave()}>保存</CipButton>}
         </>,
-        nav: () => <PageComponents groupList={props.componentsGroupList}/>,
+        nav: () => <>
+          {currentModuleName.value === 'pageParams' && <PageParams modelValue={props.scheme.config} onUpdate:modelValue={updateConfig}/>}
+          {currentModuleName.value === 'renderer' && <PageComponents groupList={props.componentsGroupList}/>}
+          {currentModuleName.value === 'code' && <CodeSource modelValue={props.scheme} onUpdate:modelValue={updateScheme}/>}
+          {currentModuleName.value === 'methods' && <Methods />}
+          {slots.nav?.({ name: currentModuleName.value })}
+          {/* {currentModuleName.value === 'api' && <ApiConfig modelValue={props.scheme} onUpdate:modelValue={updateScheme}/>} */}
+        </>,
         content: () => <PageDrawing
           data={props.scheme}
           selectId={selectItemId.value}

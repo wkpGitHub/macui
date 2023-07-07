@@ -2,11 +2,14 @@ import { appEntityEntity } from '@/api/entity/chr'
 import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig, defineSearchFieldConfig } from 'd-render'
 import { keysToConfigMap } from '@d-render/shared'
 import { appService } from '@/api/service/chr'
-
+const commonConfig = {
+  path: { label: '路径' },
+  logo: { label: 'logo', type: 'image' }
+}
 export const searchFieldList = generateFieldList(defineSearchFieldConfig(keysToConfigMap([
   'name',
   'path'
-])), appEntityEntity)
+])), appEntityEntity, commonConfig)
 
 export const tableColumns = generateFieldList(defineTableFieldConfig(keysToConfigMap([
   'name',
@@ -15,7 +18,7 @@ export const tableColumns = generateFieldList(defineTableFieldConfig(keysToConfi
   'remark',
   'enabled',
   'createTime'
-].map(key => ({ key, showOverflowTooltip: true })))), appEntityEntity)
+].map(key => ({ key, showOverflowTooltip: true })))), appEntityEntity, commonConfig)
 
 export const formFieldList = generateFieldList(defineFormFieldConfig(keysToConfigMap([
   {
@@ -39,4 +42,4 @@ export const formFieldList = generateFieldList(defineFormFieldConfig(keysToConfi
   'logo',
   'remark',
   'enabled'
-])), appEntityEntity)
+])), appEntityEntity, commonConfig)

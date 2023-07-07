@@ -22,13 +22,12 @@ export default {
     const updateOptions = (options) => {
       const config = props.config
       config.options = options.map(option => {
-        const width = option.config.width !== undefined ? option.config.width : '200px'
+        // const width = option.config.width !== undefined ? option.config.width : '200px'
         return {
           ...option,
           config: {
-            ...option.config,
-            width: width,
-            writable: true
+            ...option.config
+            // width: width
           }
         }
       }
@@ -68,6 +67,7 @@ export default {
     const FormContent = (...args) => {
       const { element, index } = args[0]
       const formContentProps = {
+        parentType: 'table',
         selectId: props.selectId,
         element,
         index,

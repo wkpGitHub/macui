@@ -26,12 +26,12 @@ class PageInfoService extends Model {
 
   // 详情
   @transformData()
-  detail ({ id }) {
+  detail ({ id, fullPath, app }) {
     return req({
       method: 'get',
       apiName: 'apiChr',
       url: '/api/v1/page/detail',
-      params: { id }
+      params: { id, fullPath, app }
     })
   }
 

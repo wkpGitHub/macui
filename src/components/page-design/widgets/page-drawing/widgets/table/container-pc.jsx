@@ -21,7 +21,7 @@ export default {
           <div class="table-design__drag-wrapper">
             {slots.default?.()}
           </div>
-          {!props.hideDelete && <div class={'table-design__column'} style={{ width: '80px' }}>
+          {!props.config.hideDelete && <div class={'table-design__column'} style={{ width: '80px' }}>
             <div class="table-design__column__label">操作</div>
             <div class="table-design__column__content">
               <div>

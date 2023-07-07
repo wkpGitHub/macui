@@ -1,4 +1,4 @@
-import { computed, defineAsyncComponent, defineComponent } from 'vue'
+import { computed, defineAsyncComponent, defineComponent, inject } from 'vue'
 import { isLayoutType } from '../../../utils'
 // import './content.less'
 export default defineComponent({
@@ -34,6 +34,9 @@ export default defineComponent({
     showCopy: {
       type: Boolean,
       default: true
+    },
+    parentType: {
+      type: String
     }
   },
   setup (props, { attrs }) {
@@ -41,11 +44,15 @@ export default defineComponent({
     const getFormContentComponent = (type) => {
       return defineAsyncComponent(() => import(`./${type}`))
     }
+    const pageDeisgn = inject('pageDesign')
     const getComponentType = (element) => {
       const { config: { type } } = element
-      if (type === 'table') {
-        return 'table'
-      } else if (isLayoutType(type)) {
+      const usingType = pageDeisgn.drawTypeMap?.[type] || type
+      // 废弃table使用layout内的组件进行设计
+      // if (usingType === 'table') {
+      //         return 'table'
+      //       } else
+      if (isLayoutType(usingType)) {
         return 'layout'
       } else {
         return 'item'
@@ -53,6 +60,7 @@ export default defineComponent({
     }
     // 配置组件props
     const formContentProps = computed(() => ({
+      parentType: props.parentType,
       isActive: props.selectId === props.element.id,
       fieldKey: props.element.key,
       selectId: props.selectId,
@@ -64,12 +72,12 @@ export default defineComponent({
       onCopy: props.onCopy,
       onSelectItem: props.onSelectItem
     }))
-    const itemFieldKey = computed(() => {
-      const fieldKey = formContentProps.value.fieldKey
-      const otherKey = formContentProps.value.config.otherKey
-      const fieldKeyTotalName = [fieldKey].concat(otherKey).filter(v => !!v).join('-')
-      return fieldKeyTotalName
-    })
+    // const itemFieldKey = computed(() => {
+    //   const fieldKey = formContentProps.value.fieldKey
+    //   const otherKey = formContentProps.value.config.otherKey
+    //   const fieldKeyTotalName = [fieldKey].concat(otherKey).filter(v => !!v).join('-')
+    //   return fieldKeyTotalName
+    // })
     const type = computed(() => getComponentType(props.element))
     const FormContent = computed(() => getFormContentComponent(type.value))
     return () => <div

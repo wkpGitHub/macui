@@ -10,7 +10,7 @@ export default {
   setup (props, { emit, attrs }) {
     const model = ref({})
 
-    const { computedConfig } = useFormDrawingItem({ props, emit })
+    const { computedConfig, drawType } = useFormDrawingItem({ props, emit })
     return () => (
       <>
         <div class={'form-drawing__item__mask'}/>
@@ -21,6 +21,8 @@ export default {
           fieldKey={props.fieldKey}
           formLabelPosition={props.formLabelPosition}
           config={computedConfig.value}
+          isDesign={true}
+          drawType={drawType.value}
           showTemplate={true}
         />
       </>

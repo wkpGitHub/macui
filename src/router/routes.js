@@ -1,6 +1,7 @@
 import ManagerFramework from '@/views/manager/framework'
 const ctx = require.context('@/views/manager', true, /(\w+\/)*(routes|routes\/index)\.js$/i)
 const configureCtx = require.context('@/views/configure', true, /(\w+\/)*(routes|routes\/index)\.js$/i)
+const previewCtx = require.context('@/views/preview', true, /(\w+\/)*(routes|routes\/index)\.js$/i)
 const getChildren = (ctx) => {
   const result = []
   const paths = ctx.keys()
@@ -12,6 +13,8 @@ const getChildren = (ctx) => {
 }
 // front 子路由 可用于权限控制
 export const configureChildren = getChildren(configureCtx)
+// front 子路由 可用于权限控制
+export const previewChildren = getChildren(previewCtx)
 // manager 子路由 可用于权限控制
 export const mainChildren = getChildren(ctx)
 
@@ -37,6 +40,14 @@ const configureRoute = {
   children: configureChildren
 }
 
+const previewRoute = {
+  path: '/preview/:appPath',
+  name: 'previewFramework',
+  props: true,
+  component: () => import('@/views/preview/framework'),
+  children: previewChildren
+}
+
 const designRoute = {
   path: '/configure/:appPath/pages-design/:id',
   name: 'configurePagesDesign',
@@ -49,4 +60,4 @@ const loginRoute = {
   name: 'login',
   component: () => import('@cip/plugins/pages/smart-center/login')
 }
-export const routes = [loginRoute, configureRoute, designRoute]
+export const routes = [loginRoute, configureRoute, previewRoute, designRoute]

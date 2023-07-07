@@ -1,4 +1,4 @@
-import { h, watch } from 'vue'
+import { h, reactive, watch, provide } from 'vue'
 import VueDraggable from 'vuedraggable'
 import { isNotEmpty } from '@d-render/shared'
 import { useFormDrawing, useList } from './use-form-drawing'
@@ -19,7 +19,7 @@ export default {
     }
     const updateConfig = (element, val) => {
       const cloneList = props.data?.list || []
-      element.config = val
+      element.config = val // element.config.type
       updateList(cloneList, 'layoutUpdate')
     }
 
@@ -47,7 +47,7 @@ export default {
         selectItem(list.value[0])
       }
     }, { immediate: true })
-    console.log('props.data', props.data)
+    provide('cipForm', reactive({ equipment: props.equipment }))
     return () => <div class={'cip-fd-form-drawing-container'}>
       {list.value.length === 0 && <div class={'empty-form--text'}>从左侧拖拽来添加字段</div>}
       <div class={['cip-fd-form-drawing', `cip-fd-form-drawing--${props.equipment}`]}>

@@ -10,21 +10,25 @@ export default {
   props: drawingContentProps,
   emits: ['delete', 'copy', 'selectItem', 'update:config'],
   setup (props, { emit }) {
-    const { computedConfig } = useFormDrawingItem({ props, emit })
-
+    const { computedConfig, drawType } = useFormDrawingItem({ props, emit })
+    console.log('layout', drawType.value)
     const updateConfig = (val) => {
+      console.log('updateConfig', val)
       emit('update:config', val)
     }
 
     const selectItem = (element) => {
       emit('selectItem', element)
     }
-    const FormContent = ({ element, optionIndex, childIndex, updateOptionChild, copyOptionChild, deleteOptionChild }) => {
+    const FormContent = ({ element, parentType, optionIndex, childIndex, updateOptionChild, copyOptionChild, deleteOptionChild }) => {
       const formContentProps = {
+        parentType,
         selectId: props.selectId,
         element,
         optionIndex,
         onUpdateConfig: (val) => {
+          val.parentType = props.config.type
+          console.log('onUpdateConfig-->', val)
           updateOptionChild(optionIndex, childIndex, val)
         },
         onClick: (e) => {
@@ -39,6 +43,8 @@ export default {
     }
     return () => (
       <CipFormLayout
+        isDesign={true}
+        drawType={drawType.value}
         config={computedConfig.value}
         onUpdate:config={(val) => updateConfig(val)}
         onSelectItem={(element) => selectItem(element)}
@@ -58,6 +64,7 @@ export default {
             >
               {{
                 item: ({ element, index: childIndex, draggable }) => FormContent({
+                  parentType: props.config.type,
                   element,
                   optionIndex,
                   childIndex,
