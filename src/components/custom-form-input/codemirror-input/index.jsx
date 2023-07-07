@@ -22,6 +22,7 @@ export default defineComponent({
         height="300px"
         width={width.value}
         style={{ width: width.value }}
+        readonly={securityConfig.value.readonly}
       ></CipCodeMirror>
     </>
   }

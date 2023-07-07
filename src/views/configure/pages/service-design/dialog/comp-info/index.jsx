@@ -6,7 +6,7 @@ import {
 } from 'vue'
 import { CipForm } from 'd-render'
 import CipDialog from '@cip/components/cip-dialog'
-import { allCopms } from '../../comps'
+import { allComps } from '../../comps'
 import { cloneDeep } from '@cip/utils/util'
 
 export default defineComponent({
@@ -25,7 +25,7 @@ export default defineComponent({
     const model = ref({})
     watch(() => props.selectNode, () => {
       model.value = cloneDeep(props.selectNode)
-      activeComp.value = allCopms.find(comp => comp.type === props.selectNode.type)
+      activeComp.value = allComps.find(comp => comp.type === props.selectNode.type)
       // eslint-disable-next-line array-callback-return
       activeComp.value.formField.map(v => {
         v.config.changeEffect = async (value, key, model) => {

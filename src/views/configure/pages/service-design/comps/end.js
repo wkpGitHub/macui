@@ -55,6 +55,7 @@ export default {
     outputPreview: {
       type: 'codemirrorInput',
       label: '预览',
+      readonly: true,
       resetValue: true,
       dependOn: ['output', 'outputParams'],
       mode: 'json',
