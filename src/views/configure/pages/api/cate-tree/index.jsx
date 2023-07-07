@@ -36,7 +36,7 @@ export default defineComponent({
       updateFn: 'save',
       createFn: 'save',
       deleteFn: 'del',
-      itemType: '分类'
+      itemType: '分组'
     })
     // 删除分类
     const deleteNode = (e, data) => {
