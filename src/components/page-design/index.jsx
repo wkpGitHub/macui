@@ -5,8 +5,7 @@ import CipButton from '@cip/components/cip-button'
 import PageModules from './widgets/modules'
 import PageDrawing from './widgets/page-drawing'
 import PageComponents from '@d-render/design/esm/cip-form-design/widgets/form-components'
-// import PageConfigure from '@d-render/design/esm/cip-form-design/widgets/form-property'
-import PageConfigure from './widgets/property'
+import PageConfigure from '@d-render/design/esm/cip-form-design/widgets/form-property'
 import PageParams from './widgets/side-components/page-params'
 import CodeSource from './widgets/side-components/code-source'
 import './index.less'
@@ -17,7 +16,6 @@ export default {
     scheme: Object,
     config: Object,
     appendModules: Array,
-    tabList: Array,
     onSave: Function,
     componentsGroupList: Array,
     drawTypeMap: Object
@@ -91,19 +89,12 @@ export default {
           onUpdateList={(list) => { updateList(list) }}
         />,
         configure: () => <PageConfigure
-          tabList={props.tabList}
-          selectItem={selectItem.value}
-          data={props.scheme}
-          onUpdate:data={(val) => updateScheme(val)}
-          onUpdate:selectItem={(val) => updateSelectItem(val)}
-        >
-          {{
-            default: ({ name }) => slots.configure?.({ name })
-          }}
-
-        </PageConfigure>
+        selectItem={selectItem.value}
+        data={props.scheme}
+        onUpdate:data={(val) => updateScheme(val)}
+        onUpdate:selectItem={(val) => updateSelectItem(val)}
+        />
       }}
-
     </Layout>
   }
 }
