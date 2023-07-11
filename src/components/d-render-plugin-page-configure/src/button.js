@@ -1,12 +1,12 @@
 import { generateFieldList } from 'd-render'
-
+import { EVENT_TYPE } from '@/assets/consts'
 export default {
   key: { readable: true },
   text: { label: '文字' },
   icon: { label: '图标' },
   click: {
     label: '点击事件',
-    type: 'simpleCurd',
+    type: 'eventHandle',
     infoRender: (h, { item }) => h('div', null, [item.remark]),
     itemType: '事件',
     itemKey: 'index',
@@ -22,11 +22,18 @@ export default {
                   type: 'selectTreePanel',
                   showButton: false,
                   options: [
-                    { value: 'method', label: '函数' },
-                    { value: 'openDialog', label: '打开弹窗' },
-                    { value: 'script', label: '脚本' },
-                    { value: 'router', label: '页面' }
+                    ...EVENT_TYPE
                   ]
+                },
+                eventName: {
+                  readable: false,
+                  dependOn: ['eventType'],
+                  changeValue ({ eventType }) {
+                    const { label } = EVENT_TYPE.find(item => item.value === eventType) ?? {}
+                    return {
+                      value: label
+                    }
+                  }
                 }
               })
             },
@@ -47,7 +54,8 @@ export default {
                               label: '页面地址'
                             },
                             pageParams: {
-                              label: '页面参数'
+                              label: '页面参数',
+                              type: 'paramsAdd'
                             },
                             isNewTab: {
                               label: '新窗口打开',
@@ -102,6 +110,7 @@ export default {
                         children: generateFieldList({
                           script: {
                             label: '脚本',
+                            mode: 'javascript',
                             type: 'codemirrorInput'
                           }
                         })

@@ -19,5 +19,9 @@ export default {
   codemirrorInput: () => () => import('./codemirror-input'),
   dataSource: () => () => import('./data-source'),
   transactorSelect: () => () => import('./transactor-select'),
+<<<<<<< HEAD
   objFields: () => () => import('./obj-fields')
+=======
+  paramsAdd: () => () => import('./params-add')
+>>>>>>> f1773b1 (feat(事件): 新增事件处理)
 }

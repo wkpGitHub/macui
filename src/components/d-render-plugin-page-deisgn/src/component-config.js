@@ -15,5 +15,6 @@ export default {
     component: () => () => import('./form-design'),
     layout: true
   },
-  simpleCurd: () => () => import('./simple-curd')
+  simpleCurd: () => () => import('./simple-curd'),
+  eventHandle: () => () => import('./event-handle')
 }
