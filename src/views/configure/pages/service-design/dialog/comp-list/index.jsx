@@ -19,7 +19,7 @@ export default defineComponent({
     const keyWord = ref('')
     filterNodes()
     function filterNodes (val = '') {
-      const temp = compList.filter(comp => comp.title.includes(val))
+      const temp = compList.filter(comp => comp?.title?.includes?.(val))
       activeNodes.value = classifyCompByCategory(temp)
       // 全部展开
       activeNames.value = activeNodes.value.map((compType) => compType.category)

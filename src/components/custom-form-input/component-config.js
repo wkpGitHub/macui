@@ -18,5 +18,6 @@ export default {
   sortField: () => () => import('./sort-field'),
   codemirrorInput: () => () => import('./codemirror-input'),
   dataSource: () => () => import('./data-source'),
-  transactorSelect: () => () => import('./transactor-select')
+  transactorSelect: () => () => import('./transactor-select'),
+  objFields: () => () => import('./obj-fields')
 }

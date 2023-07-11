@@ -77,7 +77,7 @@ export const compList = [
 ]
 
 // 全部组件
-export const allCopms = [
+export const allComps = [
   ...compList,
   startConfig,
   endConfig

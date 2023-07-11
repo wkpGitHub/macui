@@ -8,7 +8,7 @@ class ApiConfigService extends Model {
     return req({
       method: 'get',
       apiName: 'apiChr',
-      url: '/api/v1/api/config/check-name',
+      url: '/api/v1/api/center/config/check-name',
       params: { id, name, pid }
     })
   }
@@ -19,7 +19,7 @@ class ApiConfigService extends Model {
     return req({
       method: 'get',
       apiName: 'apiChr',
-      url: '/api/v1/api/config/check-path',
+      url: '/api/v1/api/center/config/check-path',
       params: { id, path, pid }
     })
   }
@@ -30,7 +30,7 @@ class ApiConfigService extends Model {
     return req({
       method: 'get',
       apiName: 'apiChr',
-      url: '/api/v1/api/config/detail',
+      url: '/api/v1/api/center/config/detail',
       params: { id }
     })
   }
@@ -41,7 +41,7 @@ class ApiConfigService extends Model {
     return req({
       method: 'get',
       apiName: 'apiChr',
-      url: '/api/v1/api/config/detail-full',
+      url: '/api/v1/api/center/config/detail-full',
       params: { id }
     })
   }
@@ -52,7 +52,7 @@ class ApiConfigService extends Model {
     return req({
       method: 'get',
       apiName: 'apiChr',
-      url: '/api/v1/api/config/list',
+      url: '/api/v1/api/center/config/list',
       params: { apiMethod, dataId, devMode, name, path, pid }
     })
   }
@@ -63,7 +63,7 @@ class ApiConfigService extends Model {
     return req({
       method: 'post',
       apiName: 'apiChr',
-      url: '/api/v1/api/config/save',
+      url: '/api/v1/api/center/config/save',
       data: data
     })
   }
@@ -74,7 +74,7 @@ class ApiConfigService extends Model {
     return req({
       method: 'get',
       apiName: 'apiChr',
-      url: '/api/v1/api/config/tree',
+      url: '/api/v1/api/center/config/tree',
       params: { apiMethod, dataId, devMode, name, path, pid }
     })
   }
