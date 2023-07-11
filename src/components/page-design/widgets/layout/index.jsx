@@ -27,9 +27,7 @@ export default {
           {slots.content?.()}
         </div>
         <div class={styles.configure}>
-          <ElScrollbar>
           {slots.configure?.()}
-          </ElScrollbar>
         </div>
       </div>
     </div>

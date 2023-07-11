@@ -1,10 +1,9 @@
 import {
   EditorCode,
   EditorOutline,
-  EditorRenderer, EditorTpl,
+  EditorRenderer, EditorTpl, MethodIcon,
   PageParams
 } from './widgets/modules/svg/editor-renderer'
-import { Plus } from '@element-plus/icons-vue'
 
 export const modulesConfig = [
   { name: 'pageParams', title: '页面参数', icon: <PageParams/>, component: () => import('./widgets/side-components/page-params') },
@@ -12,5 +11,5 @@ export const modulesConfig = [
   { name: 'outline', title: '结构', icon: <EditorOutline/> },
   { name: 'code', title: '源码', icon: <EditorCode/> },
   { name: 'tpl', title: '模版', icon: <EditorTpl/> },
-  { name: 'methods', title: 'Methods', icon: <Plus /> }
+  { name: 'methods', title: 'Methods', icon: <MethodIcon /> }
 ]

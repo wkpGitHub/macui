@@ -1,7 +1,7 @@
 import CipButton from '@cip/components/cip-button'
 import { CipFormInputTransform } from 'd-render'
 import { inject } from 'vue'
-import { handleEvent } from './use-event-configure'
+import { handleEvent } from '../use-event-configure'
 export default {
   setup () {
     const buttonProps = [

@@ -1,8 +1,8 @@
+import { computed, inject } from 'vue'
 import CipDialog from '@cip/components/cip-dialog'
 import { layoutProps } from '@d-render/shared'
 import { useComponentSlots } from '../use-component-slots'
-import { computed, inject } from 'vue'
-import { handleEvent } from '../button/use-event-configure'
+import { handleEvent } from '../use-event-configure'
 export default {
   props: { ...layoutProps, modelValue: {} },
   setup (props, context) {
