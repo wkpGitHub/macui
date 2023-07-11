@@ -13,6 +13,11 @@ const proxyConfig = [
     key: 'apiBasic', // 基础后端服务
     target: process.env.VUE_APP_API_BASIC_TARGET,
     productionTarget: process.env.VUE_APP_API_BASIC_PRODUCTION_TARGET
+  },
+  {
+    key: 'road', // 基础后端服务
+    target: 'http://10.10.77.106:8080/road',
+    productionTarget: '/road'
   }
 ]
 
