@@ -21,7 +21,7 @@ export const apiConfigFieldList = generateFieldList({
             'get', 'post', 'put', 'delete'
           ]
         },
-        path: { label: '接口地址' }
+        fullPath: { label: '接口地址' }
       })
     }
   }
