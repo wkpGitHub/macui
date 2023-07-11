@@ -1,10 +1,17 @@
-
 export const useEventConfigure = () => {
 
 }
-
+const handleRouter = (event, { router }) => {
+  const { content } = event
+  const params = content.pageParams.reduce((data, cur) => {
+    data[cur.key] = cur.value
+    return data
+  }, {})
+  content.isNewTab
+    ? window.open(content.pageUrl)
+    : router.push({ path: content.pageUrl, query: { ...params } })
+}
 export const handleEvent = async (e, cipFormRender, dataBus, options) => {
-  console.log(e, 'e')
   const events = [].concat(e)
   for (let i = 0; i < events.length; i++) {
     const event = events[i]
@@ -18,7 +25,7 @@ export const handleEvent = async (e, cipFormRender, dataBus, options) => {
       // eslint-disable-next-line no-eval
       eval(value)
     } else if (eventType === 'router') {
-      console.log(event, 'event')
+      handleRouter(event, cipFormRender)
     }
   }
 }

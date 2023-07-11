@@ -11,7 +11,7 @@ export default {
       'buttonType',
       'icon'
     ]
-    const cipFormRender = inject('cipFormRender', {})
+    const cipFormRender = inject('drPageRender', {})
     const TransformComp = (props, { attrs }) => {
       const { click, text, dataBus, ...otherConfig } = props
       return <CipButton {...otherConfig} onClick={() => {

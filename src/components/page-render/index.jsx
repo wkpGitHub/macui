@@ -1,6 +1,7 @@
 // import * as service from '@/api'
 import { ref, reactive, computed, provide, watch } from 'vue'
 import { setFieldValue } from '@d-render/shared'
+import { useRouter } from 'vue-router'
 import DrPage from './component.jsx'
 export default {
   name: 'PageRender',
@@ -37,8 +38,10 @@ export default {
         })
       }
     }, { immediate: true })
+    const router = useRouter()
     provide('drPageRender', reactive({
-      methods
+      methods,
+      router
     }))
     provide('cipForm', reactive({ equipment: props.equipment }))
     const dataBus = (target, data) => {
