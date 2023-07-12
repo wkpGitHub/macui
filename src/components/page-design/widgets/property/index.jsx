@@ -15,6 +15,7 @@ export default {
         { name: 'component', label: '属性' }
       ].concat(props.tabList)
     })
+    console.log('tabListBridge', tabListBridge.value)
     return () => <div style={'height: 100%;'}>
       <CipTabs v-model:active={active.value} class={'dr-page-design-configure__tabs'} style={'height: 42px;'}>
         {tabListBridge.value.map(tab => {

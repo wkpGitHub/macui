@@ -26,13 +26,13 @@ export default {
     const getPageScheme = (path, id) => {
       pageInfoService.detail({ fullPath: path, app: props.appPath, id }).then(res => {
         pageSchema.value = res.data.schema
-        apiList.value = [ // res.data.apiList ||
-          {
-            apiName: 'page',
-            method: 'get',
-            fullPath: '/apiChr/api/v1/app/page'
-          }
-        ]
+        apiList.value = res.data.schema.apiList // // res.data.apiList ||
+        //   [{
+        //     apiName: 'page',
+        //     method: 'get',
+        //     fullPath: '/apiChr/api/v1/app/page'
+        //   }
+        // ]
       })
     }
 

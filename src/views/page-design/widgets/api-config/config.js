@@ -1,7 +1,7 @@
 import { generateFieldList } from 'd-render'
 
 export const apiConfigFieldList = generateFieldList({
-  apiList: {
+  'schema.apiList': {
     type: 'simpleCurd',
     itemType: '接口',
     itemKey: 'apiName',
@@ -21,7 +21,14 @@ export const apiConfigFieldList = generateFieldList({
             'get', 'post', 'put', 'delete'
           ]
         },
-        fullPath: { label: '接口地址' }
+        fullPath: { label: '接口地址' },
+        query: {
+          type: 'table',
+          rowKey: 'id',
+          options: generateFieldList({
+            name: { label: '键', writable: true }
+          })
+        }
       })
     }
   }

@@ -27,5 +27,8 @@ export default {
         value: 'right'
       }
     ]
+  },
+  search: {
+    type: 'eventHandle'
   }
 }

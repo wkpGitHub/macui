@@ -4,6 +4,7 @@ export default {
   otherKey: {
     type: 'select',
     allowCreate: true,
+    realArray: true,
     multiple: true,
     limit: 2
   },

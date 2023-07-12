@@ -10,12 +10,7 @@ import { cloneDeep } from '@d-render/shared'
 
 export const EventHandle = {
   props: {
-    modelValue: Array,
-    formProps: {},
-    dialogProps: {},
-    infoRender: {},
-    itemType: String,
-    itemKey: String
+    eventTypes: Array
   },
   emits: ['update:modelValue'],
   setup (props, { emit }) {
@@ -65,7 +60,7 @@ export const EventHandle = {
     return () => <div class='event-handle--wrapper'>
       <div class="event-handle--content">
         {
-          props.modelValue.map((item, index) => <div className="event-handle--content__item">
+          props.modelValue?.map((item, index) => <div className="event-handle--content__item">
             <div className="event-handle--content__item--text">{item.eventName}</div>
             <div className="event-handle--content__item--icon">
               <CipButtonText size="mini" icon={Edit} type="text" onClick={() => handleEdit(item, index)}></CipButtonText>
@@ -85,11 +80,8 @@ export const EventHandle = {
 export default {
   setup () {
     const props = [
-      'formProps',
-      'dialogProps',
-      'infoRender',
-      'itemKey',
-      'itemType'
+      'includes',
+      'excludes'
     ]
     return () => <CipFormInputTransform
       inputPropsConfig={props}
