@@ -9,6 +9,7 @@ export default {
       'text',
       'click',
       'buttonType',
+      ['inputType', 'type'],
       'icon'
     ]
     const cipFormRender = inject('drPageRender', {})
