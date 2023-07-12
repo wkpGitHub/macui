@@ -59,7 +59,7 @@ export const scriptFieldList = generateFieldList({
 // 函数配置
 export const methodFieldList = generateFieldList({
   script: {
-    label: '脚本',
+    label: '函数',
     type: 'codemirrorInput'
   }
 })
