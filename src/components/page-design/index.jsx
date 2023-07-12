@@ -7,6 +7,7 @@ import PageDrawing from './widgets/page-drawing'
 import PageStructure from './widgets/side-components/structure'
 import PageComponents from '@d-render/design/esm/cip-form-design/widgets/form-components'
 import PageMethods from './widgets/side-components/methods'
+
 import PageConfigure from './widgets/property'
 import PageParams from './widgets/side-components/page-params'
 import CodeSource from './widgets/side-components/code-source'

@@ -44,7 +44,7 @@ export default {
               key: 'content',
               children: generateFieldList({
                 content: {
-                  type: 'form',
+                  type: 'formDesign',
                   options: [],
                   labelPosition: 'top',
                   dependOn: ['eventType'],
@@ -54,7 +54,8 @@ export default {
                         {
                           children: generateFieldList({
                             pageUrl: {
-                              label: '页面地址'
+                              label: '页面地址',
+                              outDependOn: ['eventType']
                             },
                             pageParams: {
                               label: '页面参数',
