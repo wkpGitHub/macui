@@ -6,12 +6,14 @@ import CipDialog from '@cip/components/cip-dialog'
 import { CipForm, CipFormInputTransform } from 'd-render'
 import { computed, ref, inject } from 'vue'
 import CipMessageBox from '@cip/components/cip-message-box'
+import LayoutBox from '@/components/d-render-plugin-page-render/layout-box'
 import { cloneDeep } from '@d-render/shared'
+import { fieldList, config } from './config'
 
+console.log(fieldList, 'fieldList')
 export const EventHandle = {
   props: {
     modelValue: Array,
-    formProps: {},
     includes: {
       type: Array
     },
@@ -20,18 +22,19 @@ export const EventHandle = {
     }
   },
   emits: ['update:modelValue'],
-  setup (props, { emit }) {
-    const item = ref({})
+  setup (props, { emit, slots }) {
+    // const item = ref({})
     const dialog = ref(false)
-    const fieldList = computed(() => {
-      const _fieldList = props.formProps?.fieldList ?? []
+    const treeModel = ref({})
+    const contentModel = ref({})
+    const formFieldList = computed(() => {
       // 递归获取所有的dialog key
-      const dialogKey = []
+      const dialogKeyList = []
       const getDialogKeyList = (list) => {
         list.forEach(item => {
           if (Object.hasOwn(item, 'config')) {
             if (item.config.type === 'dialog') {
-              dialogKey.push(item.key)
+              dialogKeyList.push(item.key)
             }
             if (item.config.options?.length) {
               getDialogKeyList(item.config.options)
@@ -42,15 +45,27 @@ export const EventHandle = {
         })
       }
       getDialogKeyList(pageDesign.scheme.list)
-      item.value.content = {}
-      item.value._dialogList = dialogKey
-      console.log(dialogKey, 'dialogKey', item.value)
-      return _fieldList
+      contentModel.value._dialogList = dialogKeyList
+      return config[treeModel.value.eventType] || []
     })
     const pageDesign = inject('pageDesign', {})
     const emitModelValue = (val) => {
       emit('update:modelValue', val)
     }
+    const item = computed({
+      get () {
+        return {
+          ...treeModel.value,
+          content: {
+            ...contentModel.value
+          }
+        }
+      },
+      set (val) {
+        treeModel.value = val
+        contentModel.value = val.content || {}
+      }
+    })
     // 保存
     const saveItem = (resolve, reject) => {
       let modelValue = props.modelValue
@@ -85,21 +100,35 @@ export const EventHandle = {
       item.value = cloneDeep({ ...data, index })
       dialog.value = true
     }
+    const slotsContent = {
+      operate: () => <CipForm v-model:model={treeModel.value} fieldList={fieldList}></CipForm>,
+      content: () => <CipForm v-model:model={contentModel.value} fieldList={formFieldList.value} key={treeModel.value.eventType}></CipForm>
+    }
+    const isNotEmpty = computed(() => {
+      return Array.isArray(props.modelValue) && props.modelValue.length
+    })
     return () => <div class='event-handle--wrapper'>
-      <div class="event-handle--content">
-        {
-          props.modelValue?.map((item, index) => <div className="event-handle--content__item">
-            <div className="event-handle--content__item--text">{item.eventName}</div>
-            <div className="event-handle--content__item--icon">
-              <CipButtonText size="small" icon={Edit} type="text" onClick={() => handleEdit(item, index)}></CipButtonText>
-              <CipButtonText size="small" icon={Delete} type="text" onClick={() => handleDelete(item, index)}></CipButtonText>
-            </div>
-          </div>)
-        }
-      </div>
+      {
+        isNotEmpty.value
+          ? <div className="event-handle--content">
+          {
+            props.modelValue?.map((item, index) => <div className="event-handle--content__item">
+              <div className="event-handle--content__item--text">{item.eventName}</div>
+              <div className="event-handle--content__item--icon">
+                <CipButtonText size="small" icon={Edit} type="text"
+                               onClick={() => handleEdit(item, index)}></CipButtonText>
+                <CipButtonText size="small" icon={Delete} type="text"
+                               onClick={() => handleDelete(item, index)}></CipButtonText>
+              </div>
+            </div>)
+          }
+        </div>
+          : '<空>'
+      }
       <CipButton class="event-handle--button" onClick={createItem}>添加事件</CipButton>
       <CipDialog title={`${item.value.index > -1 ? '编辑' : '新增'}事件`} v-model={dialog.value} onConfirm={saveItem} >
-        <CipForm {...props.formProps} v-model:model={item.value} fieldList={fieldList.value}></CipForm>
+        <LayoutBox v-slots={ slotsContent }>
+        </LayoutBox>
       </CipDialog>
     </div>
   }
@@ -109,8 +138,7 @@ export default {
   setup () {
     const eventHandleProps = [
       'includes',
-      'excludes',
-      'formProps'
+      'excludes'
     ]
     return () => <CipFormInputTransform
       inputPropsConfig={eventHandleProps}

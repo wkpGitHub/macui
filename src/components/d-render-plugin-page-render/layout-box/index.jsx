@@ -1,5 +1,4 @@
 import { computed } from 'vue'
-import { useComponentSlots } from '../use-component-slots'
 import { layoutProps } from '@d-render/shared'
 import './index.less'
 export default {
@@ -16,7 +15,8 @@ export default {
     ...layoutProps
   },
   setup (props, ctx) {
-    const { componentSlots } = useComponentSlots(props, ctx)
+    const { slots: componentSlots } = ctx
+    console.log(componentSlots, 'componentSlots')
     const flexDirection = computed(() => {
       return props.theme
     })
@@ -40,13 +40,13 @@ export default {
         [size.value.type]: size.value.size
       }}>
         {
-          componentSlots.value?.operate?.()
+          componentSlots?.operate?.()
         }
       </div>
       <div class='layout-box-wrapper--content' style={contentStyle.value}>
         {
           {
-            default: () => componentSlots.value?.content?.()
+            default: () => componentSlots?.content?.()
           }
         }
       </div>
