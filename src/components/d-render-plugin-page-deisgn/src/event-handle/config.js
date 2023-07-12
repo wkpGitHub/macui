@@ -42,10 +42,10 @@ export const openDialogFieldList = generateFieldList({
     label: '弹窗选择',
     type: 'select',
     dependOn: ['_dialogList'],
-    changeConfig (config, { _dialogList }) {
-      console.log(_dialogList, '_dialogList')
-      config.options = _dialogList
-      return config
+    readable: true,
+    asyncOptions: ({ _dialogList }) => {
+      console.log('_dialogList', _dialogList)
+      return _dialogList ?? []
     }
   }
 })

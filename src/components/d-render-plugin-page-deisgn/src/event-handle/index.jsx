@@ -4,13 +4,28 @@ import { Edit, Delete } from '@element-plus/icons-vue'
 import './index.less'
 import CipDialog from '@cip/components/cip-dialog'
 import { CipForm, CipFormInputTransform } from 'd-render'
-import { computed, ref, inject } from 'vue'
+import { computed, ref, inject, watch, nextTick } from 'vue'
 import CipMessageBox from '@cip/components/cip-message-box'
 import LayoutBox from '@/components/d-render-plugin-page-render/layout-box'
 import { cloneDeep } from '@d-render/shared'
 import { fieldList, config } from './config'
 
 console.log(fieldList, 'fieldList')
+const getDialogKeyList = (list, result = []) => {
+  list.forEach(item => {
+    if (Object.hasOwn(item, 'config')) {
+      if (item.config.type === 'dialog') {
+        result.push(item.key)
+      }
+      if (item.config.options?.length) {
+        getDialogKeyList(item.config.options, result)
+      }
+    } else if (item.children?.length) {
+      getDialogKeyList(item.children, result)
+    }
+  })
+  return result
+}
 export const EventHandle = {
   props: {
     modelValue: Array,
@@ -27,28 +42,15 @@ export const EventHandle = {
     const dialog = ref(false)
     const treeModel = ref({})
     const contentModel = ref({})
-    const formFieldList = computed(() => {
-      // 递归获取所有的dialog key
-      const dialogKeyList = []
-      const getDialogKeyList = (list) => {
-        list.forEach(item => {
-          if (Object.hasOwn(item, 'config')) {
-            if (item.config.type === 'dialog') {
-              dialogKeyList.push(item.key)
-            }
-            if (item.config.options?.length) {
-              getDialogKeyList(item.config.options)
-            }
-          } else if (item.children?.length) {
-            getDialogKeyList(item.children)
-          }
-        })
-      }
-      getDialogKeyList(pageDesign.scheme.list)
-      contentModel.value._dialogList = dialogKeyList
-      return config[treeModel.value.eventType] || []
-    })
+    const formFieldList = ref([])
     const pageDesign = inject('pageDesign', {})
+    watch(() => treeModel.value.eventType, () => {
+      contentModel.value._dialogList = getDialogKeyList(pageDesign.scheme.list)
+      nextTick().then(() => {
+        formFieldList.value = config[treeModel.value.eventType] || []
+      })
+    }, { immediate: true })
+
     const emitModelValue = (val) => {
       emit('update:modelValue', val)
     }
@@ -101,8 +103,8 @@ export const EventHandle = {
       dialog.value = true
     }
     const slotsContent = {
-      operate: () => <CipForm v-model:model={treeModel.value} fieldList={fieldList}></CipForm>,
-      content: () => <CipForm v-model:model={contentModel.value} fieldList={formFieldList.value} key={treeModel.value.eventType}></CipForm>
+      operate: () => <CipForm v-model:model={treeModel.value} fieldList={fieldList}/>,
+      content: () => <CipForm v-model:model={contentModel.value} fieldList={formFieldList.value} key={treeModel.value.eventType} />
     }
     const isNotEmpty = computed(() => {
       return Array.isArray(props.modelValue) && props.modelValue.length
