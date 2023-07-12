@@ -1,13 +1,17 @@
 import CipPagination from '@cip/components/cip-pagination'
 import { formInputProps, fromInputEmits, useFormInput, useInputProps } from '@d-render/shared'
-import { computed, watch } from 'vue'
+import { computed } from 'vue'
 export default {
   props: formInputProps,
   emits: fromInputEmits,
   setup (props, ctx) {
     // otherKey pageNum total
     const { proxyValue, proxyOtherValue } = useFormInput(props, ctx, { maxOtherKey: 2 })
-    const inputProps = useInputProps(props, ['layout', 'pageSizes'])
+    const inputProps = useInputProps(props, [
+      'layout',
+      'pageSizes',
+      'onRefresh'
+    ])
     const pageSizes = computed(() => {
       return inputProps.value.pageSizes?.map(item => +item)
     })
@@ -21,11 +25,7 @@ export default {
         proxyOtherValue[0].value = Math.floor(val / (proxyValue.value ?? 10)) + 1
       }
     })
-    console.log('config', props.config)
-    watch(proxyOtherValue[1], (val) => {
-      console.log('proxyOtherValue', val)
-    })
-    console.log(proxyOtherValue[1].value)
+
     return () => <CipPagination
       { ...inputProps.value }
       v-model:limit={proxyValue.value}

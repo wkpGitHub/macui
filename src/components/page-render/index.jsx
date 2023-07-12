@@ -52,7 +52,8 @@ export default {
     const router = useRouter()
     provide('drPageRender', reactive({
       methods,
-      router
+      router,
+      dataBus
     }))
     provide('cipForm', reactive({ equipment: props.equipment }))
 
@@ -67,7 +68,6 @@ export default {
       fieldList={fieldList.value}
       equipment={props.equipment}
       grid={grid.value}
-      dataBus={dataBus}
     />
   }
 }

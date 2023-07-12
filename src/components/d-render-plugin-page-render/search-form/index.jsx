@@ -1,5 +1,5 @@
 import { CipSearchForm, CipFormInputTransform } from 'd-render'
-import { inject } from 'vue'
+import { useEventConfigure } from '../use-event-configure'
 export default {
   emits: ['update:modelValue'],
   setup () {
@@ -17,18 +17,18 @@ export default {
       'defaultModel',
       'search'
     ]
-    const cipFormRender = inject('cipFormRender', {})
+
     const TransformModelSearchForm = (props, { emit }) => {
       const { modelValue = {}, dataBus, search, options, ...componentProps } = props
       const fieldList = options[0] ? options[0].children : []
+      const handleEvent = useEventConfigure()
       return <CipSearchForm
         {...componentProps}
         model={modelValue}
         onUpdate:model={componentProps['onUpdate:modelValue']}
         fieldList={fieldList}
         onSearch={() => {
-          const method = cipFormRender.methods[search]
-          if (method) method()
+          handleEvent(search)
           // cipFormRenderMethod.page()
           // search(dataBus, modelValue)
         }}

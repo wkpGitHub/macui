@@ -1,6 +1,5 @@
 import CipButton from '@cip/components/cip-button'
 import { CipFormInputTransform } from 'd-render'
-import { inject } from 'vue'
 import { handleEvent } from '../use-event-configure'
 export default {
   setup (props) {
@@ -12,11 +11,10 @@ export default {
       ['inputType', 'type'],
       'icon'
     ]
-    const cipFormRender = inject('drPageRender', {})
     const TransformComp = (props, { attrs }) => {
       const { click, text, dataBus, ...otherConfig } = props
       return <CipButton {...otherConfig} onClick={() => {
-        handleEvent(click, cipFormRender, dataBus)
+        handleEvent(click)
         // const method = cipFormRender.methods[click]
         // if (method) method()
       }} >{text}</CipButton>

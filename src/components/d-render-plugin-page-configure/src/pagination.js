@@ -29,5 +29,10 @@ export default {
     multiple: true,
     defaultValue: defaultLayout,
     options: defaultLayout.split(',')
+  },
+  onRefresh: {
+    label: '刷新事件',
+    type: 'eventHandle',
+    include: ['methods', 'script']
   }
 }

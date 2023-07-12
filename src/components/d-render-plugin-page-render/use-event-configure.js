@@ -1,6 +1,5 @@
-export const useEventConfigure = () => {
+import { inject } from 'vue'
 
-}
 const handleRouter = (event, { router }) => {
   const { content } = event
   const params = content.pageParams.reduce((data, cur) => {
@@ -11,21 +10,27 @@ const handleRouter = (event, { router }) => {
     ? window.open(content.pageUrl)
     : router.push({ path: content.pageUrl, query: { ...params } })
 }
-export const handleEvent = async (e, cipFormRender, dataBus, options) => {
+export const handleEvent = async (e, drPageRender, options) => {
   const events = [].concat(e)
   for (let i = 0; i < events.length; i++) {
     const event = events[i]
     const { eventType, value } = event
     if (eventType === 'openDialog') {
-      dataBus(value, true)
+      drPageRender(value, true)
     } else if (eventType === 'method') {
-      const method = cipFormRender.methods[value]
+      const method = drPageRender.methods[value]
       if (method) await method(options)
     } else if (eventType === 'script') {
       // eslint-disable-next-line no-eval
       eval(value)
     } else if (eventType === 'router') {
-      handleRouter(event, cipFormRender)
+      handleRouter(event, drPageRender)
     }
   }
+}
+
+export const useEventConfigure = () => {
+  const drPageRender = inject('drPageRender', {})
+  const handleEventBridge = (e, options) => handleEvent(e, drPageRender, options)
+  return handleEventBridge
 }
