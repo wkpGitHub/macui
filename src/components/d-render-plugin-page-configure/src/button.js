@@ -25,6 +25,9 @@ export default {
                     ...EVENT_TYPE
                   ]
                 },
+                _dialogList: {
+                  readable: false
+                },
                 eventName: {
                   readable: false,
                   dependOn: ['eventType'],
@@ -67,29 +70,16 @@ export default {
                     } else if (eventType === 'openDialog') {
                       config.options = [
                         {
+                          key: 'default',
                           children: generateFieldList({
-                            dialogType: {
-                              label: '类型',
-                              type: 'radio',
-                              defaultValue: 'dialog',
-                              options: [
-                                {
-                                  label: '弹窗',
-                                  value: 'dialog'
-                                },
-                                {
-                                  label: '抽屉',
-                                  value: 'drawer'
-                                }
-                              ]
-                            },
-                            dialogContent: {
-                              label: '弹窗内容',
-                              type: 'button',
-                              defaultValue: '去配置',
-                              dependOn: ['dialogType'],
-                              changeConfig (config, { dialogType }) {
-                                config.label = dialogType === 'dialog' ? '弹窗' : '抽屉'
+                            dialogKey: {
+                              writable: true,
+                              label: '弹窗选择',
+                              type: 'select',
+                              options: [],
+                              dependOn: ['_dialogList'],
+                              changeConfig (config) {
+                                console.log(config, 'config')
                                 return config
                               }
                             }

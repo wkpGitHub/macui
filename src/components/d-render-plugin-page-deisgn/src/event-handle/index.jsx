@@ -4,26 +4,50 @@ import { Edit, Delete } from '@element-plus/icons-vue'
 import './index.less'
 import CipDialog from '@cip/components/cip-dialog'
 import { CipForm, CipFormInputTransform } from 'd-render'
-import { computed, ref } from 'vue'
+import { computed, ref, inject } from 'vue'
 import CipMessageBox from '@cip/components/cip-message-box'
 import { cloneDeep } from '@d-render/shared'
 
 export const EventHandle = {
   props: {
-    eventTypes: Array
+    modelValue: Array,
+    formProps: {},
+    includes: {
+      type: Array
+    },
+    excludes: {
+      type: Array
+    }
   },
   emits: ['update:modelValue'],
   setup (props, { emit }) {
     const item = ref({})
     const dialog = ref(false)
-    const fromFieldList = computed(() => {
-      return props.formProps?.fieldList ?? []
+    const fieldList = computed(() => {
+      const _fieldList = props.formProps?.fieldList ?? []
+      // 递归获取所有的dialog key
+      const dialogKey = []
+      const getDialogKeyList = (list) => {
+        list.forEach(item => {
+          if (Object.hasOwn(item, 'config')) {
+            if (item.config.type === 'dialog') {
+              dialogKey.push(item.key)
+            }
+            if (item.config.options?.length) {
+              getDialogKeyList(item.config.options)
+            }
+          } else if (item.children?.length) {
+            getDialogKeyList(item.children)
+          }
+        })
+      }
+      getDialogKeyList(pageDesign.scheme.list)
+      item.value.content = {}
+      item.value._dialogList = dialogKey
+      console.log(dialogKey, 'dialogKey', item.value)
+      return _fieldList
     })
-    // const pageDesign = inject('pageDesign', {})
-    // console.log(pageDesign, 'pageDesign')
-    // watch(() => pageDesign.scheme, (val) => {
-    //   console.log(val, 'val')
-    // })
+    const pageDesign = inject('pageDesign', {})
     const emitModelValue = (val) => {
       emit('update:modelValue', val)
     }
@@ -74,8 +98,8 @@ export const EventHandle = {
         }
       </div>
       <CipButton class="event-handle--button" onClick={createItem}>添加事件</CipButton>
-      <CipDialog title={`${item.value.index > -1 ? '编辑' : '新增'}${props.itemType}`} {...props.dialogProps} v-model={dialog.value} onConfirm={saveItem} >
-        <CipForm {...props.formProps} v-model:model={item.value} fieldList={fromFieldList.value}></CipForm>
+      <CipDialog title={`${item.value.index > -1 ? '编辑' : '新增'}事件`} v-model={dialog.value} onConfirm={saveItem} >
+        <CipForm {...props.formProps} v-model:model={item.value} fieldList={fieldList.value}></CipForm>
       </CipDialog>
     </div>
   }
@@ -83,12 +107,13 @@ export const EventHandle = {
 
 export default {
   setup () {
-    const props = [
+    const eventHandleProps = [
       'includes',
-      'excludes'
+      'excludes',
+      'formProps'
     ]
     return () => <CipFormInputTransform
-      inputPropsConfig={props}
+      inputPropsConfig={eventHandleProps}
       comp={EventHandle}
     />
   }
