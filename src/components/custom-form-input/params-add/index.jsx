@@ -30,14 +30,14 @@ export default {
           : <div className="params-add-wrapper--content">
             {
               proxyValue.value?.map((item, index) => <div className="params-add-wrapper--item">
-                <CipInput size="mini" placeholder="参数名" v-model={item.key}></CipInput>
-                <CipInput size="mini" placeholder="参数值" v-model={item.value}></CipInput>
+                <CipInput size="small" placeholder="参数名" v-model={item.key}></CipInput>
+                <CipInput size="small" placeholder="参数值" v-model={item.value}></CipInput>
                 <CipButtonText icon={Close} size="mini" onClick={() => handleDelete(index)}></CipButtonText>
               </div>)
             }
           </div>
       }
-      <CipButtonText size="mini" type="primary" onClick={handleClick}>新增</CipButtonText>
+      <CipButtonText size="small" type="primary" onClick={handleClick}>新增</CipButtonText>
     </div>
   }
 }

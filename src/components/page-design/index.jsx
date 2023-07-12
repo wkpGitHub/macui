@@ -22,6 +22,7 @@ export default {
   },
   inheritAttrs: false,
   setup (props, { attrs, emit, slots }) {
+    console.log(props.scheme, 'props.scheme', props)
     const currentModuleName = ref('renderer')
     const modulesBridge = computed(() => {
       return modulesConfig.concat(props.appendModules)
@@ -31,11 +32,12 @@ export default {
     })
     const { selectItem, selectItemId, changeSelect, updateSelectItem } = useSelect()
     provide('pageDesign', reactive({
-      drawTypeMap: props.drawTypeMap
+      drawTypeMap: props.drawTypeMap,
+      scheme: props.scheme
     }))
     const updateScheme = (scheme) => {
+      console.log(scheme, 'scheme')
       // 进入使用designType 出来使用type
-      console.log('scheme', scheme)
       emit('update:scheme', scheme)
     }
     const updateConfig = (config) => {
