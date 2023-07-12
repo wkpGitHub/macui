@@ -16,10 +16,14 @@ export const EventHandle = {
   setup (props, { emit }) {
     const item = ref({})
     const dialog = ref(false)
-    console.log(props, 'props')
     const fromFieldList = computed(() => {
       return props.formProps?.fieldList ?? []
     })
+    // const pageDesign = inject('pageDesign', {})
+    // console.log(pageDesign, 'pageDesign')
+    // watch(() => pageDesign.scheme, (val) => {
+    //   console.log(val, 'val')
+    // })
     const emitModelValue = (val) => {
       emit('update:modelValue', val)
     }
@@ -63,8 +67,8 @@ export const EventHandle = {
           props.modelValue?.map((item, index) => <div className="event-handle--content__item">
             <div className="event-handle--content__item--text">{item.eventName}</div>
             <div className="event-handle--content__item--icon">
-              <CipButtonText size="mini" icon={Edit} type="text" onClick={() => handleEdit(item, index)}></CipButtonText>
-              <CipButtonText size="mini" icon={Delete} type="text" onClick={() => handleDelete(item, index)}></CipButtonText>
+              <CipButtonText size="small" icon={Edit} type="text" onClick={() => handleEdit(item, index)}></CipButtonText>
+              <CipButtonText size="small" icon={Delete} type="text" onClick={() => handleDelete(item, index)}></CipButtonText>
             </div>
           </div>)
         }

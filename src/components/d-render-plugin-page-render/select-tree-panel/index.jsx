@@ -5,7 +5,6 @@ export default {
   emits: fromInputEmits,
   setup (props, ctx) {
     const { proxyValue } = useFormInput(props, ctx)
-    console.log(proxyValue.value, 'data')
     const inputProps = useInputProps(props, ['options', 'showButton'])
     const handleNodeClick = ({ data }) => {
       proxyValue.value = data.value
