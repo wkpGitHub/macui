@@ -24,7 +24,6 @@ export default {
   setup (props, { emit }) {
     const modelValue = useDeepComputed({
       get () {
-        console.log(props.modelValue)
         return props.modelValue
       },
       set (newVal) {
