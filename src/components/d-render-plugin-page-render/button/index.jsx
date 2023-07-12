@@ -1,6 +1,6 @@
 import CipButton from '@cip/components/cip-button'
 import { CipFormInputTransform } from 'd-render'
-import { handleEvent } from '../use-event-configure'
+import { useEventConfigure } from '../use-event-configure'
 export default {
   setup (props) {
     console.log(props, 'button')
@@ -11,6 +11,7 @@ export default {
       ['inputType', 'type'],
       'icon'
     ]
+    const handleEvent = useEventConfigure()
     const TransformComp = (props, { attrs }) => {
       const { click, text, dataBus, ...otherConfig } = props
       return <CipButton {...otherConfig} onClick={() => {

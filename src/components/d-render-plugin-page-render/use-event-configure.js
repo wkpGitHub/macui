@@ -16,7 +16,7 @@ export const handleEvent = async (e, drPageRender, options) => {
     const event = events[i]
     const { eventType, value } = event
     if (eventType === 'openDialog') {
-      drPageRender(value, true)
+      drPageRender.dataBus(value, true)
     } else if (eventType === 'method') {
       const method = drPageRender.methods[value]
       if (method) await method(options)
