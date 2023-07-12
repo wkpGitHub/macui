@@ -4,9 +4,9 @@ export const methodsConfigFieldList = generateFieldList({
   methods: {
     type: 'simpleCurd',
     itemType: '方法',
-    itemKey: 'methodName',
+    itemKey: 'name',
     infoRender: (h, { item }) => {
-      return h('div', null, [item.methodName])
+      return h('div', null, [item.name])
     },
     dialogProps: {
       size: 'default'
