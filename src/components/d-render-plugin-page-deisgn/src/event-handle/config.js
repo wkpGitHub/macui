@@ -44,7 +44,6 @@ export const openDialogFieldList = generateFieldList({
     dependOn: ['_dialogList'],
     readable: true,
     asyncOptions: ({ _dialogList }) => {
-      console.log('_dialogList', _dialogList)
       return _dialogList ?? []
     }
   }
@@ -58,9 +57,13 @@ export const scriptFieldList = generateFieldList({
 })
 // 函数配置
 export const methodFieldList = generateFieldList({
-  script: {
+  methods: {
     label: '函数',
-    type: 'codemirrorInput'
+    type: 'select',
+    dependOn: ['_methodList'],
+    asyncOptions: ({ _methodList }) => {
+      return _methodList.map(item => item.name)
+    }
   }
 })
 

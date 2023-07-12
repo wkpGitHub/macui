@@ -10,7 +10,6 @@ import LayoutBox from '@/components/d-render-plugin-page-render/layout-box'
 import { cloneDeep } from '@d-render/shared'
 import { fieldList, config } from './config'
 
-console.log(fieldList, 'fieldList')
 const getDialogKeyList = (list, result = []) => {
   list.forEach(item => {
     if (Object.hasOwn(item, 'config')) {
@@ -38,7 +37,6 @@ export const EventHandle = {
   },
   emits: ['update:modelValue'],
   setup (props, { emit, slots }) {
-    // const item = ref({})
     const dialog = ref(false)
     const treeModel = ref({})
     const contentModel = ref({})
@@ -46,6 +44,7 @@ export const EventHandle = {
     const pageDesign = inject('pageDesign', {})
     watch(() => treeModel.value.eventType, () => {
       contentModel.value._dialogList = getDialogKeyList(pageDesign.scheme.list)
+      contentModel.value._methodList = pageDesign.scheme.methods
       nextTick().then(() => {
         formFieldList.value = config[treeModel.value.eventType] || []
       })
@@ -58,14 +57,12 @@ export const EventHandle = {
       get () {
         return {
           ...treeModel.value,
-          content: {
-            ...contentModel.value
-          }
+          ...contentModel.value
         }
       },
       set (val) {
         treeModel.value = val
-        contentModel.value = val.content || {}
+        contentModel.value = val
       }
     })
     // 保存
@@ -129,8 +126,7 @@ export const EventHandle = {
       }
       <CipButton class="event-handle--button" onClick={createItem}>添加事件</CipButton>
       <CipDialog title={`${item.value.index > -1 ? '编辑' : '新增'}事件`} v-model={dialog.value} onConfirm={saveItem} >
-        <LayoutBox v-slots={ slotsContent }>
-        </LayoutBox>
+        <LayoutBox v-slots={ slotsContent }></LayoutBox>
       </CipDialog>
     </div>
   }

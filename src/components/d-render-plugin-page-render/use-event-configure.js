@@ -1,14 +1,13 @@
 import { inject } from 'vue'
 
 const handleRouter = (event, { router }) => {
-  const { content } = event
-  const params = content.pageParams.reduce((data, cur) => {
+  const params = event.pageParams.reduce((data, cur) => {
     data[cur.key] = cur.value
     return data
   }, {})
-  content.isNewTab
-    ? window.open(content.pageUrl)
-    : router.push({ path: content.pageUrl, query: { ...params } })
+  event.isNewTab
+    ? window.open(event.pageUrl)
+    : router.push({ path: event.pageUrl, query: { ...params } })
 }
 export const handleEvent = async (e, drPageRender, options) => {
   const events = [].concat(e)
@@ -24,7 +23,7 @@ export const handleEvent = async (e, drPageRender, options) => {
       // eslint-disable-next-line no-eval
       eval(value)
     } else if (eventType === 'router') {
-      handleRouter(event, drPageRender)
+      handleRouter(event, drPageRender, options)
     }
   }
 }
