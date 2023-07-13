@@ -18,7 +18,7 @@ export default defineComponent({
     return () => <>
       <CipCodeMirror
         v-model={proxyValue.value}
-        mode={securityConfig.value.mode || 'sql'}
+        mode={securityConfig.value.mode || 'javascript'}
         theme="eclipse"
         height="300px"
         width={width.value}

@@ -25,7 +25,7 @@ const getDialogKeyList = (list, result = []) => {
   })
   return result
 }
-export const EventHandle = {
+export const EventConfig = {
   props: {
     modelValue: Array,
     includes: {
@@ -55,10 +55,13 @@ export const EventHandle = {
     }
     const item = computed({
       get () {
-        return {
-          ...treeModel.value,
-          ...contentModel.value
+        const newObj = {
+          ...cloneDeep(treeModel.value),
+          ...cloneDeep(contentModel.value)
         }
+        delete newObj._dialogList
+        delete newObj._methodList
+        return newObj
       },
       set (val) {
         treeModel.value = val
@@ -109,11 +112,11 @@ export const EventHandle = {
     return () => <div class='event-handle--wrapper'>
       {
         isNotEmpty.value
-          ? <div className="event-handle--content">
+          ? <div class="event-handle--content">
           {
-            props.modelValue?.map((item, index) => <div className="event-handle--content__item">
-              <div className="event-handle--content__item--text">{item.eventName}</div>
-              <div className="event-handle--content__item--icon">
+            props.modelValue?.map((item, index) => <div class="event-handle--content__item">
+              <div class="event-handle--content__item--text">{item.eventName}</div>
+              <div class="event-handle--content__item--icon">
                 <CipButtonText size="small" icon={Edit} type="text"
                                onClick={() => handleEdit(item, index)}></CipButtonText>
                 <CipButtonText size="small" icon={Delete} type="text"
@@ -140,7 +143,7 @@ export default {
     ]
     return () => <CipFormInputTransform
       inputPropsConfig={eventHandleProps}
-      comp={EventHandle}
+      comp={EventConfig}
     />
   }
 }

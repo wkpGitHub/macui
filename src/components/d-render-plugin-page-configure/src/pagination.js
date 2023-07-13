@@ -32,7 +32,7 @@ export default {
   },
   onRefresh: {
     label: '刷新事件',
-    type: 'eventHandle',
+    type: 'eventConfig',
     include: ['methods', 'script']
   }
 }

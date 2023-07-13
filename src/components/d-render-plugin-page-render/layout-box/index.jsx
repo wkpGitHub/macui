@@ -16,7 +16,6 @@ export default {
   },
   setup (props, ctx) {
     const { slots: componentSlots } = ctx
-    console.log(componentSlots, 'componentSlots')
     const flexDirection = computed(() => {
       return props.theme
     })

@@ -5,6 +5,7 @@ export const fieldList = generateFieldList({
   eventType: {
     type: 'selectTreePanel',
     showButton: false,
+    defaultValue: TYPE_KEY.method,
     options: [
       ...EVENT_TYPE
     ]

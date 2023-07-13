@@ -29,6 +29,6 @@ export default {
   },
   search: {
     label: '搜索事件',
-    type: 'eventHandle'
+    type: 'eventConfig'
   }
 }

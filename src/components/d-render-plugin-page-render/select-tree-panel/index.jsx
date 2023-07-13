@@ -12,7 +12,6 @@ export default {
     return () => <CipTree
       onNode-click={handleNodeClick}
       currentNodeKey={proxyValue.value}
-      highlightCurrent
       {
         ...inputProps.value
       }
