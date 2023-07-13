@@ -9,10 +9,11 @@ export default {
     const { componentSlots, proxyValue } = useComponentSlots(props, context)
     const handleEvent = useEventConfigure()
     const onConfirm = computed(() => {
-      return (resolve, reject) => {
+      return async (resolve, reject) => {
         const confirmConfig = props.config?.confirm
         try {
-          handleEvent(confirmConfig)
+          console.log('confirmConfig', confirmConfig)
+          await handleEvent(confirmConfig)
           resolve()
         } catch (e) {
           reject()
