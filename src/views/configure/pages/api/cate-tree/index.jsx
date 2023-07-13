@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { Search, Delete, Edit } from '@element-plus/icons-vue'
 import { ElIcon } from 'element-plus'
 import CipTree from '@cip/components/cip-tree'
@@ -74,12 +74,13 @@ export default defineComponent({
       refresh
     })
 
+    const currentNode = ref({})
     function renderTreeItem ({ node, data }) {
       return <div style='display: flex;align-items: center;justify-content: space-between;'>
         <div class={styles.title}>
           <i class={['iconfont iconfolder', styles.icon]}/>{data.name}
         </div>
-        {currentNodeKey.value === data.id && data.id && <div style='display: flex;column-gap: 5px;'>
+        {(currentNode.value.id === data.id && data.id) && <div style='display: flex;column-gap: 5px;'>
           <ElIcon onClick={(e) => { editNode(e, data) }}><Edit /></ElIcon>
           <ElIcon onClick={(e) => { deleteNode(e, data) }}><Delete /></ElIcon>
         </div>}
@@ -118,8 +119,8 @@ export default defineComponent({
         }}
         onCurrentChange={(val) => {
           currentNodeKey.value = val?.id
+          currentNode.value = val
           emit('currentNodeChange', val)
-          emit('cateChange')
         }}
       >
       </CipTree>
