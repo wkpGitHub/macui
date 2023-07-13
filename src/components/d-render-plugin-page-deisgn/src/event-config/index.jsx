@@ -9,7 +9,7 @@ import CipMessageBox from '@cip/components/cip-message-box'
 import LayoutBox from '@/components/d-render-plugin-page-render/layout-box'
 import { cloneDeep } from '@d-render/shared'
 import { fieldList, config } from './config'
-
+import { filterList } from '@/lib/utils'
 const getDialogKeyList = (list, result = []) => {
   list.forEach(item => {
     if (Object.hasOwn(item, 'config')) {
@@ -36,7 +36,7 @@ export const EventConfig = {
     }
   },
   emits: ['update:modelValue'],
-  setup (props, { emit, slots }) {
+  setup (props, { emit }) {
     const dialog = ref(false)
     const treeModel = ref({})
     const contentModel = ref({})
@@ -67,6 +67,11 @@ export const EventConfig = {
         treeModel.value = val
         contentModel.value = val
       }
+    })
+    const treeFieldList = computed(() => {
+      const options = cloneDeep(fieldList[0].config.options)
+      fieldList[0].config.options = filterList(options, props.excludes, props.includes)
+      return fieldList
     })
     // 保存
     const saveItem = (resolve, reject) => {
@@ -103,7 +108,7 @@ export const EventConfig = {
       dialog.value = true
     }
     const slotsContent = {
-      operate: () => <CipForm v-model:model={treeModel.value} fieldList={fieldList}/>,
+      operate: () => <CipForm v-model:model={treeModel.value} fieldList={treeFieldList.value}/>,
       content: () => <CipForm v-model:model={contentModel.value} fieldList={formFieldList.value} key={treeModel.value.eventType} />
     }
     const isNotEmpty = computed(() => {
