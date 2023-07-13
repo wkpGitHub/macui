@@ -81,7 +81,7 @@ export default defineComponent({
     const type = computed(() => getComponentType(props.element))
     const FormContent = computed(() => getFormContentComponent(type.value))
     return () => <div
-      {...props}
+      onClick={props.onClick}
       {...attrs}
       class={[
         'form-content',

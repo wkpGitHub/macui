@@ -11,9 +11,7 @@ export default {
   emits: ['delete', 'copy', 'selectItem', 'update:config'],
   setup (props, { emit }) {
     const { computedConfig, drawType } = useFormDrawingItem({ props, emit })
-    console.log('layout', drawType.value)
     const updateConfig = (val) => {
-      console.log('updateConfig', val)
       emit('update:config', val)
     }
 
