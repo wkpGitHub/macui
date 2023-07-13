@@ -1,6 +1,8 @@
 // import * as service from '@/api'
 import { ref, reactive, computed, provide, watch } from 'vue'
 import { setFieldValue } from '@d-render/shared'
+import { useRouter } from 'vue-router'
+import * as utils from '@d-render/shared/utils/util'
 import DrPage from './component.jsx'
 export default {
   name: 'PageRender',
@@ -18,12 +20,22 @@ export default {
     })
     const fieldList = computed(() => securityScheme.value.list || [])
     const grid = computed(() => securityScheme.value.grid || 1)
+
+    const dataBus = (target, data) => {
+      // 目标数据， data
+      console.log('define', target, data)
+      // const model = toRaw(props.model) // 导致无响应
+      const model = props.model
+      setFieldValue(model, target, data)
+      emit('update:model', model)
+    }
+
     const methods = computed(() => {
-      return Object.keys(securityScheme.value.methods || {}).reduce((acc, key) => {
+      return securityScheme.value.methods?.reduce((acc, v) => {
         // eslint-disable-next-line no-new-func
-        acc[key] = (new Function('model', 'service', securityScheme.value.methods[key])).bind(null, props.model, props.service)
+        acc[v.name] = (new Function('model', 'service', 'dataBus', v.body)).bind(null, props.model, props.service, dataBus, utils)
         return acc
-      }, {})
+      }, {}) ?? {}
     })
     const init = computed(() => securityScheme.value.init)
     watch(() => props.scheme, () => {
@@ -37,18 +49,14 @@ export default {
         })
       }
     }, { immediate: true })
+    const router = useRouter()
     provide('drPageRender', reactive({
-      methods
+      methods,
+      router,
+      dataBus
     }))
     provide('cipForm', reactive({ equipment: props.equipment }))
-    const dataBus = (target, data) => {
-      // 目标数据， data
-      console.log('define', target, data)
-      // const model = toRaw(props.model) // 导致无响应
-      const model = props.model
-      setFieldValue(model, target, data)
-      emit('update:model', model)
-    }
+
     const drPageRef = ref()
     expose({
       drPageRef
@@ -60,7 +68,6 @@ export default {
       fieldList={fieldList.value}
       equipment={props.equipment}
       grid={grid.value}
-      dataBus={dataBus}
     />
   }
 }

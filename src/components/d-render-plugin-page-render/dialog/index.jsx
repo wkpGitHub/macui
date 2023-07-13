@@ -1,18 +1,18 @@
+import { computed } from 'vue'
 import CipDialog from '@cip/components/cip-dialog'
 import { layoutProps } from '@d-render/shared'
 import { useComponentSlots } from '../use-component-slots'
-import { computed, inject } from 'vue'
-import { handleEvent } from '../button/use-event-configure'
+import { useEventConfigure } from '../use-event-configure'
 export default {
   props: { ...layoutProps, modelValue: {} },
   setup (props, context) {
     const { componentSlots, proxyValue } = useComponentSlots(props, context)
-    const cipFormRender = inject('cipFormRender', {})
+    const handleEvent = useEventConfigure()
     const onConfirm = computed(() => {
       return (resolve, reject) => {
         const confirmConfig = props.config?.confirm
         try {
-          handleEvent(confirmConfig, cipFormRender, context.attrs.dataBus)
+          handleEvent(confirmConfig)
           resolve()
         } catch (e) {
           reject()

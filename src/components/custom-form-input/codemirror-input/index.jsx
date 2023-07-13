@@ -14,6 +14,7 @@ export default defineComponent({
       width,
       proxyValue
     } = useFormInput(props, ctx)
+    console.log(securityConfig.value, 'securityConfig')
     return () => <>
       <CipCodeMirror
         v-model={proxyValue.value}

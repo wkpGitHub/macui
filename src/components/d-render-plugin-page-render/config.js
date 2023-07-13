@@ -12,5 +12,10 @@ export default {
     component: () => () => import('./page-layout-list/index'),
     layout: true
   },
-  form: () => () => import('./form')
+  layoutBox: {
+    component: () => () => import('./layout-box'),
+    layout: true
+  },
+  form: () => () => import('./form'),
+  selectTreePanel: () => () => import('./select-tree-panel')
 }

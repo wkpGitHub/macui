@@ -3,8 +3,7 @@ export default {
   label: {},
   hideSearch: {
     label: '是否隐藏操作按钮',
-    type: 'switch',
-    defaultValue: true
+    type: 'switch'
   },
   searchButtonText: {
     label: '查询按钮文本',
@@ -27,5 +26,9 @@ export default {
         value: 'right'
       }
     ]
+  },
+  search: {
+    label: '搜索事件',
+    type: 'eventHandle'
   }
 }

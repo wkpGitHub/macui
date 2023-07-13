@@ -18,11 +18,12 @@ export default {
       'fieldList'
     ]
     const TransformModelSearchForm = (props, { emit }) => {
-      const { modelValue = {}, dataBus, search, options, ...componentProps } = props
+      const { modelValue = {}, dataBus, search, options, dependOnValues, ...componentProps } = props
       const fieldList = options[0] ? options[0].children : []
       return <CipForm
         {...componentProps}
         model={modelValue}
+        tableDependOnValues: dependOnValues
         onUpdate:model={componentProps['onUpdate:modelValue']}
         fieldList={fieldList}
       />

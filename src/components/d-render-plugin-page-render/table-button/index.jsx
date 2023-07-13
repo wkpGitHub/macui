@@ -1,19 +1,21 @@
 import CipButtonText from '@cip/components/cip-button-text'
 import { CipFormInputTransform } from 'd-render'
-import { inject } from 'vue'
+import { useEventConfigure } from '../use-event-configure'
 export default {
   setup () {
     const buttonProps = [
       'options'
     ]
-    const cipFormRender = inject('cipFormRender', {})
+    const handleEvent = useEventConfigure()
     const TransformComp = (props, { attrs }) => {
-      const { options } = props
+      const { options, dependOnValues, outDependOnValues } = props
       return options.map((option, i) => {
         const { text, click, ...otherConfig } = option
         return <CipButtonText {...otherConfig} key={i} onClick={() => {
-          const method = cipFormRender.methods[click]
-          if (method) method()
+          const { click } = option
+          handleEvent(click, { dependOnValues, outDependOnValues })
+          // const method = cipFormRender.methods[click]
+          // if (method) method()
         }
         }>{text}</CipButtonText>
       })

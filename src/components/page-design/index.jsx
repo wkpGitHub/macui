@@ -4,8 +4,11 @@ import Layout from './widgets/layout'
 import CipButton from '@cip/components/cip-button'
 import PageModules from './widgets/modules'
 import PageDrawing from './widgets/page-drawing'
+import PageStructure from './widgets/side-components/structure'
 import PageComponents from '@d-render/design/esm/cip-form-design/widgets/form-components'
-import PageConfigure from '@d-render/design/esm/cip-form-design/widgets/form-property'
+import PageMethods from './widgets/side-components/methods'
+
+import PageConfigure from './widgets/property'
 import PageParams from './widgets/side-components/page-params'
 import CodeSource from './widgets/side-components/code-source'
 import './index.less'
@@ -18,7 +21,8 @@ export default {
     appendModules: Array,
     onSave: Function,
     componentsGroupList: Array,
-    drawTypeMap: Object
+    drawTypeMap: Object,
+    tabList: Array
   },
   inheritAttrs: false,
   setup (props, { attrs, emit, slots }) {
@@ -30,12 +34,18 @@ export default {
       return modulesBridge.value.find(module => module.name === currentModuleName.value).title
     })
     const { selectItem, selectItemId, changeSelect, updateSelectItem } = useSelect()
-    provide('pageDesign', reactive({
-      drawTypeMap: props.drawTypeMap
-    }))
+    const pageDesign = reactive({
+      drawTypeMap: props.drawTypeMap,
+      scheme: props.scheme
+    })
+    provide('pageDesign', pageDesign)
+    watch(() => props.scheme, (val) => {
+      pageDesign.scheme = val
+    }, {
+      deep: true
+    })
     const updateScheme = (scheme) => {
       // 进入使用designType 出来使用type
-      console.log('scheme', scheme)
       emit('update:scheme', scheme)
     }
     const updateConfig = (config) => {
@@ -76,9 +86,14 @@ export default {
         </>,
         nav: () => <>
           {currentModuleName.value === 'pageParams' && <PageParams modelValue={props.scheme.config} onUpdate:modelValue={updateConfig}/>}
+          {currentModuleName.value === 'structure' && <PageStructure
+            modelValue={selectItemId.value}
+            list={props.scheme.list}
+            onUpdate:selectItem={(val) => { selectItem.value = val }}
+          />}
           {currentModuleName.value === 'renderer' && <PageComponents groupList={props.componentsGroupList}/>}
           {currentModuleName.value === 'code' && <CodeSource modelValue={props.scheme} onUpdate:modelValue={updateScheme}/>}
-          {currentModuleName.value === 'methods' && <Methods />}
+          {currentModuleName.value === 'methods' && <PageMethods modelValue={props.scheme} onUpdate:modelValue={updateScheme}/>}
           {slots.nav?.({ name: currentModuleName.value })}
           {/* {currentModuleName.value === 'api' && <ApiConfig modelValue={props.scheme} onUpdate:modelValue={updateScheme}/>} */}
         </>,
@@ -89,13 +104,13 @@ export default {
           onUpdateList={(list) => { updateList(list) }}
         />,
         configure: () => <PageConfigure
-          selectItem={selectItem.value}
-          data={props.scheme}
-          onUpdate:data={(val) => updateScheme(val)}
-          onUpdate:selectItem={(val) => updateSelectItem(val)}
+        selectItem={selectItem.value}
+        data={props.scheme}
+        onUpdate:data={(val) => updateScheme(val)}
+        onUpdate:selectItem={(val) => updateSelectItem(val)}
+        tabList={props.tabList}
         />
       }}
-
     </Layout>
   }
 }

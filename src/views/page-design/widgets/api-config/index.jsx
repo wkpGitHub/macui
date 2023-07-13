@@ -1,6 +1,41 @@
-import CodeSource from '@/components/page-design/widgets/side-components/code-source'
+import { CipForm } from 'd-render'
+import { apiConfigFieldList } from './config'
+import { customRef } from 'vue'
+const useDeepComputed = ({ get, set }) => {
+  return customRef((track, trigger) => {
+    return {
+      get () {
+        track()
+        return get()
+      },
+      set (newVal) {
+        trigger()
+        set(newVal)
+      }
+    }
+  })
+}
+
 export default {
-  setup () {
-    return () => <CodeSource />
+  props: {
+    modelValue: Object
+  },
+  emits: ['update:modelValue'],
+  setup (props, { emit }) {
+    const modelValue = useDeepComputed({
+      get () {
+        return props.modelValue
+      },
+      set (newVal) {
+        emit('update:modelValue', newVal)
+      }
+    })
+
+    return () => <div style={'padding: 0 12px;'}>
+      <CipForm
+        v-model:model={modelValue.value}
+        fieldList={apiConfigFieldList}
+      />
+    </div>
   }
 }

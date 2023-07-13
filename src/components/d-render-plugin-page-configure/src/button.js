@@ -1,30 +1,19 @@
-import { generateFieldList } from 'd-render'
-
 export default {
   key: { readable: true },
   text: { label: '文字' },
   icon: { label: '图标' },
+  inputType: {
+    type: 'select',
+    label: '按钮类型',
+    options: [
+      'primary', 'success', 'warning', 'danger'
+    ]
+  },
   click: {
     label: '点击事件',
-    type: 'simpleCurd',
+    type: 'eventHandle',
     infoRender: (h, { item }) => h('div', null, [item.remark]),
     itemType: '事件',
-    itemKey: 'index',
-    formProps: {
-      fieldList: generateFieldList({
-        type: {
-          type: 'select',
-          options: [
-            { value: 'method', label: '函数' },
-            { value: 'openDialog', label: '打开弹窗' },
-            { value: 'script', label: '脚本' },
-            { value: 'router', label: '页面' }
-          ]
-        },
-        value: {
-          type: 'input'
-        }
-      })
-    }
+    itemKey: 'index'
   }
 }

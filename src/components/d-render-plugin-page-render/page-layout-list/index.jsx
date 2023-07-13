@@ -1,6 +1,7 @@
 import CipPageLayoutList from '@cip/components/page-layout/list'
 import { layoutProps } from '@d-render/shared'
 import { useComponentSlots } from '../use-component-slots'
+import './index.less'
 export default {
   props: layoutProps,
   setup (props, context) {

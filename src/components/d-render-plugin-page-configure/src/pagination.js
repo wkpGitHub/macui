@@ -4,6 +4,7 @@ export default {
   otherKey: {
     type: 'select',
     allowCreate: true,
+    realArray: true,
     multiple: true,
     limit: 2
   },
@@ -28,5 +29,10 @@ export default {
     multiple: true,
     defaultValue: defaultLayout,
     options: defaultLayout.split(',')
+  },
+  onRefresh: {
+    label: '刷新事件',
+    type: 'eventHandle',
+    include: ['methods', 'script']
   }
 }

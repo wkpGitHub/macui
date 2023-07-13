@@ -19,5 +19,6 @@ export default {
   codemirrorInput: () => () => import('./codemirror-input'),
   dataSource: () => () => import('./data-source'),
   transactorSelect: () => () => import('./transactor-select'),
-  objFields: () => () => import('./obj-fields')
+  objFields: () => () => import('./obj-fields'),
+  paramsAdd: () => () => import('./params-add')
 }

@@ -6,7 +6,7 @@ import PageDesign from '@/components/page-design'
 import { componentsGroupList } from './config'
 import { pageInfoService } from '@/api'
 import CipMessage from '@cip/components/cip-message'
-import { Plus } from '@element-plus/icons-vue'
+import { ApiIcon } from './widgets/svg-icons'
 export default {
   props: {
     appPath: {},
@@ -47,14 +47,19 @@ export default {
        componentsGroupList={componentsGroupList}
        drawTypeMap={drawTypeMap}
        appendModules={[
-         { name: 'api', title: 'API Config', icon: <Plus /> }
-
+         { name: 'api', title: 'API Config', icon: <ApiIcon /> }
+       ]}
+       tabList={[
+         { name: 'style', label: '外观' }
        ]}
      >
         {{
           title: () => <ToolBar pageInfo={pageInfo.value} onBack={() => handleBack()}/>,
           nav: ({ name }) => <>
-            {name === 'api' && <ApiConfig v-model={apiList.value} />}
+            {name === 'api' && <ApiConfig v-model={pageInfo.value} />}
+          </>,
+          configure: ({ name }) => <>
+            {name === 'style' && <div>style</div>}
           </>
         }}
       </PageDesign>
