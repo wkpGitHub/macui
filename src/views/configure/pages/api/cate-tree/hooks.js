@@ -29,7 +29,7 @@ export function useTree (props, emit, listLoading, item, itemList) {
         // 默认选中第一个
         if (isEmpty(currentNodeKey.value)) {
           item.value = cloneDeep(itemList.value[0])
-          if (item.value?.id) {
+          if (!isEmpty(item.value?.id)) {
             currentNodeKey.value = item.value.id
             tree$.value.setCurrentKey(item.value.id)
           }

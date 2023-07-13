@@ -3,7 +3,7 @@ import { defineFormFieldConfig, generateFieldList } from 'd-render'
 
 export const formFieldList = generateFieldList(defineFormFieldConfig({
   name: {
-    label: '分类名称',
+    label: '分组名称',
     required: true,
     limit: 10,
     customValidators: [

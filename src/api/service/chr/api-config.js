@@ -1,4 +1,4 @@
-import Model, { transformData } from '@cip/utils/model'
+import Model, { transformData, bind } from '@cip/utils/model'
 import req from '@cip/request'
 // 应用接口管理
 class ApiConfigService extends Model {
@@ -48,12 +48,12 @@ class ApiConfigService extends Model {
 
   // 列表
   @transformData()
-  list ({ apiMethod, dataId, devMode, name, path, pid }) {
+  list (params) {
     return req({
       method: 'get',
       apiName: 'apiChr',
       url: '/api/v1/api/center/config/list',
-      params: { apiMethod, dataId, devMode, name, path, pid }
+      params
     })
   }
 
@@ -77,6 +77,18 @@ class ApiConfigService extends Model {
       url: '/api/v1/api/center/config/tree',
       params: { apiMethod, dataId, devMode, name, path, pid }
     })
+  }
+
+  // api分类信息 有一个默认分类 全部API 选中展示全部api
+  @bind
+  async getGroupWithDefault (params) {
+    const res = await this.list(params)
+    ;(res.data || []).unshift({
+      id: '',
+      name: '全部API',
+      isApi: true
+    })
+    return res
   }
 }
 export const apiConfigService = new ApiConfigService()

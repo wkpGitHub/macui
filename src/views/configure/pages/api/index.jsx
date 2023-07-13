@@ -1,64 +1,69 @@
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import {
-  ElDropdown,
-  ElDropdownMenu,
-  ElDropdownItem
-} from 'element-plus'
+import { ElDropdown, ElDropdownMenu, ElDropdownItem } from 'element-plus'
 import CipPageLayoutLeftRight from '@cip/components/page-layout/left-right'
 import CateTree from './cate-tree'
 import CipPageCurd from '@cip/components/cip-page-curd'
 import { apiConfigService } from '@/api/service/chr'
 import CipButton from '@cip/components/cip-button'
 import CipButtonText from '@cip/components/cip-button-text'
-import { tableColumns, searchFieldList } from './config'
-import { ref } from 'vue'
+import { tableColumns, searchFieldList, formFieldList } from './config'
+
+const itemTypeMap = {
+  entity: 'API',
+  flow: '服务编排'
+}
+
 export default {
   setup (props, ctx) {
     const router = useRouter()
-
-    function createApi () {
-
-    }
-
-    function createServe (id) {
-      router.push({ name: 'configureServiceDesign', query: { id } })
-    }
-
-    function handleCommand (cmd) {
-      ({
-        api: createApi,
-        serve: createServe
-      })[cmd]()
-    }
-    const cateId = ref()
+    // 选中左侧树 右侧列表展示对应信息
+    const currentNode = ref({})
     const curd$ = ref()
     function refreshTable () {
       curd$.value?.getItemList()
     }
+    // 服务编排
+    function createServe (id) {
+      router.push({ name: 'configureServiceDesign', query: { id } })
+    }
+
+    const itemType = ref('API')
+    function handleCommand (cmd, createItem) {
+      itemType.value = itemTypeMap[cmd]
+      createItem({
+        pid: currentNode.value.id,
+        devMode: cmd
+      })
+    }
+
     return () => <CipPageLayoutLeftRight>
         {{
           left: () => <div style={'height: 100%; box-sizing: border-box; padding: 0 24px;'} >
-            <CateTree v-model={cateId.value} onCateChange={refreshTable}></CateTree>
+            <CateTree onCurrentNodeChange={(val) => { currentNode.value = val; refreshTable() }}></CateTree>
           </div>,
           default: () => <CipPageCurd
             autoSelected={true}
             ref={curd$}
-            outParams={{ cateId: cateId.value }}
+            outParams={{ pid: currentNode.value.id, isApi: currentNode.value.isApi }}
             searchFieldList={searchFieldList}
             entity={apiConfigService}
-            curdFn={{ pageFn: 'list', deleteFn: 'configDel' }}
+            curdFn={{ pageFn: 'list', deleteFn: 'configDel', createFn: 'save', updateFn: 'save' }}
             tableColumns={tableColumns}
+            formFieldList={formFieldList}
             withCreate={false}
+            dialogSize={'small'}
+            itemType={itemType.value}
             tableHandleWidth={'170px'}
           >
             {{
-              'handle-buttons': () => <>
-                <ElDropdown trigger={'click'} onCommand={handleCommand}>
+              'handle-buttons': ({ createItem }) => <>
+                <ElDropdown trigger={'click'} onCommand={(cmd) => handleCommand(cmd, createItem)}>
                   {{
                     default: () => <CipButton buttonType={'create'}/>,
                     dropdown: () => <ElDropdownMenu>
-                      <ElDropdownItem command='api'>API</ElDropdownItem>
-                      <ElDropdownItem command='serve'>服务编排</ElDropdownItem>
+                      <ElDropdownItem command='entity'>API</ElDropdownItem>
+                      <ElDropdownItem command='flow'>服务编排</ElDropdownItem>
                     </ElDropdownMenu>
                   }}
                 </ElDropdown>

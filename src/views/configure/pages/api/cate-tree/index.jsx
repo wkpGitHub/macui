@@ -26,18 +26,23 @@ export default defineComponent({
       updateItem,
       saveItem, // 保存操作 即新增/修改
       deleteItem, // 删除操作
-      getItemList, // 获取表格数据
+      getItemList: fetch, // 获取表格数据
       itemList, // 表格数据
       listLoading,
       itemDialog,
       dialogTitle
     } = useCurd(apiConfigService, {
-      pageFn: 'tree',
+      pageFn: 'getGroupWithDefault',
       updateFn: 'save',
       createFn: 'save',
       deleteFn: 'del',
       itemType: '分组'
     })
+
+    function getItemList () {
+      fetch({ pid: 0 })
+    }
+
     // 删除分类
     const deleteNode = (e, data) => {
       e.stopPropagation()
@@ -70,11 +75,11 @@ export default defineComponent({
     })
 
     function renderTreeItem ({ node, data }) {
-      return <div class={styles.treeItem}>
+      return <div style='display: flex;align-items: center;justify-content: space-between;'>
         <div class={styles.title}>
-          <i class={['iconfont iconfolder', styles.icon]}/> {data.name}({data.cnt ?? 0})
+          <i class={['iconfont iconfolder', styles.icon]}/>{data.name}
         </div>
-        {currentNodeKey.value === data.id && <div class={styles.handler}>
+        {currentNodeKey.value === data.id && data.id && <div style='display: flex;column-gap: 5px;'>
           <ElIcon onClick={(e) => { editNode(e, data) }}><Edit /></ElIcon>
           <ElIcon onClick={(e) => { deleteNode(e, data) }}><Delete /></ElIcon>
         </div>}
@@ -87,6 +92,7 @@ export default defineComponent({
         ref={tree$}
         icon={Search}
         nodeKey='id'
+        size='large'
         options={itemList.value}
         config={{
           optionProps: {
@@ -112,6 +118,7 @@ export default defineComponent({
         }}
         onCurrentChange={(val) => {
           currentNodeKey.value = val?.id
+          emit('currentNodeChange', val)
           emit('cateChange')
         }}
       >
