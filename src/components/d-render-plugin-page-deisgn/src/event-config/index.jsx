@@ -1,30 +1,18 @@
 import CipButton from '@cip/components/cip-button'
 import CipButtonText from '@cip/components/cip-button-text'
 import { Edit, Delete } from '@element-plus/icons-vue'
-import './index.less'
+import CpTree from '@cip/components/cip-tree'
 import CipDialog from '@cip/components/cip-dialog'
 import { CipForm, CipFormInputTransform } from 'd-render'
 import { computed, ref, inject, watch, nextTick } from 'vue'
 import CipMessageBox from '@cip/components/cip-message-box'
 import LayoutBox from '@/components/d-render-plugin-page-render/layout-box'
 import { cloneDeep } from '@d-render/shared'
-import { fieldList, config } from './config'
+import { config, getDialogKeyList } from './config'
 import { filterList } from '@/lib/utils'
-const getDialogKeyList = (list, result = []) => {
-  list.forEach(item => {
-    if (Object.hasOwn(item, 'config')) {
-      if (item.config.type === 'dialog') {
-        result.push(item.key)
-      }
-      if (item.config.options?.length) {
-        getDialogKeyList(item.config.options, result)
-      }
-    } else if (item.children?.length) {
-      getDialogKeyList(item.children, result)
-    }
-  })
-  return result
-}
+import { EVENT_TYPE } from './const'
+import VueDraggable from 'vuedraggable'
+import './index.less'
 export const EventConfig = {
   props: {
     modelValue: Array,
@@ -39,6 +27,7 @@ export const EventConfig = {
   setup (props, { emit }) {
     const dialog = ref(false)
     const treeModel = ref({})
+    const treeRef = ref()
     const contentModel = ref({})
     const formFieldList = ref([])
     const pageDesign = inject('pageDesign', {})
@@ -68,10 +57,8 @@ export const EventConfig = {
         contentModel.value = val
       }
     })
-    const treeFieldList = computed(() => {
-      const options = cloneDeep(fieldList[0].config.options)
-      fieldList[0].config.options = filterList(options, props.excludes, props.includes)
-      return fieldList
+    const treeData = computed(() => {
+      return filterList(EVENT_TYPE, props.excludes, props.includes)
     })
     // 保存
     const saveItem = (resolve, reject) => {
@@ -107,8 +94,18 @@ export const EventConfig = {
       item.value = cloneDeep({ ...data, index })
       dialog.value = true
     }
+    const handleNodeClick = ({ data }) => {
+      treeModel.value.eventType = data.value
+      treeModel.value.eventName = data.label
+    }
+    const handleDialogOpen = () => {
+      nextTick().then(() => {
+        console.log(treeModel.value.eventType)
+        treeRef.value?.setCurrentKey(treeModel.value.eventType)
+      })
+    }
     const slotsContent = {
-      operate: () => <CipForm v-model:model={treeModel.value} fieldList={treeFieldList.value}/>,
+      operate: () => <CpTree options={treeData.value} showButton={false} onNode-click={handleNodeClick} ref={treeRef} config={{ highlightCurrent: true, nodeKey: 'value' }}></CpTree>,
       content: () => <CipForm v-model:model={contentModel.value} fieldList={formFieldList.value} key={treeModel.value.eventType} />
     }
     const isNotEmpty = computed(() => {
@@ -118,22 +115,28 @@ export const EventConfig = {
       {
         isNotEmpty.value
           ? <div class="event-handle--content">
-          {
-            props.modelValue?.map((item, index) => <div class="event-handle--content__item">
-              <div class="event-handle--content__item--text">{item.eventName}</div>
-              <div class="event-handle--content__item--icon">
-                <CipButtonText size="small" icon={Edit} type="text"
-                               onClick={() => handleEdit(item, index)}></CipButtonText>
-                <CipButtonText size="small" icon={Delete} type="text"
-                               onClick={() => handleDelete(item, index)}></CipButtonText>
-              </div>
-            </div>)
-          }
+          <VueDraggable modelValue={props.modelValue} onUpdate:modelValue={emitModelValue}>
+            {
+              {
+                item: ({ element, index }) => {
+                  return <div className="event-handle--content__item">
+                    <div className="event-handle--content__item--text">{element.eventName}</div>
+                    <div className="event-handle--content__item--icon">
+                      <CipButtonText size="small" icon={Edit} type="text"
+                                     onClick={() => handleEdit(element, index)}></CipButtonText>
+                      <CipButtonText size="small" icon={Delete} type="text"
+                                     onClick={() => handleDelete(element, index)}></CipButtonText>
+                    </div>
+                  </div>
+                }
+              }
+            }
+          </VueDraggable>
         </div>
           : '<空>'
       }
       <CipButton class="event-handle--button" onClick={createItem}>添加事件</CipButton>
-      <CipDialog title={`${item.value.index > -1 ? '编辑' : '新增'}事件`} v-model={dialog.value} onConfirm={saveItem} >
+      <CipDialog title={`${item.value.index > -1 ? '编辑' : '新增'}事件`} v-model={dialog.value} onConfirm={saveItem} onOpen={handleDialogOpen}>
         <LayoutBox v-slots={ slotsContent }></LayoutBox>
       </CipDialog>
     </div>

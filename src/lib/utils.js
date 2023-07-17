@@ -21,8 +21,5 @@ export const filterList = (originList, exclude = [], include = [], key = 'value'
   const isExclude = Array.isArray(exclude) && exclude.length
   const _keyArr = isExclude ? exclude : include
   if (!_keyArr.length) return originList
-  return originList.filter(item => {
-    console.log(_keyArr, item[key], +_keyArr.includes(item[key]), isExclude)
-    return _keyArr.includes(item[key]) ^ isExclude
-  })
+  return originList.filter(item => _keyArr.includes(item[key]) ^ isExclude)
 }
