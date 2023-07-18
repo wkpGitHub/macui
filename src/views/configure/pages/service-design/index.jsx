@@ -1,7 +1,7 @@
 import { defineComponent, ref, onMounted } from 'vue'
 import { ElInputNumber, ElLink } from 'element-plus'
 import { Setting } from '@element-plus/icons-vue'
-import CipPageLayoutHandle from '@cip/components/page-layout/handle'
+import { PlHandle as CipPageLayoutHandle } from '@cip/page-layout'
 import CipButton from '@cip/components/cip-button'
 import {
   useDialog,

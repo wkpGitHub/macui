@@ -5,21 +5,42 @@
     :layout="{ pageTheme: 'supergravity', compact: true}"
     :form="{labelPosition: 'top'}"
   >
-    <el-config-provider :locale="zhCn">
-      <router-view/>
-    </el-config-provider>
+    <PlConfigProvide  :theme="theme" :themes="themes">
+      <el-config-provider :locale="zhCn">
+        <router-view/>
+      </el-config-provider>
+    </PlConfigProvide>
   </cip-config-provide>
 </template>
 <script>
+import { computed } from 'vue'
 import CipConfigProvide from '@cip/components/cip-config-provide'
+import { PlConfigProvide } from '@cip/page-layout'
 // el中文配置
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import cipStore from '@cip/components/store'
+import { getFieldValue } from '@cip/utils/util'
+import Supergravity from '@page-layout/theme-supergravity'
+import Standard from '@page-layout/theme-standard'
+import '@page-layout/theme-standard/style'
+// import DG from '@page-layout/theme-dg'
+// import '@page-layout/theme-dg/style'
+import '@page-layout/theme-supergravity/style'
 export default {
-  components: { CipConfigProvide, ElConfigProvider },
+  components: { CipConfigProvide, ElConfigProvider, PlConfigProvide },
   setup () {
+    const theme = computed(() => {
+      return getFieldValue(cipStore.state.app, 'config.layout.pageTheme') ?? 'standard'
+    })
+    const themes = {
+      standard: Standard,
+      supergravity: Supergravity
+    }
     return {
-      zhCn
+      zhCn,
+      themes,
+      theme
     }
   }
 }

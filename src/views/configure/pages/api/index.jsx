@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElDropdown, ElDropdownMenu, ElDropdownItem } from 'element-plus'
-import CipPageLayoutLeftRight from '@cip/components/page-layout/left-right'
+import { PlLeftRight as CipPageLayoutLeftRight } from '@cip/page-layout'
 import CateTree from './cate-tree'
 import CipPageCurd from '@cip/components/cip-page-curd'
 import { apiConfigService } from '@/api/service/chr'

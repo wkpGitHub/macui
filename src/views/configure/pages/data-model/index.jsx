@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue'
-import CipPageLayoutLeftRight from '@cip/components/page-layout/left-right'
+import { PlLeftRight as CipPageLayoutLeftRight } from '@cip/page-layout'
 import DataModelTree from './widgets/data-model-tree'
 import EntitySave from './entity/save'
 import EnumSave from './enum/save'

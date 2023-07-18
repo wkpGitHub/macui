@@ -1,5 +1,5 @@
 import { computed, defineComponent } from 'vue'
-import CipPageHandle from '@cip/components/page-layout/handle'
+import { PlHandle as CipPageHandle } from '@cip/page-layout'
 import { CipForm } from 'd-render'
 import { getUsingConfig } from '@cip/utils/util'
 import CipButton from '@cip/components/cip-button'

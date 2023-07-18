@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import CipPageLayoutHandle from '@cip/components/page-layout/handle'
+import { PlHandle as CipPageLayoutHandle } from '@cip/page-layout'
 import { CipForm } from 'd-render'
 export default {
   setup () {
