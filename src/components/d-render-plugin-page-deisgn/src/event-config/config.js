@@ -5,6 +5,7 @@ export const fieldList = generateFieldList({
   eventType: {
     type: 'selectTreePanel',
     showButton: false,
+    defaultValue: TYPE_KEY.method,
     options: [
       ...EVENT_TYPE
     ]
@@ -44,7 +45,6 @@ export const openDialogFieldList = generateFieldList({
     dependOn: ['_dialogList'],
     readable: true,
     asyncOptions: ({ _dialogList }) => {
-      console.log('_dialogList', _dialogList)
       return _dialogList ?? []
     }
   }
@@ -58,9 +58,13 @@ export const scriptFieldList = generateFieldList({
 })
 // 函数配置
 export const methodFieldList = generateFieldList({
-  script: {
-    label: '脚本',
-    type: 'codemirrorInput'
+  methods: {
+    label: '函数',
+    type: 'select',
+    dependOn: ['_methodList'],
+    asyncOptions: ({ _methodList }) => {
+      return _methodList.map(item => item.name)
+    }
   }
 })
 
@@ -69,4 +73,20 @@ export const config = {
   [TYPE_KEY.script]: scriptFieldList,
   [TYPE_KEY.openDialog]: openDialogFieldList,
   [TYPE_KEY.router]: routerFieldList
+}
+
+export const getDialogKeyList = (list, result = []) => {
+  list.forEach(item => {
+    if (Object.hasOwn(item, 'config')) {
+      if (item.config.type === 'dialog') {
+        result.push(item.key)
+      }
+      if (item.config.options?.length) {
+        getDialogKeyList(item.config.options, result)
+      }
+    } else if (item.children?.length) {
+      getDialogKeyList(item.children, result)
+    }
+  })
+  return result
 }

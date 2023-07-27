@@ -16,5 +16,5 @@ export default {
     layout: true
   },
   simpleCurd: () => () => import('./simple-curd'),
-  eventHandle: () => () => import('./event-handle')
+  eventConfig: () => () => import('./event-config')
 }
