@@ -74,3 +74,19 @@ export const config = {
   [TYPE_KEY.openDialog]: openDialogFieldList,
   [TYPE_KEY.router]: routerFieldList
 }
+
+export const getDialogKeyList = (list, result = []) => {
+  list.forEach(item => {
+    if (Object.hasOwn(item, 'config')) {
+      if (item.config.type === 'dialog') {
+        result.push(item.key)
+      }
+      if (item.config.options?.length) {
+        getDialogKeyList(item.config.options, result)
+      }
+    } else if (item.children?.length) {
+      getDialogKeyList(item.children, result)
+    }
+  })
+  return result
+}

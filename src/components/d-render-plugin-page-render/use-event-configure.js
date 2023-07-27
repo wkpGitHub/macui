@@ -1,17 +1,18 @@
 import { inject } from 'vue'
-
+import { formatPath, formatQuery } from '@/lib/utils'
+// 处理页面跳转
 const handleRouter = (event, { router }, options) => {
-  console.log(options)
   const params = event.pageParams.reduce((data, cur) => {
     data[cur.key] = cur.value
     return data
   }, {})
-  const queryString = Object.keys(params).reduce((arr, key) => {
-    arr.push(`${key}=${params[key]}`)
-    return arr
-  }, []).join('&')
+  const queryString = formatQuery(params)
+  if (Object.prototype.toString.call(options) === '[object Object]') {
+    // TODO 支持outDependOnValues
+    event.pageUrl += formatPath(options.dependOnValues)
+  }
   event.isNewTab
-    ? window.open(`${event.pageUrl}?${queryString}`)
+    ? window.open(`${event.pageUrl}${queryString}`)
     : router.push({ path: event.pageUrl, query: { ...params } })
 }
 export const handleEvent = async (e, drPageRender, options) => {
