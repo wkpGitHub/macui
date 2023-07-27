@@ -2,8 +2,13 @@
 import { ref, reactive, computed, provide, watch } from 'vue'
 import { setFieldValue } from '@d-render/shared'
 import { useRouter } from 'vue-router'
-import * as utils from '@d-render/shared/utils/util'
+import * as sharedUtils from '@d-render/shared/utils/util'
+import CipMessage from '@cip/components/cip-message'
+import CipMessageBox from '@cip/components/cip-message-box'
 import DrPage from './component.jsx'
+const utils = sharedUtils
+utils.$message = CipMessage
+utils.$messageBox = CipMessageBox
 export default {
   name: 'PageRender',
   props: {
@@ -29,11 +34,10 @@ export default {
       setFieldValue(model, target, data)
       emit('update:model', model)
     }
-
     const methods = computed(() => {
       return securityScheme.value.methods?.reduce((acc, v) => {
         // eslint-disable-next-line no-new-func
-        acc[v.name] = (new Function('model', 'service', 'dataBus', v.body)).bind(null, props.model, props.service, dataBus, utils)
+        acc[v.name] = (new Function('model', 'service', 'dataBus', 'utils', 'options', v.body)).bind(acc, props.model, props.service, dataBus, utils)
         return acc
       }, {}) ?? {}
     })
