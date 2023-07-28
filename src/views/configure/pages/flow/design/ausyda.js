@@ -1,11 +1,10 @@
 import * as d3 from 'd3'
 
-const BRANCH_KEYS = ['expression', 'conditionType', 'conditions']
-
 function getId () {
   return Math.random().toString(16).slice(2) + '-' + Math.random().toString(16).slice(6)
 }
 const iconHtmlMap = {
+  start: '<svg viewBox="0 0 14 14" class="icon-flow-start"><title>开始</title><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g  transform="translate(-24.000000, -119.000000)"><g  transform="translate(24.000000, 119.000000)"><rect  x="0" y="0" width="14" height="14"></rect><g  transform="translate(4.843553, 3.875000)" fill="#FFFFFF" fill-rule="nonzero"><g ><path d="M0.567757553,6.13057769 C0.706753664,6.20845457 0.862462291,6.24950026 1.0207913,6.25 C1.21481242,6.24844339 1.40422283,6.18907595 1.56603546,6.07910258 L4.48870452,4.10039864 C4.81177035,3.88084907 5.00426901,3.5078842 4.99987093,3.11001717 C5.0056203,2.72309889 4.81897612,2.35985472 4.50474111,2.14640277 L1.55601259,0.171816849 C1.25777121,-0.0371088557 0.870768955,-0.0569843925 0.553725525,0.120341714 C0.200639293,0.334511484 -0.011268745,0.728826826 0.000463074478,1.1498443 L0.000463074478,5.10107513 C-0.0097328944,5.52543861 0.208301484,5.92111839 0.567757553,6.13057769 Z" ></path></g></g></g></g></g></svg>',
   delete: '<svg viewBox="0 0 16 16" class=" icon-flow-node-trash"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-1461.000000, -194.000000)"><g  transform="translate(1339.000000, 192.000000)"><g  transform="translate(96.000000, 0.000000)"><g  transform="translate(26.000000, 2.000000)"><g ><rect  x="0" y="0" width="16" height="16"></rect></g><line x1="6" y1="1.52178925" x2="10" y2="1.52178925"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2" y1="3.46254494" x2="14" y2="3.46254494"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><rect  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" x="3.4936589" y="3.46254494" width="9" height="10.5374551"></rect><line x1="6.73081313" y1="7.5" x2="6.73081313" y2="10.5"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><line x1="9.26918687" y1="7.5" x2="9.26918687" y2="10.5"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line></g></g></g></g></g></svg>',
   folded: '<svg viewBox="0 0 20 20" class=" icon-api-folded"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g  transform="translate(-2008.000000, -165.000000)"><g  transform="translate(2008.000000, 165.000000)"><g  fill="#2468F2"><rect  x="0" y="0" width="20" height="20"></rect></g><g  transform="translate(4.000000, 4.000000)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="0" x2="6" y2="2.5" ></line><polyline  transform="translate(5.990102, 2.345051) scale(-1, 1) rotate(-180.000000) translate(-5.990102, -2.345051) " points="4.3 3.190102 5.99010177 1.50000023 7.68020353 3.190102"></polyline><line x1="0" y1="5.5" x2="12" y2="5.5" ></line><polyline  points="4.3 9.4401018 5.99010177 7.75 7.68020353 9.4401018"></polyline><line x1="6" y1="8" x2="6" y2="11"  transform="translate(6.000000, 9.500000) scale(-1, 1) rotate(-180.000000) translate(-6.000000, -9.500000) "></line></g></g></g></g></svg>',
   expand: '<svg viewBox="0 0 20 20" class=" icon-api-unfold"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g  transform="translate(-2008.000000, -351.000000)"><g  transform="translate(1969.000000, 351.000000)"><g  transform="translate(39.000000, 0.000000)"><rect  fill="#2468F2" x="0" y="0" width="20" height="20"></rect><g  transform="translate(4.000000, 5.000000)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"><polyline  points="4.3 1.69010177 5.99010177 0 7.68020353 1.69010177"></polyline><line x1="6" y1="0.25" x2="6" y2="3.75" ></line><line x1="0" y1="3.75" x2="12" y2="3.75" ></line><line x1="0" y1="6.75" x2="12" y2="6.75" ></line><line x1="6" y1="6.75" x2="6" y2="9.75"  transform="translate(6.000000, 8.250000) scale(-1, 1) rotate(-180.000000) translate(-6.000000, -8.250000) "></line><polyline  transform="translate(5.990102, 9.595051) scale(-1, 1) rotate(-180.000000) translate(-5.990102, -9.595051) " points="4.3 10.440102 5.99010177 8.7500002 7.68020353 10.440102"></polyline></g></g></g></g></g></svg>',
@@ -28,7 +27,20 @@ const iconHtmlMap = {
   email: '<svg viewBox="0 0 16 16" class=" icon-api-email"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g ><g  fill-rule="nonzero"><rect  x="0" y="0" width="16" height="16"></rect><rect  fill-opacity="0.01" fill="#FFFFFF" x="0" y="0" width="16" height="16"></rect></g><g  transform="translate(1.333333, 2.000000)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"><polyline  points="10.6666667 3.33333333 13.3333333 3.33333333 13.3333333 7.66666667 13.3333333 12 0 12 0 7.66666667 0 3.33333333 2.66666667 3.33333333"></polyline><line x1="6.66666667" y1="4.66666667" x2="6.66666667" y2="0" ></line><polyline  points="8.66666667 2 6.66666667 0 4.66666667 2"></polyline><polyline  points="0 3.33333333 6.66666667 8.33333333 13.3333333 3.33333333"></polyline></g></g></g></svg>',
   notification: '<svg viewBox="0 0 16 16" class=" icon-api-notification"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g ><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><g ><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><polygon  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="14.6666667 2 1.33333333 2 1.33333333 12 4.33333333 12 4.33333333 13.6666667 7.66666667 12 14.6666667 12"></polygon><line x1="4.66666667" y1="6.5" x2="4.66666667" y2="7.5"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><line x1="8" y1="6.5" x2="8" y2="7.5"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.3333333" y1="6.5" x2="11.3333333" y2="7.5"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line></g></g></g></svg>',
   'datasource-sql': '<svg viewBox="0 0 16 16" class=" icon-api-sql"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g ><g ></g><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0.0000145833333" y="0" width="16" height="16"></rect><path d="M13.8333625,4.20833333 C13.8333625,4.20833333 13.8333625,11.5181708 13.8333625,12.0833333 C13.8333625,13.0498292 11.2216625,13.8333333 8,13.8333333 C4.7783375,13.8333333 2.16666667,13.0498292 2.16666667,12.0833333 C2.16666667,11.5415042 2.16666667,4.20833333 2.16666667,4.20833333"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></path><path d="M13.8333333,9.45833333 C13.8333333,10.4248292 11.2216625,11.2083333 8,11.2083333 C4.7783375,11.2083333 2.16666667,10.4248292 2.16666667,9.45833333"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></path><path d="M13.8333333,6.83333333 C13.8333333,7.79982917 11.2216625,8.58333333 8,8.58333333 C4.7783375,8.58333333 2.16666667,7.79982917 2.16666667,6.83333333"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></path><ellipse  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" cx="8" cy="3.91666667" rx="5.83333333" ry="1.75"></ellipse></g></g></svg>',
-  script: '<svg viewBox="0 0 16 16" class=" icon-api-script"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><g ><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><g  transform="translate(2.000000, 2.000000)" stroke="#FFFFFF" stroke-linecap="round"><polyline  stroke-linejoin="round" points="3.6 2.7 0 6.42966 3.6 9.9"></polyline><polyline  stroke-linejoin="round" points="8.4 2.7 12 6.42966 8.4 9.9"></polyline><line x1="7.2" y1="0" x2="5.1" y2="12" ></line></g></g></g></svg>'
+  script: '<svg viewBox="0 0 16 16" class=" icon-api-script"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><g ><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><g  transform="translate(2.000000, 2.000000)" stroke="#FFFFFF" stroke-linecap="round"><polyline  stroke-linejoin="round" points="3.6 2.7 0 6.42966 3.6 9.9"></polyline><polyline  stroke-linejoin="round" points="8.4 2.7 12 6.42966 8.4 9.9"></polyline><line x1="7.2" y1="0" x2="5.1" y2="12" ></line></g></g></g></svg>',
+  set: `<svg viewBox="0 0 16 16" class=" icon-api-set">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+      <g></g>
+      <g>
+        <g>
+          <rect x="0" y="0" width="16" height="16"></rect>
+          <polygon stroke="#FFFFFF" stroke-linejoin="round" points="2 2 8.0012 2 14 2 14 14 2 14"></polygon>
+          <path d="M7.1751718,4.45633542 C7.60924166,4.17835264 8.3252388,4.22909125 8.6671506,4.26741509 C8.81111347,4.28360826 9.12794084,4.31275597 9.09522201,4.62474441 C9.06959225,4.87411925 8.70150538,4.84874995 8.60389419,4.84874995 C8.0073208,4.84874995 7.36166915,4.54323878 7.01539483,5.80090844 L7.01539483,5.80090844 L6.85343661,6.59005567 L7.67249807,6.59005567 C7.8230047,6.59005567 7.94515501,6.71096468 7.94515501,6.85994186 C7.94515501,7.00891904 7.8230047,7.12982806 7.67249807,7.12982806 L7.67249807,7.12982806 L6.73728475,7.12982806 L6.001111,10.7090588 C6.001111,10.7090588 5.93022019,11.2844561 5.5730396,11.2623254 C5.5561858,11.26128 5.54034416,11.2592996 5.52545987,11.2564631 L5.56521029,11.2430535 C5.53430007,11.2561818 5.50106164,11.2629478 5.46747899,11.2629478 L4.47124867,11.2629478 C4.34190551,11.2629478 4.23705215,11.1580945 4.23705215,11.0287513 L4.23705215,11.0261898 C4.2369092,10.8974298 4.33465452,10.7897039 4.46280835,10.7772245 C4.71628018,10.7525418 4.93703598,10.712122 5.12507575,10.6559649 C5.24601401,10.6198473 5.33214614,10.571486 5.38347213,10.5108808 L6.08127214,7.12982806 L4.97319432,7.12982806 C4.8783097,7.12982806 4.79627026,7.08136849 4.74856539,7.00827931 L4.72705199,6.96505215 L4.73683182,6.94874317 C4.75310987,6.93361406 4.77915475,6.9211161 4.78892157,6.90335583 C4.77427133,6.88855562 4.72299548,6.87572876 4.72299548,6.85994186 L4.72205199,6.95505215 L4.71956024,6.94921672 L4.7054452,6.88315207 C4.7174421,6.6305386 4.83086739,6.59005567 4.97319432,6.59005567 L4.97319432,6.59005567 L6.19851463,6.59005567 L6.36919787,5.78471527 C6.49025756,5.21471563 6.74001132,4.73539775 7.1751718,4.45633542 Z M11.1292428,6.68505561 C11.2132212,6.72985672 11.2568463,6.78167487 11.2622994,6.83997028 C11.2672072,6.8982657 11.244304,6.95548157 11.1919539,7.01215767 L10.2065717,8.07011155 L11.1788664,9.38985504 C11.209404,9.42925842 11.2170384,9.47675839 11.1995883,9.52857654 C11.1843195,9.58147424 11.11561,9.61817876 11.0245425,9.66675827 C10.9258407,9.71803665 10.8402265,9.7131787 10.7791513,9.69644575 C10.7197121,9.67917304 10.6662713,9.64030943 10.6215556,9.58147424 L9.80140349,8.50732719 L8.80620565,9.57607651 C8.68732722,9.7034628 8.55263469,9.72235483 8.39885617,9.63221284 C8.33559976,9.59550832 8.21999321,9.45948568 8.20636037,9.39795162 C8.19327283,9.33695734 8.21781196,9.27272443 8.28106837,9.20417334 L9.3815118,8.01883318 L8.57990038,6.96897588 C8.54663623,6.92093614 8.54336435,6.86479981 8.56953942,6.80110667 C8.59462386,6.73741353 8.65406307,6.69962946 8.71731948,6.66238517 C8.8083869,6.61164656 8.89181993,6.61002725 8.9534404,6.6148852 C9.01560618,6.6186636 9.07177351,6.65374881 9.12357833,6.7185215 L9.7899519,7.57837891 L10.5964711,6.70880559 C10.6662713,6.63215791 10.7453418,6.6051693 10.8216858,6.5835784 C10.8974844,6.5619875 11.0474457,6.63971473 11.1292428,6.68505561 Z" fill="#FFFFFF" fill-rule="nonzero"></path>
+        </g>
+        <path d="M0,0 L14.5,0 C15.3284271,-5.96268804e-16 16,0.671572875 16,1.5 L16,1.5 L16,14.5 C16,15.3284271 15.3284271,16 14.5,16 L14.5,16 L0,16 L0,15.5 L14.5,15.5 C15.0522847,15.5 15.5,15.0522847 15.5,14.5 L15.5,1.5 C15.5,0.94771525 15.0522847,0.5 14.5,0.5 L0,0.5 L0,0 Z"></path>
+      </g>
+    </g>
+  </svg>`
 }
 
 const nodeConfig = {
@@ -37,7 +49,7 @@ const nodeConfig = {
     y: 68,
     enter (selection) {
       selection.html(`
-        <div class="node-start"><svg viewBox="0 0 14 14" class="icon-flow-start"><title>开始</title><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g  transform="translate(-24.000000, -119.000000)"><g  transform="translate(24.000000, 119.000000)"><rect  x="0" y="0" width="14" height="14"></rect><g  transform="translate(4.843553, 3.875000)" fill="#FFFFFF" fill-rule="nonzero"><g ><path d="M0.567757553,6.13057769 C0.706753664,6.20845457 0.862462291,6.24950026 1.0207913,6.25 C1.21481242,6.24844339 1.40422283,6.18907595 1.56603546,6.07910258 L4.48870452,4.10039864 C4.81177035,3.88084907 5.00426901,3.5078842 4.99987093,3.11001717 C5.0056203,2.72309889 4.81897612,2.35985472 4.50474111,2.14640277 L1.55601259,0.171816849 C1.25777121,-0.0371088557 0.870768955,-0.0569843925 0.553725525,0.120341714 C0.200639293,0.334511484 -0.011268745,0.728826826 0.000463074478,1.1498443 L0.000463074478,5.10107513 C-0.0097328944,5.52543861 0.208301484,5.92111839 0.567757553,6.13057769 Z" ></path></g></g></g></g></g></svg></div>
+        <div class="node-start">${iconHtmlMap.start}</div>
         <span class="node-label">开始</span>
       `)
     }
@@ -54,21 +66,7 @@ const nodeConfig = {
     x: 140,
     y: 64,
     enter (selection) {
-      selection.append('div').classed('icon-outer', true).html(`
-        <svg viewBox="0 0 16 16" class=" icon-api-set">
-          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-            <g></g>
-            <g>
-              <g>
-                <rect x="0" y="0" width="16" height="16"></rect>
-                <polygon stroke="#FFFFFF" stroke-linejoin="round" points="2 2 8.0012 2 14 2 14 14 2 14"></polygon>
-                <path d="M7.1751718,4.45633542 C7.60924166,4.17835264 8.3252388,4.22909125 8.6671506,4.26741509 C8.81111347,4.28360826 9.12794084,4.31275597 9.09522201,4.62474441 C9.06959225,4.87411925 8.70150538,4.84874995 8.60389419,4.84874995 C8.0073208,4.84874995 7.36166915,4.54323878 7.01539483,5.80090844 L7.01539483,5.80090844 L6.85343661,6.59005567 L7.67249807,6.59005567 C7.8230047,6.59005567 7.94515501,6.71096468 7.94515501,6.85994186 C7.94515501,7.00891904 7.8230047,7.12982806 7.67249807,7.12982806 L7.67249807,7.12982806 L6.73728475,7.12982806 L6.001111,10.7090588 C6.001111,10.7090588 5.93022019,11.2844561 5.5730396,11.2623254 C5.5561858,11.26128 5.54034416,11.2592996 5.52545987,11.2564631 L5.56521029,11.2430535 C5.53430007,11.2561818 5.50106164,11.2629478 5.46747899,11.2629478 L4.47124867,11.2629478 C4.34190551,11.2629478 4.23705215,11.1580945 4.23705215,11.0287513 L4.23705215,11.0261898 C4.2369092,10.8974298 4.33465452,10.7897039 4.46280835,10.7772245 C4.71628018,10.7525418 4.93703598,10.712122 5.12507575,10.6559649 C5.24601401,10.6198473 5.33214614,10.571486 5.38347213,10.5108808 L6.08127214,7.12982806 L4.97319432,7.12982806 C4.8783097,7.12982806 4.79627026,7.08136849 4.74856539,7.00827931 L4.72705199,6.96505215 L4.73683182,6.94874317 C4.75310987,6.93361406 4.77915475,6.9211161 4.78892157,6.90335583 C4.77427133,6.88855562 4.72299548,6.87572876 4.72299548,6.85994186 L4.72205199,6.95505215 L4.71956024,6.94921672 L4.7054452,6.88315207 C4.7174421,6.6305386 4.83086739,6.59005567 4.97319432,6.59005567 L4.97319432,6.59005567 L6.19851463,6.59005567 L6.36919787,5.78471527 C6.49025756,5.21471563 6.74001132,4.73539775 7.1751718,4.45633542 Z M11.1292428,6.68505561 C11.2132212,6.72985672 11.2568463,6.78167487 11.2622994,6.83997028 C11.2672072,6.8982657 11.244304,6.95548157 11.1919539,7.01215767 L10.2065717,8.07011155 L11.1788664,9.38985504 C11.209404,9.42925842 11.2170384,9.47675839 11.1995883,9.52857654 C11.1843195,9.58147424 11.11561,9.61817876 11.0245425,9.66675827 C10.9258407,9.71803665 10.8402265,9.7131787 10.7791513,9.69644575 C10.7197121,9.67917304 10.6662713,9.64030943 10.6215556,9.58147424 L9.80140349,8.50732719 L8.80620565,9.57607651 C8.68732722,9.7034628 8.55263469,9.72235483 8.39885617,9.63221284 C8.33559976,9.59550832 8.21999321,9.45948568 8.20636037,9.39795162 C8.19327283,9.33695734 8.21781196,9.27272443 8.28106837,9.20417334 L9.3815118,8.01883318 L8.57990038,6.96897588 C8.54663623,6.92093614 8.54336435,6.86479981 8.56953942,6.80110667 C8.59462386,6.73741353 8.65406307,6.69962946 8.71731948,6.66238517 C8.8083869,6.61164656 8.89181993,6.61002725 8.9534404,6.6148852 C9.01560618,6.6186636 9.07177351,6.65374881 9.12357833,6.7185215 L9.7899519,7.57837891 L10.5964711,6.70880559 C10.6662713,6.63215791 10.7453418,6.6051693 10.8216858,6.5835784 C10.8974844,6.5619875 11.0474457,6.63971473 11.1292428,6.68505561 Z" fill="#FFFFFF" fill-rule="nonzero"></path>
-              </g>
-              <path d="M0,0 L14.5,0 C15.3284271,-5.96268804e-16 16,0.671572875 16,1.5 L16,1.5 L16,14.5 C16,15.3284271 15.3284271,16 14.5,16 L14.5,16 L0,16 L0,15.5 L14.5,15.5 C15.0522847,15.5 15.5,15.0522847 15.5,14.5 L15.5,1.5 C15.5,0.94771525 15.0522847,0.5 14.5,0.5 L0,0.5 L0,0 Z"></path>
-            </g>
-          </g>
-        </svg>
-      `)
+      selection.append('div').classed('icon-outer', true).html(iconHtmlMap.set)
       selection.append('span').classed('node-label', true)
     }
 
@@ -309,102 +307,195 @@ const nodeConfig = {
     }
   }
 }
-
-// 三种线段
-// 1. 垂直
-// function appendVerLine (g) {
-//   g.append('path').attr('class', 'link-path').attr('d', 'M0,0 L0,80')
-//   g.append('g').attr('class', 'line-add-button').html('<circle r="8" cx="0" cy="0"></circle><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="-3" x2="3" y1="0" y2="0"></line><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="0" x2="0" y1="-3" y2="3"></line>')
-//   g.append('path').attr('class', 'link-path-marker-end').attr('transform', 'translate(0, 72)').attr('d', 'M-6,0 L6,0 L0,8 Z')
-// }
-
-// function appendBranchLine (g) {
-//   g.append('path').attr('class', 'link-path')
-//   g.append('g').attr('class', 'line-add-button').html('<circle r="8" cx="0" cy="0"></circle><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="-3" x2="3" y1="0" y2="0"></line><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="0" x2="0" y1="-3" y2="3"></line>')
-//   g.append('path').attr('class', 'link-path-marker-end')
-// }
-
-// function appendBranchEndLine (g) {
-//   g.append('path').attr('class', 'link-path')
-//   g.append('g').attr('class', 'line-add-button').html('<circle r="8" cx="0" cy="0"></circle><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="-3" x2="3" y1="0" y2="0"></line><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="0" x2="0" y1="-3" y2="3"></line>')
-//   g.append('path').attr('class', 'link-path-marker-end')
-// }
-
 export class Ausyda {
-  constructor ({ el, data }) {
+  constructor ({ el, nodes, links }) {
     this.initDom(el)
-    this._data = data
+    this.nodes = nodes
+    this.links = links
     this.update()
     this._events = {}
   }
 
   initDom (el) {
     this._el = d3.select(el).attr('class', 'api-editor').append('div').attr('class', 'api-editor-view').append('div').attr('class', 'api-editor-view-container')
-    const $el = this._el.node()
     this.viewLayer = this._el.append('div').attr('class', 'api-editor-view-layer')
+    this.linkLayer = this.viewLayer.append('svg').attr('class', 'link-layer')
+    this.transform = d3.zoomIdentity
     const zoomFn = d3.zoom().on('zoom', () => {
       const { transform } = d3.event
       const { x, y, k } = transform
+      this.transform = transform
       this.viewLayer.style('transform', `translate(${x}px, ${y}px) scale(${k})`)
     })
-    this._el.call(zoomFn).call(zoomFn.transform, d3.zoomIdentity.translate($el.clientWidth / 2, 0))
+    this._el.call(zoomFn)
     this._el.on('click', () => {
       this.nodes.forEach(node => {
         node.active = false
       })
       this.update()
     })
+    this._el.on('dragenter', () => {
+      const { event } = d3
+      event.preventDefault()
+    })
+    this._el.on('dragover', () => {
+      const { event } = d3
+      event.preventDefault()
+    })
+    this._el.on('drop', () => {
+      const { event } = d3
+      const rect = this._el.node().getBoundingClientRect()
+      const title = JSON.parse(event.dataTransfer.getData('node'))
+      this.addNode({
+        type: 'coder',
+        id: getId(),
+        title,
+        x: this.transform.invertX(event.x - rect.left),
+        y: this.transform.invertY(event.y - rect.top)
+      })
+    })
+  }
+
+  bindDrag () {
+    const that = this
+    return d3.drag().on('drag', function () {
+      const { x, y } = d3.event
+      console.log('d3.event', d3.event)
+      d3.select(this).style('top', d => {
+        d.y = y
+        return `${y}px`
+      }).style('left', d => {
+        d.x = x
+        return `${x}px`
+      })
+      that.update()
+    })
+  }
+
+  linkNode (position) {
+    return (selection) => {
+      let rect = { x: 0, y: 0 }
+      let targetNode
+      const _link = {
+        id: getId()
+      }
+      const bindMove = (e) => {
+        const x = this.transform.invertX(e.x - rect.x)
+        const y = this.transform.invertY(e.y - rect.y)
+        targetNode = this.quadtree.find(x, y, 20)
+        if (targetNode && targetNode.node.id !== _link.source) {
+          _link.x = undefined
+          _link.y = undefined
+          _link.target = targetNode.node.id
+          _link.targetPosition = targetNode.position
+        } else {
+          _link.target = undefined
+          _link.targetPosition = undefined
+          _link.x = x
+          _link.y = y
+        }
+        this.updateLinks()
+      }
+      const bindUp = () => {
+        this._el.style('cursor', '')
+        if (targetNode && targetNode.node.id !== _link.source) {
+          this.links[this.links.length - 1] = {
+            id: _link.id,
+            source: _link.source,
+            sourcePosition: _link.sourcePosition,
+            target: targetNode.node.id,
+            targetPosition: targetNode.position
+          }
+        } else {
+          this.links.pop()
+        }
+        document.removeEventListener('mousemove', bindMove)
+        document.removeEventListener('mouseup', bindUp)
+      }
+      selection.on('mousedown', (d) => {
+        d3.event.stopPropagation()
+        this._el.style('cursor', 'pointer')
+        _link.source = d.id
+        _link.sourcePosition = position
+        this.links.push(_link)
+        rect = this._el.node().getBoundingClientRect()
+        document.addEventListener('mousemove', bindMove)
+        document.addEventListener('mouseup', bindUp)
+      })
+    }
+  }
+
+  updatePointers () {
+    this.pointers = []
+    this.nodes.forEach(node => {
+      const { x = 0, y = 0 } = nodeConfig[node.type]
+      this.pointers.push(
+        {
+          position: 'top',
+          x: node.x,
+          y: node.y - y / 2,
+          node
+        },
+        {
+          position: 'bottom',
+          x: node.x,
+          y: node.y + y / 2,
+          node
+        },
+        {
+          position: 'left',
+          x: node.x - x / 2,
+          y: node.y,
+          node
+        },
+        {
+          position: 'right',
+          x: node.x + x / 2,
+          y: node.y,
+          node
+        }
+      )
+    })
+    // console.log(this.pointers)
+    this.quadtree = d3.quadtree().x(d => d.x).y(d => d.y).addAll(this.pointers)
   }
 
   updateNodes () {
     const that = this
     const updateSelections = this.viewLayer.selectAll('.action-node').data(this.nodes, d => d.id)
-    const enterSelections = updateSelections.enter().append('div').attr('class', d => `action-node action-node--${d.type}`)
-
+    const enterSelections = updateSelections.enter().append('div').attr('class', d => `action-node node-middle action-node--${d.type}`)
+    enterSelections.append('div').attr('class', 'node-pointer node-pointer-top').call(this.linkNode('top'))
+    enterSelections.append('div').attr('class', 'node-pointer node-pointer-bottom').call(this.linkNode('bottom'))
+    enterSelections.append('div').attr('class', 'node-pointer node-pointer-left').call(this.linkNode('left'))
+    enterSelections.append('div').attr('class', 'node-pointer node-pointer-right').call(this.linkNode('right'))
     enterSelections.each(function (data) {
       const selection = d3.select(this)
-      // 哪些不添加操作栏
-      if (!['start', 'end', 'loop-close', 'branch-close'].includes(data.type)) {
-        const toorBar = selection.append('div').classed('node-toolbar', true)
-        // 添加删除按钮
-        toorBar.append('div').attr('class', 'node-tool-outer trash').html(iconHtmlMap.delete).on('click', d => {
-          d3.event.stopPropagation()
-          const cb = () => {
-            const { parent, index } = d
-            const { children } = parent
-            // 当前删除的是分支
-            if (parent.type === 'branch' && Object.prototype.hasOwnProperty.call(d, 'expression')) {
-              const nextItem = children[index + 1]
-              // 下一个不是分支节点，也不是分支结束节点；那么下一个要继承这个分支的属性
-              if (nextItem && (!Object.prototype.hasOwnProperty.call(nextItem, 'expression') && nextItem.type !== 'branch-close')) {
-                BRANCH_KEYS.forEach(key => {
-                  nextItem[key] = d[key]
-                })
-              }
-            }
-            children.splice(index, 1)
-            that.update()
-          }
-          that.emit('deleteNode', d, cb)
-        })
-      }
+      const toorBar = selection.append('div').classed('node-toolbar', true)
+      // 添加删除按钮
+      toorBar.append('div').attr('class', 'node-tool-outer trash').html(iconHtmlMap.delete).on('click', d => {
+        d3.event.stopPropagation()
+        const cb = () => {
+          that.nodes = that.nodes.filter(node => node.id !== d.id)
+          that.links = that.links.filter(link => ![link.source, link.target].includes(d.id))
+          that.update()
+        }
+        that.emit('deleteNode', d, cb)
+      })
       nodeConfig[data.type].enter?.call(that, selection)
     })
-    const mergeSelections = updateSelections.merge(enterSelections).style('top', d => `${d.top}px`).style('left', d => `${d.left}px`)
-      .classed('error', d => {
-        if (Object.prototype.hasOwnProperty.call(d, 'validateFailed')) return d.validateFailed
-        else return false
-      })
+    const mergeSelections = updateSelections.merge(enterSelections)
+      .style('top', d => `${d.y}px`)
+      .style('left', d => `${d.x}px`)
       .classed('is-active', d => d.active)
+      .call(this.bindDrag())
       .on('click', (d) => {
         d3.event.stopPropagation()
         this.nodes.forEach(node => {
           node.active = node.id === d.id
         })
         this.update()
-        this.emit('updateNode', d)
       })
-      .on('dblclick', () => d3.event.stopPropagation())
+
     mergeSelections.each(function (data) {
       const selection = d3.select(this)
       nodeConfig[data.type].update?.call(that, selection, data)
@@ -415,418 +506,423 @@ export class Ausyda {
   }
 
   updateLinks () {
-    const updateSelections = this.viewLayer.selectAll('.orthogonal-line').data(this.links, d => d.id)
-    const enterSelections = updateSelections.enter().append('svg').attr('class', 'orthogonal-line')
-    const g = enterSelections.append('g').attr('class', 'link-group')
-    g.append('path').attr('class', 'link-path')
-    g.append('g').attr('class', 'line-add-button').html('<circle r="8" cx="0" cy="0"></circle><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="-3" x2="3" y1="0" y2="0"></line><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="0" x2="0" y1="-3" y2="3"></line>')
-      .on('click', d => this.emit('addNode', d))
-    g.append('text').attr('y', -8).attr('fill', 'currentColor')
-    g.append('path').attr('class', 'link-path-marker-end')
-    const mergeSelections = updateSelections.merge(enterSelections).classed('is-active', d => d.active)
+    // const link = {
+    //   source: 'nodeid',
+    //   sourcePosition: 'left',
+    //   target: 'nodeid',
+    //   targetPosition: 'left'
+    // }
+    const updateSelections = this.linkLayer.selectAll('.link-group').data(this.links, d => d.id)
+    const enterSelections = updateSelections.enter().append('g').attr('class', 'link-group')
+    enterSelections.append('path').attr('class', 'link-path')
+    enterSelections.append('g').attr('class', 'line-add-button').html('<circle r="8" cx="0" cy="0"></circle><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="-3" x2="3" y1="0" y2="0"></line><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="0" x2="0" y1="-3" y2="3"></line>')
       .on('click', d => {
         d3.event.stopPropagation()
         this.links.forEach(link => { link.active = link.id === d.id })
         this.updateLinks()
+        this.emit('addNode', d)
+      })
+    enterSelections.append('text').attr('fill', 'currentColor')
+    enterSelections.append('path').attr('class', 'link-path-marker-end')
+    const mergeSelections = updateSelections.merge(enterSelections).classed('is-active', d => d.active)
+      .on('click', d => {
+        d3.event.stopPropagation()
         // 如果点击的是path 和 text, 并且是分支
-        if (['path', 'text'].includes(d3.event.target.tagName) && d.source?.type === 'branch') this.emit('updateBranch', d.target)
+        if (['path', 'text'].includes(d3.event.target.tagName)) {
+          this.links.forEach(link => { link.active = link.id === d.id })
+          this.updateLinks()
+          d.source?.type === 'branch' && this.emit('updateBranch', d.target)
+        }
       })
 
     mergeSelections.select('.link-path').attr('d', (d) => {
-      const { source, target } = d
-      const x0 = 0
-      let y0 = 0
-      let x1 = 0
-      let y1 = 0
-      let x2 = 0
-      const diffX = (target.left || 0) - (source.left || 0)
-      let y2 = 0
-      const diffY = (target.top || 0) - ((source.top || 0) + nodeConfig[source.type].y)
-
-      if (diffX === 0) y2 = diffY
-      else if (diffX < 0) {
-        // 左边
-        if (source.type === 'branch' && !source.folded) {
-          y0 = diffY + 24
-          x2 = -diffX - 24
-        }
-        // 右边
-        if (target.type === 'branch-close') {
-          y0 = y1 = diffY + 24
-          x1 = x2 = -diffX - 24
-        }
-      } else {
-        // 右边
-        if (source.type === 'branch' && !source.folded) {
-          x1 = x2 = diffX - 24
-          y2 = diffY + 24
-        }
-        // 左边
-        if (target.type === 'branch-close') {
-          y1 = y2 = diffY + 24
-          x2 = diffX - 24
-        }
-      }
-      d.clientRect = {
-        width: Math.abs(x2 - x0) || 16,
-        height: Math.abs(y2 - y0),
-        diffX
-      }
-      return `M${x0},${y0} L${x1},${y1} L${x2},${y2}`
+      d.cpt = this.computedPath(d)
+      return d.cpt.pathD
     })
-    mergeSelections.select('.line-add-button').attr('transform', ({ source, target, clientRect }) => {
-      const h = clientRect.height / 2 || 0
-      const diffX = (target.left || 0) - (source.left || 0)
-      // 分支的开始节点 右侧 、 分支结束节点的右侧，需要做位移
-      const isNeedX = (source.type === 'branch' && !source.folded && diffX > 0) || (target.type === 'branch-close' && diffX < 0)
-      const x = isNeedX ? (clientRect.width || 0) : 0
-      return `translate(${x}, ${h})`
-    })
-    mergeSelections.select('text').text(({ source, target }) => {
-      return source.type === 'branch' ? target.expression : ''
-    }).attr('x', function ({ clientRect, source }) {
-      if (source.type === 'branch') {
-        const _width = this.getComputedTextLength()
-        return (clientRect?.width - _width) / 2
-      }
-    })
-    mergeSelections.select('.link-path-marker-end').attr('transform', ({ source, target, clientRect }) => {
-      const h = clientRect.height || 0
-      const diffX = (target.left || 0) - (source.left || 0)
-      // 分支的开始节点 右侧 、 分支结束节点的右侧，需要做位移
-      const isNeedX = (source.type === 'branch' && !source.folded && diffX > 0) || (target.type === 'branch-close' && diffX > 0)
-      const x = isNeedX ? (clientRect.width || 0) : 0
-      // 分支的开始节点 右侧 、 分支结束节点的右侧，需要做位移
-      if (target.type === 'branch-close' && diffX !== 0) {
-        if (diffX < 0) {
-          return `translate(${8}, ${h}) rotate(180)`
-        } else {
-          return `translate(${x - 8}, ${h})`
-        }
-      }
-      return `translate(${x}, ${h - 8})`
-    }).attr('d', ({ source, target }) => {
-      const diffX = (target.left || 0) - (source.left || 0)
-      if (target.type === 'branch-close' && diffX !== 0) {
-        return 'M0,-6 L0,6 L8,0 Z'
-      }
-      return 'M-6,0 L6,0 L0,8 Z'
+    mergeSelections.select('.line-add-button').attr('transform', ({ cpt }) => {
+      return cpt.linkAddPosition
     })
 
-    mergeSelections.attr('width', function (d) {
-      return d.clientRect.width
-    }).attr('height', function (d) {
-      return d.clientRect.height
-    }).attr('transform', ({ source, target, clientRect }) => {
-      const x = source.left || 0
-      const diffX = (target.left || 0) - (source.left || 0)
-      let y = (source.top || 0) + nodeConfig[source.type].y
-      let _w = 0
-      if (source.type === 'branch' && diffX !== 0 && !source.folded) {
-        y -= 24
-        if (diffX < 0) {
-          _w = (clientRect?.width || 0) + 24
-        } else {
-          _w = -24
-        }
-      }
-      if (target.type === 'branch-close' && diffX !== 0) {
-        if (diffX < 0) _w = (clientRect?.width || 0)
-      }
-      return `translate(${x - _w}, ${y})`
-    }).style('z-index', d => {
-      const { clientRect, source, target } = d
-      const { diffX } = clientRect
-      if (source.type === 'branch' && diffX !== 0 && !source.folded) {
-        // 左边
-        if (diffX < 0) {
-          source.branchIndex = (source.branchIndex || 0) + 1
-        } else {
-          // 右边
-          source.branchIndex = (source.branchIndex || 1) - 1
-        }
-        return source.branchIndex + source.depth * 10
-      }
-      if (target.type === 'branch-close' && diffX !== 0) {
-        // 左边
-        if (diffX > 0) {
-          target.branchCloseIndex = (target.branchCloseIndex || 0) + 1
-        } else {
-          // 右边
-          target.branchCloseIndex = (target.branchCloseIndex || 1) - 1
-        }
-        return target.branchCloseIndex + target.parent.depth * 10
-      }
+    mergeSelections.select('.link-path-marker-end').attr('transform', ({ cpt }) => {
+      return cpt.markerEnd.transform
+    }).attr('d', ({ cpt }) => {
+      return cpt.markerEnd.d
     })
+
     updateSelections.exit().remove()
   }
 
-  setPosition () {
-    let nextTop = 0
-    const computedPositionTop = (children, parent) => {
-      if (parent.type === 'branch' && children.at(-1)?.type !== 'branch-close') children.push({ type: 'branch-close', id: getId() })
-      if (parent.type === 'loop' && children.at(-1)?.type !== 'loop-close') children.push({ type: 'loop-close', id: getId() })
-      // 设置top
-      children.forEach((item, index) => {
-        item.parent = parent
-        item.index = index
-        if (Object.prototype.hasOwnProperty.call(item, 'expression')) {
-          // 如果是分支，继承父亲的高度
-          item.top = nodeConfig[parent.type].y + (parent.top || 0) + 80
-          // 如果从第一个分支跳出来，进入下一个刚好是分支，那就清空nextTop
-          nextTop = 0
-        } else if (index === 0) {
-          // 第一个子节点，继承父亲的高度
-          item.top = nodeConfig[parent.type].y + (parent.top || 0) + 80
-        } else if (item.type === 'branch-close') {
-          // 排除 结束分支节点 本身
-          const _children = children.filter(c => c.type !== 'branch-close')
-          // 获取当前分支最大的一个高度，作为 branch-close 结束分支的参考高度
-          const h = Math.max(..._children.map(c => {
-            // 分支和循环在展开状态下
-            if (['loop', 'branch'].includes(c.type) && !c.folded) {
-              return (c.top || 0) + c.height + 24
-            }
-            return (c.top || 0) + nodeConfig[c.type].y
-          }))
-          item.top = h + 80
-        } else {
-          // 其他的子节点，继承上一个子节点的高度
-          const prevNode = children[index - 1]
-          // 如果是递归遍历出来的，有子节点，需要根据子节点高度，计算下一个高度；见 <--1
-          if (nextTop) {
-            item.top = nextTop + 80
-            nextTop = 0
-          } else {
-            item.top = nodeConfig[prevNode.type].y + prevNode.top + 80
-          }
-        }
-
-        if (index === children.length - 1) {
-          nextTop = item.top + nodeConfig[item.type].y // <--1
-          if (['loop-close', 'branch-close'].includes(item.type)) {
-            parent.height = item.top - parent.top - 24
-          }
-        }
-        // 这个层级，用来结算连线的zIndex。防止外面的线更宽更高，覆盖了里面的线，操作不到
-        if (item.type === 'branch') {
-          item.depth = (parent.depth || 0) + 1
-        }
-        if (item.folded) return false
-        // console.log(item.title, item.top,  item, 'pre')
-        item.children && computedPositionTop(item.children, item)
-      })
-      // 后续遍历，拿到所有子节点最大的高度（总高度），赋值给父节点，为父节点的下一个子节点算高度
-      // parent.nextTop = nextTop // <--1
+  computedPath ({ source, target, sourcePosition, targetPosition, x, y }) {
+    const sourceNode = this.nodeMap[source]
+    const sourceConfig = nodeConfig[sourceNode.type]
+    const { x: x0, y: y0 } = this.getPointerPosition(sourcePosition, sourceNode, sourceConfig)
+    let pathD = ''
+    if (x && y) {
+      // eslint-disable-next-line no-var
+      var relativePosition = this.getRelativePosition({ x0, y0 }, { x1: x, y1: y })
+    } else {
+      /* eslint-disable */
+      var targetNode = this.nodeMap[target]
+      var targetConfig = nodeConfig[targetNode.type]
+      var { x: x1, y: y1 } = this.getPointerPosition(targetPosition, targetNode, targetConfig)
+      var relativePosition = this.getRelativePosition({x0, y0}, {x1, y1})
+       /* eslint-enable */
     }
-    computedPositionTop(this._data.children, this._data)
-
-    // 设置width
-    // 1. 先确定每个最里面节点的宽度
-    // 2. 根据每个children的最大宽度，设置父元素的宽度
-    const computedWidth = (children, parent) => {
-      children.forEach(item => {
-        item.width = nodeConfig[item.type].x
-        item.children && computedWidth(item.children, item)
-      })
-      if (parent.type === 'loop') {
-        parent.width = (Math.max(...children.map(c => c.width)) || 0) + 80
-      } else if (parent.type === 'branch') {
-        parent.width = 0
-        // 获取当前分支最大的宽度
-        let currentBranchMaxWidth = 0
-        let currentBranchs = []
-        children.forEach((item, index) => {
-          currentBranchs.push(item)
-          // 如果下一个节点是分支
-          const nextItem = children[index + 1]
-          currentBranchMaxWidth = Math.max(currentBranchMaxWidth, item.width)
-          if (nextItem && Object.prototype.hasOwnProperty.call(nextItem, 'expression')) {
-            currentBranchs.forEach(item => { item.branchWidth = currentBranchMaxWidth })
-            parent.width += currentBranchMaxWidth + 40
-            currentBranchMaxWidth = 0
-            currentBranchs = []
+    const markerEnd = {
+      transform: `translate(${x}, ${y})`,
+      d: 'M-6,0 L6,0 L0,8 Z'
+    }
+    let linkAddPosition = 'translate(-1000, -1000)'
+    if (sourcePosition === 'top') {
+      if (x && y) {
+        pathD = `M${x0}, ${y0} L${x0}, ${y} L${x} ${y}`
+        if (relativePosition.startsWith('center-top')) {
+          markerEnd.transform = `translate(${x}, ${y + 8}) rotate(180)`
+          pathD = `M${x0}, ${y0} L${x0}, ${(y + y0) / 2} L ${x}, ${(y + y0) / 2} L${x},${y}`
+        } else if (relativePosition.startsWith('center-middle')) {
+          markerEnd.transform = `translate(${x}, ${y - 8})`
+          pathD = `M${x0}, ${y0} L${x0}, ${(y + y0) / 2} L ${x}, ${(y + y0) / 2} L${x},${y}`
+        } else if (relativePosition.startsWith('center-bottom')) {
+          markerEnd.transform = `translate(${x}, ${y - 8})`
+          pathD = `M${x0}, ${y0} L${x0}, ${(y + y0) / 2} L ${x}, ${(y + y0) / 2} L${x},${y}`
+        } else if (relativePosition.startsWith('left')) {
+          markerEnd.transform = `translate(${x - 8}, ${y})`
+          markerEnd.d = 'M0,-6 L0,6 L8,0 Z'
+        } else if (relativePosition.startsWith('right')) {
+          markerEnd.transform = `translate(${x + 8}, ${y}) rotate(180)`
+          markerEnd.d = 'M0,-6 L0,6 L8,0 Z'
+        }
+      } else if (targetPosition === 'top') {
+        markerEnd.transform = `translate(${x1}, ${y1 - 8})`
+        linkAddPosition = `translate(${(x1 + x0) / 2}, ${Math.min(y1, y0) - 16})`
+        pathD = `M${x0}, ${y0} L${x0}, ${Math.min(y1, y0) - 16} L ${x1}, ${Math.min(y1, y0) - 16} L${x1},${y1}`
+      } else if (targetPosition === 'bottom') {
+        markerEnd.transform = `translate(${x1}, ${y1 + 8}) rotate(180)`
+        linkAddPosition = `translate(${(x1 + x0) / 2}, ${(y1 + y0) / 2})`
+        if (y1 + 16 > y0) {
+          pathD = `M${x0}, ${y0} L${x0}, ${y0 - 16} L ${(x1 + x0) / 2}, ${y0 - 16} L ${(x1 + x0) / 2}, ${y1 + 16} L ${x1}, ${y1 + 16} L${x1},${y1}`
+        } else {
+          pathD = `M${x0}, ${y0} L${x0}, ${(y1 + y0) / 2} L ${x1}, ${(y1 + y0) / 2} L${x1},${y1}`
+        }
+      } else if (targetPosition === 'left') {
+        markerEnd.transform = `translate(${x1 - 8}, ${y1})`
+        markerEnd.d = 'M0,-6 L0,6 L8,0 Z'
+        if (x0 > x1 - 16) {
+          if (y1 + 16 > y0) {
+            linkAddPosition = `translate(${x1 - 16}, ${(y1 + Math.min((y0 - 16), (y1 - targetConfig.y / 2 - 16))) / 2})`
+            pathD = `M${x0}, ${y0} L${x0}, ${Math.min((y0 - 16), (y1 - targetConfig.y / 2 - 16))} L${x1 - 16} ${Math.min((y0 - 16), (y1 - targetConfig.y / 2 - 16))} L${x1 - 16} ${y1} L${x1} ${y1}`
+          } else {
+            linkAddPosition = `translate(${(x1 + x0) / 2}, ${(y1 + y0) / 2})`
+            pathD = `M${x0}, ${y0} L${x0}, ${(y0 + y1) / 2} L${x1 - 16} ${(y0 + y1) / 2} L${x1 - 16} ${y1} L${x1} ${y1}`
           }
-          if (item.type === 'branch-close') {
-            currentBranchs.forEach(item => { item.branchWidth = currentBranchMaxWidth })
-            parent.width += currentBranchMaxWidth
+        } else {
+          if (y1 + 16 > y0) {
+            linkAddPosition = `translate(${(x1 + x0) / 2}, ${(y1 + Math.min((y0 - 16), (y1 - targetConfig.y / 2 - 16))) / 2})`
+            pathD = `M${x0}, ${y0} L${x0}, ${Math.min((y0 - 16), (y1 - targetConfig.y / 2 - 16))} L${(x1 + x0) / 2} ${Math.min((y0 - 16), (y1 - targetConfig.y / 2 - 16))} L${(x1 + x0) / 2} ${y1} L${x1} ${y1}`
+          } else {
+            linkAddPosition = `translate(${x0}, ${(y1 + y0) / 2})`
+            pathD = `M${x0}, ${y0} L${x0}, ${y1} L${x1} ${y1}`
           }
-        })
+        }
+      } else if (targetPosition === 'right') {
+        markerEnd.transform = `translate(${x1 + 8}, ${y1}) rotate(180)`
+        markerEnd.d = 'M0,-6 L0,6 L8,0 Z'
+        if (x1 > x0 - 16) {
+          if (y1 + 16 > y0) {
+            linkAddPosition = `translate(${x1 + 16}, ${(y1 + Math.min((y0 - 16), (y1 - targetConfig.y / 2 - 16))) / 2})`
+            pathD = `M${x0}, ${y0} L${x0}, ${Math.min((y0 - 16), (y1 - targetConfig.y / 2 - 16))} L${x1 + 16} ${Math.min((y0 - 16), (y1 - targetConfig.y / 2 - 16))} L${x1 + 16} ${y1} L${x1} ${y1}`
+          } else {
+            linkAddPosition = `translate(${(x1 + x0) / 2}, ${(y1 + y0) / 2})`
+            pathD = `M${x0}, ${y0} L${x0}, ${(y0 + y1) / 2} L${x1 + 16} ${(y0 + y1) / 2} L${x1 + 16} ${y1} L${x1} ${y1}`
+          }
+        } else {
+          if (y1 + 16 > y0) {
+            linkAddPosition = `translate(${(x1 + x0) / 2}, ${(y1 + Math.min((y0 - 16), (y1 - targetConfig.y / 2 - 16))) / 2})`
+            pathD = `M${x0}, ${y0} L${x0}, ${Math.min((y0 - 16), (y1 - targetConfig.y / 2 - 16))} L${(x1 + x0) / 2} ${Math.min((y0 - 16), (y1 - targetConfig.y / 2 - 16))} L${(x1 + x0) / 2} ${y1} L${x1} ${y1}`
+          } else {
+            linkAddPosition = `translate(${x0}, ${(y1 + y0) / 2})`
+            pathD = `M${x0}, ${y0} L${x0}, ${y1} L${x1} ${y1}`
+          }
+        }
+      }
+    } else if (sourcePosition === 'bottom') {
+      if (x && y) {
+        pathD = `M${x0}, ${y0} L${x0}, ${y} L${x} ${y}`
+        if (relativePosition.startsWith('center-top')) {
+          markerEnd.transform = `translate(${x}, ${y + 8}) rotate(180)`
+          pathD = `M${x0}, ${y0} L${x0}, ${(y + y0) / 2} L ${x}, ${(y + y0) / 2} L${x},${y}`
+        } else if (relativePosition.startsWith('center-middle')) {
+          markerEnd.transform = `translate(${x}, ${y + 8}) rotate(180)`
+          pathD = `M${x0}, ${y0} L${x0}, ${(y + y0) / 2} L ${x}, ${(y + y0) / 2} L${x},${y}`
+        } else if (relativePosition.startsWith('center-bottom')) {
+          markerEnd.transform = `translate(${x}, ${y - 8})`
+          pathD = `M${x0}, ${y0} L${x0}, ${(y + y0) / 2} L ${x}, ${(y + y0) / 2} L${x},${y}`
+        } else if (relativePosition.startsWith('left')) {
+          markerEnd.transform = `translate(${x - 8}, ${y})`
+          markerEnd.d = 'M0,-6 L0,6 L8,0 Z'
+        } else if (relativePosition.startsWith('right')) {
+          markerEnd.transform = `translate(${x + 8}, ${y}) rotate(180)`
+          markerEnd.d = 'M0,-6 L0,6 L8,0 Z'
+        }
+      } else if (targetPosition === 'top') {
+        markerEnd.transform = `translate(${x1}, ${y1 - 8})`
+        linkAddPosition = `translate(${(x1 + x0) / 2}, ${(y1 + y0) / 2})`
+        if (y0 > y1 - 16) {
+          pathD = `M${x0}, ${y0} L${x0}, ${y0 + 16} L${(x1 + x0) / 2}, ${y0 + 16} L${(x1 + x0) / 2}, ${y1 - 16} L${x1}, ${y1 - 16} L${x1},${y1}`
+        } else {
+          pathD = `M${x0}, ${y0} L${x0}, ${(y1 + y0) / 2} L ${x1}, ${(y1 + y0) / 2} L${x1},${y1}`
+        }
+      } else if (targetPosition === 'bottom') {
+        markerEnd.transform = `translate(${x1}, ${y1 + 8}) rotate(180)`
+        linkAddPosition = `translate(${(x1 + x0) / 2}, ${Math.max(y1, y0) + 16})`
+        pathD = `M${x0}, ${y0} L${x0}, ${Math.max(y1, y0) + 16} L ${x1}, ${Math.max(y1, y0) + 16} L${x1},${y1}`
+      } else if (targetPosition === 'left') {
+        markerEnd.transform = `translate(${x1 - 8}, ${y1})`
+        markerEnd.d = 'M0,-6 L0,6 L8,0 Z'
+        if (x0 > x1 - 16) {
+          if (y0 > y1 - 16) {
+            linkAddPosition = `translate(${x1 - 16}, ${(y1 + Math.max((y0 + 16), y1 + targetConfig.y / 2 + 16)) / 2})`
+            pathD = `M${x0}, ${y0} L${x0}, ${Math.max((y0 + 16), y1 + targetConfig.y / 2 + 16)} L${x1 - 16} ${Math.max((y0 + 16), y1 + targetConfig.y / 2 + 16)} L${x1 - 16} ${y1} L${x1} ${y1}`
+          } else {
+            linkAddPosition = `translate(${(x1 + x0) / 2}, ${(y1 + y0) / 2})`
+            pathD = `M${x0}, ${y0} L${x0}, ${(y0 + y1) / 2} L${x1 - 16} ${(y0 + y1) / 2} L${x1 - 16} ${y1} L${x1} ${y1}`
+          }
+        } else {
+          if (y0 > y1 - 16) {
+            linkAddPosition = `translate(${(x1 + x0) / 2}, ${(y1 + y0 + 16) / 2})`
+            pathD = `M${x0}, ${y0} L${x0}, ${y0 + 16} L${(x1 + x0) / 2} ${y0 + 16} L${(x1 + x0) / 2} ${y1} L${x1} ${y1}`
+          } else {
+            linkAddPosition = `translate(${x0}, ${(y1 + y0) / 2})`
+            pathD = `M${x0}, ${y0} L${x0}, ${y1} L${x1} ${y1}`
+          }
+        }
+      } else if (targetPosition === 'right') {
+        markerEnd.transform = `translate(${x1 + 8}, ${y1}) rotate(180)`
+        markerEnd.d = 'M0,-6 L0,6 L8,0 Z'
+        if (x1 > x0 - 16) {
+          if (y0 > y1 - 16) {
+            linkAddPosition = `translate(${x1 + 16}, ${(y1 + Math.max((y0 + 16), y1 + targetConfig.y / 2 + 16)) / 2})`
+            pathD = `M${x0}, ${y0} L${x0}, ${Math.max((y0 + 16), y1 + targetConfig.y / 2 + 16)} L${x1 + 16} ${Math.max((y0 + 16), y1 + targetConfig.y / 2 + 16)} L${x1 + 16} ${y1} L${x1} ${y1}`
+          } else {
+            linkAddPosition = `translate(${(x1 + x0) / 2}, ${(y1 + y0) / 2})`
+            pathD = `M${x0}, ${y0} L${x0}, ${(y0 + y1) / 2} L${x1 + 16} ${(y0 + y1) / 2} L${x1 + 16} ${y1} L${x1} ${y1}`
+          }
+        } else {
+          if (y0 > y1 - 16) {
+            linkAddPosition = `translate(${(x1 + x0) / 2}, ${(y1 + y0 + 16) / 2})`
+            pathD = `M${x0}, ${y0} L${x0}, ${y0 + 16} L${(x1 + x0) / 2} ${y0 + 16} L${(x1 + x0) / 2} ${y1} L${x1} ${y1}`
+          } else {
+            linkAddPosition = `translate(${x0}, ${(y1 + y0) / 2})`
+            pathD = `M${x0}, ${y0} L${x0}, ${y1} L${x1} ${y1}`
+          }
+        }
+      }
+    } else if (sourcePosition === 'left') {
+      if (x && y) {
+        pathD = `M${x0}, ${y0} L${x}, ${y0} L${x} ${y}`
+        if (relativePosition === 'left-middle') {
+          markerEnd.transform = `translate(${x - 8}, ${y})`
+          markerEnd.d = 'M0,-6 L0,6 L8,0 Z'
+          pathD = `M${x0}, ${y0} L${(x + x0) / 2}, ${y0} L ${(x + x0) / 2}, ${y} L${x},${y}`
+        } else if (relativePosition === 'center-middle') {
+          markerEnd.transform = `translate(${x - 8}, ${y}) rotate(180)`
+          markerEnd.d = 'M0,-6 L0,6 L8,0 Z'
+          pathD = `M${x0}, ${y0} L${(x + x0) / 2}, ${y0} L ${(x + x0) / 2}, ${y} L${x},${y}`
+        } else if (relativePosition === 'right-middle') {
+          markerEnd.transform = `translate(${x + 8}, ${y}) rotate(180)`
+          markerEnd.d = 'M0,-6 L0,6 L8,0 Z'
+          pathD = `M${x0}, ${y0} L${(x + x0) / 2}, ${y0} L ${(x + x0) / 2}, ${y} L${x},${y}`
+        } else if (relativePosition.endsWith('top')) {
+          markerEnd.transform = `translate(${x}, ${y + 8}) rotate(180)`
+        }
+      } else if (targetPosition === 'top') {
+        markerEnd.transform = `translate(${x1}, ${y1 - 8})`
+        if (y0 > y1 - 16) {
+          if (x0 < x1 + 16) {
+            linkAddPosition = `translate(${(Math.min((x0 - 16), x1 - targetConfig.x / 2 - 16) + x1) / 2}, ${y1 - 16})`
+            pathD = `M${x0}, ${y0} L${Math.min((x0 - 16), x1 - targetConfig.x / 2 - 16)}, ${y0} L${Math.min((x0 - 16), x1 - targetConfig.x / 2 - 16)}, ${y1 - 16} L${x1}, ${y1 - 16} L${x1} ${y1}`
+          } else {
+            linkAddPosition = `translate(${(x0 - 16 + x1) / 2}, ${y1 - 16})`
+            pathD = `M${x0}, ${y0} L${x0 - 16}, ${y0} L${x0 - 16}, ${y1 - 16} L${x1}, ${y1 - 16} L${x1} ${y1}`
+          }
+        } else {
+          if (x0 < x1 + 16) {
+            linkAddPosition = `translate(${(x0 - 16 + x1) / 2}, ${(y0 + y1) / 2})`
+            pathD = `M${x0}, ${y0} L${x0 - 16}, ${y0} L${x0 - 16}, ${(y0 + y1) / 2} L${x1}, ${(y0 + y1) / 2} L${x1} ${y1}`
+          } else {
+            linkAddPosition = `translate(${(x0 + x1) / 2}, ${y0})`
+            pathD = `M${x0}, ${y0} L${x1}, ${y0} L${x1} ${y1}`
+          }
+        }
+      } else if (targetPosition === 'bottom') {
+        markerEnd.transform = `translate(${x1}, ${y1 + 8}) rotate(180)`
+        if (y0 < y1 + 16) {
+          if (x0 < x1 + 16) {
+            linkAddPosition = `translate(${(Math.min((x0 - 16), x1 - targetConfig.x / 2 - 16) + x1) / 2}, ${y1 + 16})`
+            pathD = `M${x0}, ${y0} L${Math.min((x0 - 16), x1 - targetConfig.x / 2 - 16)}, ${y0} L${Math.min((x0 - 16), x1 - targetConfig.x / 2 - 16)}, ${y1 + 16} L${x1}, ${y1 + 16} L${x1} ${y1}`
+          } else {
+            linkAddPosition = `translate(${(x0 - 16 + x1) / 2}, ${y1 + 16})`
+            pathD = `M${x0}, ${y0} L${x0 - 16}, ${y0} L${x0 - 16}, ${y1 + 16} L${x1}, ${y1 + 16} L${x1} ${y1}`
+          }
+        } else {
+          if (x0 < x1 + 16) {
+            linkAddPosition = `translate(${(x0 - 16 + x1) / 2}, ${(y0 + y1) / 2})`
+            pathD = `M${x0}, ${y0} L${x0 - 16}, ${y0} L${x0 - 16}, ${(y0 + y1) / 2} L${x1}, ${(y0 + y1) / 2} L${x1} ${y1}`
+          } else {
+            linkAddPosition = `translate(${(x0 + x1) / 2}, ${y0})`
+            pathD = `M${x0}, ${y0} L${x1}, ${y0} L${x1} ${y1}`
+          }
+        }
+      } else if (targetPosition === 'left') {
+        markerEnd.transform = `translate(${x1 - 8}, ${y1})`
+        markerEnd.d = 'M0,-6 L0,6 L8,0 Z'
+        linkAddPosition = `translate(${Math.min(x1, x0) - 16}, ${(y0 + y1) / 2})`
+        pathD = `M${x0}, ${y0} L${Math.min(x1, x0) - 16}, ${y0} L ${Math.min(x1, x0) - 16}, ${y1} L${x1},${y1}`
+      } else if (targetPosition === 'right') {
+        markerEnd.transform = `translate(${x1 + 8}, ${y1}) rotate(180)`
+        markerEnd.d = 'M0,-6 L0,6 L8,0 Z'
+        linkAddPosition = `translate(${(x0 + x1) / 2}, ${(y0 + y1) / 2})`
+        if (x0 < x1 + 16) {
+          pathD = `M${x0}, ${y0} L${x0 - 16}, ${y0} L${x0 - 16}, ${(y0 + y1) / 2} L${x1 + 16}, ${(y0 + y1) / 2} L${x1 + 16}, ${y1} L${x1} ${y1}`
+        } else {
+          pathD = `M${x0}, ${y0} L${(x1 + x0) / 2}, ${y0} L ${(x1 + x0) / 2}, ${y1} L${x1},${y1}`
+        }
+      }
+    } else if (sourcePosition === 'right') {
+      if (x && y) {
+        pathD = `M${x0}, ${y0} L${x}, ${y0} L${x} ${y}`
+        if (relativePosition === 'left-middle') {
+          markerEnd.transform = `translate(${x - 8}, ${y})`
+          markerEnd.d = 'M0,-6 L0,6 L8,0 Z'
+          pathD = `M${x0}, ${y0} L${(x + x0) / 2}, ${y0} L ${(x + x0) / 2}, ${y} L${x},${y}`
+        } else if (relativePosition === 'center-middle') {
+          markerEnd.transform = `translate(${x - 8}, ${y}) rotate(180)`
+          markerEnd.d = 'M0,-6 L0,6 L8,0 Z'
+          pathD = `M${x0}, ${y0} L${(x + x0) / 2}, ${y0} L ${(x + x0) / 2}, ${y} L${x},${y}`
+        } else if (relativePosition === 'right-middle') {
+          markerEnd.transform = `translate(${x + 8}, ${y}) rotate(180)`
+          markerEnd.d = 'M0,-6 L0,6 L8,0 Z'
+          pathD = `M${x0}, ${y0} L${(x + x0) / 2}, ${y0} L ${(x + x0) / 2}, ${y} L${x},${y}`
+        } else if (relativePosition.endsWith('top')) {
+          markerEnd.transform = `translate(${x}, ${y + 8}) rotate(180)`
+        }
+      } else if (targetPosition === 'top') {
+        markerEnd.transform = `translate(${x1}, ${y1 - 8})`
+        if (y0 > y1 - 16) {
+          if (x1 < x0 + 16) {
+            linkAddPosition = `translate(${(Math.max((x0 + 16), x1 + targetConfig.x / 2 + 16) + x1) / 2}, ${y1 - 16})`
+            pathD = `M${x0}, ${y0} L${Math.max((x0 + 16), x1 + targetConfig.x / 2 + 16)}, ${y0} L${Math.max((x0 + 16), x1 + targetConfig.x / 2 + 16)}, ${y1 - 16} L${x1}, ${y1 - 16} L${x1} ${y1}`
+          } else {
+            linkAddPosition = `translate(${(x0 + 16 + x1) / 2}, ${y1 - 16})`
+            pathD = `M${x0}, ${y0} L${x0 + 16}, ${y0} L${x0 + 16}, ${y1 - 16} L${x1}, ${y1 - 16} L${x1} ${y1}`
+          }
+        } else {
+          if (x1 < x0 + 16) {
+            linkAddPosition = `translate(${(x0 + 16 + x1) / 2}, ${y1 - 16})`
+            pathD = `M${x0}, ${y0} L${x0 + 16}, ${y0} L${x0 + 16}, ${y1 - 16} L${x1}, ${y1 - 16} L${x1} ${y1}`
+          } else {
+            linkAddPosition = `translate(${(x0 + x1) / 2}, ${y0})`
+            pathD = `M${x0}, ${y0} L${x1}, ${y0} L${x1} ${y1}`
+          }
+        }
+      } else if (targetPosition === 'bottom') {
+        markerEnd.transform = `translate(${x1}, ${y1 + 8}) rotate(180)`
+        if (y0 < y1 + 16) {
+          if (x1 < x0 + 16) {
+            linkAddPosition = `translate(${(Math.max((x0 + 16), x1 + targetConfig.x / 2 + 16) + x1) / 2}, ${y1 + 16})`
+            pathD = `M${x0}, ${y0} L${Math.max((x0 + 16), x1 + targetConfig.x / 2 + 16)}, ${y0} L${Math.max((x0 + 16), x1 + targetConfig.x / 2 + 16)}, ${y1 + 16} L${x1}, ${y1 + 16} L${x1} ${y1}`
+          } else {
+            linkAddPosition = `translate(${(x0 + 16 + x1) / 2}, ${y1 + 16})`
+            pathD = `M${x0}, ${y0} L${x0 + 16}, ${y0} L${x0 + 16}, ${y1 + 16} L${x1}, ${y1 + 16} L${x1} ${y1}`
+          }
+        } else {
+          if (x1 < x0 + 16) {
+            linkAddPosition = `translate(${(x0 + 16 + x1) / 2}, ${y1 + 16})`
+            pathD = `M${x0}, ${y0} L${x0 + 16}, ${y0} L${x0 + 16}, ${y1 + 16} L${x1}, ${y1 + 16} L${x1} ${y1}`
+          } else {
+            linkAddPosition = `translate(${(x0 + x1) / 2}, ${y0})`
+            pathD = `M${x0}, ${y0} L${x1}, ${y0} L${x1} ${y1}`
+          }
+        }
+      } else if (targetPosition === 'left') {
+        markerEnd.transform = `translate(${x1 - 8}, ${y1})`
+        markerEnd.d = 'M0,-6 L0,6 L8,0 Z'
+        linkAddPosition = `translate(${(x0 + x1) / 2}, ${(y0 + y1) / 2})`
+        if (x1 < x0 + 16) {
+          pathD = `M${x0}, ${y0} L${x0 + 16}, ${y0} L${x0 + 16}, ${(y1 + y0) / 2} L${x1 - 16}, ${(y1 + y0) / 2} L${x1 - 16}, ${y1} L${x1} ${y1}`
+        } else {
+          pathD = `M${x0}, ${y0} L${(x1 + x0) / 2}, ${y0} L ${(x1 + x0) / 2}, ${y1} L${x1},${y1}`
+        }
+      } else if (targetPosition === 'right') {
+        markerEnd.transform = `translate(${x1 + 8}, ${y1}) rotate(180)`
+        markerEnd.d = 'M0,-6 L0,6 L8,0 Z'
+        linkAddPosition = `translate(${Math.max(x1, x0) + 16}, ${(y0 + y1) / 2})`
+        pathD = `M${x0}, ${y0} L${Math.max(x1, x0) + 16}, ${y0} L ${Math.max(x1, x0) + 16}, ${y1} L${x1},${y1}`
       }
     }
-    computedWidth(this._data.children, this._data)
-    // 设置left
-    // 1.  根据每个元素的宽度，设置left
-    const computedPositionLeft = (children, parent) => {
-      let branchLeft = 0
-      children.forEach((item, index) => {
-        if (parent.type === 'branch') {
-          if (item.type === 'branch-close') {
-            item.left = parent.left
-          } else {
-            // 根据分支的宽度，往左侧平移一般分支的宽度, 再 根据第一个子节点往右平移一半（因为第一个子节点本身就是居中的），再相对于父节点的位置
-            item.left = branchLeft - (parent.width / 2) + item.branchWidth / 2 + parent.left
-            // item.left = branchLeft + parent.left
-          }
-          // 如果下一个节点是分支
-          const nextItem = children[index + 1]
-          if ((nextItem && Object.prototype.hasOwnProperty.call(nextItem, 'expression')) || item.type === 'branch-close') {
-            // branchLeft += (nextItem.branchWidth / 2 + item.branchWidth / 2 + 40)
-            branchLeft += item.branchWidth + 40
-          }
-        } else {
-          item.left = parent.left || 0
-        }
-        item.children && computedPositionLeft(item.children, item)
-      })
-    }
-    computedPositionLeft(this._data.children, this._data)
-
-    console.log(this._data)
+    return { markerEnd, pathD, linkAddPosition }
   }
 
-  getNodes () {
-    const nodes = []
-    function pushNode (node) {
-      nodes.push(node)
-      if (node.folded) return false
-      node.children?.forEach(c => pushNode(c))
+  getRelativePosition ({ x0, y0 }, { x1, y1 }) {
+    let position = ''
+    if (Math.abs(x0 - x1) < 16) {
+      position += 'center'
+    } else if (x0 < x1) {
+      position += 'left'
+    } else {
+      position += 'right'
     }
-    pushNode(this._data)
-    this.nodes = nodes
+
+    if (Math.abs(y0 - y1) < 16) {
+      position += '-middle'
+    } else if (y0 > y1) {
+      position += '-top'
+    } else {
+      position += '-bottom'
+    }
+    return position
   }
 
-  getLinks () {
-    // 结合 位置计算 的计算方式，先序和后序遍历结合
-    // 1. 父节点连接子节点：开始、分支
-    // 2. 子节点连接子节点
-    const links = []
-    let nextSource = null
-    const pushLink = (children, parent) => {
-      children.forEach((item, index) => {
-        // 第一个子节点，连接父节点
-        if (index === 0) {
-          links.push({
-            id: `${item.id}-${parent.id}`,
-            name: '',
-            target: item,
-            source: parent
-          })
-        } else if (Object.prototype.hasOwnProperty.call(item, 'expression')) {
-          // 分支的开始节点，连接父节点
-          links.push({
-            id: `${item.id}-${parent.id}`,
-            name: '',
-            target: item,
-            source: parent
-          })
-          if (nextSource) {
-            // 如果从第一个分支跳出来，进入下一个刚好是分支，那就清空nextSource
-            const _target = children.at(-1)
-            links.push({
-              id: `${_target.id}-${nextSource.id}`,
-              name: '',
-              target: _target,
-              source: nextSource
-            })
-            nextSource = null
-          }
-        } else {
-          // 如果最后一个子节点是分支结尾节点的下一个节点，连接分支结尾
-          if (nextSource) {
-            links.push({
-              id: `${item.id}-${nextSource.id}`,
-              name: '',
-              target: item,
-              source: nextSource
-            })
-            nextSource = null
-          } else {
-            // 其他的子节点，连接上一个子节点
-            const _source = children[index - 1]
-            links.push({
-              id: `${item.id}-${_source.id}`,
-              name: '',
-              target: item,
-              source: _source
-            })
-          }
-        }
-        // 如果是最后一个子节点是分支结尾节点
-        if (index === children.length - 1) {
-          nextSource = item
-        }
-        // console.log(item.title, item.top,  item, 'pre')
-        if (parent.type === 'branch') {
-          const branchClose = children.at(-1)
-          // 如果下一个节点是分支
-          const nextItem = children[index + 1]
-          // 这样判断，就断定这个节点不可能是最后一个节点。最后一个节点没有下一个节点
-          if (nextItem && (Object.prototype.hasOwnProperty.call(nextItem, 'expression') || nextItem.type === 'branch-close')) {
-            // 排排除分支，分支一定是有branch-close节点，当前branch不和下个节点连线，让branch-close再和下个节点，或者结束节点（父节点的branch-close节点）连接
-            // 再排除掉loop. 循环一定是有loop-close节点，当前loop不和下个节点连线，让loop-close节点再和下个节点，或者结束节点（父节点的branch-close节点）连接
-            if (!['branch', 'loop'].includes(item.type) || item.folded) {
-              links.push({
-                id: `${item.id}-${parent.id}`,
-                name: '',
-                target: branchClose,
-                source: item
-              })
-            }
-          }
-        }
-        if (item.folded) return false
-        item.children?.length && pushLink(item.children, item)
-      })
+  getPointerPosition (position, node, config) {
+    let x = 0; let y = 0
+    if (position === 'top') {
+      x = node.x
+      y = node.y - config.y / 2
+    } else if (position === 'bottom') {
+      x = node.x
+      y = node.y + config.y / 2
+    } else if (position === 'left') {
+      x = node.x - config.x / 2
+      y = node.y
+    } else if (position === 'right') {
+      x = node.x + config.x / 2
+      y = node.y
     }
-    pushLink(this._data.children, this._data)
-    this.links = links
-    // console.log(this.links)
+    return { x, y }
+  }
+
+  setNodeMap () {
+    this.nodeMap = this.nodes.reduce((total, current) => {
+      total[current.id] = current
+      return total
+    }, {})
   }
 
   update () {
-    this.setPosition()
-    this.getNodes()
+    this.setNodeMap()
     this.updateNodes()
-    this.getLinks()
+    this.updatePointers()
     this.updateLinks()
+    // console.log('this.nodes', this.nodes)
+    // console.log('this.links', this.links)
   }
 
   /**
    * 新增节点
    * @param {*} node
-   * @param {*} param1
    */
-  addNode (node, { source, target }) {
-    node = JSON.parse(JSON.stringify(node))
-    // 在两个有相同父节点的节点中插入节点
-    // const sourceParent = source.parent
-    const { parent, index } = target
-    // 这里要考虑 loop-close??
-    if (target.type === 'branch-close') {
-      // 如果这个分支是空的，追加第一个子节点
-      if (parent.children.length === 1) {
-        parent.children.unshift(node)
-      } else {
-        // 这里要考虑 loop-close??
-        // 如果source也是branch-close，那么就是给他父节点下面插入一个节点
-        if (['branch-close', 'loop-close'].includes(source.type)) {
-          parent.children.splice(source.parent.index + 1, 0, node)
-        } else {
-          parent.children.splice(source.index + 1, 0, node)
-        }
-      }
-    } else if (source.type === 'branch') {
-      // 如果在分支的头部添加分支，那么替换分支的第一个节点
-      console.log('头部')
-      BRANCH_KEYS.forEach(key => {
-        node[key] = target[key]
-        delete target[key]
-      })
-      parent.children.splice(index, 0, node)
-    } else {
-      parent.children.splice(index, 0, node)
-    }
+  addNode (node) {
+    this.nodes.push(node)
     this.update()
   }
 
@@ -864,7 +960,12 @@ export class Ausyda {
    * @param {} node
    */
   updateBranch (node) {
-    this.updateNode(node)
+    this.nodes.forEach(n => {
+      if (n.id === node?.id) {
+        Object.assign(n, node)
+        this.updateLinks()
+      }
+    })
   }
 
   getChildrenSize (data, deep) {

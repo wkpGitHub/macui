@@ -25,5 +25,13 @@ export default [
     name: 'configurePagesManager',
     title: '页面管理',
     cache: true
+  },
+  {
+    name: 'configureFlow',
+    title: '流程管理',
+    cache: true,
+    children: [
+      { name: 'configureFlowDesign', title: '流程设计', hideInMenu: true }
+    ]
   }
 ]

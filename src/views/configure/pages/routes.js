@@ -18,5 +18,15 @@ export const routes = [
     name: 'configureServiceDesign',
     path: 'service-design',
     component: () => import('./service-design')
+  },
+  {
+    name: 'configureFlow',
+    path: 'flow',
+    component: () => import('./flow')
+  },
+  {
+    name: 'configureFlowDesign',
+    path: 'flow/design',
+    component: () => import('./flow/design')
   }
 ]
