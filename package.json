@@ -21,7 +21,7 @@
     "@cip/build": "^5.0.0",
     "@cip/cci-standard-theme": "^0.0.2",
     "@cip/code-mirror": "^1.0.3",
-    "@cip/components": "^6.0.22",
+    "@cip/components": "^6.0.26",
     "@cip/d-render-plugin-cci": "^2.0.1",
     "@cip/d-render-plugin-cci-configure": "^1.0.1",
     "@cip/hooks": "^5.0.0",
