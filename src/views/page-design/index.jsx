@@ -37,7 +37,8 @@ export default {
       searchForm: 'searchFormDesign',
       pageTable: 'pageTableDesign',
       dialog: 'dialogDesign',
-      form: 'formDesign'
+      form: 'formDesign',
+      entity: 'entityDesign'
     }
     setPageInfo()
     return () => <Framework appPath={props.appPath} >

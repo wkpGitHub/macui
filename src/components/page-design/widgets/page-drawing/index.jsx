@@ -23,6 +23,12 @@ export default {
       updateList(cloneList, 'layoutUpdate')
     }
 
+    const onUpdateList = (val, index) => {
+      const ret = [...list.value]
+      ret.splice(index, 1, ...val)
+      updateList(ret)
+    }
+
     // 表单内容包含 布局和input && table(特殊)
     const FormContent = (...args) => {
       const { element, index } = args[0]
@@ -34,6 +40,7 @@ export default {
         onUpdateConfig: (val) => {
           updateConfig(element, val)
         },
+        onUpdateList: (val) => { onUpdateList(val, index) },
         onClick: () => { selectItem(element) },
         onDelete: () => deleteItem(index),
         onCopy: () => copyItem(index),

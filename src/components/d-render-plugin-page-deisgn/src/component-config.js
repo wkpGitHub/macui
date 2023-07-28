@@ -15,6 +15,10 @@ export default {
     component: () => () => import('./form-design'),
     layout: true
   },
+  entityDesign: {
+    component: () => () => import('./entity-design')
+    // layout: true
+  },
   simpleCurd: () => () => import('./simple-curd'),
   eventConfig: () => () => import('./event-config')
 }

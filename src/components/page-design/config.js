@@ -2,7 +2,8 @@ import {
   EditorCode,
   EditorOutline,
   EditorRenderer, EditorTpl, MethodIcon,
-  PageParams
+  PageParams,
+  DataModel
 } from './widgets/modules/svg/editor-renderer'
 
 export const modulesConfig = [
@@ -10,6 +11,7 @@ export const modulesConfig = [
   { name: 'renderer', title: '组件', icon: <EditorRenderer/> },
   { name: 'structure', title: '结构', icon: <EditorOutline/> },
   { name: 'code', title: '源码', icon: <EditorCode/> },
+  { name: 'entity', title: '数据模型', icon: <DataModel/> },
   { name: 'tpl', title: '模版', icon: <EditorTpl/> },
   { name: 'methods', title: 'Methods', icon: <MethodIcon /> }
 ]
