@@ -83,8 +83,7 @@ export default {
     label: '关闭时是否销毁dialog',
     type: 'switch',
     activateValue: true,
-    inactivateValue: false,
-    defaultValue: true
+    inactivateValue: false
   },
   maxDepth: {
     label: '查找form的深度',
@@ -94,11 +93,11 @@ export default {
     label: '是否全屏',
     type: 'switch',
     activateValue: true,
-    inactivateValue: false,
-    defaultValue: false
+    inactivateValue: false
   },
-  onConfirm: {
-    label: '确认函数'
+  confirm: {
+    label: '确认函数',
+    type: 'eventConfig'
   },
   beforeConfirm: {
     label: '确认前回调函数'

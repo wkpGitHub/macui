@@ -14,6 +14,7 @@ export const useComponentSlots = (props, context) => {
     }
     return options.value.reduce((acc, slotConfig, idx) => {
       if (isArray(slotConfig.children)) {
+        console.log(slotConfig.children)
         acc[slotConfig.key] = () => context.slots.item({ children: slotConfig.children, optionIndex: idx, isShow: props.config._isShow, ...handler })
       }
       return acc

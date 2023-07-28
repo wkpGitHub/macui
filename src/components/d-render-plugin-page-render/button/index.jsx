@@ -3,7 +3,6 @@ import { CipFormInputTransform } from 'd-render'
 import { useEventConfigure } from '../use-event-configure'
 export default {
   setup (props) {
-    console.log(props, 'button')
     const buttonProps = [
       'text',
       'click',

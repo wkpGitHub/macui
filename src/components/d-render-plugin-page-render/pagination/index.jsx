@@ -1,6 +1,7 @@
 import CipPagination from '@cip/components/cip-pagination'
 import { formInputProps, fromInputEmits, useFormInput, useInputProps } from '@d-render/shared'
 import { computed } from 'vue'
+import { useEventConfigure } from '../use-event-configure'
 export default {
   props: formInputProps,
   emits: fromInputEmits,
@@ -22,16 +23,18 @@ export default {
       },
       set (val) {
         // offset -> pageNum
+        console.log(Math.floor(val / (proxyValue.value ?? 10)) + 1)
         proxyOtherValue[0].value = Math.floor(val / (proxyValue.value ?? 10)) + 1
       }
     })
-
+    const handleEvent = useEventConfigure()
     return () => <CipPagination
       { ...inputProps.value }
       v-model:limit={proxyValue.value}
       v-model:offset={offset.value}
       total={proxyOtherValue[1].value}
       pageSizes={pageSizes.value}
+      onRefresh={() => handleEvent(inputProps.value.onRefresh)}
     ></CipPagination>
   }
 }
