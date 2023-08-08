@@ -5,98 +5,13 @@
 	"conditions": {},
 	"children": [
 		{
-			"id": "980e3417219a",
-			"type": "branch",
-			"title": "分支",
-			"conditions": {},
-			"children": [
-				{
-					"id": "d52b3e97cc68",
-					"type": "set",
-					"title": "设置变量",
-					"expression": "分支",
-					"conditionType": "formula",
-					"conditions": "1 === 1",
-					"children": [],
-					"dataTypeDisabled": false
-				},
-				
-				{
-					"id": "d52b3ew97cc68",
-					"type": "set",
-					"title": "设置变量",
-					"expression": "分支",
-					"conditionType": "formula",
-					"conditions": "1 === 1",
-					"children": [],
-					"dataTypeDisabled": false
-				},
-				
-				{
-					"id": "d52b3xe97ctc68",
-					"type": "set",
-					"title": "设置变量",
-					"expression": "分支",
-					"conditionType": "formula",
-					"conditions": "1 === 1",
-					"children": [],
-					"dataTypeDisabled": false
-				},
-        {
-          "id": "4e86ab5ecck145e",
-          "type": "break",
-          "title": "跳出循环",
-          "conditions": {},
-          "expression": "分支",
-					"conditionType": "formula",
-          "children": []
-        },
-        {
-					"id": "d52b3el97cc68",
-					"type": "set",
-					"title": "设置变量",
-					"expression": "分支",
-					"conditionType": "formula",
-					"conditions": "1 === 1",
-					"children": [],
-					"dataTypeDisabled": false
-				},
-        {
-          "id": "4e86ab5ek9145e",
-          "type": "break",
-          "expression": "分支",
-					"conditionType": "formula",
-          "title": "跳出循环",
-          "conditions": {},
-          "children": []
-        }
-				
-			]
-		},
-		{
-			"id": "4e86ab5ek145e",
-			"type": "break",
-			"title": "跳出循环",
-			"conditions": {},
-			"children": []
-		},
-		{
-			"id": "979fdb54d826",
-			"type": "set",
-			"title": "设置变量2",
-			"conditions": {},
-			"validateFailed": true,
-			"children": [],
-			"dataTypeDisabled": false
-		},
-		{
 			"id": "ef4ae388395b",
 			"type": "end",
 			"title": "结束"
 		}
 	],
 	"trigger": "empty-event",
-	"inputParams": {},
+	"inputParams": [],
 	"variableParams": {},
 	"fields": [],
 	"updateFields": [],

@@ -1,17 +1,25 @@
-import { computed, defineComponent, ref } from 'vue'
-import { CipTable } from 'd-render'
+import { computed, defineComponent, ref, watch } from 'vue'
+import { ElTable, ElTableColumn, ElInput, ElIcon } from 'element-plus'
 import CipDialog from '@cip/components/cip-dialog'
 import CipTableButton from '@cip/components/cip-table-button'
 import CipTree from '@cip/components/cip-tree'
 import CipButton from '@cip/components/cip-button'
 import { formInputProps, fromInputEmits, useFormInput, useOptions } from '@d-render/shared'
-import { tableColumns } from './config'
+import { MoreFilled } from '@element-plus/icons-vue'
 
 export default defineComponent({
   name: 'select-field',
   props: formInputProps,
   emits: fromInputEmits,
   setup (props, ctx) {
+    const tableData = ref([])
+    watch(() => props.modelValue, v => {
+      tableData.value = v || []
+    }, { deep: true, immediate: true })
+    watch(tableData, () => {
+      proxyValue.value = tableData.value
+    }, { deep: true })
+
     const {
       proxyValue,
       width,
@@ -45,31 +53,31 @@ export default defineComponent({
     }
 
     function handleDel ($index) {
-      proxyValue.value.splice($index, 1)
+      tableData.value.splice($index, 1)
     }
     const treeRef = ref()
     function handleConfirm (reslove) {
       const temp = treeRef.value.tree.getCheckedNodes(true)
       console.log(temp, 'temp')
-      proxyValue.value ? proxyValue.value.push(...temp) : (proxyValue.value = temp)
+      tableData.value ? tableData.value.push(...temp) : (tableData.value = temp)
       reslove()
     }
     return () => <>
-      <CipTable
+      <ElTable
         showHeader={false}
-        data={proxyValue.value || []}
-        columns={tableColumns}
+        data={tableData.value || []}
         styles={{ width: width.value }}
-        withTableHandle={true}
         maxHeight={'300px'}
         handlerWidth={'80px'}
       >
-        {{
-          $handler: ({ $index }) => <>
-            <CipTableButton onClick={() => { handleDel($index) }}>删除</CipTableButton>
-          </>
-        }}
-      </CipTable>
+        <ElTableColumn showOverflowTooltip width="60px">{{ default: ({ row }) => <span>{row.ename}</span> }}</ElTableColumn>
+        <ElTableColumn>{{
+          default: ({ row, $index }) => <ElInput v-model={row.formula}>{{
+            suffix: () => <ElIcon style="cursor: pointer" onClick={() => securityConfig.value.showFx({ keys: `initFields.${$index}.formula` })}><MoreFilled /></ElIcon>
+          }}</ElInput>
+        }}</ElTableColumn>
+        <ElTableColumn width="60px">{{ default: ({ $index }) => <CipTableButton onClick={() => { handleDel($index) }}>删除</CipTableButton> }}</ElTableColumn>
+      </ElTable>
       <CipButton onClick={handleClick}>添加</CipButton>
       <CipDialog
         title={'选择字段'}

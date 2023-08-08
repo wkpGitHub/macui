@@ -1,4 +1,4 @@
-import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig } from 'd-render'
+import { generateFieldList, defineFormFieldConfig } from 'd-render'
 
 // {
 //   id: '',
@@ -19,7 +19,7 @@ import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig } from
 export default {
   type: 'end',
   title: '结束',
-  formField: generateFieldList(defineFormFieldConfig({
+  formField: ({ showFx }) => generateFieldList(defineFormFieldConfig({
     outputType: {
       label: '',
       type: 'radio',
@@ -39,18 +39,15 @@ export default {
       }
     },
     outputParams: {
-      type: 'table',
+      type: 'fxTable',
       readable: false,
+      showFx,
       dependOn: ['outputType'],
       resetValue: true,
       changeConfig (config, { outputType }) {
         config.writable = outputType === 'numbers'
         return config
-      },
-      options: generateFieldList(defineTableFieldConfig({
-        key: { label: '键', writable: true },
-        value: { label: '值', writable: true }
-      }))
+      }
     },
     outputPreview: {
       type: 'codemirrorInput',

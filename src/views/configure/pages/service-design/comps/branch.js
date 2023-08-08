@@ -24,8 +24,15 @@ export const branchLineConfig = {
   type: 'branch-line',
   title: '连线属性',
   formField: generateFieldList(defineFormFieldConfig({
-    title: {},
-    conditionType: {},
+    expression: { label: '条件名称' },
+    conditionType: {
+      label: '条件规则',
+      type: 'radio',
+      options: [
+        { label: '条件规则', value: 'rules' },
+        { label: '公式', value: 'formula' }
+      ]
+    },
     conditions: {}
   }))
 }

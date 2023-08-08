@@ -1,6 +1,7 @@
 import { generateFieldList, defineFormFieldConfig } from 'd-render'
 import { cloneDeep } from 'lodash-es'
 import { intervalOptions, minuteOptions, monthOptions, weekOptions } from './constant'
+import { dataTypeTableColumns } from '../dialog/config'
 
 // {
 //   id: '',
@@ -104,6 +105,7 @@ import { intervalOptions, minuteOptions, monthOptions, weekOptions } from './con
 export default {
   type: 'start',
   title: '开始',
+  labelWidth: '70px',
   formField: generateFieldList(defineFormFieldConfig({
     title: { label: '节点标题' },
     trigger: {
@@ -118,23 +120,26 @@ export default {
     },
     // trigger === empty-event
     inputParams: {
+      hideIndex: true,
       dependOn: ['trigger'],
       changeConfig (config, { trigger }) {
         config.readable = trigger === 'empty-event'
         config.writable = trigger === 'empty-event'
         return config
       },
-      label: '服务入参'
+      type: 'table',
+      label: '服务入参',
+      options: dataTypeTableColumns
     },
-    variableParams: {
-      dependOn: ['trigger'],
-      changeConfig (config, { trigger }) {
-        config.readable = trigger === 'empty-event'
-        config.writable = trigger === 'empty-event'
-        return config
-      },
-      label: '服务变量'
-    },
+    // variableParams: {
+    //   dependOn: ['trigger'],
+    //   changeConfig (config, { trigger }) {
+    //     config.readable = trigger === 'empty-event'
+    //     config.writable = trigger === 'empty-event'
+    //     return config
+    //   },
+    //   label: '服务变量'
+    // },
     // trigger === model-entity-event
     modelEventTarget: {
       dependOn: ['trigger'],

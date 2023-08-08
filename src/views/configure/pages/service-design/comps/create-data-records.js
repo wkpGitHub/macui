@@ -26,7 +26,7 @@ export default {
   category: '实体活动',
   type: 'create-data-records',
   title: '新增记录',
-  formField: generateFieldList(defineFormFieldConfig({
+  formField: ({ showFx }) => generateFieldList(defineFormFieldConfig({
     title: { label: '节点标题' },
     objectKey: {
       label: '数据源',
@@ -63,6 +63,7 @@ export default {
       readable: false,
       dependOn: ['fields'],
       resetValue: true,
+      showFx,
       changeConfig (config, { fields }) {
         config.writable = !!fields
         const temp = (fields || []).filter(v => !v.isPrimaryKey)

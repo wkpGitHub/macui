@@ -1,4 +1,4 @@
-import { branchConfig } from './branch'
+import { branchConfig, branchLineConfig } from './branch'
 import breakConfig from './break'
 import continueConfig from './continue'
 import exitConfig from './exit'
@@ -47,6 +47,7 @@ export function classifyCompByCategory (compList) {
 // 组件面板展示的组件
 export const compList = [
   branchConfig,
+  branchLineConfig,
   loopConfig,
   continueConfig,
   breakConfig,
