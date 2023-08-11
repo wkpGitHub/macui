@@ -217,7 +217,7 @@ export default {
   category: '实体活动',
   type: 'query-data-records',
   title: '查询记录',
-  formField: ({ showFx }) => generateFieldList(defineFormFieldConfig({
+  formField: generateFieldList(defineFormFieldConfig({
     _staticInfo: { type: 'staticInfo', staticInfo: '基本信息', ...staticInfoStyle },
     title: { label: '节点标题' },
     objectKey: {
@@ -290,7 +290,6 @@ export default {
       type: 'filterCondition',
       dependOn: ['objectKey', 'fields'],
       readable: false,
-      showFx,
       changeConfig (config, { objectKey, fields }) {
         config.writable = !!objectKey
         config.options = cloneDeep(fields || [])

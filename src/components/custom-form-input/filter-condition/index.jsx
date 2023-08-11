@@ -1,10 +1,9 @@
 import { computed, defineComponent, ref, watch } from 'vue'
-import { ElTable, ElTableColumn, ElInput, ElSelect, ElOption, ElIcon } from 'element-plus'
+import { ElTable, ElTableColumn, ElSelect, ElOption } from 'element-plus'
 import CipTableButton from '@cip/components/cip-table-button'
 import CipButton from '@cip/components/cip-button'
 import { formInputProps, fromInputEmits, useFormInput, useOptions } from '@d-render/shared'
 // import { getTableColumn } from './config'
-import { MoreFilled } from '@element-plus/icons-vue'
 
 // const data = {
 //   id: unid(),
@@ -106,9 +105,7 @@ export default defineComponent({
         <ElTableColumn>{{ default: ({ row }) => <ElSelect v-model={row.field}>{options.value.map(o => <ElOption label={o.ename} value={o.name} key={o.name} />)}</ElSelect> }}</ElTableColumn>
         <ElTableColumn>{{ default: ({ row }) => <ElSelect v-model={row.op}>{opOptions.map(o => <ElOption label={o.label} value={o.value} key={o.value} />)}</ElSelect> }}</ElTableColumn>
         <ElTableColumn>{{
-          default: ({ row, $index }) => <ElInput v-model={row.right}>{{
-            suffix: () => <ElIcon style="cursor: pointer" onClick={() => securityConfig.value.showFx({ keys: `filterFields.children.${$index}.right` })}><MoreFilled /></ElIcon>
-          }}</ElInput>
+          default: ({ row, $index }) => <SetFx v-model={row.right} config={securityConfig.value} />
         }}</ElTableColumn>
         <ElTableColumn width="60px">{{ default: ({ $index }) => <CipTableButton onClick={() => { handleDel($index) }}>删除</CipTableButton> }}</ElTableColumn>
       </ElTable>

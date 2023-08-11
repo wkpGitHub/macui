@@ -1,6 +1,4 @@
 import { generateFieldList, defineFormFieldConfig } from 'd-render'
-import { ElIcon } from 'element-plus'
-import { MoreFilled } from '@element-plus/icons-vue'
 // {
 //   id: '',
 //   type: 'set',
@@ -17,14 +15,12 @@ export default {
   category: '变量活动',
   type: 'set',
   title: '设置变量',
-  formField: ({ showFx }) => generateFieldList(defineFormFieldConfig({
+  formField: generateFieldList(defineFormFieldConfig({
     title: { label: '节点标题' },
     targetName: {
       label: '变量名',
       required: true,
-      slots: {
-        suffix: () => <ElIcon style="cursor: pointer" onClick={() => showFx({ label: 'targetName', dataType: 'dataType', value: 'source' })}><MoreFilled /></ElIcon>
-      }
+      type: 'setFx'
     },
     dataType: {
       label: '变量类型',

@@ -38,7 +38,7 @@ export default defineComponent({
         <ElTableColumn showOverflowTooltip width="120px" label="键">{{ default: ({ row }) => <ElInput v-model={row.key}></ElInput> }}</ElTableColumn>
         <ElTableColumn label="值">{{
           default: ({ row, $index }) => <ElInput v-model={row.value}>{{
-            suffix: () => <ElIcon style="cursor: pointer" onClick={() => securityConfig.value.showFx({ keys: `outputParams.${$index}.value` })}><MoreFilled /></ElIcon>
+            suffix: () => <ElIcon style="cursor: pointer" onClick={() => securityConfig.value.showFx({ label: `outputParams.${$index}.value` })}><MoreFilled /></ElIcon>
           }}</ElInput>
         }}</ElTableColumn>
         <ElTableColumn width="60px">{{ default: ({ $index }) => <CipTableButton onClick={() => { handleDel($index) }}>删除</CipTableButton> }}</ElTableColumn>

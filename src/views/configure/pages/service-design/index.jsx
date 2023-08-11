@@ -9,7 +9,6 @@ import {
   PseudoCodeDialog,
   SourceCodeDialog,
   CompList,
-  useFxDialog,
   useNodeSetDialog
 } from './dialog'
 
@@ -27,8 +26,7 @@ export default defineComponent({
     const state = reactive({
       rootNode: {},
       globalValue: [],
-      selectNode: {},
-      fieldMap: {}
+      selectNode: {}
     })
     const pseudoCodeDialogVisible = ref(false)
     const sourceCodeDialogVisible = ref(false)
@@ -36,13 +34,7 @@ export default defineComponent({
 
     const { showRightPanel, dialogBaseProps } = useDialog()
     const { state: globalState, render: renderGlobalSet } = useGlobalSet(props, state)
-    const { state: fxState, render: renderFxDialog } = useFxDialog(props, state)
     const { state: nodeSetState, render: renderNodeSetDialog } = useNodeSetDialog(props, state, ctx)
-
-    function showFx (fieldMap) {
-      fxState.isShow = true
-      state.fieldMap = fieldMap
-    }
 
     function addNode (comp) {
       au.addNode({ ...comp }, selectLink)
@@ -124,14 +116,12 @@ export default defineComponent({
             <div className={[styles['right-panel'], showRightPanel.value ? styles['right-panel-opened'] : '']}>
               {/* 全局设置 */}
               {renderGlobalSet({ dialogBaseProps })}
-              {/* 选择变量 */}
-              {renderFxDialog()}
               <PseudoCodeDialog {...dialogBaseProps} v-model={pseudoCodeDialogVisible.value}/>
               <SourceCodeDialog {...dialogBaseProps} v-model={sourceCodeDialogVisible.value}/>
               {/* 活动节点 */}
               <CompList {...dialogBaseProps} v-model={compListDialogVisible.value} onClickComp={addNode}/>
               {/* 编辑节点 */}
-              {renderNodeSetDialog({ dialogBaseProps, node: state.selectNode, updateNode, showFx })}
+              {renderNodeSetDialog({ dialogBaseProps, node: state.selectNode, updateNode })}
             </div>
           </div>
         </div>

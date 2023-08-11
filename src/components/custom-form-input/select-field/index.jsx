@@ -1,11 +1,11 @@
 import { computed, defineComponent, ref, watch } from 'vue'
-import { ElTable, ElTableColumn, ElInput, ElIcon } from 'element-plus'
+import { ElTable, ElTableColumn } from 'element-plus'
 import CipDialog from '@cip/components/cip-dialog'
 import CipTableButton from '@cip/components/cip-table-button'
 import CipTree from '@cip/components/cip-tree'
 import CipButton from '@cip/components/cip-button'
 import { formInputProps, fromInputEmits, useFormInput, useOptions } from '@d-render/shared'
-import { MoreFilled } from '@element-plus/icons-vue'
+import SetFx from '@/components/custom-form-input/set-fx'
 
 export default defineComponent({
   name: 'select-field',
@@ -72,9 +72,7 @@ export default defineComponent({
       >
         <ElTableColumn showOverflowTooltip width="60px">{{ default: ({ row }) => <span>{row.ename}</span> }}</ElTableColumn>
         <ElTableColumn>{{
-          default: ({ row, $index }) => <ElInput v-model={row.formula}>{{
-            suffix: () => <ElIcon style="cursor: pointer" onClick={() => securityConfig.value.showFx({ keys: `initFields.${$index}.formula` })}><MoreFilled /></ElIcon>
-          }}</ElInput>
+          default: ({ row }) => <SetFx v-model={row.formula} config={securityConfig.value} />
         }}</ElTableColumn>
         <ElTableColumn width="60px">{{ default: ({ $index }) => <CipTableButton onClick={() => { handleDel($index) }}>删除</CipTableButton> }}</ElTableColumn>
       </ElTable>

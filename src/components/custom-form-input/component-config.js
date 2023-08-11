@@ -21,5 +21,6 @@ export default {
   transactorSelect: () => () => import('./transactor-select'),
   objFields: () => () => import('./obj-fields'),
   paramsAdd: () => () => import('./params-add'),
-  fxTable: () => () => import('./fx-table')
+  fxTable: () => () => import('./fx-table'),
+  setFx: () => () => import('./set-fx')
 }
