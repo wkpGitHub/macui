@@ -13,7 +13,7 @@ export default {
     return () => <CipPageLayoutLeftRight leftStyle={{ width: '220px' }}>
       {{
         left: () => <DataModelTree v-model={currentDataModel.value}/>,
-        default: () => <div>
+        default: () => <div style={{ height: '100%' }}>
           {dataModelType.value}
           {JSON.stringify(currentDataModel.value)}
           {dataModelType.value === 'entity' && <EntitySave id={currentDataModel.value.id} />}

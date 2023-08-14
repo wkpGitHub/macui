@@ -12,9 +12,6 @@ export default defineComponent({
     const { proxyValue, securityConfig } = useFormInput(props, ctx)
     const { state, render } = useFxDialog(proxyValue, securityConfig.value.parentState)
 
-    console.log('rootNode', securityConfig.value.rootNode)
-    debugger
-
     return () => <>
       <ElInput v-model={proxyValue.value}>{{
         suffix: () => <ElIcon style="cursor: pointer" onClick={() => { state.isShow = true }}><MoreFilled /></ElIcon>

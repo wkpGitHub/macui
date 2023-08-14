@@ -3,34 +3,7 @@ import CipDialog from '@cip/components/cip-dialog'
 import CipTabs from '@cip/components/cip-tabs-plus'
 import CipTabPane from '@cip/components/cip-tabs-plus/tab'
 import { ElTag } from 'element-plus'
-
-export const dataTypeOpts = [
-  {
-    label: '文本',
-    value: 'string'
-  },
-  {
-    label: '数字',
-    value: 'number'
-  },
-  {
-    label: '布尔',
-    value: 'boolean'
-  },
-  {
-    label: '对象',
-    value: 'object'
-  },
-  {
-    label: '数组',
-    value: 'array'
-  }
-]
-
-const dateTypeMap = dataTypeOpts.reduce((total, current) => {
-  total[current.value] = current
-  return total
-}, {})
+import { dateTypeMap } from '@/lib/contants'
 
 export function useFxDialog (proxyValue, parentState) {
   const state = reactive({ isShow: false, item: {}, varType: '' })
@@ -43,11 +16,8 @@ export function useFxDialog (proxyValue, parentState) {
   function onConfirm (resolve) {
     const { selectNode } = parentState
     if (selectNode.type === 'set') {
-      // Object.keys(fieldMap).forEach(key => {
-      //   const value = fieldMap[key]
-      //   if (key === 'label') selectNode[value] = state.varType + state.item[key]
-      //   else selectNode[value] = state.item[key]
-      // })
+      selectNode.dataType = state.item.dataType
+      selectNode.source = state.item.value
       proxyValue.value = state.varType + state.item.label
     } else {
       proxyValue.value = '${' + state.varType + state.item.label + '}'
@@ -76,7 +46,7 @@ export function useFxDialog (proxyValue, parentState) {
         <CipTabs model-value={0}>
           <CipTabPane label='全局变量' name={0}>
             <ul>
-              {parentState.globalValue.map(item => <li style="cursor: pointer; margin: 4px" onClick={() => selectVar(item, 'global.')}>{item.label} <ElTag>{dateTypeMap[item.dataType].label}</ElTag></li>)}
+              {parentState.rootNode.globalValue.map(item => <li style="cursor: pointer; margin: 4px" onClick={() => selectVar(item, 'global.')}>{item.label} <ElTag>{dateTypeMap[item.dataType].label}</ElTag></li>)}
             </ul>
           </CipTabPane>
           <CipTabPane label='节点变量' name={1}>
@@ -90,6 +60,11 @@ export function useFxDialog (proxyValue, parentState) {
           <CipTabPane label='服务入参' name={2}>
             <ul>
               {(parentState.rootNode.inputParams || []).map(item => <li style="cursor: pointer; margin: 4px" onClick={() => selectVar(item, 'inputParams.')}>{item.label} <ElTag>{dateTypeMap[item.dataType].label}</ElTag></li>)}
+            </ul>
+          </CipTabPane>
+          <CipTabPane label='服务出参' name={3}>
+            <ul>
+              {(parentState.rootNode.outParams || []).map(item => <li style="cursor: pointer; margin: 4px" onClick={() => selectVar(item, 'outParams.')}>{item.label} <ElTag>{dateTypeMap[item.dataType].label}</ElTag></li>)}
             </ul>
           </CipTabPane>
         </CipTabs>

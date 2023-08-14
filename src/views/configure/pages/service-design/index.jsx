@@ -7,9 +7,9 @@ import {
   useDialog,
   useGlobalSet,
   PseudoCodeDialog,
-  SourceCodeDialog,
   CompList,
-  useNodeSetDialog
+  useNodeSetDialog,
+  useSourceCode
 } from './dialog'
 
 import styles from './index.module.less'
@@ -25,16 +25,23 @@ export default defineComponent({
     const zoom = ref(100)
     const state = reactive({
       rootNode: {},
-      globalValue: [],
       selectNode: {}
     })
     const pseudoCodeDialogVisible = ref(false)
-    const sourceCodeDialogVisible = ref(false)
     const compListDialogVisible = ref(false)
 
     const { showRightPanel, dialogBaseProps } = useDialog()
     const { state: globalState, render: renderGlobalSet } = useGlobalSet(props, state)
     const { state: nodeSetState, render: renderNodeSetDialog } = useNodeSetDialog(props, state, ctx)
+    const { state: sourceCodeState, render: renderSourceCode } = useSourceCode(props, state)
+
+    function hiddenDialog () {
+      globalState.isShow = false
+      nodeSetState.isShow = false
+      sourceCodeState.isShow = false
+      compListDialogVisible.value = false
+      pseudoCodeDialogVisible.value = false
+    }
 
     function addNode (comp) {
       au.addNode({ ...comp }, selectLink)
@@ -58,6 +65,7 @@ export default defineComponent({
           // 添加节点
           // au.addNode({ id: Math.random().toString(16).slice(2), type: 'http', children: [], title: 'http请求' }, link)
           selectLink = link
+          hiddenDialog()
           // 打开组件面板
           compListDialogVisible.value = true
         })
@@ -68,12 +76,14 @@ export default defineComponent({
           state.selectNode = {}
           d.isBranch = false
           state.selectNode = d
+          hiddenDialog()
           nodeSetState.isShow = true
         })
         // 点击分支+，增加分支
         au.on('addBranch', (parent) => {
           // 添加节点
           index++
+          hiddenDialog()
           au.addBranch({ id: Math.random().toString(16).slice(2), type: index % 2 ? 'http' : 'exit', children: [], title: 'http请求' }, parent)
         })
         // 点击分支文字或者线段，修改分支
@@ -83,6 +93,7 @@ export default defineComponent({
           state.selectNode = {}
           branch.isBranch = true
           state.selectNode = branch
+          hiddenDialog()
           nodeSetState.isShow = true
         })
         // 点击节点删除按钮
@@ -97,7 +108,7 @@ export default defineComponent({
     return () => <CipPageLayoutHandle top={true}>
       {{
         handler: () => <>
-          <CipButton onClick={() => { sourceCodeDialogVisible.value = true }}>源码</CipButton>
+          <CipButton onClick={() => { sourceCodeState.isShow = true }}>源码</CipButton>
           <CipButton onClick={() => { pseudoCodeDialogVisible.value = true }}>伪代码</CipButton>
           <CipButton>调试</CipButton>
           <CipButton type='primary'>保存</CipButton>
@@ -117,7 +128,7 @@ export default defineComponent({
               {/* 全局设置 */}
               {renderGlobalSet({ dialogBaseProps })}
               <PseudoCodeDialog {...dialogBaseProps} v-model={pseudoCodeDialogVisible.value}/>
-              <SourceCodeDialog {...dialogBaseProps} v-model={sourceCodeDialogVisible.value}/>
+              {renderSourceCode({ dialogBaseProps })}
               {/* 活动节点 */}
               <CompList {...dialogBaseProps} v-model={compListDialogVisible.value} onClickComp={addNode}/>
               {/* 编辑节点 */}

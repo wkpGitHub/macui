@@ -106,7 +106,7 @@ export default {
   formField: generateFieldList(defineFormFieldConfig({
     title: { label: '节点标题' },
     objectKey: {
-      type: 'select',
+      type: 'dataSource',
       label: '数据源',
       required: true,
       otherKey: 'fields'

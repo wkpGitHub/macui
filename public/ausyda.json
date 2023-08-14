@@ -12,6 +12,11 @@
 	],
 	"trigger": "empty-event",
 	"inputParams": [],
+	"outParams": [
+    {"label": "status", "value": 0, "dataType": "number"},
+    {"label": "msg", "value": "", "dataType": "string"}
+  ],
+	"globalValue": [],
 	"variableParams": {},
 	"fields": [],
 	"updateFields": [],

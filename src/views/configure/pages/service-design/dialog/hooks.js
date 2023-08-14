@@ -27,7 +27,7 @@ export function useDialog () {
 
 export function useGlobalSet (props, parentState) {
   function addRow () {
-    parentState.globalValue.push({ label: '', value: '', dataType: 'string' })
+    parentState.rootNode.globalValue.push({ label: '', value: '', dataType: 'string' })
   }
 
   const state = reactive({ isShow: false })
@@ -36,7 +36,7 @@ export function useGlobalSet (props, parentState) {
     state,
     render ({ dialogBaseProps }) {
       return state.isShow && <CipDialog {...dialogBaseProps} title={'全局设置'} model-value={true} onUpdate:modelValue={() => { state.isShow = false }}>
-        <CipTable data={parentState.globalValue} columns={dataTypeTableColumns}></CipTable>
+        <CipTable data={parentState.rootNode.globalValue} columns={dataTypeTableColumns}></CipTable>
         <CipButton button-type="create" style="width: 100%; margin-top: 4px" type="default" onClick={addRow}></CipButton>
       </CipDialog>
     }
@@ -87,6 +87,30 @@ export function useNodeSetDialog (props, parentState) {
       state.isShow && setNode(node, updateNode)
       return state.isShow && <CipDialog {...dialogBaseProps} title={activeComp.value.title} model-value={true} onUpdate:modelValue={() => { state.isShow = false }}>
       <CipForm labelWidth={activeComp.value.labelWidth || '90px'} v-model:model={model.value} onUpdate:model={v => console.log(v)} fieldList={activeComp.value.formField}></CipForm>
+    </CipDialog>
+    }
+  }
+}
+
+export function useSourceCode (props, parentState) {
+  const state = reactive({ isShow: false })
+
+  return {
+    state,
+    render ({ dialogBaseProps }) {
+      const codeData = cloneDeep(parentState.rootNode)
+      function deleteParent (codeData) {
+        delete codeData.parent
+        codeData.children?.forEach(child => deleteParent(child))
+      }
+      deleteParent(codeData)
+      const codeStr = JSON.stringify(codeData, null, 2)
+      return state.isShow && <CipDialog {...dialogBaseProps} title="源码" model-value={true} onUpdate:modelValue={() => { state.isShow = false }}>
+      <pre>
+        <code>
+          {codeStr}
+        </code>
+      </pre>
     </CipDialog>
     }
   }

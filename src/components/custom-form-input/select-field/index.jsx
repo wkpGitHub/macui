@@ -39,7 +39,7 @@ export default defineComponent({
     const proxyOptions = computed(() => {
       return [
         {
-          ename: '主表',
+          remark: '主表',
           name: '_table',
           children: [...options.value]
         }
@@ -70,11 +70,11 @@ export default defineComponent({
         maxHeight={'300px'}
         handlerWidth={'80px'}
       >
-        <ElTableColumn showOverflowTooltip width="60px">{{ default: ({ row }) => <span>{row.ename}</span> }}</ElTableColumn>
+        <ElTableColumn showOverflowTooltip width="80px">{{ default: ({ row }) => <span>{row.remark}</span> }}</ElTableColumn>
         <ElTableColumn>{{
           default: ({ row }) => <SetFx v-model={row.formula} config={securityConfig.value} />
         }}</ElTableColumn>
-        <ElTableColumn width="60px">{{ default: ({ $index }) => <CipTableButton onClick={() => { handleDel($index) }}>删除</CipTableButton> }}</ElTableColumn>
+        <ElTableColumn width="50px">{{ default: ({ $index }) => <CipTableButton onClick={() => { handleDel($index) }}>删除</CipTableButton> }}</ElTableColumn>
       </ElTable>
       <CipButton onClick={handleClick}>添加</CipButton>
       <CipDialog
@@ -90,7 +90,7 @@ export default defineComponent({
           config={{
             showCheckbox: true,
             optionProps: {
-              label: 'ename',
+              label: 'remark',
               value: 'name'
             }
           }}

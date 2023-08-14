@@ -1,8 +1,9 @@
-import { computed, defineComponent, ref, watch } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import { ElTable, ElTableColumn, ElSelect, ElOption } from 'element-plus'
 import CipTableButton from '@cip/components/cip-table-button'
 import CipButton from '@cip/components/cip-button'
-import { formInputProps, fromInputEmits, useFormInput, useOptions } from '@d-render/shared'
+import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
+import SetFx from '@/components/custom-form-input/set-fx'
 // import { getTableColumn } from './config'
 
 // const data = {
@@ -71,12 +72,7 @@ export default defineComponent({
       securityConfig
     } = useFormInput(props, ctx)
 
-    // 是否多选
-    const multiple = computed(() => {
-      return securityConfig.value.multiple ?? false
-    })
-
-    const { options } = useOptions(props, multiple)
+    // const { options } = useOptions(props, multiple)
 
     // const tableColumns = computed(() => getTableColumn(options, optionProps))
 
@@ -100,14 +96,13 @@ export default defineComponent({
         data={proxyValue.value?.children || []}
         styles={{ width: width.value }}
         maxHeight={'300px'}
-        handlerWidth={'80px'}
       >
-        <ElTableColumn>{{ default: ({ row }) => <ElSelect v-model={row.field}>{options.value.map(o => <ElOption label={o.ename} value={o.name} key={o.name} />)}</ElSelect> }}</ElTableColumn>
+        <ElTableColumn>{{ default: ({ row }) => <ElSelect v-model={row.field}>{securityConfig.value.options.map(o => <ElOption label={o.remark} value={o.name} key={o.name} />)}</ElSelect> }}</ElTableColumn>
         <ElTableColumn>{{ default: ({ row }) => <ElSelect v-model={row.op}>{opOptions.map(o => <ElOption label={o.label} value={o.value} key={o.value} />)}</ElSelect> }}</ElTableColumn>
         <ElTableColumn>{{
           default: ({ row, $index }) => <SetFx v-model={row.right} config={securityConfig.value} />
         }}</ElTableColumn>
-        <ElTableColumn width="60px">{{ default: ({ $index }) => <CipTableButton onClick={() => { handleDel($index) }}>删除</CipTableButton> }}</ElTableColumn>
+        <ElTableColumn width="50px">{{ default: ({ $index }) => <CipTableButton onClick={() => { handleDel($index) }}>删除</CipTableButton> }}</ElTableColumn>
       </ElTable>
       <CipButton onClick={handleClick}>添加</CipButton>
     </>

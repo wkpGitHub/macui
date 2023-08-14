@@ -105,7 +105,7 @@ import { dataTypeTableColumns } from '../dialog/config'
 export default {
   type: 'start',
   title: '开始',
-  labelWidth: '70px',
+  labelWidth: '90px',
   formField: generateFieldList(defineFormFieldConfig({
     title: { label: '节点标题' },
     trigger: {
@@ -148,6 +148,8 @@ export default {
         config.writable = trigger === 'model-entity-event'
         return config
       },
+      type: 'dataSource',
+      otherKey: 'fields',
       label: '请选择实体' // 默认选第一个
     },
     eventType: {
