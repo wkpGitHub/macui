@@ -22,6 +22,7 @@ export default defineComponent({
   setup (props, ctx) {
     let au
     let selectLink = null
+    let isBranch = false
     const zoom = ref(100)
     const state = reactive({
       rootNode: {},
@@ -44,7 +45,12 @@ export default defineComponent({
     }
 
     function addNode (comp) {
-      au.addNode({ ...comp }, selectLink)
+      if (isBranch) {
+        au.addBranch({ ...comp }, selectLink)
+      } else {
+        au.addNode({ ...comp }, selectLink)
+      }
+      // au.addBranch({ id: Math.random().toString(16).slice(2), type: index % 2 ? 'http' : 'exit', children: [], title: 'http请求' }, parent)
       compListDialogVisible.value = false
       showRightPanel.value = false
       selectLink = null
@@ -52,7 +58,13 @@ export default defineComponent({
     function updateNode (model) {
       au.updateNode(model)
     }
-    onMounted(() => {
+    function sleep () {
+      return new Promise(resolve => {
+        setTimeout(resolve, 400)
+      })
+    }
+    onMounted(async () => {
+      await sleep()
       d3.json('../../ausyda.json').then(data => {
         run(data.children)
         state.rootNode = data
@@ -63,13 +75,12 @@ export default defineComponent({
         // 点击连接线上的+
         au.on('addNode', (link) => {
           // 添加节点
-          // au.addNode({ id: Math.random().toString(16).slice(2), type: 'http', children: [], title: 'http请求' }, link)
           selectLink = link
+          isBranch = false
           hiddenDialog()
           // 打开组件面板
           compListDialogVisible.value = true
         })
-        let index = 0
         // 点击选中节点
         au.on('updateNode', (d) => {
           // 更新节点
@@ -82,9 +93,11 @@ export default defineComponent({
         // 点击分支+，增加分支
         au.on('addBranch', (parent) => {
           // 添加节点
-          index++
+          isBranch = true
+          selectLink = parent
           hiddenDialog()
-          au.addBranch({ id: Math.random().toString(16).slice(2), type: index % 2 ? 'http' : 'exit', children: [], title: 'http请求' }, parent)
+          // 打开组件面板
+          compListDialogVisible.value = true
         })
         // 点击分支文字或者线段，修改分支
         au.on('updateBranch', (branch) => {

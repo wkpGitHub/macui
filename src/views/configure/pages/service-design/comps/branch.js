@@ -23,6 +23,7 @@ export const branchConfig = {
 export const branchLineConfig = {
   type: 'branch-line',
   title: '连线属性',
+  labelWidth: '70px',
   formField: generateFieldList(defineFormFieldConfig({
     expression: { label: '条件名称' },
     conditionType: {
@@ -33,6 +34,25 @@ export const branchLineConfig = {
         { label: '公式', value: 'formula' }
       ]
     },
-    conditions: {}
+    conditions: {
+      label: '条件',
+      type: 'filterCondition',
+      dependOn: ['conditionType'],
+      changeConfig (config, { conditionType }) {
+        if (conditionType === 'rules') {
+          config.type = 'filterCondition'
+        } else {
+          config.type = 'input'
+        }
+        return config
+      },
+      changeValue ({ conditionType }) {
+        if (conditionType === 'rules') {
+          return { value: [] }
+        } else {
+          return { value: '' }
+        }
+      }
+    }
   }))
 }

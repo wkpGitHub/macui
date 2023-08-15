@@ -13,8 +13,8 @@
 	"trigger": "empty-event",
 	"inputParams": [],
 	"outParams": [
-    {"label": "status", "value": 0, "dataType": "number"},
-    {"label": "msg", "value": "", "dataType": "string"}
+    {"label": "status", "value": 0, "dataType": "INT"},
+    {"label": "msg", "value": "", "dataType": "STRING"}
   ],
 	"globalValue": [],
 	"variableParams": {},

@@ -565,3 +565,12 @@
   "active": false
 }
 ```
+
+### 循环
+|字段|说明|默认值|数据类型|
+|:---|:---|:---|:--|
+|loopName|循环数组||string|
+|loopItemName|循环变量||string|
+|loopIndexName|循环下标名||string|
+|firstIndex|起始下标||string|
+|lastIndex|最大下标||string|

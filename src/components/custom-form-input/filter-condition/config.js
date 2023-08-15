@@ -11,20 +11,17 @@ const typeMap = {
 // 字段 type: text  op [equal|not_equal|like|not_like|starts_with|ends_with|is_empty|is_not_empty]
 // 字段 type: date  op [equal|not_equal|less|less_or_equal|greater|greater_or_equal|between|not_between]
 const opOptions = [
-  { label: '等于', value: 'equal', usedFieldType: ['int', 'text', 'date'] },
-  { label: '不等于', value: 'not_equal', usedFieldType: ['int', 'text', 'date'] },
+  { label: '等于', value: 'eq', usedFieldType: ['int', 'text', 'date'] },
+  { label: '不等于', value: 'ne', usedFieldType: ['int', 'text', 'date'] },
   { label: '模糊匹配', value: 'like', usedFieldType: ['text'] },
-  { label: '不匹配', value: 'not_like', usedFieldType: ['text'] },
-  { label: '匹配开头', value: 'starts_with', usedFieldType: ['text'] },
-  { label: '匹配结尾', value: 'ends_with', usedFieldType: ['text'] },
-  { label: '小于', value: 'less', usedFieldType: ['int', 'date'] },
-  { label: '小于或等于', value: 'less_or_equal', usedFieldType: ['int', 'date'] },
-  { label: '大于', value: 'greater', usedFieldType: ['int', 'date'] },
-  { label: '大于或等于', value: 'greater_or_equal', usedFieldType: ['int', 'date'] },
-  { label: '为空', value: 'is_empty', usedFieldType: ['int', 'text'] },
-  { label: '不为空', value: 'is_not_empty', usedFieldType: ['int', 'text'] },
-  { label: '属于范围', value: 'between', usedFieldType: ['date'] },
-  { label: '不属于范围', value: 'not_between', usedFieldType: ['date'] }
+  { label: '匹配开头', value: 'sw', usedFieldType: ['text'] },
+  { label: '匹配结尾', value: 'ew', usedFieldType: ['text'] },
+  { label: '小于', value: 'lt', usedFieldType: ['int', 'date'] },
+  { label: '小于或等于', value: 'le', usedFieldType: ['int', 'date'] },
+  { label: '大于', value: 'gt', usedFieldType: ['int', 'date'] },
+  { label: '大于或等于', value: 'ge', usedFieldType: ['int', 'date'] },
+  { label: '范围匹配', value: 'bt', usedFieldType: ['date'] },
+  { label: '包含', value: 'in', usedFieldType: ['date'] }
 ]
 
 const needHide = ['is_empty', 'is_not_empty']

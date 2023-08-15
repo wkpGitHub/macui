@@ -19,7 +19,7 @@ export default {
   title: '循环',
   formField: generateFieldList(defineFormFieldConfig({
     title: { label: '节点标题' },
-    loopName: { label: '循环数组', required: true },
+    loopName: { label: '循环数组', required: true, type: 'setFx' },
     loopItemName: { label: '循环变量', placeholder: '循环的时候使用的字段名，默认使用_item' },
     loopIndexName: { label: '循环下标名', placeholder: '循环的时候使用的下标名，默认使用_index' },
     firstIndex: { label: '起始下标' },

@@ -15,7 +15,7 @@ export function useFxDialog (proxyValue, parentState) {
 
   function onConfirm (resolve) {
     const { selectNode } = parentState
-    if (selectNode.type === 'set') {
+    if (selectNode.type === 'set' && !selectNode.isBranch) {
       selectNode.dataType = state.item.dataType
       selectNode.source = state.item.value
       proxyValue.value = state.varType + state.item.label
