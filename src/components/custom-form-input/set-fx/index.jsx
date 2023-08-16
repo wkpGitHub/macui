@@ -10,7 +10,7 @@ export default defineComponent({
   emits: fromInputEmits,
   setup (props, ctx) {
     const { proxyValue, securityConfig } = useFormInput(props, ctx)
-    const { state, render } = useFxDialog(proxyValue, securityConfig.value.parentState)
+    const { state, render } = useFxDialog(proxyValue, securityConfig.value)
 
     return () => <>
       <ElInput v-model={proxyValue.value}>{{

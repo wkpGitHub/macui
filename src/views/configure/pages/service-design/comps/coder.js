@@ -31,8 +31,8 @@ export default {
         }
       ]
     },
-    source: { label: '变量值', required: true },
-    targetName: { label: '节点出参' }
+    source: { label: '变量值', required: true, type: 'setFx' },
+    targetName: { label: '节点出参', type: 'setFx', isVar: true }
   })),
   initData: {
     id: '', // 不重复 前端生成 建议使用 uuid

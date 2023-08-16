@@ -5,7 +5,8 @@ import CipTabPane from '@cip/components/cip-tabs-plus/tab'
 import { ElTag } from 'element-plus'
 import { dateTypeMap } from '@/lib/contants'
 
-export function useFxDialog (proxyValue, parentState) {
+export function useFxDialog (proxyValue, config) {
+  const { parentState, isVar } = config
   const state = reactive({ isShow: false, item: {}, varType: '' })
 
   function selectVar (item, varType) {
@@ -15,9 +16,11 @@ export function useFxDialog (proxyValue, parentState) {
 
   function onConfirm (resolve) {
     const { selectNode } = parentState
-    if (selectNode.type === 'set' && !selectNode.isBranch) {
+    if (selectNode.type === 'set') {
       selectNode.dataType = state.item.dataType
       selectNode.source = state.item.value
+    }
+    if (isVar) {
       proxyValue.value = state.varType + state.item.label
     } else {
       proxyValue.value = '${' + state.varType + state.item.label + '}'

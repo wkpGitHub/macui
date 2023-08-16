@@ -56,8 +56,8 @@
 |字段|说明|默认值|数据类型|
 |:---|:---|:---|:--|
 |dataType|数据类型||string|
-|source|值||any|
-```
+|source|值 或者 值取值于哪个变量||string|
+```json
 {
   "id": "0juy9hzpx2ge",
   "type": "start",
@@ -131,7 +131,7 @@
 |objectKey|数据表id||string \| number|
 |fields|选择的数据表有哪些字段||array|
 |initFields|增加哪些字段 默认有哪些值【例如：[{"name":"name","ename":"姓名","type":"text","formula":"kk"},{"name":"time","ename":"日期","type":"date","formula":"4"}]】||array|
-```
+```json
 {
   "id": "0juy9hzpx2ge",
   "type": "start",
@@ -234,7 +234,7 @@
 |objectKey|数据表id||string \| number|
 |fields|选择的数据表有哪些字段||array|
 |filterFields|删除条件【例如：{"conjunction":"and","children":[{"field":"name","op":"equal","right":""}]}】||object|
-```
+```json
 {
   "id": "0juy9hzpx2ge",
   "type": "start",
@@ -329,7 +329,7 @@
 ```
 
 ##### 条件枚举
-```
+```js
 [
   { label: '等于', value: 'equal', usedFieldType: ['int', 'text', 'date'] },
   { label: '不等于', value: 'not_equal', usedFieldType: ['int', 'text', 'date'] },
@@ -354,7 +354,7 @@
 |fields|选择的数据表有哪些字段||array|
 |updateFields|更新哪些字段 默认有哪些值【例如：[{"name":"name","ename":"姓名","type":"text","formula":"kk"},{"name":"time","ename":"日期","type":"date","formula":"4"}]】||array|
 |filterFields|更新条件【例如：{"conjunction":"and","children":[{"field":"name","op":"equal","right":""}]}】||object|
-```
+```json
 {
   "id": "0juy9hzpx2ge",
   "type": "start",
@@ -469,7 +469,7 @@
 |selectFields|查询导出哪些字段 【例子：[{"name":"name","ename":"姓名","type":"text","formula":"${outParams.status}"}]】||array|
 |filterFields|更新条件【例如：{"conjunction":"and","children":[{"field":"name","op":"equal","right":""}]}】||object|
 
-```
+```json
 {
   "id": "0juy9hzpx2ge",
   "type": "start",
@@ -574,3 +574,137 @@
 |loopIndexName|循环下标名||string|
 |firstIndex|起始下标||string|
 |lastIndex|最大下标||string|
+
+### 分支
+|字段|说明|默认值|数据类型|
+|:---|:---|:---|:--|
+|children|分支内的所有节点||string|
+
+### 分支连线
+|字段|说明|默认值|数据类型|
+|:---|:---|:---|:--|
+|expression|分支名||string|
+|conditionType|条件规则|rules:条件规则；formula:公式|string|
+|conditions|conditionType为rules，值是个对象；conditionType为formula，值是字符串||string|
+```json
+{
+  "id": "0juy9hzpx2ge",
+  "type": "start",
+  "title": "开始",
+  "conditions": {},
+  "children": [
+    {
+      "id": "3e887fb5-2ce1-4057-9c9b-aec55582a5e0",
+      "type": "branch",
+      "title": "分支",
+      "conditions": {},
+      "children": [
+        {
+          "id": "db6a78b8-a34c-4b47-a598-17e0a29d5e4a",
+          "type": "coder",
+          "title": "编码转换",
+          "conditions": "",
+          "children": [],
+          "expression": "分支",
+          "conditionType": "formula",
+          "index": 0,
+          "top": 276,
+          "width": 140,
+          "branchWidth": 140,
+          "left": -90,
+          "active": false
+        },
+        {
+          "expression": "分支",
+          "conditionType": "formula",
+          "conditions": {},
+          "id": "0a53bfbf-6709-4859-9703-7fcd32cc17f5",
+          "type": "coder",
+          "title": "编码转换",
+          "children": [],
+          "index": 1,
+          "top": 276,
+          "width": 140,
+          "branchWidth": 140,
+          "left": 90
+        },
+        {
+          "id": "44d9c039-eeeb-41d1-bcfd-533eef1b124f",
+          "type": "create-data-records",
+          "title": "新增记录",
+          "conditions": {},
+          "children": [],
+          "validateFailed": false,
+          "index": 2,
+          "top": 420,
+          "width": 140,
+          "branchWidth": 140,
+          "left": 90
+        },
+        {
+          "type": "branch-close",
+          "id": "5b420e2dfee51-8f668f5f8",
+          "index": 3,
+          "top": 564,
+          "width": 48,
+          "branchWidth": 140,
+          "left": 0,
+          "branchCloseIndex": 19,
+          "active": false
+        }
+      ],
+      "index": 0,
+      "top": 148,
+      "depth": 1,
+      "height": 392,
+      "width": 320,
+      "left": 0,
+      "branchIndex": 13,
+      "active": true,
+      "isBranch": false,
+      "folded": false
+    },
+    {
+      "id": "ef4ae388395b",
+      "type": "end",
+      "title": "结束",
+      "index": 1,
+      "top": 692,
+      "width": 44,
+      "left": 0,
+      "active": false
+    }
+  ],
+  "trigger": "empty-event",
+  "inputParams": [],
+  "outParams": [
+    {
+      "label": "status",
+      "value": 0,
+      "dataType": "INT"
+    },
+    {
+      "label": "msg",
+      "value": "",
+      "dataType": "STRING"
+    }
+  ],
+  "globalValue": [],
+  "variableParams": {},
+  "fields": [],
+  "updateFields": [],
+  "filterMode": "normal",
+  "filterFields": {},
+  "triggerMode": "interval",
+  "intervalSetting": {},
+  "periodicSetting": {},
+  "active": false
+}
+```
+
+### 编码转换
+|字段|说明|默认值|数据类型|
+|:---|:---|:---|:--|
+|method|编码方式 [{"label":"Base 64 编码","value":"base64-encode"},{"label":"Base 64 解码","value":"base64-decode"}]||string|
+|source|值的来源 可以是变量${name}, 也可以是输入的字符串||string|
+|targetName| 出参 可以选择已有的变量进行赋值，也可以定义新的变量| |string|

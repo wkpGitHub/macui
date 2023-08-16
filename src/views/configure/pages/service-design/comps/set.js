@@ -1,4 +1,5 @@
 import { generateFieldList, defineFormFieldConfig } from 'd-render'
+import { dataTypeOpts } from '@/lib/contants'
 // {
 //   id: '',
 //   type: 'set',
@@ -20,37 +21,19 @@ export default {
     targetName: {
       label: '变量名',
       required: true,
-      type: 'setFx'
+      type: 'setFx',
+      isVar: true
     },
     dataType: {
       label: '变量类型',
       required: true,
       type: 'select',
-      options: [
-        {
-          label: '文本',
-          value: 'string'
-        },
-        {
-          label: '数字',
-          value: 'number'
-        },
-        {
-          label: '布尔',
-          value: 'boolean'
-        },
-        {
-          label: '对象',
-          value: 'object'
-        },
-        {
-          label: '数组',
-          value: 'array'
-        }
-      ]
+      options: dataTypeOpts
     },
     source: {
-      label: '变量值', description: `手动录入静态值时，如果变量类型为对象或者数组，需要以JSON字符串的形式录入。
+      type: 'setFx',
+      label: '变量值',
+      description: `手动录入静态值时，如果变量类型为对象或者数组，需要以JSON字符串的形式录入。
     例如：
     对象类型：可以输入{"key1": "val1", "key2": "val2"}，{key1: "val1", key2: "val2"} 将不能正确解析为对象；
     数组类型：可以输入["val1", "val2"]或[{"key":"val1"},{"key":"val2"}]`

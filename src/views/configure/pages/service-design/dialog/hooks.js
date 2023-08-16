@@ -27,7 +27,7 @@ export function useDialog () {
 
 export function useGlobalSet (props, parentState) {
   function addRow () {
-    parentState.rootNode.globalValue.push({ label: '', value: '', dataType: 'string' })
+    parentState.rootNode.globalValue.push({ label: '', value: '', dataType: 'STRING' })
   }
 
   const state = reactive({ isShow: false })
