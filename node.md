@@ -708,3 +708,78 @@
 |method|编码方式 [{"label":"Base 64 编码","value":"base64-encode"},{"label":"Base 64 解码","value":"base64-decode"}]||string|
 |source|值的来源 可以是变量${name}, 也可以是输入的字符串||string|
 |targetName| 出参 可以选择已有的变量进行赋值，也可以定义新的变量| |string|
+```json
+{
+  "id": "dc471786-c795-4053-bee7-74d1d9e71fab",
+  "type": "coder",
+  "title": "编码转换",
+  "conditions": {},
+  "children": [],
+  "index": 1,
+  "top": 292,
+  "width": 140,
+  "left": 0,
+  "active": true,
+  "isBranch": false,
+  "method": "base64-encode",
+  "source": "${outParams.status}",
+  "targetName": "outParams.status"
+},
+```
+
+### 编码转换
+|字段|说明|默认值|数据类型|
+|:---|:---|:---|:--|
+|sourceName|选择已有变量||string|
+|sourceFormat|值的日期格式||string|
+|targetName| 出参 可以选择已有的变量进行赋值，也可以定义新的变量| |string|
+|targetFormat| 出参日期格式 | |string|
+```json
+{
+  "id": "d8ea1b43-0a5e-4268-b481-bb4a453217be",
+  "type": "date-format",
+  "title": "日期格式化",
+  "conditions": {},
+  "children": [],
+  "index": 0,
+  "top": 148,
+  "width": 140,
+  "left": 0,
+  "active": true,
+  "isBranch": false,
+  "sourceName": "date1",
+  "sourceFormat": "YYYY-MM-DD",
+  "targetFormat": "HH:mm",
+  "targetName": "date2"
+}
+```
+##### 日期格式键值对
+```js
+[
+  {
+    label: '年-月-日 时:分:秒',
+    value: 'YYYY-MM-DD HH:mm:ss'
+  },
+  {
+    label: '年-月-日 时:分',
+    value: 'YYYY-MM-DD HH:mm'
+  },
+  {
+    label: '年-月-日 时',
+    value: 'YYYY-MM-DD HH'
+  },
+  {
+    label: '年-月-日',
+    value: 'YYYY-MM-DD'
+  },
+  {
+    label: '时:分:秒',
+    value: 'HH:mm:ss'
+  },
+  {
+    label: '时:分',
+    value: 'HH:mm'
+  }
+]
+```
+

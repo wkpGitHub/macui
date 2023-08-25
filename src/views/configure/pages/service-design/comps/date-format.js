@@ -43,7 +43,7 @@ export default {
   title: '日期格式化',
   formField: generateFieldList(defineFormFieldConfig({
     title: { label: '节点标题' },
-    sourceName: { label: '源变量', required: true },
+    sourceName: { label: '源变量', required: true, type: 'setFx', isVar: true },
     sourceFormat: {
       label: '源格式',
       type: 'select',
@@ -55,7 +55,7 @@ export default {
       type: 'select',
       options: formatOptions
     },
-    targetName: { label: '节点出参' }
+    targetName: { label: '节点出参', type: 'setFx', isVar: true }
   })),
   initData: {
     id: '', // 不重复 前端生成 建议使用 uuid
