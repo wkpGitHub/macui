@@ -313,20 +313,15 @@ export class Ausyda {
   constructor ({ el, data }) {
     this.initDom(el)
     this._data = data
-    this.update()
     this._events = {}
+    this.update(() => {
+      this.coverScreen(true)
+    })
   }
 
   initDom (el) {
     this._el = d3.select(el).attr('class', 'api-editor').append('div').attr('class', 'api-editor-view').append('div').attr('class', 'api-editor-view-container')
-    const $el = this._el.node()
     this.viewLayer = this._el.append('div').attr('class', 'api-editor-view-layer')
-    const zoomFn = d3.zoom().on('zoom', () => {
-      const { transform } = d3.event
-      const { x, y, k } = transform
-      this.viewLayer.style('transform', `translate(${x}px, ${y}px) scale(${k})`)
-    })
-    this._el.call(zoomFn).call(zoomFn.transform, d3.zoomIdentity.translate($el.clientWidth / 2, 0))
     this._el.on('click', () => {
       this.nodes.forEach(node => {
         node.active = false
@@ -702,7 +697,7 @@ export class Ausyda {
     console.log(this._data)
   }
 
-  getNodes () {
+  getNodes (cb) {
     const nodes = []
     function pushNode (node) {
       nodes.push(node)
@@ -711,6 +706,7 @@ export class Ausyda {
     }
     pushNode(this._data)
     this.nodes = nodes
+    cb && cb()
   }
 
   getLinks () {
@@ -800,21 +796,35 @@ export class Ausyda {
     this.links = links
   }
 
-  update () {
+  update (cb) {
     this.setPosition()
-    this.getNodes()
+    this.getNodes(cb)
     this.updateNodes()
     this.getLinks()
     this.updateLinks()
   }
 
-  coverScreen () {
+  coverScreen (isInit) {
     const copyNodes = [...this.nodes].sort((a, b) => (a.left || 0) - (b.left || 0))
-    console.log('copyNodes', copyNodes)
-    const _width = (copyNodes.at(-1).left || 0) - (copyNodes[0].left || 0)
+    const _width = (copyNodes.at(-1).left || 0) + copyNodes.at(-1).width - (copyNodes[0].left || 0)
     copyNodes.sort((a, b) => (a.top || 0) - (b.top || 0))
-    const _height = (copyNodes.at(-1).top || 0) - (copyNodes[0].top || 0)
-    console.log(_width, _height)
+    const _height = (copyNodes.at(-1).top || 0) + 68 - (copyNodes[0].top || 0)
+    const { width, height } = this._el.node().getBoundingClientRect()
+    const _ratio = isInit ? 1 : Math.min(width / _width, height / _height)
+    this.zoomFn = d3.zoom().on('zoom', () => {
+      const { transform } = d3.event
+      const { x, y, k } = transform
+      this.viewLayer.style('transform', `translate(${x}px, ${y}px) scale(${k})`)
+      this.emit('scale', k)
+    })
+    if (isInit) {
+      this.transform = d3.zoomIdentity
+    }
+    this._el.call(this.zoomFn).call(this.zoomFn.transform, this.transform.translate(width / 2, (height - (_height * _ratio)) / 2).scale(_ratio))
+  }
+
+  scale (_ratio) {
+    this.zoomFn.scaleTo(this._el, _ratio)
   }
 
   /**

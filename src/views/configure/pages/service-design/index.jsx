@@ -3,6 +3,7 @@ import { ElInputNumber, ElLink } from 'element-plus'
 import { Setting } from '@element-plus/icons-vue'
 import { PlHandle as CipPageLayoutHandle } from '@cip/page-layout'
 import CipButton from '@cip/components/cip-button'
+import CipSvgIcon from '@cip/components/cip-svg-icon'
 import {
   useDialog,
   useGlobalSet,
@@ -80,7 +81,6 @@ export default defineComponent({
           hiddenDialog()
           // 打开组件面板
           compListDialogVisible.value = true
-          console.log(au.coverScreen())
         })
         // 点击选中节点
         au.on('updateNode', (d) => {
@@ -116,6 +116,9 @@ export default defineComponent({
           // 执行回调函数删除节点
           cb()
         })
+        au.on('scale', (ratio) => {
+          zoom.value = Math.floor(ratio * 100)
+        })
       })
     })
 
@@ -134,7 +137,11 @@ export default defineComponent({
                 <ElLink icon={Setting} underline={false} type='primary' onClick={() => {
                   globalState.isShow = true
                 }}>全局设置</ElLink>
-                <ElInputNumber size='small' v-model={zoom.value} min={50} max={400} step={10}></ElInputNumber>
+                <div className={styles['flex-center']}>
+                  <CipButton square size="small" icon={<CipSvgIcon name="focus-icon" />} style={{ marginRight: '5px' }} onClick={() => au.coverScreen()}>
+                  </CipButton>
+                  <ElInputNumber size='small' model-value={zoom.value} min={50} max={400} step={10} onUpdate:model-value={v => au.scale(v / 100)}></ElInputNumber>
+                </div>
               </div>
               <div className={styles['view-container']} id="api-editor"></div>
             </div>
