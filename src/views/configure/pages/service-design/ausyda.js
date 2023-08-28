@@ -808,6 +808,15 @@ export class Ausyda {
     this.updateLinks()
   }
 
+  coverScreen () {
+    const copyNodes = [...this.nodes].sort((a, b) => (a.left || 0) - (b.left || 0))
+    console.log('copyNodes', copyNodes)
+    const _width = (copyNodes.at(-1).left || 0) - (copyNodes[0].left || 0)
+    copyNodes.sort((a, b) => (a.top || 0) - (b.top || 0))
+    const _height = (copyNodes.at(-1).top || 0) - (copyNodes[0].top || 0)
+    console.log(_width, _height)
+  }
+
   /**
    * 新增节点
    * @param {*} node

@@ -80,6 +80,7 @@ export default defineComponent({
           hiddenDialog()
           // 打开组件面板
           compListDialogVisible.value = true
+          console.log(au.coverScreen())
         })
         // 点击选中节点
         au.on('updateNode', (d) => {
