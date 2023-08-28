@@ -40,3 +40,5 @@ export { simpleFieldInfoWithOpEntity } from './simple-field-info-with-op'
 export { simpleTableColumnEntity } from './simple-table-column'
 // 字段校验规则
 export { validateRuleEntityEntity } from './validate-rule-entity'
+// 连接器管理
+export * from './connector'

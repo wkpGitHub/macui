@@ -10,6 +10,11 @@ export default [
     cache: true
   },
   {
+    name: 'configureConnectorManager',
+    title: '连接器管理',
+    cache: true
+  },
+  {
     name: 'configureApi',
     title: '接口配置',
     cache: true,

@@ -61,5 +61,15 @@ class BaseDicService extends Model {
       url: '/api/v1/base/dic/validate-rule'
     })
   }
+
+  // 连接器类型
+  @transformData()
+  connectorType () {
+    return req({
+      method: 'get',
+      apiName: 'apiChr',
+      url: '/api/v1/base/dic/connector-type'
+    })
+  }
 }
 export const baseDicService = new BaseDicService()

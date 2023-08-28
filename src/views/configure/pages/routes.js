@@ -28,5 +28,10 @@ export const routes = [
     name: 'configureFlowDesign',
     path: 'flow/design',
     component: () => import('./flow/design')
+  },
+  {
+    name: 'configureConnectorManager',
+    path: 'connector',
+    component: () => import('./connector-manager')
   }
 ]
