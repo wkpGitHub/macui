@@ -12,7 +12,14 @@ export default [
   {
     name: 'configureConnectorManager',
     title: '连接器管理',
-    cache: true
+    cache: true,
+    children: [
+      {
+        name: 'configureConnectorManagerItem',
+        title: '连接器服务项管理',
+        hideInMenu: true
+      }
+    ]
   },
   {
     name: 'configureApi',

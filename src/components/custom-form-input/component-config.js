@@ -22,5 +22,10 @@ export default {
   objFields: () => () => import('./obj-fields'),
   paramsAdd: () => () => import('./params-add'),
   fxTable: () => () => import('./fx-table'),
-  setFx: () => () => import('./set-fx')
+  setFx: () => () => import('./set-fx'),
+  tabsLayout: {
+    component: () => () => import('./tabs-layout'),
+    layout: true
+  },
+  urlWithMethod: () => () => import('./url-with-method')
 }
