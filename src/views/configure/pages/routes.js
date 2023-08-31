@@ -36,7 +36,7 @@ export const routes = [
   },
   {
     name: 'configureConnectorManagerItem',
-    path: 'connector:id/item',
+    path: 'connector/:id/item',
     props (route) {
       return {
         connectorId: route.params.id,

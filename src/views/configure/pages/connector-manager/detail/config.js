@@ -18,8 +18,7 @@ const tableColumns = generateFieldList(defineTableFieldConfig({
   },
   title: {
     label: '字段显示名称',
-    minWidth: '130px',
-    required: true
+    minWidth: '130px'
   },
   dataType: {
     required: true,
@@ -68,10 +67,10 @@ export const httpFormFieldList = generateFieldList(defineFormFieldConfig({
     tableColumnStatus: 'writable',
     options: tableColumns
   },
-  path: {
+  'config.path': {
     label: '请求路径',
     required: true,
-    otherKey: 'httpMethod',
+    otherKey: 'config.httpMethod',
     type: 'urlWithMethod',
     requiredErrorMessage: '请输入请求路径'
   },

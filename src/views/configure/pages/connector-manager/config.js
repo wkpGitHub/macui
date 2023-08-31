@@ -111,8 +111,7 @@ export const formFieldList = generateFieldList(defineFormFieldConfig({
       },
       title: {
         label: '字段显示名称',
-        width: '130px',
-        required: true
+        width: '130px'
       },
       dataType: {
         required: true,
