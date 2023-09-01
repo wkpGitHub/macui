@@ -1,4 +1,6 @@
 import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
+import { CipButtonText } from '@xdp/button'
 import CipPageCurd from '@cip/components/cip-page-curd'
 import { connectorService } from '@/api'
 import {
@@ -10,6 +12,19 @@ import {
 export default defineComponent({
   name: 'connector-manager',
   setup () {
+    const { push } = useRouter()
+    function goToDetail (row) {
+      push({
+        name: 'configureConnectorManagerItem',
+        params: {
+          id: row.id
+        },
+        query: {
+          type: row.type
+        }
+      })
+    }
+
     return () => <CipPageCurd
       entity={connectorService}
       tableColumns={tableColumns}
@@ -21,6 +36,11 @@ export default defineComponent({
       permission={{ info: 'noP' }}
       fetchInfo={true}
     >
+      {{
+        'table-handle-append': ({ row }) => <>
+          <CipButtonText onClick={() => { goToDetail(row) }}>方法</CipButtonText>
+        </>
+      }}
     </CipPageCurd>
   }
 })

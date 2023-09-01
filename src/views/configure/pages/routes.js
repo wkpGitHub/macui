@@ -34,5 +34,16 @@ export const routes = [
     name: 'configureConnectorManager',
     path: 'connector',
     component: () => import('./connector-manager')
+  },
+  {
+    name: 'configureConnectorManagerItem',
+    path: 'connector/:id/item',
+    props (route) {
+      return {
+        connectorId: route.params.id,
+        connectorType: route.query.type
+      }
+    },
+    component: () => import('./connector-manager/detail')
   }
 ]
