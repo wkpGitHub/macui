@@ -1,3 +1,17 @@
+.page {
+  :global {
+    .page-layout-left-right__left {
+      > .el-scrollbar {
+        > .el-scrollbar__wrap {
+          > .el-scrollbar__view {
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
 .header {
   display: flex;
   align-items: center;
@@ -9,6 +23,8 @@
   }
 }
 .list-wrapper {
+  height: calc( 100% - 43px );
+  box-sizing: border-box;
   padding: 10px 0 20px;
 
   .list-item {

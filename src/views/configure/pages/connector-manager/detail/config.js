@@ -6,7 +6,7 @@ import {
 } from 'd-render'
 
 const baseConnectService = {
-  name: { label: '服务名称', required: true }
+  name: { label: '方法名称', required: true }
 }
 
 const tableColumns = generateFieldList(defineTableFieldConfig({
@@ -40,7 +40,7 @@ const tableColumns = generateFieldList(defineTableFieldConfig({
 }))
 
 function validateJson (val) {
-  if (!val.trim()) {
+  if (!val?.trim?.()) {
     return {
       data: true
     }
@@ -62,7 +62,7 @@ validateJson.type = 'change'
 export const httpFormFieldList = generateFieldList(defineFormFieldConfig({
   ...baseConnectService,
   'config.inputParams': {
-    label: '服务入参',
+    label: '方法入参',
     type: 'table',
     tableColumnStatus: 'writable',
     options: tableColumns
@@ -148,5 +148,15 @@ export const httpFormFieldList = generateFieldList(defineFormFieldConfig({
         }))
       }
     ]
+  }
+}))
+
+export const emailFormFieldList = generateFieldList(defineFormFieldConfig({
+  ...baseConnectService,
+  'config.inputParams': {
+    label: '方法入参',
+    type: 'table',
+    tableColumnStatus: 'writable',
+    options: tableColumns
   }
 }))

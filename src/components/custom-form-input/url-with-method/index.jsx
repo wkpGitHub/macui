@@ -13,7 +13,7 @@ export default defineComponent({
       // securityConfig,
       width
     } = useFormInput(props, ctx)
-
+    proxyOtherValue[0].value = 'GET'
     const methodOpt = [
       { label: 'GET', value: 'GET' },
       { label: 'POST', value: 'POST' },
