@@ -10,16 +10,19 @@ import {
   PseudoCodeDialog,
   CompList,
   useNodeSetDialog,
-  useSourceCode
+  useSourceCode,
+  transformCode
 } from './dialog'
 
 import styles from './index.module.less'
 import './ausyda.css'
-import * as d3 from 'd3'
-import { Ausyda } from './ausyda.js'
-import { run } from './mock'
+import { Ausyda, initFlow } from './ausyda.js'
+import { centerService } from '@/api'
 
 export default defineComponent({
+  props: {
+    id: String
+  },
   setup (props, ctx) {
     let au
     let selectLink = null
@@ -29,6 +32,7 @@ export default defineComponent({
       rootNode: {},
       selectNode: {}
     })
+    let currentData = {}
     const pseudoCodeDialogVisible = ref(false)
     const compListDialogVisible = ref(false)
 
@@ -66,12 +70,16 @@ export default defineComponent({
     }
     onMounted(async () => {
       await sleep()
-      d3.json('../../ausyda.json').then(data => {
-        run(data.children)
-        state.rootNode = data
+      centerService.getContent(props.id).then(({ data }) => {
+        currentData = data
+        if (data.flow) {
+          state.rootNode = data.flow
+        } else {
+          state.rootNode = initFlow
+        }
         au = new Ausyda({
           el: '#api-editor',
-          data
+          data: state.rootNode
         })
         // 点击连接线上的+
         au.on('addNode', (link) => {
@@ -122,13 +130,20 @@ export default defineComponent({
       })
     })
 
+    function saveFlow () {
+      centerService.saveContent({
+        ...currentData,
+        flow: transformCode(state.rootNode)
+      })
+    }
+
     return () => <CipPageLayoutHandle top={true}>
       {{
         handler: () => <>
           <CipButton onClick={() => { sourceCodeState.isShow = true }}>源码</CipButton>
           <CipButton onClick={() => { pseudoCodeDialogVisible.value = true }}>伪代码</CipButton>
           <CipButton>调试</CipButton>
-          <CipButton type='primary'>保存</CipButton>
+          <CipButton type='primary' onClick={saveFlow}>保存</CipButton>
         </>,
         default: () => <div className={styles.page}>
           <div className={styles.editor}>

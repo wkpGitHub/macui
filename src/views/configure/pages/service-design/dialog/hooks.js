@@ -54,6 +54,7 @@ export function useNodeSetDialog (props, parentState) {
   const model = ref({})
   function setNode (node, updateNode) {
     model.value = cloneDeep(node)
+    if (!Object.prototype.hasOwnProperty.call(model.value, 'config')) model.value.config = {}
     activeComp.value = allComps.find(comp => comp.type === node.type || (comp.type === 'branch-line' && node.isBranch))
     if (activeComp.value.formField instanceof Function) {
       activeComp.value.formField = activeComp.value.formField({ parentState })
@@ -61,15 +62,15 @@ export function useNodeSetDialog (props, parentState) {
     // eslint-disable-next-line array-callback-return
     activeComp.value.formField.map(v => {
       v.config.parentState = parentState
-      v.config.changeEffect = async (value, key, model) => {
+      v.config.changeEffect = async (value, key, data) => {
         // 更新
         if (timer) {
           clearTimeout(timer)
           timer = null
         }
         timer = setTimeout(() => {
-          updateNode(cloneDeep(model))
-        }, 500)
+          updateNode(cloneDeep({ ...model.value, config: data }))
+        }, 300)
       }
     })
   }
@@ -86,7 +87,7 @@ export function useNodeSetDialog (props, parentState) {
     render ({ dialogBaseProps, node, updateNode }) {
       state.isShow && setNode(node, updateNode)
       return state.isShow && <CipDialog {...dialogBaseProps} title={activeComp.value.title} model-value={true} onUpdate:modelValue={() => { state.isShow = false }}>
-      <CipForm labelWidth={activeComp.value.labelWidth || '90px'} v-model:model={model.value} onUpdate:model={v => console.log(v)} fieldList={activeComp.value.formField}></CipForm>
+      <CipForm labelWidth={activeComp.value.labelWidth || '90px'} v-model:model={model.value.config} fieldList={activeComp.value.formField}></CipForm>
     </CipDialog>
     }
   }
@@ -98,12 +99,7 @@ export function useSourceCode (props, parentState) {
   return {
     state,
     render ({ dialogBaseProps }) {
-      const codeData = cloneDeep(parentState.rootNode)
-      function deleteParent (codeData) {
-        delete codeData.parent
-        codeData.children?.forEach(child => deleteParent(child))
-      }
-      deleteParent(codeData)
+      const codeData = transformCode(parentState.rootNode)
       const codeStr = JSON.stringify(codeData, null, 2)
       return state.isShow && <CipDialog {...dialogBaseProps} title="源码" model-value={true} onUpdate:modelValue={() => { state.isShow = false }}>
       <pre>
@@ -114,4 +110,25 @@ export function useSourceCode (props, parentState) {
     </CipDialog>
     }
   }
+}
+
+export function transformCode (data) {
+  const codeData = cloneDeep(data)
+
+  function deepTransform (codeData) {
+    delete codeData.active
+    delete codeData.branchWidth
+    delete codeData.depth
+    delete codeData.height
+    delete codeData.index
+    delete codeData.isBranch
+    delete codeData.left
+    delete codeData.top
+    delete codeData.validateFailed
+    delete codeData.width
+    delete codeData.parent
+        codeData.children?.forEach(child => deepTransform(child))
+  }
+  deepTransform(codeData)
+  return codeData
 }

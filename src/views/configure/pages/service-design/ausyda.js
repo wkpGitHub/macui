@@ -820,7 +820,7 @@ export class Ausyda {
     if (isInit) {
       this.transform = d3.zoomIdentity
     }
-    this._el.call(this.zoomFn).call(this.zoomFn.transform, this.transform.translate(width / 2, (height - (_height * _ratio)) / 2).scale(_ratio))
+    this._el.call(this.zoomFn).on('wheel.zoom', null).call(this.zoomFn.transform, this.transform.translate(width / 2, (height - (_height * _ratio)) / 2).scale(_ratio))
   }
 
   scale (_ratio) {
@@ -940,4 +940,33 @@ export class Ausyda {
       fn.call(this, ...args)
     })
   }
+}
+
+export const initFlow = {
+  id: '0juy9hzpx2ge',
+  type: 'start',
+  title: '开始',
+  conditions: {},
+  children: [
+    {
+      id: 'ef4ae388395b',
+      type: 'end',
+      title: '结束'
+    }
+  ],
+  trigger: 'empty-event',
+  inputParams: [],
+  outParams: [
+    { label: 'status', value: 0, dataType: 'INT' },
+    { label: 'msg', value: '', dataType: 'STRING' }
+  ],
+  globalValue: [],
+  variableParams: {},
+  fields: [],
+  updateFields: [],
+  filterMode: 'normal',
+  filterFields: {},
+  triggerMode: 'interval',
+  intervalSetting: {},
+  periodicSetting: {}
 }

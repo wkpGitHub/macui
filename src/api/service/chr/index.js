@@ -12,5 +12,6 @@ export { dataInfoService } from './data-info'
 export { dbInfoService } from './db-info'
 // 页面信息管理
 export { pageInfoService } from './page-info'
+export { centerService } from './center'
 // 连接器管理
 export * from './connector'
