@@ -60,8 +60,9 @@ export default defineComponent({
       showRightPanel.value = false
       selectLink = null
     }
-    function updateNode (model) {
-      au.updateNode(model)
+    function updateConfig (config) {
+      state.selectNode.config = config
+      au.updateNode(state.selectNode)
     }
     function sleep () {
       return new Promise(resolve => {
@@ -168,7 +169,7 @@ export default defineComponent({
               {/* 活动节点 */}
               <CompList {...dialogBaseProps} v-model={compListDialogVisible.value} onClickComp={addNode}/>
               {/* 编辑节点 */}
-              {renderNodeSetDialog({ dialogBaseProps, node: state.selectNode, updateNode })}
+              {renderNodeSetDialog({ dialogBaseProps, node: state.selectNode, updateConfig })}
             </div>
           </div>
         </div>

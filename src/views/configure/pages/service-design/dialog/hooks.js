@@ -52,9 +52,8 @@ export function useNodeSetDialog (props, parentState) {
 
   let timer = null
   const model = ref({})
-  function setNode (node, updateNode) {
-    model.value = cloneDeep(node)
-    if (!Object.prototype.hasOwnProperty.call(model.value, 'config')) model.value.config = {}
+  function setNode (node, updateConfig) {
+    model.value = cloneDeep(node.config || {})
     activeComp.value = allComps.find(comp => comp.type === node.type || (comp.type === 'branch-line' && node.isBranch))
     if (activeComp.value.formField instanceof Function) {
       activeComp.value.formField = activeComp.value.formField({ parentState })
@@ -69,7 +68,7 @@ export function useNodeSetDialog (props, parentState) {
           timer = null
         }
         timer = setTimeout(() => {
-          updateNode(cloneDeep({ ...model.value, config: data }))
+          updateConfig(data)
         }, 300)
       }
     })
@@ -84,10 +83,10 @@ export function useNodeSetDialog (props, parentState) {
 
   return {
     state,
-    render ({ dialogBaseProps, node, updateNode }) {
-      state.isShow && setNode(node, updateNode)
+    render ({ dialogBaseProps, node, updateConfig }) {
+      state.isShow && setNode(node, updateConfig)
       return state.isShow && <CipDialog {...dialogBaseProps} title={activeComp.value.title} model-value={true} onUpdate:modelValue={() => { state.isShow = false }}>
-      <CipForm labelWidth={activeComp.value.labelWidth || '90px'} v-model:model={model.value.config} fieldList={activeComp.value.formField}></CipForm>
+      <CipForm labelWidth={activeComp.value.labelWidth || '90px'} v-model:model={model.value} fieldList={activeComp.value.formField}></CipForm>
     </CipDialog>
     }
   }
