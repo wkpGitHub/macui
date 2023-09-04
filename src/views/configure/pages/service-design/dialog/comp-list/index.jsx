@@ -5,8 +5,36 @@ import CipDialog from '@cip/components/cip-dialog'
 import CipButton from '@cip/components/cip-button'
 import { compList, classifyCompByCategory } from '../../comps'
 import { v4 as uuid } from 'uuid'
+import { iconHtmlMap } from '../../ausyda'
+import './index.less'
 
-import styles from './index.module.less'
+const iconClassMap = {
+  start: 'node-start',
+  branch: 'node-logic',
+  break: 'node-logic',
+  loop: 'node-logic node-icon-loop-wrapper',
+  continue: 'node-logic node-icon-continue-wrapper',
+  exit: 'node-logic',
+  'datasource-sql': 'icon-outer',
+  script: 'icon-outer',
+  notification: 'icon-outer',
+  email: 'icon-outer',
+  connector: 'icon-outer',
+  flow: 'icon-outer',
+  apicenter: 'icon-outer',
+  http: 'icon-outer',
+  'delete-data-records': 'icon-outer',
+  'query-data-records': 'icon-outer',
+  'update-data-records': 'icon-outer',
+  'create-data-records': 'icon-outer',
+  coder: 'icon-outer',
+  'date-format': 'icon-outer',
+  mapping: 'icon-outer',
+  expand: 'icon-outer',
+  folded: 'icon-outer',
+  delete: 'icon-outer',
+  set: 'icon-outer'
+}
 
 export default defineComponent({
   name: 'comp-list',
@@ -38,8 +66,8 @@ export default defineComponent({
       <ElCollapse v-model={activeNames.value}>
         {
           activeNodes.value.map((compType) => <ElCollapseItem title={compType.category} key={compType.category} name={compType.category}>
-            <div class={styles['comp-wrapper']}>
-              {compType.children.map(comp => <CipButton key={comp.type} onClick={() => { handleClickComp(comp) }}>{comp.title}</CipButton>)}
+            <div class={'comp-wrapper api-editor'}>
+              {compType.children.map(comp => <CipButton key={comp.type} onClick={() => { handleClickComp(comp) }}><div class={`${iconClassMap[comp.type]} mr-2`} v-html={iconHtmlMap[comp.type]}></div>{comp.title}</CipButton>)}
             </div>
           </ElCollapseItem>)
         }

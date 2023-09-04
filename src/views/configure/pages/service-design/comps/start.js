@@ -1,7 +1,7 @@
 import { generateFieldList, defineFormFieldConfig } from 'd-render'
 import { cloneDeep } from 'lodash-es'
-import { intervalOptions, minuteOptions, monthOptions, weekOptions } from './constant'
-import { dataTypeTableColumns } from '../dialog/config'
+import { intervalOptions, minuteOptions, monthOptions, weekOptions, recordOpts } from './constant'
+// import { dataTypeTableColumns } from '../dialog/config'
 
 // {
 //   id: '',
@@ -10,8 +10,8 @@ import { dataTypeTableColumns } from '../dialog/config'
 //   conditions: {},
 //   validateFailed: Boolean,
 //   children: [],
-//   trigger: '', // empty-event|model-entity-event|time-start
-//   // 服务入参 trigger === empty-event 时显示
+//   trigger: '', // emptyEvent|modelEntityEvent|timeStart
+//   // 服务入参 trigger === emptyEvent 时显示
 //   inputParams: {
 //     type: 'object',
 //     required: [],
@@ -67,7 +67,7 @@ import { dataTypeTableColumns } from '../dialog/config'
 //       }
 //     }
 //   },
-//   // 服务变量 trigger === empty-event 时显示
+//   // 服务变量 trigger === emptyEvent 时显示
 //   variableParams: {}, // 结构与inputParams完全一致 为json schema
 //   // trigger === model-entity-event时显示
 //   modelEventTarget: '', // 实体
@@ -111,41 +111,41 @@ export default {
     trigger: {
       label: '节点类型',
       type: 'select',
-      defaultValue: 'empty-event',
+      defaultValue: 'emptyEvent',
       options: [
-        { label: '开始', value: 'empty-event' },
-        { label: '事件触发', value: 'model-entity-event' },
-        { label: '定时开始', value: 'time-start' }
+        { label: '开始', value: 'emptyEvent' },
+        { label: '事件触发', value: 'modelEntityEvent' },
+        { label: '定时开始', value: 'timeStart' }
       ]
     },
-    // trigger === empty-event
-    inputParams: {
-      hideIndex: true,
-      dependOn: ['trigger'],
-      changeConfig (config, { trigger }) {
-        config.readable = trigger === 'empty-event'
-        config.writable = trigger === 'empty-event'
-        return config
-      },
-      type: 'table',
-      label: '服务入参',
-      options: dataTypeTableColumns
-    },
+    // trigger === emptyEvent
+    // inputParams: {
+    //   hideIndex: true,
+    //   dependOn: ['trigger'],
+    //   changeConfig (config, { trigger }) {
+    //     config.readable = trigger === 'emptyEvent'
+    //     config.writable = trigger === 'emptyEvent'
+    //     return config
+    //   },
+    //   type: 'table',
+    //   label: '服务入参',
+    //   options: dataTypeTableColumns
+    // },
     // variableParams: {
     //   dependOn: ['trigger'],
     //   changeConfig (config, { trigger }) {
-    //     config.readable = trigger === 'empty-event'
-    //     config.writable = trigger === 'empty-event'
+    //     config.readable = trigger === 'emptyEvent'
+    //     config.writable = trigger === 'emptyEvent'
     //     return config
     //   },
     //   label: '服务变量'
     // },
-    // trigger === model-entity-event
+    // trigger === modelEntityEvent
     modelEventTarget: {
       dependOn: ['trigger'],
       readable: false,
       changeConfig (config, { trigger }) {
-        config.writable = trigger === 'model-entity-event'
+        config.writable = trigger === 'modelEntityEvent'
         return config
       },
       type: 'dataSource',
@@ -156,26 +156,19 @@ export default {
       dependOn: ['trigger'],
       readable: false,
       changeConfig (config, { trigger }) {
-        config.writable = trigger === 'model-entity-event'
+        config.writable = trigger === 'modelEntityEvent'
         return config
       },
       label: '事件类型',
       type: 'select',
-      options: [
-        { label: '新增记录前', value: 'before-insert' },
-        { label: '新增记录后', value: 'after-insert' },
-        { label: '更新记录前', value: 'before-update' },
-        { label: '更新记录后', value: 'after-update' },
-        { label: '删除记录前', value: 'before-delete' },
-        { label: '删除记录后', value: 'after-delete' }
-      ]
+      options: recordOpts
     },
     updateFields: {
       dependOn: ['trigger', 'eventType'],
       readable: false,
       changeConfig (config, { trigger, eventType }) {
         console.log(trigger, eventType, 'trigger, modelEventTarget')
-        config.writable = trigger === 'model-entity-event' & (eventType === 'before-update' || eventType === 'after-update')
+        config.writable = trigger === 'modelEntityEvent' & (eventType === 'beforeUpdate' || eventType === 'afterUpdate')
         return config
       },
       label: '更新字段',
@@ -199,7 +192,7 @@ export default {
       ],
       readable: false,
       changeConfig (config, { modelEventTarget, trigger }) {
-        config.writable = trigger === 'model-entity-event' & !!modelEventTarget
+        config.writable = trigger === 'modelEntityEvent' & !!modelEventTarget
         return config
       },
       label: '类型选择',
@@ -230,7 +223,7 @@ export default {
       ],
       readable: false,
       changeConfig (config, { modelEventTarget, fields, trigger }) {
-        config.writable = trigger === 'model-entity-event' & !!modelEventTarget
+        config.writable = trigger === 'modelEntityEvent' & !!modelEventTarget
         config.options = cloneDeep(fields || [])
         return config
       }
@@ -239,17 +232,17 @@ export default {
       readable: false,
       dependOn: ['trigger'],
       changeConfig (config, { trigger }) {
-        config.writable = trigger === 'model-entity-event'
+        config.writable = trigger === 'modelEntityEvent'
         return config
       },
       label: '输出参数'
     },
-    // trigger === time-start
+    // trigger === timeStart
     triggerMode: {
       readable: false,
       dependOn: ['trigger'],
       changeConfig (config, { trigger }) {
-        config.writable = trigger === 'time-start'
+        config.writable = trigger === 'timeStart'
         return config
       },
       label: '触发模式',
@@ -264,7 +257,7 @@ export default {
       readable: false,
       dependOn: ['trigger', 'triggerMode'],
       changeConfig (config, { trigger, triggerMode }) {
-        config.writable = trigger === 'time-start' & triggerMode === 'interval'
+        config.writable = trigger === 'timeStart' & triggerMode === 'interval'
         return config
       },
       label: '开始时间',
@@ -275,7 +268,7 @@ export default {
       readable: false,
       dependOn: ['trigger', 'triggerMode'],
       changeConfig (config, { trigger, triggerMode }) {
-        config.writable = trigger === 'time-start' & triggerMode === 'interval'
+        config.writable = trigger === 'timeStart' & triggerMode === 'interval'
         return config
       },
       label: '结束时间',
@@ -289,7 +282,7 @@ export default {
       readable: false,
       dependOn: ['trigger', 'triggerMode'],
       changeConfig (config, { trigger, triggerMode }) {
-        config.writable = trigger === 'time-start' & triggerMode === 'interval'
+        config.writable = trigger === 'timeStart' & triggerMode === 'interval'
         return config
       },
       label: '间隔设置'
@@ -298,7 +291,7 @@ export default {
       readable: false,
       dependOn: ['trigger', 'triggerMode'],
       changeConfig (config, { trigger, triggerMode }) {
-        config.writable = trigger === 'time-start' & triggerMode === 'interval'
+        config.writable = trigger === 'timeStart' & triggerMode === 'interval'
         return config
       },
       label: '触发次数',
@@ -313,7 +306,7 @@ export default {
       readable: false,
       dependOn: ['trigger', 'triggerMode', 'intervalSetting.timesType'],
       changeConfig (config, { trigger, triggerMode, intervalSetting: { timesType } }) {
-        config.writable = trigger === 'time-start' & triggerMode === 'interval' & timesType === 'custom'
+        config.writable = trigger === 'timeStart' & triggerMode === 'interval' & timesType === 'custom'
         return config
       },
       label: '触发次数',
@@ -324,7 +317,7 @@ export default {
       readable: false,
       dependOn: ['trigger', 'triggerMode'],
       changeConfig (config, { trigger, triggerMode }) {
-        config.writable = trigger === 'time-start' & triggerMode === 'periodic'
+        config.writable = trigger === 'timeStart' & triggerMode === 'periodic'
         return config
       },
       label: '触发周期',
@@ -359,7 +352,7 @@ export default {
         }
       ],
       changeConfig (config, { trigger, triggerMode, periodicSetting: { periodic } }) {
-        config.writable = trigger === 'time-start' & triggerMode === 'periodic' & (periodic === 'week' || periodic === 'month')
+        config.writable = trigger === 'timeStart' & triggerMode === 'periodic' & (periodic === 'week' || periodic === 'month')
         return config
       },
       asyncOptions ({ periodicSetting: { periodic } = {} }) {
@@ -387,7 +380,7 @@ export default {
       ],
       changeConfig (config, { trigger, triggerMode, periodicSetting: { periodic } }) {
         const needShow = ['hour', 'day', 'week', 'month']
-        config.writable = trigger === 'time-start' & triggerMode === 'periodic' & needShow.includes(periodic)
+        config.writable = trigger === 'timeStart' & triggerMode === 'periodic' & needShow.includes(periodic)
         if (periodic === 'hour') {
           config.type = 'select'
           config.options = minuteOptions
@@ -401,7 +394,7 @@ export default {
       readable: false,
       dependOn: ['trigger', 'triggerMode'],
       changeConfig (config, { trigger, triggerMode }) {
-        config.writable = trigger === 'time-start' & triggerMode === 'periodic'
+        config.writable = trigger === 'timeStart' & triggerMode === 'periodic'
         return config
       },
       label: '开始时间',
@@ -411,7 +404,7 @@ export default {
       readable: false,
       dependOn: ['trigger', 'triggerMode'],
       changeConfig (config, { trigger, triggerMode }) {
-        config.writable = trigger === 'time-start' & triggerMode === 'periodic'
+        config.writable = trigger === 'timeStart' & triggerMode === 'periodic'
         return config
       },
       label: '结束时间',
@@ -421,7 +414,7 @@ export default {
       readable: false,
       dependOn: ['trigger', 'triggerMode'],
       changeConfig (config, { trigger, triggerMode }) {
-        config.writable = trigger === 'time-start' & triggerMode === 'periodic'
+        config.writable = trigger === 'timeStart' & triggerMode === 'periodic'
         return config
       },
       label: '触发次数',
@@ -436,7 +429,7 @@ export default {
       readable: false,
       dependOn: ['trigger', 'triggerMode', 'periodicSetting.timesType'],
       changeConfig (config, { trigger, triggerMode, periodicSetting: { timesType } }) {
-        config.writable = trigger === 'time-start' & triggerMode === 'periodic' & timesType === 'custom'
+        config.writable = trigger === 'timeStart' & triggerMode === 'periodic' & timesType === 'custom'
         return config
       },
       label: '触发次数',

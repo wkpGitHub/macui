@@ -53,3 +53,12 @@ export const monthOptions = (new Array(31).fill(1)).map((v, index) => {
 export const minuteOptions = (new Array(60).fill(1)).map((v, index) => {
   return (index + '').padStart(2, '0')
 })
+
+export const recordOpts = [
+  { label: '新增记录前', value: 'beforeInsert' },
+  { label: '新增记录后', value: 'afterInsert' },
+  { label: '更新记录前', value: 'beforeUpdate' },
+  { label: '更新记录后', value: 'afterUpdate' },
+  { label: '删除记录前', value: 'beforeDelete' },
+  { label: '删除记录后', value: 'afterDelete' }
+]

@@ -1,5 +1,5 @@
 import { generateFieldList, defineFormFieldConfig } from 'd-render'
-import { dataTypeOpts } from '@/lib/contants'
+// import { dataTypeOpts } from '@/lib/contants'
 // {
 //   id: '',
 //   type: 'set',
@@ -22,13 +22,17 @@ export default {
       label: '变量名',
       required: true,
       type: 'setFx',
-      isVar: true
+      isVar: true,
+      regexpValidate: /^(?=[a-zA-Z|_])\w*$/,
+      regexpValidateErrorMessage: '变量名由英文字母、数字、下划线组成，且必须以英文字母或下划线开头'
     },
     dataType: {
       label: '变量类型',
       required: true,
-      type: 'select',
-      options: dataTypeOpts
+      width: 200,
+      otherKey: 'refDataId',
+      type: 'dataType2'
+      // options: dataTypeOpts
     },
     source: {
       type: 'setFx',

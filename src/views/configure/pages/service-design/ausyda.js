@@ -5,7 +5,7 @@ const BRANCH_KEYS = ['expression', 'conditionType', 'conditions']
 function getId () {
   return Math.random().toString(16).slice(2) + '-' + Math.random().toString(16).slice(6)
 }
-const iconHtmlMap = {
+export const iconHtmlMap = {
   start: '<svg viewBox="0 0 14 14" class="icon-flow-start"><title>开始</title><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g  transform="translate(-24.000000, -119.000000)"><g  transform="translate(24.000000, 119.000000)"><rect  x="0" y="0" width="14" height="14"></rect><g  transform="translate(4.843553, 3.875000)" fill="#FFFFFF" fill-rule="nonzero"><g ><path d="M0.567757553,6.13057769 C0.706753664,6.20845457 0.862462291,6.24950026 1.0207913,6.25 C1.21481242,6.24844339 1.40422283,6.18907595 1.56603546,6.07910258 L4.48870452,4.10039864 C4.81177035,3.88084907 5.00426901,3.5078842 4.99987093,3.11001717 C5.0056203,2.72309889 4.81897612,2.35985472 4.50474111,2.14640277 L1.55601259,0.171816849 C1.25777121,-0.0371088557 0.870768955,-0.0569843925 0.553725525,0.120341714 C0.200639293,0.334511484 -0.011268745,0.728826826 0.000463074478,1.1498443 L0.000463074478,5.10107513 C-0.0097328944,5.52543861 0.208301484,5.92111839 0.567757553,6.13057769 Z" ></path></g></g></g></g></g></svg>',
   delete: '<svg viewBox="0 0 16 16" class=" icon-flow-node-trash"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-1461.000000, -194.000000)"><g  transform="translate(1339.000000, 192.000000)"><g  transform="translate(96.000000, 0.000000)"><g  transform="translate(26.000000, 2.000000)"><g ><rect  x="0" y="0" width="16" height="16"></rect></g><line x1="6" y1="1.52178925" x2="10" y2="1.52178925"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2" y1="3.46254494" x2="14" y2="3.46254494"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><rect  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" x="3.4936589" y="3.46254494" width="9" height="10.5374551"></rect><line x1="6.73081313" y1="7.5" x2="6.73081313" y2="10.5"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><line x1="9.26918687" y1="7.5" x2="9.26918687" y2="10.5"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line></g></g></g></g></g></svg>',
   folded: '<svg viewBox="0 0 20 20" class=" icon-api-folded"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g  transform="translate(-2008.000000, -165.000000)"><g  transform="translate(2008.000000, 165.000000)"><g  fill="#2468F2"><rect  x="0" y="0" width="20" height="20"></rect></g><g  transform="translate(4.000000, 4.000000)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="0" x2="6" y2="2.5" ></line><polyline  transform="translate(5.990102, 2.345051) scale(-1, 1) rotate(-180.000000) translate(-5.990102, -2.345051) " points="4.3 3.190102 5.99010177 1.50000023 7.68020353 3.190102"></polyline><line x1="0" y1="5.5" x2="12" y2="5.5" ></line><polyline  points="4.3 9.4401018 5.99010177 7.75 7.68020353 9.4401018"></polyline><line x1="6" y1="8" x2="6" y2="11"  transform="translate(6.000000, 9.500000) scale(-1, 1) rotate(-180.000000) translate(-6.000000, -9.500000) "></line></g></g></g></g></svg>',
@@ -954,7 +954,7 @@ export const initFlow = {
       title: '结束'
     }
   ],
-  trigger: 'empty-event',
+  trigger: 'emptyEvent',
   inputParams: [],
   outParams: [
     { label: 'status', value: 0, dataType: 'INT' },

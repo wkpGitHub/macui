@@ -1,12 +1,12 @@
 import { ref, reactive, onBeforeMount } from 'vue'
 import styles from '../index.module.less'
 import CipDialog from '@cip/components/cip-dialog'
-import { CipTable, CipForm } from 'd-render'
-import CipButton from '@cip/components/cip-button'
+import { CipForm } from 'd-render'
 import { allComps } from '../comps'
 import { cloneDeep } from '@cip/utils/util'
+import { ElCollapse, ElCollapseItem } from 'element-plus'
 
-import { dataTypeTableColumns } from './config'
+import { getFieldList } from './config'
 
 export function useDialog () {
   const showRightPanel = ref(false)
@@ -26,18 +26,26 @@ export function useDialog () {
 }
 
 export function useGlobalSet (props, parentState) {
-  function addRow () {
-    parentState.rootNode.globalValue.push({ label: '', value: '', dataType: 'STRING' })
-  }
-
-  const state = reactive({ isShow: false })
+  const state = reactive({
+    isShow: false,
+    activeNames: ['global', 'input', 'output']
+  })
 
   return {
     state,
     render ({ dialogBaseProps }) {
       return state.isShow && <CipDialog {...dialogBaseProps} title={'全局设置'} model-value={true} onUpdate:modelValue={() => { state.isShow = false }}>
-        <CipTable data={parentState.rootNode.globalValue} columns={dataTypeTableColumns}></CipTable>
-        <CipButton button-type="create" style="width: 100%; margin-top: 4px" type="default" onClick={addRow}></CipButton>
+        <ElCollapse v-model={state.activeNames}>
+          <ElCollapseItem title="全局变量" name="global">
+            <CipForm v-model:model={parentState.rootNode} fieldList={getFieldList('globalValue')}></CipForm>
+          </ElCollapseItem>
+          <ElCollapseItem title="服务入参" name="input">
+            <CipForm v-model:model={parentState.rootNode} fieldList={getFieldList('inputParams')}></CipForm>
+          </ElCollapseItem>
+          <ElCollapseItem title="服务出参" name="output">
+            <CipForm v-model:model={parentState.rootNode} fieldList={getFieldList('outParams')}></CipForm>
+          </ElCollapseItem>
+        </ElCollapse>
       </CipDialog>
     }
   }
