@@ -17,8 +17,7 @@ const tableColumns = generateFieldList(defineTableFieldConfig({
     regexpValidateErrorMessage: '英文名称由英文字母、数字、下划线组成'
   },
   title: {
-    label: '字段显示名称',
-    minWidth: '130px'
+    label: '中文名称'
   },
   dataType: {
     required: true,
@@ -33,9 +32,17 @@ const tableColumns = generateFieldList(defineTableFieldConfig({
       return data || []
     }
   },
+  required: {
+    label: '是否必填',
+    type: 'singleCheckbox',
+    option: {
+      value: true,
+      inactiveValue: false,
+      label: ''
+    }
+  },
   value: {
-    label: '值',
-    required: true
+    label: '默认值'
   }
 }))
 
