@@ -110,8 +110,7 @@ export const formFieldList = generateFieldList(defineFormFieldConfig({
         regexpValidateErrorMessage: '英文名称由英文字母、数字、下划线组成'
       },
       title: {
-        label: '字段显示名称',
-        width: '130px'
+        label: '中文名称'
       },
       dataType: {
         required: true,
