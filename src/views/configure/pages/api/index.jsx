@@ -55,6 +55,7 @@ export default {
             dialogSize={'small'}
             itemType={itemType.value}
             tableHandleWidth={'170px'}
+            formLabelWidth={'100px'}
           >
             {{
               'handle-buttons': ({ createItem }) => <>

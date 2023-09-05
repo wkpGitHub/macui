@@ -2,6 +2,14 @@ import { apiInfoEntityEntity } from '@/api/entity/chr'
 import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig, defineSearchFieldConfig } from 'd-render'
 import { apiConfigService } from '@/api/service/chr'
 
+const apiTypeOpts = [
+  { label: '查询', value: 'query' },
+  { label: '详情', value: 'detail' },
+  { label: '保存', value: 'save' },
+  { label: '删除', value: 'delete' },
+  { label: '统计', value: 'agg' }
+]
+
 export const searchFieldList = generateFieldList(defineSearchFieldConfig({
   path: {},
   name: {},
@@ -23,6 +31,12 @@ export const formFieldList = generateFieldList(defineFormFieldConfig({
   },
   path: {
     required: true
+  },
+  apiType: {
+    label: '接口类型',
+    type: 'select',
+    required: true,
+    options: apiTypeOpts
   },
   pid: {
     label: 'API分组',

@@ -37,13 +37,13 @@ export function useGlobalSet (props, parentState) {
       return state.isShow && <CipDialog {...dialogBaseProps} title={'全局设置'} model-value={true} onUpdate:modelValue={() => { state.isShow = false }}>
         <ElCollapse v-model={state.activeNames}>
           <ElCollapseItem title="全局变量" name="global">
-            <CipForm v-model:model={parentState.rootNode} fieldList={getFieldList('globalValue')}></CipForm>
+            <CipForm v-model:model={parentState.rootNode} fieldList={getFieldList('globalValue', parentState.rootNode)}></CipForm>
           </ElCollapseItem>
           <ElCollapseItem title="服务入参" name="input">
-            <CipForm v-model:model={parentState.rootNode} fieldList={getFieldList('inputParams')}></CipForm>
+            <CipForm v-model:model={parentState.rootNode} fieldList={getFieldList('inputParams', parentState.rootNode)}></CipForm>
           </ElCollapseItem>
           <ElCollapseItem title="服务出参" name="output">
-            <CipForm v-model:model={parentState.rootNode} fieldList={getFieldList('outParams')}></CipForm>
+            <CipForm v-model:model={parentState.rootNode} fieldList={getFieldList('outParams', parentState.rootNode)}></CipForm>
           </ElCollapseItem>
         </ElCollapse>
       </CipDialog>

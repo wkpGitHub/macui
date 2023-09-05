@@ -38,9 +38,11 @@ export default {
       }
     })
 
-    baseDicService.basicType().then(({ data }) => {
-      cipStore.dispatch('setDataType', data)
-    })
+    if (window.location.pathname !== `${process.env.BASE_URL}login`) {
+      baseDicService.basicType().then(({ data }) => {
+        cipStore.dispatch('setDataType', data)
+      })
+    }
 
     const theme = computed(() => {
       return getFieldValue(cipStore.state.app, 'config.layout.pageTheme') ?? 'standard'
