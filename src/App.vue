@@ -38,7 +38,7 @@ export default {
       }
     })
 
-    if (window.location.pathname !== `${process.env.BASE_URL}login`) {
+    if (!window.location.pathname.endsWith('/login')) {
       baseDicService.basicType().then(({ data }) => {
         cipStore.dispatch('setDataType', data)
       })
