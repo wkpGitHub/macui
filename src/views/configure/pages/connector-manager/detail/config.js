@@ -13,7 +13,7 @@ const tableColumns = generateFieldList(defineTableFieldConfig({
   name: {
     label: '英文名称',
     required: true,
-    regexpValidate: /^[0-9|a-z|A-Z|_]+$/,
+    regexpValidate: /^[0-9a-zA-Z_]+$/,
     regexpValidateErrorMessage: '英文名称由英文字母、数字、下划线组成'
   },
   title: {

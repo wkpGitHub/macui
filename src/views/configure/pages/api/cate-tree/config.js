@@ -16,7 +16,7 @@ export const formFieldList = generateFieldList(defineFormFieldConfig({
   path: {
     label: '路径',
     required: true,
-    regexpValidate: /[0-9|a-z|A-Z|-|_]+/g,
+    regexpValidate: /^[0-9a-zA-Z\-_]+$/g,
     dependOn: ['id'],
     regexpValidateErrorMessage: '只支持数字、字母、下划线和中横线',
     customValidators: [
