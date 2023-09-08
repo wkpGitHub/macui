@@ -71,13 +71,17 @@ export function useNodeSetDialog (props, parentState) {
       v.config.parentState = parentState
       v.config.changeEffect = async (value, key, data) => {
         // 更新
-        if (timer) {
-          clearTimeout(timer)
-          timer = null
-        }
-        timer = setTimeout(() => {
-          updateConfig(data)
-        }, 300)
+        // if (timer) {
+        //   clearTimeout(timer)
+        //   timer = null
+        // }
+        // timer = setTimeout(() => {
+        const _data = data ? { ...data } : {}
+        _data[key] = value
+        console.log('_data', _data)
+        debugger
+        updateConfig(_data)
+        // }, 1000)
       }
     })
   }

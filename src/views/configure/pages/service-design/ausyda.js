@@ -77,13 +77,13 @@ const nodeConfig = {
     x: 48,
     y: 48,
     enter (selection) {
-      const toorBar = selection.select('.node-toolbar')
-      toorBar.insert('div', '.trash').attr('class', 'node-tool-outer icon-expand').on('click', d => {
+      const toolBar = selection.select('.node-toolbar')
+      toolBar.insert('div', '.trash').attr('class', 'node-tool-outer icon-expand').on('click', d => {
         d3.event.stopPropagation()
         d.folded = !d.folded
         this.update()
       })
-      toorBar.insert('div', '.icon-expand').attr('class', 'node-tool-outer icon-add').attr('title', '添加分支').html('<div class="line-1"></div><div class="line-2"></div>').on('click', d => {
+      toolBar.insert('div', '.icon-expand').attr('class', 'node-tool-outer icon-add').attr('title', '添加分支').html('<div class="line-1"></div><div class="line-2"></div>').on('click', d => {
         d3.event.stopPropagation()
         d.folded = false
         this.emit('addBranch', d)
@@ -129,8 +129,8 @@ const nodeConfig = {
     x: 48,
     y: 48,
     enter (selection) {
-      const toorBar = selection.select('.node-toolbar')
-      toorBar.insert('div', '.trash').attr('class', 'node-tool-outer icon-expand').on('click', d => {
+      const toolBar = selection.select('.node-toolbar')
+      toolBar.insert('div', '.trash').attr('class', 'node-tool-outer icon-expand').on('click', d => {
         d3.event.stopPropagation()
         d.folded = !d.folded
         this.update()
@@ -339,9 +339,9 @@ export class Ausyda {
       const selection = d3.select(this)
       // 哪些不添加操作栏
       if (!['start', 'end', 'loop-close', 'branch-close'].includes(data.type)) {
-        const toorBar = selection.append('div').classed('node-toolbar', true)
+        const toolBar = selection.append('div').classed('node-toolbar', true)
         // 添加删除按钮
-        toorBar.append('div').attr('class', 'node-tool-outer trash').html(iconHtmlMap.delete).on('click', d => {
+        toolBar.append('div').attr('class', 'node-tool-outer trash').html(iconHtmlMap.delete).on('click', d => {
           d3.event.stopPropagation()
           const cb = () => {
             const { parent, index } = d
@@ -957,8 +957,8 @@ export const initFlow = {
   trigger: 'emptyEvent',
   inputParams: [],
   outParams: [
-    { label: 'status', value: 0, dataType: 'INT' },
-    { label: 'msg', value: '', dataType: 'STRING' }
+    { name: 'status', title: '状态码', value: 0, dataType: 'INT' },
+    { name: 'msg', title: '提示信息', value: '', dataType: 'STRING' }
   ],
   globalValue: [],
   variableParams: {},

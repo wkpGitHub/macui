@@ -24,6 +24,7 @@ export default {
   paramsAdd: () => () => import('./params-add'),
   fxTable: () => () => import('./fx-table'),
   setFx: () => () => import('./set-fx'),
+  selectVar: () => () => import('./select-var'),
   tabsLayout: {
     component: () => () => import('./tabs-layout'),
     layout: true

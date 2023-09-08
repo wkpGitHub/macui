@@ -1,27 +1,20 @@
 import { defineComponent } from 'vue'
 import { ElInput, ElIcon } from 'element-plus'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
-import CipSvgIcon from '@cip/components/cip-svg-icon'
-import './index.less'
+import { MoreFilled } from '@element-plus/icons-vue'
+
 import { useFxDialog } from './hooks'
 
 export default defineComponent({
   props: formInputProps,
   emits: fromInputEmits,
-  directives: {
-    focus: {
-      mounted (el, { value }) {
-        if (value) el.focus()
-      }
-    }
-  },
   setup (props, ctx) {
     const { proxyValue, securityConfig } = useFormInput(props, ctx)
     const { state, render } = useFxDialog(proxyValue, securityConfig.value)
 
     return () => <>
       <ElInput v-model={proxyValue.value}>{{
-        suffix: () => <ElIcon style="cursor: pointer" onClick={() => { state.isShow = true }}><CipSvgIcon name="function" /></ElIcon>
+        suffix: () => <ElIcon style="cursor: pointer" onClick={() => { state.isShow = true }}><MoreFilled /></ElIcon>
       }}</ElInput>
       {render()}
     </>
