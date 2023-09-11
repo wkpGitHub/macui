@@ -1,12 +1,27 @@
 import { reactive, computed, withModifiers } from 'vue'
 import CipDialog from '@cip/components/cip-dialog'
-import CipTabs from '@cip/components/cip-tabs-plus'
-import CipTabPane from '@cip/components/cip-tabs-plus/tab'
-import { ElTag } from 'element-plus'
-import { dateTypeMap } from '@/lib/contants'
+import { ElTag, ElCard } from 'element-plus'
+import CipTree from '@cip/components/cip-tree'
+import cipStore from '@cip/components/store'
+
+const operateTreeOpts = [
+  {
+    label: '基础函数',
+    children: [
+      { label: '为空', value: 'isNull' },
+      { label: '不为空', value: 'isNotNull' }
+    ]
+  }
+]
 
 export function useFxDialog (proxyValue, config) {
   const { parentState } = config
+  const dateTypeMap = computed(() => {
+    return cipStore.state.dataType.reduce((total, current) => {
+      total[current.id] = current
+      return total
+    }, {})
+  })
 
   function onConfirm (resolve) {
     // const { selectNode } = parentState
@@ -16,7 +31,50 @@ export function useFxDialog (proxyValue, config) {
     // }
     // proxyValue.value = state.varType + state.item.name
     console.log('展示数据格式：', state.list)
+    proxyValue.value = toString()
     resolve()
+  }
+
+  function toString () {
+    let str = ''
+    state.list.forEach((item, index) => {
+      str += stringMap[item.type](item)
+      if (index < state.list.length - 1) {
+        str += ' '
+      }
+    })
+    return str
+  }
+
+  const stringMap = {
+    fx (item) {
+      const startText = item.value + '('
+      const endText = ')'
+      let args = ''
+      item.arguments.forEach((argList, argIndex) => {
+        if (argIndex > 0) {
+          args += ','
+        }
+        let varItemStr = ' '
+        argList.forEach((varItem, i) => {
+          varItemStr += stringMap[varItem.type](varItem)
+          if (i < argList.length - 1) {
+            varItemStr += ' '
+          }
+        })
+        args += varItemStr
+      })
+      return startText + args + endText
+    },
+    var (item) {
+      return item.value
+    },
+    constant (item) {
+      return `"${item.value}"`
+    },
+    operate (item) {
+      return item.value
+    }
   }
 
   const canSelectTarget = computed(() => {
@@ -24,10 +82,29 @@ export function useFxDialog (proxyValue, config) {
     console.log(parentState.selectNode)
     const { parent, index } = parentState.selectNode
     parent.children.forEach((n, i) => {
-      if (n.targetName && i < index) targets.push(n)
+      const children = (n.config?.selectFields || n.config?.initFields || []).map(sel => ({
+        label: sel.title,
+        value: n.config.targetName + '.' + sel.name,
+        dataType: sel.dataType
+      }))
+      if (n.config?.targetName && i < index) {
+        targets.push({
+          label: n.config.title,
+          value: n.config.targetName,
+          dataType: n.config.dataType || 'ENTITY',
+          children
+        })
+      }
     })
     function deepAdd (parent) {
-      if (parent.targetName) targets.push(parent)
+      if (parent.config?.targetName) {
+        const children = (parent.config?.selectFields || []).map(sel => ({
+          label: sel.title,
+          value: sel.targetName,
+          dataType: sel.dataType
+        }))
+        targets.push({ label: parent.config.title, value: parent.config.targetName, dataType: parent.config.dataType || 'ENTITY', children })
+      }
       if (parent.parent) deepAdd(parent.parent)
     }
     deepAdd(parent)
@@ -36,32 +113,32 @@ export function useFxDialog (proxyValue, config) {
 
   const operateList = [
     [
-      { type: 'operate', value: '+', desc: '+' },
-      { type: 'operate', value: '-', desc: '-' },
-      { type: 'operate', value: '*', desc: '×' },
-      { type: 'operate', value: '/', desc: '÷' },
-      { type: 'operate', value: '%', desc: 'mod' }
+      { type: 'operate', value: 'plus', desc: '+' },
+      { type: 'operate', value: 'minus', desc: '-' },
+      { type: 'operate', value: 'multi', desc: '×' },
+      { type: 'operate', value: 'divi', desc: '÷' },
+      { type: 'operate', value: 'mod', desc: 'mod' }
     ],
     [
-      { type: 'operate', value: '==', desc: '=' },
-      { type: 'operate', value: '!=', desc: '!=' },
-      { type: 'operate', value: '>', desc: '>' },
-      { type: 'operate', value: '<', desc: '<' },
-      { type: 'operate', value: '>=', desc: '>=' },
-      { type: 'operate', value: '<=', desc: '<=' }
+      { type: 'operate', value: 'eq', desc: '=' },
+      { type: 'operate', value: 'ne', desc: '!=' },
+      { type: 'operate', value: 'gt', desc: '>' },
+      { type: 'operate', value: 'lt', desc: '<' },
+      { type: 'operate', value: 'ge', desc: '>=' },
+      { type: 'operate', value: 'le', desc: '<=' }
     ],
     [
-      { type: 'operate', value: 'and', desc: '&' },
-      { type: 'operate', value: 'or', desc: '|' },
-      { type: 'operate', value: 'not', desc: '!' }
+      { type: 'operate', value: 'and', desc: 'and' },
+      { type: 'operate', value: 'or', desc: 'or' },
+      { type: 'operate', value: 'not', desc: 'not' }
     ],
     [
-      { type: 'operate', value: 'true', desc: 'true' },
-      { type: 'operate', value: 'false', desc: 'false' }
+      { type: 'operate', value: 'tr', desc: 'true' },
+      { type: 'operate', value: 'fa', desc: 'false' }
     ],
     [
-      { type: 'operate', value: '(', desc: '(' },
-      { type: 'operate', value: ')', desc: ')' }
+      { type: 'operate', value: 'lb', desc: '(' },
+      { type: 'operate', value: 'rb', desc: ')' }
     ],
     [
       { type: 'fx', value: 'isNull', desc: '为空', arguments: [[]] },
@@ -72,12 +149,12 @@ export function useFxDialog (proxyValue, config) {
   ]
   const state = reactive({
     list: [
-      {
-        type: 'fx',
-        desc: '为空',
-        value: 'isNull',
-        arguments: [[]]
-      }
+      // {
+      //   type: 'fx',
+      //   desc: '为空',
+      //   value: 'isNull',
+      //   arguments: [[]]
+      // }
     ]
   })
 
@@ -103,7 +180,7 @@ export function useFxDialog (proxyValue, config) {
               {nodeRenderMap.blank(0, argList)}
               {/* 参数内容 */}
               {argList.map((varItem, i) => <>
-                {nodeRenderMap[varItem.type](varItem, i)}
+                {nodeRenderMap[varItem.type](varItem)}
                 {nodeRenderMap.blank(i + 1, argList)}
               </>)}
             </div>
@@ -217,10 +294,43 @@ export function useFxDialog (proxyValue, config) {
     state.current.index++
   }
 
+  const varTreeOpts = computed(() => {
+    const { globalValue, inputParams, outParams } = parentState.rootNode
+    return [
+      {
+        label: '全局变量',
+        children: globalValue.map(item => ({ label: item.title, value: `global.${item.name}`, dataType: item.dataType }))
+      },
+      {
+        label: '服务入参',
+        children: inputParams.map(item => ({ label: item.title, value: `inputParams.${item.name}`, dataType: item.dataType }))
+      },
+      {
+        label: '服务出参',
+        children: outParams.map(item => ({ label: item.title, value: `outParams.${item.name}`, dataType: item.dataType }))
+      },
+      {
+        label: '上下文',
+        children: canSelectTarget.value
+      },
+      {
+        label: '系统变量',
+        children: []
+      }
+    ]
+  })
+
+  function renderTreeItem ({ node, data }) {
+    return <div style='display: flex;align-items: center;justify-content: space-between;' onClick={() => data.value && selectVar(data.label, data.value)}>
+      <span>{data.label}</span>
+      <ElTag>{dateTypeMap.value[data.dataType].name}</ElTag>
+    </div>
+  }
+
   return {
     state,
     render () {
-      return state.isShow && <CipDialog title={'选择变量'} model-value={true} onUpdate:modelValue={() => { state.isShow = false }} onConfirm={onConfirm}>
+      return state.isShow && <CipDialog title="表达式设置" model-value={true} onUpdate:modelValue={() => { state.isShow = false }} onConfirm={onConfirm} width="900px">
         <div class="fx-editor" onClick={withModifiers(containerClick, ['stop'])}>
           {nodeRenderMap.blank(0, state.list)}
           {state.list.map((item, index) => <>
@@ -233,39 +343,31 @@ export function useFxDialog (proxyValue, config) {
             {l.map(item => <div class="item" onClick={() => selectOperate(item)}>{item.desc}</div>)}
           </div>)}
         </div>
-        <CipTabs model-value={0}>
-          <CipTabPane label='全局变量' name={0}>
-            <ul class="select-container">
-              {parentState.rootNode.globalValue.map(item => <li style="cursor: pointer; margin: 4px" onClick={() => selectVar(item.title, 'global.' + item.name)}>{item.title} <ElTag>{dateTypeMap[item.dataType].label}</ElTag></li>)}
-            </ul>
-          </CipTabPane>
-          <CipTabPane label='上下文' name={1}>
-            <ul class="select-container">
-              {(canSelectTarget.value || []).map(item => <li style="cursor: pointer; margin: 4px" onClick={() => selectVar(item.targetName, item.source)}>
-                {item.targetName}
-                {item.selectFields ? <ul class="select-container">{item.selectFields.map(sel => <li style="cursor: pointer; margin: 4px" onClick={withModifiers(() => selectVar(sel.name, sel.ename), ['stop'])}>{sel.name}<ElTag>{dateTypeMap[item.type].label}</ElTag></li>)}</ul> : <ElTag>{dateTypeMap[item.dataType].label}</ElTag>}
-              </li>)}
-            </ul>
-          </CipTabPane>
-          <CipTabPane label='服务入参' name={2}>
-            <ul class="select-container">
-              {(parentState.rootNode.inputParams || []).map(item => <li style="cursor: pointer; margin: 4px" onClick={() => selectVar(item.title, 'inputParams.' + item.name)}>{item.title} <ElTag>{dateTypeMap[item.dataType].label}</ElTag></li>)}
-            </ul>
-          </CipTabPane>
-          <CipTabPane label='服务出参' name={3}>
-            <ul class="select-container">
-              {(parentState.rootNode.outParams || []).map(item => <li style="cursor: pointer; margin: 4px" onClick={() => selectVar(item.title, 'outParams.' + item.name)}>{item.title} <ElTag>{dateTypeMap[item.dataType].label}</ElTag></li>)}
-            </ul>
-          </CipTabPane>
-          <CipTabPane label='系统变量' name={4}>
-
-          </CipTabPane>
-          <CipTabPane label='函数' name={5}>
-            <ul class="select-container">
-              <li onClick={() => selectFx('isNull')}>为空</li>
-            </ul>
-          </CipTabPane>
-        </CipTabs>
+        <div class="fx-select-container">
+            <ElCard shadow="never">
+              <CipTree
+                options={varTreeOpts.value}
+                showButton={false}
+                config={{
+                  defaultExpandAll: false,
+                  renderItem: renderTreeItem
+                }}
+              >
+              </CipTree>
+            </ElCard>
+            <ElCard shadow="never">
+              <CipTree
+                  options={operateTreeOpts}
+                  showButton={false}
+                  config={{
+                    defaultExpandAll: false
+                  }}
+                  onNodeClick={({ data }) => data.value && selectFx(data.value)}
+                >
+                </CipTree>
+            </ElCard>
+            <ElCard shadow="never"></ElCard>
+        </div>
       </CipDialog>
     }
   }

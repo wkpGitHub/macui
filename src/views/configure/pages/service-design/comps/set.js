@@ -21,7 +21,7 @@ export default {
     targetName: {
       label: '变量名',
       required: true,
-      type: 'setFx',
+      type: 'selectVar',
       isVar: true,
       regexpValidate: /^(?=[a-zA-Z|_])\w*$/,
       regexpValidateErrorMessage: '变量名由英文字母、数字、下划线组成，且必须以英文字母或下划线开头'

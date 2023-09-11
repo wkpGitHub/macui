@@ -78,8 +78,6 @@ export function useNodeSetDialog (props, parentState) {
         // timer = setTimeout(() => {
         const _data = data ? { ...data } : {}
         _data[key] = value
-        console.log('_data', _data)
-        debugger
         updateConfig(_data)
         // }, 1000)
       }
