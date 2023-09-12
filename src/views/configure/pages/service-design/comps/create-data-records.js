@@ -65,9 +65,11 @@ export default {
       resetValue: true,
       changeConfig (config, { fields }) {
         config.writable = !!fields
-        const temp = (fields || []).filter(v => !v.isPrimaryKey)
-        config.options = cloneDeep(temp)
         return config
+      },
+      async asyncOptions ({ fields }) {
+        const temp = (fields || []).filter(v => !v.isPrimaryKey)
+        return cloneDeep(temp)
       }
     },
     fieldLabel: {

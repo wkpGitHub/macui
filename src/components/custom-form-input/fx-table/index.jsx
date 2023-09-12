@@ -10,10 +10,8 @@ export default defineComponent({
   props: formInputProps,
   emits: fromInputEmits,
   setup (props, ctx) {
-    const tableData = ref([])
-    watch(() => props.modelValue, v => {
-      tableData.value = v || []
-    }, { deep: true, immediate: true })
+    const tableData = ref(props.modelValue || [])
+
     watch(tableData, () => {
       proxyValue.value = tableData.value
     }, { deep: true })

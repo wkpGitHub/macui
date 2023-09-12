@@ -13,9 +13,7 @@ export default defineComponent({
   emits: fromInputEmits,
   setup (props, ctx) {
     const tableData = ref([])
-    watch(() => props.modelValue, v => {
-      tableData.value = v || []
-    }, { deep: true, immediate: true })
+    tableData.value = props.modelValue || []
     watch(tableData, () => {
       proxyValue.value = tableData.value
     }, { deep: true })
@@ -41,6 +39,7 @@ export default defineComponent({
         {
           remark: '主表',
           name: '_table',
+          disabled: !(options.value?.length > 0),
           children: [...options.value]
         }
       ]
@@ -56,11 +55,10 @@ export default defineComponent({
       tableData.value.splice($index, 1)
     }
     const treeRef = ref()
-    function handleConfirm (reslove) {
+    function handleConfirm (resolve) {
       const temp = treeRef.value.tree.getCheckedNodes(true)
-      console.log(temp, 'temp')
       tableData.value ? tableData.value.push(...temp) : (tableData.value = temp)
-      reslove()
+      resolve()
     }
     return () => <>
       <ElTable
@@ -81,7 +79,7 @@ export default defineComponent({
         title={'选择字段'}
         v-model={visible.value}
         onConfirm={handleConfirm}
-        size={'small'}
+        size={'mini'}
       >
         <CipTree
           ref={treeRef}
