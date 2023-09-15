@@ -148,14 +148,7 @@ export function useFxDialog (proxyValue, config) {
     ]
   ]
   const state = reactive({
-    list: [
-      // {
-      //   type: 'fx',
-      //   desc: '为空',
-      //   value: 'isNull',
-      //   arguments: [[]]
-      // }
-    ]
+    list: []
   })
 
   function containerClick () {
@@ -212,7 +205,8 @@ export function useFxDialog (proxyValue, config) {
       } else {
         focus = list[index] && current.list[current.index] === list[index]
       }
-      return <span key={Math.random()} class="text-node" contenteditable v-focus={focus} onKeydown={e => deleteItem(e, index, list)} onBlur={e => editableBlur(e, index, list)} onFocus={() => setCurrent(index, list)}></span>
+      return <span key={Math.random()} class="text-node" contenteditable v-focus={focus} onKeydown={e => deleteItem(e, index, list)} onClick={withModifiers(() => setCurrent(index, list), ['stop'])}
+        onBlur={e => editableBlur(e, index, list)}></span>
     }
   }
 
@@ -244,7 +238,7 @@ export function useFxDialog (proxyValue, config) {
   }
 
   function selectOperate (item) {
-    state.current.list.splice(state.current.index, 0, item)
+    state.current.list.splice(state.current.index, 0, { ...item })
     state.current.index++
   }
 
@@ -323,7 +317,7 @@ export function useFxDialog (proxyValue, config) {
   function renderTreeItem ({ node, data }) {
     return <div style='display: flex;align-items: center;justify-content: space-between;' onClick={() => data.value && selectVar(data.label, data.value)}>
       <span>{data.label}</span>
-      <ElTag>{dateTypeMap.value[data.dataType].name}</ElTag>
+      {dateTypeMap.value[data.dataType] && <ElTag>{dateTypeMap.value[data.dataType]?.name}</ElTag>}
     </div>
   }
 
