@@ -358,16 +358,10 @@ export class Ausyda {
 
   bindDrag () {
     const that = this
-    return d3.drag().on('drag', function () {
-      const { x, y } = d3.event
-      console.log('d3.event', d3.event)
-      d3.select(this).style('top', d => {
-        d.y = y
-        return `${y}px`
-      }).style('left', d => {
-        d.x = x
-        return `${x}px`
-      })
+    return d3.drag().on('drag', function (d) {
+      const { dx, dy } = d3.event
+      d.x += (dx / that.transform.k)
+      d.y += (dy / that.transform.k)
       that.update()
     })
   }
@@ -409,8 +403,8 @@ export class Ausyda {
         } else {
           this.links.pop()
         }
-        document.removeEventListener('mousemove', bindMove)
-        document.removeEventListener('mouseup', bindUp)
+        window.removeEventListener('mousemove', bindMove)
+        window.removeEventListener('mouseup', bindUp)
       }
       selection.on('mousedown', (d) => {
         d3.event.stopPropagation()
@@ -419,8 +413,9 @@ export class Ausyda {
         _link.sourcePosition = position
         this.links.push(_link)
         rect = this._el.node().getBoundingClientRect()
-        document.addEventListener('mousemove', bindMove)
-        document.addEventListener('mouseup', bindUp)
+        console.log(this._el.node())
+        window.addEventListener('mousemove', bindMove)
+        window.addEventListener('mouseup', bindUp)
       })
     }
   }
