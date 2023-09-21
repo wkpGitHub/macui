@@ -162,7 +162,7 @@ const nodeConfig = {
     x: 140,
     y: 64,
     enter (selection) {
-      selection.append('div').classed('icon-outer', true).html(iconHtmlMap['delete-data-records'])
+      selection.append('div').classed('icon-outer icon-crud', true).html(iconHtmlMap['delete-data-records'])
       selection.append('span').classed('node-label', true)
     }
   },

@@ -61,6 +61,7 @@ export function useNodeSetDialog (props, parentState) {
   let timer = null
   const model = ref({})
   function setNode (node, updateConfig) {
+    console.log('setnode===========')
     model.value = cloneDeep(node.config || {})
     activeComp.value = allComps.find(comp => comp.type === node.type || (comp.type === 'branch-line' && node.isBranch))
     if (activeComp.value.formField instanceof Function) {
@@ -70,6 +71,7 @@ export function useNodeSetDialog (props, parentState) {
     activeComp.value.formField.map(v => {
       v.config.parentState = parentState
       v.config.changeEffect = async (value, key, data) => {
+        debugger
         // 更新
         // if (timer) {
         //   clearTimeout(timer)

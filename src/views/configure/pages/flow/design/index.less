@@ -1,14 +1,123 @@
-.flow-design{
-  display: flex;
-  height: 100%;
-  .slider-bar{
-    width: 250px;
-    flex-shrink: 0;
-    background: #fff;
-    box-shadow: 2px 0 8px 2px rgba(0, 0, 0, 0.15);
-    z-index: 2;
+.flow-design {
+	display: flex;
+	height: 100%;
+	position: relative;
+  .api-editor .api-editor-view-layer
+		> svg:not(.is-active):hover
+		.line-add-button
+		circle {
+		fill: #ccc;
+	}
+  .action-node{
+    z-index: 10 !important;
   }
-  & > main{
-    flex: 1 auto;
+  .api-editor .api-editor-view-layer > svg{
+    z-index: 9 !important;
   }
+  svg:hover{
+    fill: unset !important;
+  }
+  .link-group{
+    &.is-active,&:hover{
+      .line-add-button circle{
+        fill: #2468f2 !important;
+      }
+      path {
+        color: #2468f2 !important;
+      }
+    }
+  }
+	&-page {
+		.cip-page-layout-handle__main {
+			overflow: hidden;
+		}
+	}
+	.slider-bar {
+		position: absolute;
+		transition: all 400ms ease-in-out;
+		top: -19px;
+		bottom: -20px;
+		width: 270px;
+		flex-shrink: 0;
+		background: #fff;
+		box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.15);
+		z-index: 99;
+    display: flex;
+    flex-direction: column;
+    &>header{
+      font-size: 14px;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-bottom: 1px solid #ccc;
+      flex-shrink: 0;
+    }
+    &>main{
+      padding: 10px;
+      flex: auto;
+      overflow-y: auto;
+    }
+		.expand-icon {
+			background-color: #fff;
+			position: absolute;
+			top: 50%;
+			cursor: pointer;
+			transform: translateY(-50%);
+			right: -16px;
+			height: 50px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 16px;
+			border-radius: 0 8px 8px 0;
+			box-shadow: 6px 0 6px 0 rgba(0, 0, 0, 0.15);
+			&.expand-right {
+				right: unset;
+				left: -16px;
+				border-radius: 8px 0 0 8px;
+				box-shadow: -6px 0 6px 0 rgba(0, 0, 0, 0.15);
+			}
+		}
+    .el-collapse .el-collapse-item__wrap {
+      padding: 8px 0;
+    }
+    .el-collapse-item__content{
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: 4px;
+	    column-gap: 4px;
+    }
+    .cip-button {
+      margin-left: 0 !important;
+      .node-logic {
+        width: 16px;
+        height: 16px;
+      }
+      .icon-outer {
+        display: flex;
+        align-items: center;
+        width: 20px;
+        height: 20px;
+        min-width: 20px;
+        justify-content: center;
+        border-radius: 50%;
+        margin-left: 3px;
+        background: #528eff;
+        &.icon-crud {
+          background: #4949fb;
+        }
+      }
+      svg {
+        width: 14px !important;
+        height: 14px !important;
+      }
+    }
+    &.api-editor {
+      display: grid;
+      width: unset;
+      height: unset;
+    }
+	}
+	& > main {
+		flex: 1 auto;
+	}
 }
