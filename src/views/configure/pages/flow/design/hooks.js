@@ -7,6 +7,8 @@ import createDataRecordsConfig from '../../service-design/comps/create-data-reco
 import deleteDataRecordsConfig from '../../service-design/comps/delete-data-records'
 import updateDataRecordsConfig from '../../service-design/comps/update-data-records'
 import queryDataRecordsConfig from '../../service-design/comps/query-data-records'
+import startConfig from '../../service-design/comps/start'
+import endConfig from '../../service-design/comps/end'
 import { allComps } from '../../service-design/comps'
 
 const iconClassMap = {
@@ -34,7 +36,8 @@ const iconClassMap = {
   expand: 'icon-outer',
   folded: 'icon-outer',
   delete: 'icon-outer',
-  set: 'icon-outer'
+  set: 'icon-outer',
+  end: 'node-end'
 }
 
 export function useNodes () {
@@ -55,9 +58,9 @@ export function useNodes () {
       children: [createDataRecordsConfig, updateDataRecordsConfig, queryDataRecordsConfig, deleteDataRecordsConfig]
     },
     {
-      title: '开始事件',
+      title: '开始结束',
       name: 'start',
-      children: []
+      children: [startConfig, endConfig]
     },
     {
       title: '高级',
@@ -112,6 +115,54 @@ export function useNodeSetDialog (props, parentState = {}) {
     render ({ node, updateConfig }) {
       state.isShow && setNode(node, updateConfig)
       return state.isShow && <CipForm labelWidth={nodeConfig.labelWidth || '90px'} v-model:model={model.value} fieldList={nodeConfig.formField}></CipForm>
+    }
+  }
+}
+
+export function useNodeMenu () {
+  const nodeList = [
+    {
+      title: '人工节点',
+      name: 'rg',
+      children: []
+    },
+    {
+      title: '网关节点',
+      name: 'branch',
+      children: []
+    },
+    {
+      title: '自动节点',
+      name: 'auto',
+      children: [createDataRecordsConfig, updateDataRecordsConfig, queryDataRecordsConfig, deleteDataRecordsConfig]
+    },
+    {
+      title: '高级',
+      name: 'senior',
+      children: []
+    }
+  ]
+
+  const state = reactive({
+    isShow: false,
+    activeNames: ['rg', 'branch', 'auto', 'senior'],
+    position: {
+      x: 0,
+      y: 0
+    }
+  })
+
+  return {
+    state,
+    render ({ nodeClick }) {
+      const { position: { x, y } } = state
+      return state.isShow && <div class="select-node-menu" style={{ top: `${y}px`, left: `${x}px` }}>
+        <ElCollapse v-model={state.activeNames} >
+          {nodeList.map(group => <ElCollapseItem title={group.title} name={group.name}>
+            {group.children.map(item => <CipButton onClick={(e) => nodeClick(item, e)}><div class={`${iconClassMap[item.type]} mr-2`} v-html={iconHtmlMap[item.type]}></div>{item.title}</CipButton>)}
+          </ElCollapseItem>)}
+        </ElCollapse>
+      </div>
     }
   }
 }

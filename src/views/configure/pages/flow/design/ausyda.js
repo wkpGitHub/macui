@@ -40,7 +40,8 @@ export const iconHtmlMap = {
         <path d="M0,0 L14.5,0 C15.3284271,-5.96268804e-16 16,0.671572875 16,1.5 L16,1.5 L16,14.5 C16,15.3284271 15.3284271,16 14.5,16 L14.5,16 L0,16 L0,15.5 L14.5,15.5 C15.0522847,15.5 15.5,15.0522847 15.5,14.5 L15.5,1.5 C15.5,0.94771525 15.0522847,0.5 14.5,0.5 L0,0.5 L0,0 Z"></path>
       </g>
     </g>
-  </svg>`
+  </svg>`,
+  end: '<div class="icon-end"></div>'
 }
 
 const nodeConfig = {
@@ -48,10 +49,8 @@ const nodeConfig = {
     x: 44,
     y: 68,
     enter (selection) {
-      selection.html(`
-        <div class="node-start">${iconHtmlMap.start}</div>
-        <span class="node-label">开始</span>
-      `)
+      selection.append('div').attr('class', 'node-start').html(iconHtmlMap.start)
+      selection.append('span').classed('node-label', true).text('开始')
     }
   },
   end: {
@@ -332,7 +331,11 @@ export class Ausyda {
       this.nodes.forEach(node => {
         node.active = false
       })
+      this.links.forEach(link => {
+        link.active = false
+      })
       this.update()
+      this.emit('elClick')
     })
     this._el.on('dragenter', () => {
       const { event } = d3
@@ -347,6 +350,7 @@ export class Ausyda {
       const rect = this._el.node().getBoundingClientRect()
       const node = JSON.parse(event.dataTransfer.getData('node'))
       this.addNode({
+        config: {},
         ...node,
         id: getId(),
         x: this.transform.invertX(event.x - rect.left),
@@ -361,6 +365,15 @@ export class Ausyda {
       const { dx, dy } = d3.event
       d.x += (dx / that.transform.k)
       d.y += (dy / that.transform.k)
+
+      // 判断吸附功能
+      that.nodes.forEach(node => {
+        if (node.id !== d.id) {
+          if (node.y >= d.y - 2 && node.y <= d.y + 2) d.y = node.y
+          else if (node.x >= d.x - 2 && node.x <= d.x + 2) d.x = node.x
+        }
+      })
+
       that.update()
     })
   }
@@ -458,6 +471,7 @@ export class Ausyda {
     const that = this
     const updateSelections = this.viewLayer.selectAll('.action-node').data(this.nodes, d => d.id)
     const enterSelections = updateSelections.enter().append('div').attr('class', d => `action-node node-middle action-node--${d.type}`)
+
     enterSelections.append('div').attr('class', 'node-pointer node-pointer-top').call(this.linkNode('top'))
     enterSelections.append('div').attr('class', 'node-pointer node-pointer-bottom').call(this.linkNode('bottom'))
     enterSelections.append('div').attr('class', 'node-pointer node-pointer-left').call(this.linkNode('left'))
@@ -510,13 +524,18 @@ export class Ausyda {
     const updateSelections = this.linkLayer.selectAll('.link-group').data(this.links, d => d.id)
     const enterSelections = updateSelections.enter().append('g').attr('class', 'link-group')
     enterSelections.append('path').attr('class', 'link-path')
-    // enterSelections.append('g').attr('class', 'line-add-button').html('<circle r="8" cx="0" cy="0"></circle><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="-3" x2="3" y1="0" y2="0"></line><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="0" x2="0" y1="-3" y2="3"></line>')
-    //   .on('click', d => {
-    //     d3.event.stopPropagation()
-    //     this.links.forEach(link => { link.active = link.id === d.id })
-    //     this.updateLinks()
-    //     this.emit('addNode', d)
-    //   })
+    enterSelections.append('g').attr('class', 'line-add-button').html('<circle r="8" cx="0" cy="0"></circle><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="-3" x2="3" y1="0" y2="0"></line><line stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" x1="0" x2="0" y1="-3" y2="3"></line>')
+      .on('click', d => {
+        d3.event.stopPropagation()
+        const { x, y } = d3.event
+        const rect = this._el.node().getBoundingClientRect()
+        this.links.forEach(link => { link.active = link.id === d.id })
+        this.updateLinks()
+        this.emit('addNode', d, {
+          x: x - rect.left,
+          y: y - rect.top
+        })
+      })
     enterSelections.append('text').attr('fill', 'currentColor')
     enterSelections.append('path').attr('class', 'link-path-marker-end')
     const mergeSelections = updateSelections.merge(enterSelections).classed('is-active', d => d.active)
@@ -534,17 +553,60 @@ export class Ausyda {
       d.cpt = this.computedPath(d)
       return d.cpt.pathD
     })
-    // mergeSelections.select('.line-add-button').attr('transform', ({ cpt }) => {
-    //   return cpt.linkAddPosition
-    // })
+    mergeSelections.select('.line-add-button').attr('transform', ({ cpt }) => {
+      return cpt.linkAddPosition
+    })
 
     mergeSelections.select('.link-path-marker-end').attr('transform', ({ cpt }) => {
       return cpt.markerEnd.transform
     }).attr('d', ({ cpt }) => {
       return cpt.markerEnd.d
-    })
+    }).call(this.changeLink.bind(this))
 
     updateSelections.exit().remove()
+  }
+
+  changeLink (selection) {
+    let rect = { x: 0, y: 0 }
+    let targetNode
+    let _link = {}
+    const bindMove = (e) => {
+      const x = this.transform.invertX(e.x - rect.x)
+      const y = this.transform.invertY(e.y - rect.y)
+      targetNode = this.quadtree.find(x, y, 20)
+      if (targetNode && targetNode.node.id !== _link.source) {
+        _link.x = undefined
+        _link.y = undefined
+        _link.target = targetNode.node.id
+        _link.targetPosition = targetNode.position
+      } else {
+        _link.target = undefined
+        _link.targetPosition = undefined
+        _link.x = x
+        _link.y = y
+      }
+      this.updateLinks()
+    }
+    const bindUp = () => {
+      this._el.style('cursor', '')
+      if (!(targetNode && targetNode.node.id !== _link.source)) {
+        this.links = this.links.filter(link => link.id !== _link.id)
+      }
+      window.removeEventListener('mousemove', bindMove)
+      window.removeEventListener('mouseup', bindUp)
+    }
+    selection.on('mousedown', (d) => {
+      d3.event.stopPropagation()
+      if (!d.active) return
+      this._el.style('cursor', 'move')
+      _link = d
+      rect = this._el.node().getBoundingClientRect()
+      const x = this.transform.invertX(d3.event.x - rect.x)
+      const y = this.transform.invertY(d3.event.y - rect.y)
+      targetNode = this.quadtree.find(x, y, 20)
+      window.addEventListener('mousemove', bindMove)
+      window.addEventListener('mouseup', bindUp)
+    })
   }
 
   computedPath ({ source, target, sourcePosition, targetPosition, x, y }) {
@@ -560,8 +622,8 @@ export class Ausyda {
       var targetNode = this.nodeMap[target]
       var targetConfig = nodeConfig[targetNode.type]
       var { x: x1, y: y1 } = this.getPointerPosition(targetPosition, targetNode, targetConfig)
-      var relativePosition = this.getRelativePosition({x0, y0}, {x1, y1})
-       /* eslint-enable */
+      var relativePosition = this.getRelativePosition({ x0, y0 }, { x1, y1 })
+      /* eslint-enable */
     }
     const markerEnd = {
       transform: `translate(${x}, ${y})`,
@@ -916,9 +978,48 @@ export class Ausyda {
    * 新增节点
    * @param {*} node
    */
-  addNode (node) {
+  addNode (node, link) {
     this.nodes.push(node)
     this.update()
+  }
+
+  insertNode (node, link) {
+    const positionMap = {
+      top: 'bottom',
+      bottom: 'top',
+      left: 'right',
+      right: 'left'
+    }
+    const { sourcePosition, targetPosition, source, target } = link
+    const targetNode = this.nodes.find(node => node.id === target)
+    const sourceNode = this.nodes.find(node => node.id === source)
+    const newNodeId = getId()
+
+    // 移除旧关系
+    this.links = this.links.filter(({ id }) => id !== link.id)
+    // 添加两条新关系
+    this.links.push({
+      id: getId(),
+      source,
+      target: newNodeId,
+      sourcePosition,
+      targetPosition: positionMap[sourcePosition]
+    })
+    this.links.push({
+      id: getId(),
+      source: newNodeId,
+      target,
+      sourcePosition: positionMap[targetPosition],
+      targetPosition
+    })
+
+    this.addNode({
+      config: {},
+      ...node,
+      id: newNodeId,
+      x: (targetNode.x + sourceNode.x) / 2,
+      y: (targetNode.y + sourceNode.y) / 2
+    })
   }
 
   /**

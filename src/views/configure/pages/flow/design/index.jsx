@@ -6,7 +6,7 @@ import './index.less'
 import '../../service-design/ausyda.css'
 import { Ausyda } from './ausyda.js'
 import { onMounted, reactive } from 'vue'
-import { useNodes, useNodeSetDialog } from './hooks'
+import { useNodes, useNodeSetDialog, useNodeMenu } from './hooks'
 
 export default {
   setup () {
@@ -17,7 +17,9 @@ export default {
     })
     const { render: renderNodes } = useNodes()
     const { state: nodeSetState, render: renderNodeConfig } = useNodeSetDialog()
+    const { state: nodeMenuState, render: renderNodeMenu } = useNodeMenu()
     let au = {}
+    let currentLink = {}
     onMounted(() => {
       setTimeout(() => {
         au = new Ausyda({
@@ -55,6 +57,15 @@ export default {
           // 执行回调函数删除节点
           cb()
         })
+        au.on('addNode', (link, position) => {
+          console.log(link, position)
+          currentLink = link
+          nodeMenuState.isShow = true
+          nodeMenuState.position = position
+        })
+        au.on('elClick', () => {
+          nodeMenuState.isShow = false
+        })
         // 点击选中节点
         au.on('updateNode', (d) => {
           state.selectNode = {}
@@ -76,6 +87,11 @@ export default {
       au.updateNode(state.selectNode)
     }
 
+    function nodeClick ({ title, type }, e) {
+      nodeMenuState.isShow = false
+      au.insertNode({ title, type }, currentLink)
+    }
+
     return () => <PageLayoutInfo class="flow-design-page">
       <div class="flow-design">
         <div class="slider-bar" style={{ left: state.showLeftDraw ? '-20px' : '-290px' }}>
@@ -86,7 +102,8 @@ export default {
           <main>{renderNodes()}</main>
         </div>
         <main id="api-editor"></main>
-        <div class="slider-bar" style={{ right: state.showRightDraw ? '-20px' : '-540px', width: '500px' }}>
+        {renderNodeMenu({ nodeClick })}
+        <div class="slider-bar" style={{ right: state.showRightDraw ? '-20px' : '-520px', width: '500px' }}>
           <div class="expand-icon expand-right" onClick={() => switchShowDraw('showRightDraw')}>
             <ElIcon>{state.showRightDraw ? <CaretRight /> : <CaretLeft />}</ElIcon>
           </div>

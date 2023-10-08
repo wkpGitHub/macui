@@ -26,6 +26,13 @@
         color: #2468f2 !important;
       }
     }
+    &.is-active{
+      .link-path-marker-end{
+        stroke: #fff;
+        stroke-width: 1;
+        cursor: move;
+      }
+    }
   }
 	&-page {
 		.cip-page-layout-handle__main {
@@ -77,40 +84,7 @@
 				box-shadow: -6px 0 6px 0 rgba(0, 0, 0, 0.15);
 			}
 		}
-    .el-collapse .el-collapse-item__wrap {
-      padding: 8px 0;
-    }
-    .el-collapse-item__content{
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      row-gap: 4px;
-	    column-gap: 4px;
-    }
-    .cip-button {
-      margin-left: 0 !important;
-      .node-logic {
-        width: 16px;
-        height: 16px;
-      }
-      .icon-outer {
-        display: flex;
-        align-items: center;
-        width: 20px;
-        height: 20px;
-        min-width: 20px;
-        justify-content: center;
-        border-radius: 50%;
-        margin-left: 3px;
-        background: #528eff;
-        &.icon-crud {
-          background: #4949fb;
-        }
-      }
-      svg {
-        width: 14px !important;
-        height: 14px !important;
-      }
-    }
+    
     &.api-editor {
       display: grid;
       width: unset;
@@ -120,4 +94,73 @@
 	& > main {
 		flex: 1 auto;
 	}
+  .el-collapse .el-collapse-item__wrap {
+    padding: 8px 0;
+  }
+  .el-collapse-item__content{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 8px;
+    column-gap: 8px;
+  }
+  .cip-button {
+    margin-left: 0 !important;
+    justify-content: flex-start;
+    padding: 6px 12px;
+    .node-logic {
+      width: 16px;
+      height: 16px;
+    }
+    .node-start, .node-end {
+      box-shadow: 0 1px 2px 0 rgba(10, 30, 80, 0.1);
+      background-color: #30bf13;
+      display: flex;
+      align-items: center;
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    .node-end {
+      box-shadow: 0 1px 2px 0 rgba(10, 30, 80, 0.1);
+      background-color: #5c5f66;
+    }
+    .icon-end {
+      width: 6px;
+      height: 6px;
+      display: inline-block;
+      border-radius: 1px;
+      background: #fff;
+    }
+    .icon-outer {
+      display: flex;
+      align-items: center;
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      justify-content: center;
+      border-radius: 50%;
+      margin-left: 3px;
+      background: #528eff;
+      &.icon-crud {
+        background: #4949fb;
+      }
+    }
+    svg {
+      width: 14px !important;
+      height: 14px !important;
+    }
+  }
+  .select-node-menu{
+    position: absolute;
+    background-color: #fff;
+    padding: 10px;
+    overflow: hidden;
+    width: 250px;
+    border-radius: 4px;
+    box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.15);
+    z-index: 99;
+    transform: translate(10px, 10px);
+  }
 }
