@@ -45,6 +45,17 @@ export const useDataModel = (getData) => {
     dialogTitle.value = commandEnum[command]
     dialog.value = true
   }
+
+  const handleClick = (command, data) => {
+    if (command === 'deleteItem') {
+      console.log('删除')
+    } else {
+      dataModel.value = data
+      dialogTitle.value = commandEnum[command]
+      dialog.value = true
+    }
+  }
+
   const saveDataModel = (resolve, reject) => {
     dataInfoService.infoSave(dataModel.value).then(res => {
       CipMessage.success(res.message)
@@ -58,6 +69,7 @@ export const useDataModel = (getData) => {
     dataModel,
     dataModelFieldList,
     handleCommand,
+    handleClick,
     saveDataModel
   }
 }

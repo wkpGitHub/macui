@@ -5,9 +5,16 @@ export default [
     cache: true
   },
   {
-    name: 'configureDataModel',
-    title: '数据模型',
-    cache: true
+    name: 'configureDataSources',
+    title: '实体'
+  },
+  {
+    name: 'configureDic',
+    title: '字典'
+  },
+  {
+    name: 'configurePojo',
+    title: '自定义对象'
   },
   {
     name: 'configureConnectorManager',

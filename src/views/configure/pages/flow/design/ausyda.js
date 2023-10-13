@@ -325,6 +325,7 @@ export class Ausyda {
       const { x, y, k } = transform
       this.transform = transform
       this.viewLayer.style('transform', `translate(${x}px, ${y}px) scale(${k})`)
+      this.emit('elClick')
     })
     this._el.call(zoomFn)
     this._el.on('click', () => {

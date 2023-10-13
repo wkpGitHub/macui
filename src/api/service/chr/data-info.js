@@ -178,6 +178,18 @@ class DataInfoService extends Model {
     })
   }
 
+  // 数据模型树
+  @transformData()
+  async treeWithType ({ name, withBasic, type }) {
+    const { data } = await req({
+      method: 'get',
+      apiName: 'apiChr',
+      url: '/api/v1/storage/info/tree',
+      params: { name, withBasic }
+    })
+    return { data: data[type] }
+  }
+
   // excel数据导入
   @transformData()
   uploadExcelData (data) {

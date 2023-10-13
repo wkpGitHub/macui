@@ -85,6 +85,21 @@ textarea {
 
 .flex{
   display: flex;
+  &-column{
+    display: flex;
+    flex-direction: column;
+  }
+  &-auto{
+    flex: auto;
+    overflow: auto;
+  }
+  &-shrink{
+    flex-shrink: 0;
+  }
+  &-end{
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 
 .ma-0{

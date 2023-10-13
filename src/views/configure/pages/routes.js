@@ -36,6 +36,21 @@ export const routes = [
     component: () => import('./connector-manager')
   },
   {
+    name: 'configureDataSources',
+    path: 'data-sources',
+    component: () => import('./data-sources')
+  },
+  {
+    name: 'configureDic',
+    path: 'dic',
+    component: () => import('./dic')
+  },
+  {
+    name: 'configurePojo',
+    path: 'pojo',
+    component: () => import('./pojo')
+  },
+  {
     name: 'configureConnectorManagerItem',
     path: 'connector/:id/item',
     props (route) {
