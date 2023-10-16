@@ -50,15 +50,40 @@ export default {
       },
       options: generateFieldList(defineTableFieldConfig({
         key: { label: '键', writable: true },
-        value: { label: '值', writable: true, type: 'setFx', parentState }
+        value: { label: '值', writable: true, type: 'input', parentState }
       }))
     },
     outputPreview: {
       type: 'codemirrorInput',
       label: '预览',
-      readonly: true,
-      resetValue: true,
-      dependOn: ['output', 'outputParams'],
+      readonly: 'nocursor',
+      // resetValue: true,
+      dependOn: [{
+        key: 'output',
+        effect: {
+          changeValue ({ output, outputParams, outputType }) {
+            const val = {
+              status: 0,
+              msg: '',
+              data: ''
+            }
+            debugger
+            if (outputType === 'global') {
+              val.data = output
+            } else {
+              try {
+                val.data = {}
+                // val.data = Object.fromEntries(outputParams.map(v => [v.key, v.value]))
+              } catch (err) {
+                val.data = {}
+              }
+            }
+            return {
+              value: JSON.stringify(val, null, 2)
+            }
+          }
+        }
+      }, 'outputParams', 'outputType'],
       mode: 'json',
       defaultValue: JSON.stringify(
         {
@@ -68,23 +93,29 @@ export default {
         },
         null,
         2
-      ),
-      changeValue ({ output, outputParams }) {
-        const val = {
-          status: 0,
-          msg: '',
-          data: ''
-        }
-        if (output) {
-          val.data = output
-        }
-        if (outputParams) {
-          val.data = Object.fromEntries(outputParams.map(v => [v.key, v.value]))
-        }
-        return {
-          value: JSON.stringify(val, null, 2)
-        }
-      }
+      )
+      // // immediateChangeValue: true,
+      // changeValue ({ output, outputParams, outputType }) {
+      //   const val = {
+      //     status: 0,
+      //     msg: '',
+      //     data: ''
+      //   }
+      //   debugger
+      //   if (outputType === 'global') {
+      //     val.data = output
+      //   } else {
+      //     try {
+      //       val.data = {}
+      //       // val.data = Object.fromEntries(outputParams.map(v => [v.key, v.value]))
+      //     } catch (err) {
+      //       val.data = {}
+      //     }
+      //   }
+      //   return {
+      //     value: JSON.stringify(val, null, 2)
+      //   }
+      // }
     }
   })),
   initData: {

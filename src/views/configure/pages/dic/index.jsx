@@ -18,7 +18,7 @@ export default {
         default: () => <div style={{ height: '100%' }}>
           {currentDataModel.value && <CipPageCurd
             ref={curd$}
-            layoutNoPadding={true}
+            noPadding
             outParams={{ dataId: currentDataModel.value }}
             entity={dataInfoService}
             curdFn={{ pageFn: 'list', createFn: 'save', updateFn: 'save', deleteFn: 'dicDelete' }}

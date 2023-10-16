@@ -1,4 +1,4 @@
-import { ref, reactive, onBeforeMount } from 'vue'
+import { ref, reactive } from 'vue'
 import styles from '../index.module.less'
 import CipDialog from '@cip/components/cip-dialog'
 import { CipForm } from 'd-render'
@@ -58,11 +58,9 @@ export function useNodeSetDialog (props, parentState) {
     formField: []
   })
 
-  let timer = null
   const model = ref({})
   function setNode (node, updateConfig) {
-    console.log('setnode===========')
-    model.value = cloneDeep(node.config || {})
+    model.value = node.config || {}
     activeComp.value = allComps.find(comp => comp.type === node.type || (comp.type === 'branch-line' && node.isBranch))
     if (activeComp.value.formField instanceof Function) {
       activeComp.value.formField = activeComp.value.formField({ parentState })
@@ -72,26 +70,12 @@ export function useNodeSetDialog (props, parentState) {
       v.config.parentState = parentState
       v.config.changeEffect = async (value, key, data) => {
         debugger
-        // 更新
-        // if (timer) {
-        //   clearTimeout(timer)
-        //   timer = null
-        // }
-        // timer = setTimeout(() => {
         const _data = data ? { ...data } : {}
         _data[key] = value
         updateConfig(_data)
-        // }, 1000)
       }
     })
   }
-
-  onBeforeMount(() => {
-    if (timer) {
-      clearTimeout(timer)
-      timer = null
-    }
-  })
 
   return {
     state,
