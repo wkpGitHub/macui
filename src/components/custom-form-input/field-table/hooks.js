@@ -1,4 +1,4 @@
-import { reactive, computed } from 'vue'
+import { reactive, computed, ref } from 'vue'
 import CipDialog from '@cip/components/cip-dialog'
 import { ElTag } from 'element-plus'
 import CipTree from '@cip/components/cip-tree'
@@ -13,23 +13,16 @@ export function useFxDialog (proxyValue, config) {
       return total
     }, {})
   })
-
-  function selectVar (item) {
-    state.item = item
-  }
+  const treeRef = ref()
 
   function onConfirm (resolve) {
-    const { selectNode } = parentState
-    if (selectNode.type === 'set') {
-      setTimeout(() => {
-        if (selectNode.config) {
-          selectNode.config.dataType = state.item.dataType
-        } else {
-          selectNode.config = { dataType: state.item.dataType }
-        }
-      }, 300)
+    const ns = treeRef.value.tree.getCheckedNodes(true)
+    const v = (ns || []).map(({ label, value }) => ({ label, value }))
+    if (proxyValue.value?.length) {
+      proxyValue.value.push(...v)
+    } else {
+      proxyValue.value = v
     }
-    proxyValue.value = state.item.value
     resolve()
   }
 
@@ -40,7 +33,7 @@ export function useFxDialog (proxyValue, config) {
     parent.children.forEach((n, i) => {
       const children = (n.config?.selectFields || n.config?.initFields || []).map(sel => ({
         label: sel.title,
-        value: n.config.targetName + '.' + sel.name,
+        value: sel.name,
         dataType: sel.dataType
       }))
       if (n.config?.targetName && i < index) {
@@ -68,7 +61,7 @@ export function useFxDialog (proxyValue, config) {
   })
 
   function renderTreeItem ({ node, data }) {
-    return <div style='display: flex;align-items: center;justify-content: space-between;' onClick={() => data.value && selectVar(data)}>
+    return <div style='display: flex;align-items: center;justify-content: space-between;'>
       <span>{data.label}</span>
       <ElTag>{dateTypeMap.value[data.dataType].name}</ElTag>
     </div>
@@ -79,15 +72,15 @@ export function useFxDialog (proxyValue, config) {
     return [
       {
         label: '全局变量',
-        children: globalValue.map(item => ({ label: item.title, value: `global.${item.name}`, dataType: item.dataType }))
+        children: globalValue.map(item => ({ label: item.title, value: `${item.name}`, dataType: item.dataType }))
       },
       {
         label: '服务入参',
-        children: inputParams.map(item => ({ label: item.title, value: `inputParams.${item.name}`, dataType: item.dataType }))
+        children: inputParams.map(item => ({ label: item.title, value: `${item.name}`, dataType: item.dataType }))
       },
       {
         label: '服务出参',
-        children: outParams.map(item => ({ label: item.title, value: `outParams.${item.name}`, dataType: item.dataType }))
+        children: outParams.map(item => ({ label: item.title, value: `${item.name}`, dataType: item.dataType }))
       },
       {
         label: '上下文',
@@ -106,9 +99,11 @@ export function useFxDialog (proxyValue, config) {
       return state.isShow && <CipDialog title={'选择变量'} model-value={true} onUpdate:modelValue={() => { state.isShow = false }} onConfirm={onConfirm} width="400px">
         <ElCard shadow="never">
           <CipTree
+            ref={treeRef}
             options={varTreeOpts.value}
             showButton={false}
             config={{
+              showCheckbox: true,
               defaultExpandAll: false,
               renderItem: renderTreeItem
             }}

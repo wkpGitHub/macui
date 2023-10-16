@@ -23,7 +23,7 @@ export default defineComponent({
       }
     })
 
-    const height = computed(() => securityConfig.value.height || '300px')
+    const height = computed(() => securityConfig.value.height || '250px')
     return () => <CipCodeMirror
       v-model={proxyValue.value}
       mode={securityConfig.value.mode || 'javascript'}

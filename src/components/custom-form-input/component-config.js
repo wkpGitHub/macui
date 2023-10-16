@@ -29,5 +29,6 @@ export default {
     component: () => () => import('./tabs-layout'),
     layout: true
   },
-  urlWithMethod: () => () => import('./url-with-method')
+  urlWithMethod: () => () => import('./url-with-method'),
+  'field-table': () => () => import('./field-table')
 }

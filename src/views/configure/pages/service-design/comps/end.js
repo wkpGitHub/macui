@@ -57,33 +57,8 @@ export default {
       type: 'codemirrorInput',
       label: '预览',
       readonly: 'nocursor',
-      // resetValue: true,
-      dependOn: [{
-        key: 'output',
-        effect: {
-          changeValue ({ output, outputParams, outputType }) {
-            const val = {
-              status: 0,
-              msg: '',
-              data: ''
-            }
-            debugger
-            if (outputType === 'global') {
-              val.data = output
-            } else {
-              try {
-                val.data = {}
-                // val.data = Object.fromEntries(outputParams.map(v => [v.key, v.value]))
-              } catch (err) {
-                val.data = {}
-              }
-            }
-            return {
-              value: JSON.stringify(val, null, 2)
-            }
-          }
-        }
-      }, 'outputParams', 'outputType'],
+      resetValue: true,
+      dependOn: ['output', 'outputParams', 'outputType'],
       mode: 'json',
       defaultValue: JSON.stringify(
         {
@@ -93,29 +68,31 @@ export default {
         },
         null,
         2
-      )
-      // // immediateChangeValue: true,
-      // changeValue ({ output, outputParams, outputType }) {
-      //   const val = {
-      //     status: 0,
-      //     msg: '',
-      //     data: ''
-      //   }
-      //   debugger
-      //   if (outputType === 'global') {
-      //     val.data = output
-      //   } else {
-      //     try {
-      //       val.data = {}
-      //       // val.data = Object.fromEntries(outputParams.map(v => [v.key, v.value]))
-      //     } catch (err) {
-      //       val.data = {}
-      //     }
-      //   }
-      //   return {
-      //     value: JSON.stringify(val, null, 2)
-      //   }
-      // }
+      ),
+
+      changeValue ({ output, outputParams, outputType }) {
+        const val = {
+          status: 0,
+          msg: '',
+          data: ''
+        }
+        if (outputType === 'global') {
+          val.data = output || ''
+        } else {
+          try {
+            val.data = Object.fromEntries(outputParams.map(v => [v.key, v.value]))
+          } catch (err) {
+            val.data = {}
+          }
+        }
+        return {
+          value: JSON.stringify(val, null, 2)
+        }
+      }
+    },
+    fields: {
+      label: '字段描述',
+      type: 'field-table'
     }
   })),
   initData: {

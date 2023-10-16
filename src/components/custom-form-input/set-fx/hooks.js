@@ -89,7 +89,7 @@ export function useFxDialog (proxyValue, config) {
       }))
       if (n.config?.targetName && i < index) {
         targets.push({
-          label: n.config.title,
+          label: n.config.targetName,
           value: n.config.targetName,
           dataType: n.config.dataType || 'ENTITY',
           children
