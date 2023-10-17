@@ -33,7 +33,8 @@ const iconClassMap = {
   expand: 'icon-outer',
   folded: 'icon-outer',
   delete: 'icon-outer',
-  set: 'icon-outer'
+  set: 'icon-outer',
+  'insert-data': 'icon-outer'
 }
 
 export default defineComponent({

@@ -4,6 +4,7 @@ import continueConfig from './continue'
 import exitConfig from './exit'
 import loopConfig from './loop'
 import setConfig from './set'
+import insertDataConfig from './insert-data'
 import coderConfig from './coder'
 import notificationConfig from './notification'
 import webApiConfig from './web-api'
@@ -53,6 +54,7 @@ export const compList = [
   breakConfig,
   exitConfig,
   setConfig,
+  insertDataConfig,
   coderConfig,
   dateFormatConfig,
   mappingConfig,

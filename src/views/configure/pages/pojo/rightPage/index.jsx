@@ -1,6 +1,4 @@
 import CipButton from '@cip/components/cip-button'
-import CipTabs from '@cip/components/cip-tabs-plus'
-import CipTabPane from '@cip/components/cip-tabs-plus/tab'
 import { reactive, watch } from 'vue'
 import { dataFieldEntityEntity, dbInfoEntityEntity } from '@/api/entity/chr'
 import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig, CipForm } from 'd-render'
@@ -22,8 +20,7 @@ export default {
         span: 12
       },
       remark: {
-        span: 12,
-        type: 'textarea'
+        span: 12
       }
     }), dbInfoEntityEntity)
 
@@ -113,14 +110,8 @@ export default {
 
     return () => <div class="flex-column" style={{ height: '100%' }}>
       <div class="flex-auto">
-        <CipTabs v-model={state.active}>
-          <CipTabPane lazy label='基础信息' name={0}>
-            <CipForm v-model:model={state.dataModel} fieldList={formFieldList} labelWidth="60px"></CipForm>
-          </CipTabPane>
-          <CipTabPane lazy label='字段' name={1}>
-            <CipForm v-model:model={state.dataModel} fieldList={tableColumns}></CipForm>
-          </CipTabPane>
-        </CipTabs>
+        <CipForm v-model:model={state.dataModel} fieldList={formFieldList} labelWidth="60px" grid={24}></CipForm>
+        <CipForm v-model:model={state.dataModel} fieldList={tableColumns}></CipForm>
       </div>
       <div class="flex-shrink flex-end pa-3" style="box-shadow: 0 -2px 12px 0 rgba(0,0,0,.06); margin: 0 -20px">
         <CipButton type="primary" loading={state.loading} onClick={onSave}>保存</CipButton>

@@ -82,7 +82,7 @@ export function useFxDialog (proxyValue, config) {
     console.log(parentState.selectNode)
     const { parent, index } = parentState.selectNode
     parent.children.forEach((n, i) => {
-      const children = (n.config?.selectFields || n.config?.initFields || []).map(sel => ({
+      const children = (n.config?.selectFields || n.config?.initFields || n.config?.dataFields || []).map(sel => ({
         label: sel.title,
         value: n.config.targetName + '.' + sel.name,
         dataType: sel.dataType

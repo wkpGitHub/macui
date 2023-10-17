@@ -9,12 +9,8 @@ export default [
     title: '实体'
   },
   {
-    name: 'configureDic',
-    title: '字典'
-  },
-  {
-    name: 'configurePojo',
-    title: '自定义对象'
+    name: 'configureSetting',
+    title: '设置'
   },
   {
     name: 'configureConnectorManager',

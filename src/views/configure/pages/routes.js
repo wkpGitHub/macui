@@ -31,6 +31,11 @@ export const routes = [
     component: () => import('./flow/design')
   },
   {
+    name: 'configureSetting',
+    path: 'setting',
+    component: () => import('./setting')
+  },
+  {
     name: 'configureConnectorManager',
     path: 'connector',
     component: () => import('./connector-manager')
@@ -39,16 +44,6 @@ export const routes = [
     name: 'configureDataSources',
     path: 'data-sources',
     component: () => import('./data-sources')
-  },
-  {
-    name: 'configureDic',
-    path: 'dic',
-    component: () => import('./dic')
-  },
-  {
-    name: 'configurePojo',
-    path: 'pojo',
-    component: () => import('./pojo')
   },
   {
     name: 'configureConnectorManagerItem',

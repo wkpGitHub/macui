@@ -6,7 +6,7 @@ import RightPage from './rightPage'
 export default {
   setup (props, ctx) {
     const currentDataModel = ref()
-    return () => <CipPageLayoutLeftRight>
+    return () => <CipPageLayoutLeftRight rightStyle={{ paddingTop: '20px' }}>
       {{
         left: () => <PageTree v-model={currentDataModel.value} type="pojo" />,
         default: () => <div style={{ height: '100%' }}>
