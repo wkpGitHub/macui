@@ -14,7 +14,7 @@ const operateTreeOpts = [
   }
 ]
 
-export function useFxDialog (proxyValue, config) {
+export function useFxDialog (proxyValue, config, inputState) {
   const { parentState } = config
   const dateTypeMap = computed(() => {
     return cipStore.state.dataType.reduce((total, current) => {
@@ -31,7 +31,9 @@ export function useFxDialog (proxyValue, config) {
     // }
     // proxyValue.value = state.varType + state.item.name
     console.log('展示数据格式：', state.list)
-    proxyValue.value = toString()
+    proxyValue.value = [...state.list]
+    inputState.str = toString()
+    inputState.readonly = true
     resolve()
   }
 
@@ -48,7 +50,7 @@ export function useFxDialog (proxyValue, config) {
 
   const stringMap = {
     fx (item) {
-      const startText = item.value + '('
+      const startText = item.desc + '('
       const endText = ')'
       let args = ''
       item.arguments.forEach((argList, argIndex) => {
@@ -67,13 +69,13 @@ export function useFxDialog (proxyValue, config) {
       return startText + args + endText
     },
     var (item) {
-      return item.value
+      return `{${item.desc}}`
     },
     constant (item) {
-      return `"${item.value}"`
+      return item.desc
     },
     operate (item) {
-      return item.value
+      return item.desc
     }
   }
 
@@ -151,6 +153,12 @@ export function useFxDialog (proxyValue, config) {
     list: []
   })
 
+  function init () {
+    state.list = [...(proxyValue.value || [])]
+    inputState.str = toString()
+  }
+  init()
+
   function containerClick () {
     state.current = {
       index: state.list.length,
@@ -186,7 +194,7 @@ export function useFxDialog (proxyValue, config) {
       return <div class="variableElem" onClick={withModifiers(() => {}, ['stop'])}>{item.desc}</div>
     },
     constant (item) {
-      return <div class="constantElem" contenteditable onBlur={({ target }) => { item.value = target.textContent }} onClick={withModifiers(() => {}, ['stop'])}>{item.value}</div>
+      return <div class="constantElem" contenteditable onBlur={({ target }) => { item.value = target.textContent }} onClick={withModifiers(() => {}, ['stop'])}>{item.desc}</div>
     },
     operate (item) {
       return <div class="operatorElem" onClick={withModifiers(() => {}, ['stop'])}>{item.desc}</div>
@@ -220,7 +228,7 @@ export function useFxDialog (proxyValue, config) {
   function editableBlur ({ target }, index, list) {
     if (target.textContent) {
       list.splice(index, 0, {
-        desc: 'string',
+        desc: target.textContent,
         value: target.textContent,
         type: 'constant'
       })
@@ -289,7 +297,7 @@ export function useFxDialog (proxyValue, config) {
   }
 
   const varTreeOpts = computed(() => {
-    const { globalValue, inputParams, outParams } = parentState.rootNode
+    const { globalValue, inputParams } = parentState.rootNode
     return [
       {
         label: '全局变量',
@@ -299,10 +307,10 @@ export function useFxDialog (proxyValue, config) {
         label: '服务入参',
         children: inputParams.map(item => ({ label: item.title, value: `inputParams.${item.name}`, dataType: item.dataType }))
       },
-      {
-        label: '服务出参',
-        children: outParams.map(item => ({ label: item.title, value: `outParams.${item.name}`, dataType: item.dataType }))
-      },
+      // {
+      //   label: '服务出参',
+      //   children: outParams.map(item => ({ label: item.title, value: `outParams.${item.name}`, dataType: item.dataType }))
+      // },
       {
         label: '上下文',
         children: canSelectTarget.value

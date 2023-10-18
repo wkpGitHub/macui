@@ -965,8 +965,8 @@ export const initFlow = {
   trigger: 'emptyEvent',
   inputParams: [],
   outParams: [
-    { name: 'status', title: '状态码', value: 0, dataType: 'INT' },
-    { name: 'msg', title: '提示信息', value: '', dataType: 'STRING' }
+    // { name: 'status', title: '状态码', value: 0, dataType: 'INT' },
+    // { name: 'msg', title: '提示信息', value: '', dataType: 'STRING' }
   ],
   globalValue: [],
   variableParams: {},

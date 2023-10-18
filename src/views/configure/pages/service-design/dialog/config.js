@@ -23,3 +23,8 @@ export function getFieldList (key, formModal) {
     }
   }))
 }
+
+export const outParamsFormFields = generateFieldList(defineTableFieldConfig({
+  name: { label: '字段' },
+  title: { label: '表头' }
+}))

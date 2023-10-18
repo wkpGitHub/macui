@@ -1,12 +1,12 @@
 import { ref, reactive } from 'vue'
 import styles from '../index.module.less'
 import CipDialog from '@cip/components/cip-dialog'
-import { CipForm } from 'd-render'
+import { CipForm, CipTable } from 'd-render'
 import { allComps } from '../comps'
 import { cloneDeep } from '@cip/utils/util'
 import { ElCollapse, ElCollapseItem } from 'element-plus'
 
-import { getFieldList } from './config'
+import { getFieldList, outParamsFormFields } from './config'
 
 export function useDialog () {
   const showRightPanel = ref(false)
@@ -43,7 +43,7 @@ export function useGlobalSet (props, parentState) {
             <CipForm v-model:model={parentState.rootNode} fieldList={getFieldList('inputParams', parentState.rootNode)}></CipForm>
           </ElCollapseItem>
           <ElCollapseItem title="服务出参" name="output">
-            <CipForm v-model:model={parentState.rootNode} fieldList={getFieldList('outParams', parentState.rootNode)}></CipForm>
+            <CipTable data={parentState.rootNode?.outParams || []} columns={outParamsFormFields}></CipTable>
           </ElCollapseItem>
         </ElCollapse>
       </CipDialog>
@@ -76,11 +76,19 @@ export function useNodeSetDialog (props, parentState) {
     })
   }
 
+  function closeDialog (node, updateConfig) {
+    state.isShow = false
+    if (node.type.endsWith('-data-records')) {
+      Reflect.deleteProperty(model.value, 'fields')
+      updateConfig(model.value)
+    }
+  }
+
   return {
     state,
     render ({ dialogBaseProps, node, updateConfig }) {
       state.isShow && setNode(node, updateConfig)
-      return state.isShow && <CipDialog {...dialogBaseProps} title={activeComp.value.title} model-value={true} onUpdate:modelValue={() => { state.isShow = false }}>
+      return state.isShow && <CipDialog {...dialogBaseProps} title={activeComp.value.title} model-value={true} onUpdate:modelValue={() => closeDialog(node, updateConfig)}>
       <CipForm labelWidth={activeComp.value.labelWidth || '90px'} v-model:model={model.value} fieldList={activeComp.value.formField}></CipForm>
     </CipDialog>
     }

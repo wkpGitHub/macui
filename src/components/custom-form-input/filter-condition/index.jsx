@@ -1,110 +1,63 @@
-import { defineComponent, ref, watch } from 'vue'
-import { ElTable, ElTableColumn, ElSelect, ElOption } from 'element-plus'
+import { defineComponent } from 'vue'
+import { CipTable, CipForm } from 'd-render'
 import CipTableButton from '@cip/components/cip-table-button'
 import CipButton from '@cip/components/cip-button'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
-import SetFx from '@/components/custom-form-input/set-fx'
-// import { getTableColumn } from './config'
-
-// const data = {
-//   id: unid(),
-//   conjunction: 'and',
-//   children: [
-//     {
-//       id: '',
-//       left: {
-//         type: 'field',
-//         field: '开拓日期'
-//       },
-//       op: 'equal',
-//       right: '12446578'
-//     },
-//     {
-//       id: unid(),
-//       conjunction: 'and',
-//       children: [
-//         {
-//           id: '',
-//           left: {
-//             type: 'field',
-//             field: '开拓日期'
-//           },
-//           op: 'equal',
-//           right: '12446578'
-//         }
-//       ]
-//     }
-//   ]
-// }
-
-const opOptions = [
-  { label: '等于', value: 'eq', usedFieldType: ['int', 'text', 'date'] },
-  { label: '不等于', value: 'ne', usedFieldType: ['int', 'text', 'date'] },
-  { label: '模糊匹配', value: 'like', usedFieldType: ['text'] },
-  { label: '匹配开头', value: 'sw', usedFieldType: ['text'] },
-  { label: '匹配结尾', value: 'ew', usedFieldType: ['text'] },
-  { label: '小于', value: 'lt', usedFieldType: ['int', 'date'] },
-  { label: '小于或等于', value: 'le', usedFieldType: ['int', 'date'] },
-  { label: '大于', value: 'gt', usedFieldType: ['int', 'date'] },
-  { label: '大于或等于', value: 'ge', usedFieldType: ['int', 'date'] },
-  { label: '范围匹配', value: 'bt', usedFieldType: ['date'] },
-  { label: '包含', value: 'in', usedFieldType: ['date'] }
-]
+import { getTableColumn, fieldList } from './config'
 
 export default defineComponent({
-  name: 'filter-condition',
+  name: 'select-field',
   props: formInputProps,
   emits: fromInputEmits,
   setup (props, ctx) {
-    const tableData = ref([])
-    watch(() => props.modelValue, v => {
-      tableData.value = v || []
-    }, { deep: true, immediate: true })
-    watch(tableData, () => {
-      proxyValue.value = tableData.value
-    }, { deep: true })
     const {
       proxyValue,
-      width,
-      securityConfig
+      width
     } = useFormInput(props, ctx)
 
-    // const { options } = useOptions(props, multiple)
+    if (!proxyValue.value) {
+      proxyValue.value = {
+        logic: 'and',
+        children: []
+      }
+    }
 
-    // const tableColumns = computed(() => getTableColumn(options, optionProps))
+    const tableColumns = getTableColumn()
 
     function handleClick () {
       if (proxyValue.value && proxyValue.value.children) {
         proxyValue.value.children.push({})
       } else {
         proxyValue.value = {
-          conjunction: 'and',
+          logic: 'and',
           children: [{}]
         }
       }
     }
-
+    // logic
     function handleDel ($index) {
-      proxyValue.value.children.splice($index, 1)
+      proxyValue.value.splice($index, 1)
     }
+
     return () => <>
-      <ElTable
+      <CipForm v-model:model={proxyValue.value} fieldList={fieldList} style="width: 100%;" />
+      <CipTable
+        dependOnValues={props.dependOnValues}
+        inForm
         showHeader={false}
         data={proxyValue.value?.children || []}
+        columns={tableColumns.value}
         styles={{ width: width.value }}
+        withTableHandle={true}
         maxHeight={'300px'}
+        handlerWidth={'80px'}
       >
-        <ElTableColumn>{{
-          default: ({ row }) => securityConfig.value.options
-            ? <ElSelect v-model={row.field}>{securityConfig.value.options.map(o => <ElOption label={o.remark} value={o.name} key={o.name} />)}</ElSelect>
-            : <SetFx v-model={row.left} config={securityConfig.value} />
-        }}</ElTableColumn>
-        <ElTableColumn>{{ default: ({ row }) => <ElSelect v-model={row.op}>{opOptions.map(o => <ElOption label={o.label} value={o.value} key={o.value} />)}</ElSelect> }}</ElTableColumn>
-        <ElTableColumn>{{
-          default: ({ row, $index }) => <SetFx v-model={row.right} config={securityConfig.value} />
-        }}</ElTableColumn>
-        <ElTableColumn width="50px">{{ default: ({ $index }) => <CipTableButton onClick={() => { handleDel($index) }}>删除</CipTableButton> }}</ElTableColumn>
-      </ElTable>
+        {{
+          $handler: ({ $index }) => <>
+            <CipTableButton onClick={() => { handleDel($index) }}>删除</CipTableButton>
+          </>
+        }}
+      </CipTable>
       <CipButton onClick={handleClick}>添加</CipButton>
     </>
   }

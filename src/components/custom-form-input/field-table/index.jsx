@@ -14,6 +14,8 @@ export default defineComponent({
     tableData.value = props.modelValue || []
     watch(tableData, () => {
       proxyValue.value = tableData.value
+      // eslint-disable-next-line vue/no-mutating-props
+      props.config.parentState.rootNode.outParams = tableData.value
     }, { deep: true })
 
     const {
@@ -35,9 +37,9 @@ export default defineComponent({
         maxHeight={'300px'}
         handlerWidth={'80px'}
       >
-        <ElTableColumn showOverflowTooltip label="字段">{{ default: ({ row }) => <ElInput v-model={row.value} /> }}</ElTableColumn>
+        <ElTableColumn showOverflowTooltip label="字段">{{ default: ({ row }) => <ElInput v-model={row.name} /> }}</ElTableColumn>
         <ElTableColumn label="表头">{{
-          default: ({ row }) => <ElInput v-model={row.label} />
+          default: ({ row }) => <ElInput v-model={row.title} />
         }}</ElTableColumn>
         <ElTableColumn width="50px">{{ default: ({ $index }) => <CipTableButton onClick={() => { handleDel($index) }}>删除</CipTableButton> }}</ElTableColumn>
       </ElTable>

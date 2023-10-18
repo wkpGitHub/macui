@@ -67,6 +67,7 @@ export default {
         proxyOtherValue[0].value = []
       }
     }
+    changeModelData(proxyValue.value)
 
     return {
       ...formInput,

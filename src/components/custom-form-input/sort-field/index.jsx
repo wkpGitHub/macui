@@ -1,11 +1,8 @@
-import { computed, defineComponent, ref } from 'vue'
-import { CipTable } from 'd-render'
-import CipDialog from '@cip/components/cip-dialog'
+import { computed, defineComponent } from 'vue'
+import { CipTable, generateFieldList, defineTableFieldConfig } from 'd-render'
 import CipTableButton from '@cip/components/cip-table-button'
-import CipTree from '@cip/components/cip-tree'
 import CipButton from '@cip/components/cip-button'
-import { formInputProps, fromInputEmits, useFormInput, useOptions } from '@d-render/shared'
-import { tableColumns } from './config'
+import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 
 export default defineComponent({
   name: 'select-field',
@@ -14,51 +11,52 @@ export default defineComponent({
   setup (props, ctx) {
     const {
       proxyValue,
-      width,
-      securityConfig
+      width
     } = useFormInput(props, ctx)
 
-    // 是否多选
-    const multiple = computed(() => {
-      return securityConfig.value.multiple ?? false
-    })
-
-    const {
-      // optionProps,
-      options
-    } = useOptions(props, multiple)
-
-    const proxyOptions = computed(() => {
-      return [
-        {
-          ename: '主表',
-          name: '_table',
-          children: [...options.value]
+    const tableColumns = computed(() => generateFieldList(defineTableFieldConfig({
+      name: {
+        outDependOn: ['fields'],
+        writable: true,
+        dynamic: true,
+        type: 'select',
+        asyncOptions: (_, { fields }) => {
+          return (fields || [])
+        },
+        optionProps: {
+          label: 'title',
+          value: 'name'
         }
-      ]
-    })
-
-    const visible = ref(false)
+      },
+      formula: {
+        writable: true,
+        dynamic: true,
+        type: 'radio',
+        options: [
+          { label: '升序', value: 'ASC' },
+          { label: '降序', value: 'DESC' }
+        ]
+      }
+    })))
 
     function handleClick () {
-      visible.value = true
+      try {
+        proxyValue.value.push({ name: '', formula: 'ASC' })
+      } catch (err) {
+        proxyValue.value = [{ name: '', formula: 'ASC' }]
+      }
     }
 
     function handleDel ($index) {
       proxyValue.value.splice($index, 1)
     }
-    const treeRef = ref()
-    function handleConfirm (reslove) {
-      const temp = treeRef.value.tree.getCheckedNodes(true)
-      console.log(temp, 'temp')
-      proxyValue.value = temp
-      reslove()
-    }
+
     return () => <>
       <CipTable
+        dependOnValues={props.dependOnValues}
         showHeader={false}
         data={proxyValue.value || []}
-        columns={tableColumns}
+        columns={tableColumns.value}
         styles={{ width: width.value }}
         withTableHandle={true}
         maxHeight={'300px'}
@@ -71,26 +69,6 @@ export default defineComponent({
         }}
       </CipTable>
       <CipButton onClick={handleClick}>添加</CipButton>
-      <CipDialog
-        title={'选择字段'}
-        v-model={visible.value}
-        onConfirm={handleConfirm}
-        size={'small'}
-      >
-        <CipTree
-          ref={treeRef}
-          options={proxyOptions.value}
-          showButton={false}
-          config={{
-            showCheckbox: true,
-            optionProps: {
-              label: 'ename',
-              value: 'name'
-            }
-          }}
-        >
-        </CipTree>
-      </CipDialog>
     </>
   }
 })

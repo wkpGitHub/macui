@@ -75,7 +75,7 @@ export function useFxDialog (proxyValue, config) {
   }
 
   const varTreeOpts = computed(() => {
-    const { globalValue, inputParams, outParams } = parentState.rootNode
+    const { globalValue, inputParams } = parentState.rootNode
     return [
       {
         label: '全局变量',
@@ -85,10 +85,10 @@ export function useFxDialog (proxyValue, config) {
         label: '服务入参',
         children: inputParams.map(item => ({ label: item.title, value: `inputParams.${item.name}`, dataType: item.dataType }))
       },
-      {
-        label: '服务出参',
-        children: outParams.map(item => ({ label: item.title, value: `outParams.${item.name}`, dataType: item.dataType }))
-      },
+      // {
+      //   label: '服务出参',
+      //   children: outParams.map(item => ({ label: item.title, value: `outParams.${item.name}`, dataType: item.dataType }))
+      // },
       {
         label: '上下文',
         children: canSelectTarget.value
