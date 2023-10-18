@@ -29,19 +29,18 @@ export default {
         type: 'table',
         hideLabel: true,
         options: generateFieldList(defineTableFieldConfig({
-          isPk: { align: 'center', type: 'tableRadio', writable: true, label: '主键', width: '60px' },
-          name: { label: '字段名称', writable: true },
-          title: { label: '显示名称', writable: true },
+          isPk: { align: 'center', type: 'tableRadio', writable: true, label: '主键', width: '60px', fixed: 'left' },
+          name: { label: '字段名称', writable: true, fixed: 'left', width: '140px' },
+          title: { label: '显示名称', writable: true, width: '120px' },
           typeScope: {
-            type: 'dataType',
+            type: 'dataType2',
             label: '类型',
             outDependOn: ['dbId'],
             otherKey: [
-              'typeName', // 基础类型
-              'refDataId',
-              'refDataName'
+              'refDataId'
             ],
-            writable: true
+            writable: true,
+            width: '240px'
           }, // 此处需要一个自定义组件来处理
           length: {
             writable: true,

@@ -12,7 +12,7 @@ export default {
     watch(() => currentDataModel.value, () => {
       curd$.value.getTableList()
     })
-    return () => <CipPageLayoutLeftRight rightStyle={{ padding: 0 }}>
+    return () => <CipPageLayoutLeftRight>
       {{
         left: () => <PageTree v-model={currentDataModel.value} type="dic" />,
         default: () => <div style={{ height: '100%' }}>
