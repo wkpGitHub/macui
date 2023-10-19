@@ -1,4 +1,4 @@
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import styles from '../index.module.less'
 import CipDialog from '@cip/components/cip-dialog'
 import { CipForm, CipTable } from 'd-render'
@@ -59,7 +59,15 @@ export function useNodeSetDialog (props, parentState) {
   })
 
   const model = ref({})
+  let watchStop
   function setNode (node, updateConfig) {
+    watchStop && watchStop()
+    watchStop = watch(() => state.isShow, v => {
+      if (!v && node.type.endsWith('-data-records')) {
+        Reflect.deleteProperty(model.value, 'fields')
+        updateConfig(model.value)
+      }
+    })
     model.value = node.config || {}
     activeComp.value = allComps.find(comp => comp.type === node.type || (comp.type === 'branch-line' && node.isBranch))
     if (activeComp.value.formField instanceof Function) {
@@ -70,25 +78,18 @@ export function useNodeSetDialog (props, parentState) {
     activeComp.value.formField.map(v => {
       v.config.parentState = parentState
       v.config.changeEffect = async (value, key, data) => {
+        if (key === 'title') node.title = value
         model.value[key] = value
         updateConfig(model.value)
       }
     })
   }
 
-  function closeDialog (node, updateConfig) {
-    state.isShow = false
-    if (node.type.endsWith('-data-records')) {
-      Reflect.deleteProperty(model.value, 'fields')
-      updateConfig(model.value)
-    }
-  }
-
   return {
     state,
     render ({ dialogBaseProps, node, updateConfig }) {
       state.isShow && setNode(node, updateConfig)
-      return state.isShow && <CipDialog {...dialogBaseProps} title={activeComp.value.title} model-value={true} onUpdate:modelValue={() => closeDialog(node, updateConfig)}>
+      return state.isShow && <CipDialog {...dialogBaseProps} title={activeComp.value.title} model-value={true} onUpdate:modelValue={() => { state.isShow = false }}>
       <CipForm labelWidth={activeComp.value.labelWidth || '90px'} v-model:model={model.value} fieldList={activeComp.value.formField}></CipForm>
     </CipDialog>
     }

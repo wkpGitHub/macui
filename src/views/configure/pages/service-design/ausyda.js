@@ -701,8 +701,6 @@ export class Ausyda {
       })
     }
     computedPositionLeft(this._data.children, this._data)
-
-    console.log(this._data)
   }
 
   getNodes (cb) {

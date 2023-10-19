@@ -47,7 +47,8 @@ export function getTableColumn (props) {
       },
       value: {
         writable: true,
-        type: 'setFx'
+        type: 'setFx',
+        parentState: props.config.parentState
       // readable: false,
       // dependOn: ['left', 'op']
       // changeConfig (config, { left, op }) {

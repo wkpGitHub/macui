@@ -1,4 +1,4 @@
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, watch } from 'vue'
 import { ElInput, ElIcon, ElTooltip } from 'element-plus'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import CipSvgIcon from '@cip/components/cip-svg-icon'
@@ -16,7 +16,7 @@ export default defineComponent({
     }
   },
   setup (props, ctx) {
-    const { proxyValue, securityConfig } = useFormInput(props, ctx)
+    const { proxyValue, proxyOtherValue, securityConfig } = useFormInput(props, ctx)
     if (!proxyValue.value) proxyValue.value = []
     const state = reactive({
       readonly: false,
@@ -27,7 +27,14 @@ export default defineComponent({
     function onClear () {
       state.readonly = false
       proxyValue.value = []
+      fxState.list = []
       state.str = ''
+    }
+
+    if (props.config.otherKey) {
+      watch(() => state.str, v => {
+        proxyOtherValue[0].value = v
+      })
     }
 
     function updateModelValue (v) {

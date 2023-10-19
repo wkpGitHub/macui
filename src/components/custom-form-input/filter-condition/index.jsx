@@ -22,7 +22,7 @@ export default defineComponent({
       }
     }
 
-    const tableColumns = getTableColumn()
+    const tableColumns = getTableColumn(props)
 
     function handleClick () {
       if (proxyValue.value && proxyValue.value.children) {
@@ -34,9 +34,9 @@ export default defineComponent({
         }
       }
     }
-    // logic
+
     function handleDel ($index) {
-      proxyValue.value.splice($index, 1)
+      proxyValue.value.children.splice($index, 1)
     }
 
     return () => <>

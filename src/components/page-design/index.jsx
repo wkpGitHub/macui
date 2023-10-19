@@ -100,7 +100,11 @@ export default {
         content: () => <PageDrawing
           data={props.scheme}
           selectId={selectItemId.value}
-          onSelect={(item) => changeSelect(item)}
+          onSelect={(item) => {
+            console.log('item', item)
+            debugger
+            changeSelect(item)
+          }}
           onUpdateList={(list) => { updateList(list) }}
         />,
         configure: () => <PageConfigure

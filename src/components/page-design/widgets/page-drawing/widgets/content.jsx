@@ -44,9 +44,11 @@ export default defineComponent({
     const getFormContentComponent = (type) => {
       return defineAsyncComponent(() => import(`./${type}`))
     }
+    // 数据来自 @/views/page-design/index.jsx
     const pageDeisgn = inject('pageDesign')
     const getComponentType = (element) => {
       const { config: { type } } = element
+      debugger
       const usingType = pageDeisgn.drawTypeMap?.[type] || type
       // 废弃table使用layout内的组件进行设计
       // if (usingType === 'table') {

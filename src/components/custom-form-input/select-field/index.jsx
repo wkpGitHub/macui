@@ -41,7 +41,6 @@ export default defineComponent({
     }
     const treeRef = ref()
     function handleConfirm (resolve) {
-      debugger
       const temp = treeRef.value.tree.getCheckedNodes(true)
       proxyValue.value ? proxyValue.value.push(...temp) : (proxyValue.value = temp)
       resolve()

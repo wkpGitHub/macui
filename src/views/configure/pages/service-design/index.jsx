@@ -1,4 +1,4 @@
-import { defineComponent, ref, reactive, onMounted } from 'vue'
+import { defineComponent, ref, reactive, onMounted, nextTick } from 'vue'
 import { ElInputNumber, ElLink } from 'element-plus'
 import { Setting } from '@element-plus/icons-vue'
 import { PlHandle as CipPageLayoutHandle } from '@cip/page-layout'
@@ -98,7 +98,9 @@ export default defineComponent({
           d.isBranch = false
           state.selectNode = d
           hiddenDialog()
-          nodeSetState.isShow = true
+          nextTick(() => {
+            nodeSetState.isShow = true
+          })
         })
         // 点击分支+，增加分支
         au.on('addBranch', (parent) => {
@@ -151,6 +153,7 @@ export default defineComponent({
             <div className={styles['editor-view']}>
               <div className={styles['view-toolbar']}>
                 <ElLink icon={Setting} underline={false} type='primary' onClick={() => {
+                  hiddenDialog()
                   globalState.isShow = true
                 }}>全局设置</ElLink>
                 <div className={styles['flex-center']}>

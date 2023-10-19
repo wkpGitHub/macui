@@ -62,7 +62,6 @@ export default {
       label: '字段赋值',
       readable: false,
       dependOn: ['fields'],
-      resetValue: true,
       changeConfig (config, { fields }) {
         config.writable = !!fields
         return config

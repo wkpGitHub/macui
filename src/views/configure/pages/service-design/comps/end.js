@@ -33,6 +33,7 @@ export default {
       dependOn: ['outputType'],
       resetValue: true,
       type: 'setFx',
+      otherKey: 'outputStr',
       changeConfig (config, { outputType }) {
         config.writable = outputType === 'global'
         config.readable = outputType === 'global'
@@ -49,8 +50,8 @@ export default {
         return config
       },
       options: generateFieldList(defineTableFieldConfig({
-        key: { label: '键', writable: true },
-        value: { label: '值', writable: true, type: 'input', parentState }
+        title: { label: '键', writable: true },
+        name: { label: '值', writable: true, type: 'fx', parentState }
       }))
     },
     outputPreview: {
@@ -58,7 +59,7 @@ export default {
       label: '预览',
       readonly: 'nocursor',
       resetValue: true,
-      dependOn: ['output', 'outputParams', 'outputType'],
+      dependOn: ['outputStr', 'outputParams', 'outputType'],
       mode: 'json',
       defaultValue: JSON.stringify(
         {
@@ -70,14 +71,14 @@ export default {
         2
       ),
 
-      changeValue ({ output, outputParams, outputType }) {
+      changeValue ({ outputStr, outputParams, outputType }) {
         const val = {
           status: 0,
           msg: '',
           data: ''
         }
         if (outputType === 'global') {
-          val.data = output || ''
+          val.data = outputStr || ''
         } else {
           try {
             val.data = Object.fromEntries(outputParams.map(v => [v.key, v.value]))
