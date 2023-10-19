@@ -15,6 +15,10 @@ export default defineComponent({
       type: Function,
       default: () => () => {}
     },
+    onUpdateList: {
+      type: Function,
+      default: () => () => {}
+    },
     onDelete: {
       type: Function,
       default: () => () => {}
@@ -69,6 +73,7 @@ export default defineComponent({
       config: { ...(props.element?.config ?? {}), hideItem: false }, // 劫持 hideItem 强制修改为false //将背景色修改为红色
       showCopy: props.showCopy,
       'onUpdate:config': props.onUpdateConfig,
+      onUpdateList: props.onUpdateList,
       onClick: props.onClick,
       onDelete: props.onDelete,
       onCopy: props.onCopy,

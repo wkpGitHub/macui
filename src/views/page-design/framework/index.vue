@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.wrapper">
-    <slot></slot>
+    <slot v-if="ready"></slot>
   </div>
 </template>
 <script>

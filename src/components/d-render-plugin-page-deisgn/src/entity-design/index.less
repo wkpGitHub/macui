@@ -1,0 +1,26 @@
+.dialog-design{
+  position: relative;
+  &.collapse {
+    height: 26px;
+    overflow: hidden;
+    .dialog-design__btn {
+      right: 50px;
+    }
+    .dialog-design__title {
+      padding-left: 25px;
+    }
+  }
+  &__btn{
+    font-size: 14px;
+    position: absolute;
+    right: 5px;
+    top: 3px;
+    color: var(--el-color-primary);
+    cursor: pointer;
+  }
+  &__title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+}

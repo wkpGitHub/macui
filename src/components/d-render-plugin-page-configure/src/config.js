@@ -7,5 +7,6 @@ export default {
   button: () => import('./button'),
   dialog: () => import('./dialog-design'),
   pagination: () => import('./pagination'),
-  form: () => import('./form-design')
+  form: () => import('./form-design'),
+  entity: () => import('./entity-design')
 }

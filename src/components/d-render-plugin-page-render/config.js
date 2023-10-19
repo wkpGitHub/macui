@@ -16,6 +16,10 @@ export default {
     component: () => () => import('./layout-box'),
     layout: true
   },
+  entity: {
+    component: () => () => import('./entity'),
+    layout: true
+  },
   form: () => () => import('./form'),
   selectTreePanel: () => () => import('./select-tree-panel')
 }

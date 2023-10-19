@@ -14,6 +14,9 @@ import CodeSource from './widgets/side-components/code-source'
 import './index.less'
 import { reactive } from '@vue/reactivity'
 import { modulesConfig } from '@/components/page-design/config'
+import { dataInfoService } from '@/api'
+import DataModel from './widgets/side-components/data-model'
+
 export default {
   props: {
     scheme: Object,
@@ -66,6 +69,22 @@ export default {
       grid: 1
     })
 
+    const dataModels = ref([])
+    const initDataModels = async () => {
+      const res = await dataInfoService.tree({})
+      dataModels.value = res.data.datasources.map(item => ({
+        groupName: item.name,
+        label: item.name,
+        components: item.children.map(child => ({
+          type: 'entity',
+          label: child.name,
+          usingSlots: ['default'],
+          _entity: child
+        }))
+      }))
+    }
+    initDataModels()
+
     watch(() => props.scheme, (val) => {
       if (!val) {
         // 如果scheme为空则直接进行初始化
@@ -93,6 +112,7 @@ export default {
           />}
           {currentModuleName.value === 'renderer' && <PageComponents groupList={props.componentsGroupList}/>}
           {currentModuleName.value === 'code' && <CodeSource modelValue={props.scheme} onUpdate:modelValue={updateScheme}/>}
+          {currentModuleName.value === 'entity' && <DataModel groupList={dataModels.value} modelValue={props.scheme} onUpdate:modelValue={updateScheme}/>}
           {currentModuleName.value === 'methods' && <PageMethods modelValue={props.scheme} onUpdate:modelValue={updateScheme}/>}
           {slots.nav?.({ name: currentModuleName.value })}
           {/* {currentModuleName.value === 'api' && <ApiConfig modelValue={props.scheme} onUpdate:modelValue={updateScheme}/>} */}
@@ -110,7 +130,7 @@ export default {
         configure: () => <PageConfigure
         selectItem={selectItem.value}
         data={props.scheme}
-        onUpdate:data={(val) => updateScheme(val)}
+        onUpdate:data={(val) => { updateScheme(val) }}
         onUpdate:selectItem={(val) => updateSelectItem(val)}
         tabList={props.tabList}
         />
