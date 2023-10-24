@@ -7,7 +7,7 @@ export const componentsGroupList = [
         type: 'curd',
         icon: 'el-icon-edit',
         label: '增删改查',
-        usingSlots: ['filter', 'handle', 'default', 'pagination'],
+        usingSlots: ['filter', 'handle', 'default', 'pagination', 'dialog'],
         options: [
           {
             key: 'filter',
@@ -24,8 +24,7 @@ export const componentsGroupList = [
                       children: []
                     }
                   ]
-                },
-                key: ''
+                }
               }
             ]
           },
@@ -39,8 +38,7 @@ export const componentsGroupList = [
                   text: '新增',
                   icon: 'el-icon-plus',
                   inputType: 'primary'
-                },
-                key: ''
+                }
               },
               {
                 config: {
@@ -48,8 +46,7 @@ export const componentsGroupList = [
                   label: '按钮',
                   text: '删除',
                   icon: 'el-icon-delete'
-                },
-                key: ''
+                }
               }
             ]
           },
@@ -68,10 +65,8 @@ export const componentsGroupList = [
                       children: []
                     }
                   ],
-                  hideItem: false,
-                  key: ''
-                },
-                key: ''
+                  hideItem: false
+                }
               }
             ]
           },
@@ -84,14 +79,63 @@ export const componentsGroupList = [
                   label: '分页器',
                   limit: 10,
                   offset: 1
-                },
-                id: '',
-                key: ''
+                }
+              }
+            ]
+          },
+          {
+            key: 'dialog',
+            children: [
+              {
+                config: {
+                  type: 'dialog',
+                  class: 'disabled-table',
+                  label: '弹窗',
+                  hideLabel: true,
+                  usingSlots: [
+                    'default'
+                  ],
+                  options: [
+                    {
+                      key: 'default',
+                      children: [
+                        {
+                          config: {
+                            type: 'form',
+                            class: 'disabled-table',
+                            label: '表单',
+                            hideLabel: true,
+                            usingSlots: [
+                              'default'
+                            ],
+                            options: [
+                              {
+                                key: 'default',
+                                children: []
+                              }
+                            ],
+                            labelPosition: 'right'
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  size: 'default',
+                  width: '100%',
+                  top: '15vh',
+                  buttonSize: 'default',
+                  dialogType: 'dialog',
+                  defaultValue: true,
+                  closeOnClickModal: false,
+                  showOnly: false,
+                  showCancel: true,
+                  title: '新增'
+                }
               }
             ]
           }
         ],
-        apiList: { add: '', del: '', update: '', search: '' }
+        apiList: { save: '', del: '', search: '' }
       }
     ]
   },

@@ -28,47 +28,59 @@ export default defineComponent({
     })
 
     const fieldList = computed(() => generateFieldList(defineFormFieldConfig({
-      add: {
-        label: '新增接口',
+      save: {
+        label: '保存接口',
         type: 'select',
-        options: state.apiOptions,
+        options: state.apiOptions.filter(opt => opt.apiType === 'save'),
         optionProps: {
           label: 'fullPath',
           value: 'id'
         },
         changeEffect (value, key) {
-          console.log('key, value', key, value)
+          if (!value) return
+          // TODO: 给新增弹窗保存按钮加接口，尽量加，可能无法完全覆盖
+          centerService.getContent(value).then(({ data }) => {
+            const { inputParams = [] } = data.flow || {}
+            const dialogChildren = proxyValue.value.find(opt => opt.key === 'dialog')?.children
+            if (dialogChildren?.length && inputParams.length) {
+              const dialogOpts = dialogChildren[0].config.options
+              const formSlots = dialogOpts.find(opt => opt.key === 'default')?.children
+              if (!formSlots?.length) return
+              formSlots[0].config.options[0].children = inputParams.map(opt => ({
+                config: {
+                  type: 'input',
+                  label: opt.title
+                },
+                id: getId(),
+                key: opt.name
+              }))
+            }
+          })
         }
       },
       del: {
         label: '删除接口',
         type: 'select',
-        options: state.apiOptions,
+        options: state.apiOptions.filter(opt => opt.apiType === 'delete'),
         optionProps: {
           label: 'fullPath',
           value: 'id'
         },
-        changeEffect () {}
-      },
-      update: {
-        label: '修改接口',
-        type: 'select',
-        options: state.apiOptions,
-        optionProps: {
-          label: 'fullPath',
-          value: 'id'
-        },
-        changeEffect () {}
+        changeEffect () {
+          // TODO：给批量删除接口，加接口
+        }
       },
       search: {
         label: '查询接口',
         type: 'select',
-        options: state.apiOptions,
+        options: state.apiOptions.filter(opt => opt.apiType === 'query'),
         optionProps: {
           label: 'fullPath',
           value: 'id'
         },
         changeEffect (value, key) {
+          if (!value) return
+          // TODO：给查询按钮加接口
           centerService.getContent(value).then(({ data }) => {
             const { outParams = [], inputParams = [] } = data.flow || {}
             const filterChildren = proxyValue.value.find(opt => opt.key === 'filter')?.children
