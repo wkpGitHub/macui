@@ -3,7 +3,96 @@ export const componentsGroupList = [
     groupName: 'function',
     label: '功能',
     components: [
-      { type: 'curd', icon: 'el-icon-edit', label: '增删改查' }
+      {
+        type: 'curd',
+        icon: 'el-icon-edit',
+        label: '增删改查',
+        usingSlots: ['filter', 'handle', 'default', 'pagination'],
+        options: [
+          {
+            key: 'filter',
+            children: [
+              {
+                config: {
+                  type: 'searchForm',
+                  class: 'disabled-table',
+                  label: '搜索表单',
+                  hideLabel: true,
+                  options: [
+                    {
+                      key: 'default',
+                      children: []
+                    }
+                  ]
+                },
+                key: ''
+              }
+            ]
+          },
+          {
+            key: 'handle',
+            children: [
+              {
+                config: {
+                  type: 'button',
+                  label: '按钮',
+                  text: '新增',
+                  icon: 'el-icon-plus',
+                  inputType: 'primary'
+                },
+                key: ''
+              },
+              {
+                config: {
+                  type: 'button',
+                  label: '按钮',
+                  text: '删除',
+                  icon: 'el-icon-delete'
+                },
+                key: ''
+              }
+            ]
+          },
+          {
+            key: 'default',
+            children: [
+              {
+                config: {
+                  type: 'pageTable',
+                  class: 'disabled-table',
+                  label: '表格',
+                  hideLabel: true,
+                  options: [
+                    {
+                      key: 'default',
+                      children: []
+                    }
+                  ],
+                  hideItem: false,
+                  key: ''
+                },
+                key: ''
+              }
+            ]
+          },
+          {
+            key: 'pagination',
+            children: [
+              {
+                config: {
+                  type: 'pagination',
+                  label: '分页器',
+                  limit: 10,
+                  offset: 1
+                },
+                id: '',
+                key: ''
+              }
+            ]
+          }
+        ],
+        apiList: { add: '', del: '', update: '', search: '' }
+      }
     ]
   },
   {
@@ -17,7 +106,9 @@ export const componentsGroupList = [
         usingSlots: ['filter', 'handle', 'default', 'pagination'],
         options: [
           { key: 'filter', children: [] },
-          { key: 'default', children: [] }
+          { key: 'handle', children: [] },
+          { key: 'default', children: [] },
+          { key: 'pagination', children: [] }
         ]
       },
       {

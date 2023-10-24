@@ -3,6 +3,7 @@ import '@cip/components/cip-subapp-container/micro-app/public-path'
 import { render } from '@/render/index.js'
 import { microAppRender } from '@cip/components/cip-subapp-container/micro-app/util'
 import 'element-plus/theme-chalk/index.css'
+import 'element-plus/theme-chalk/dark/css-vars.css'
 // @cip/components样式
 import '@cip/styles'
 // d-render组件样式

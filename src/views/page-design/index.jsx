@@ -1,12 +1,15 @@
 import { ref } from 'vue'
 import Framework from './framework/index.vue'
 import ToolBar from './widgets/tool-bar'
-import ApiConfig from './widgets/api-config'
-import PageDesign from '@/components/page-design'
+// import ApiConfig from './widgets/api-config'
+// import DrPageDesign from '@/components/page-design'
+import { DrPageDesign } from '@d-render/design'
+import '@d-render/design/dist/index.css'
 import { componentsGroupList } from './config'
 import { pageInfoService } from '@/api'
 import CipMessage from '@cip/components/cip-message'
-import { ApiIcon } from './widgets/svg-icons'
+import CipButton from '@cip/components/cip-button'
+// import { ApiIcon } from './widgets/svg-icons'
 export default {
   props: {
     appPath: {},
@@ -22,6 +25,7 @@ export default {
     }
     const pageInfo = ref({})
     const apiList = ref([])
+    const equipment = ref('pc')
     const setPageInfo = () => {
       pageInfoService.detail({ id: props.id }).then(res => {
         pageInfo.value = res.data
@@ -42,28 +46,20 @@ export default {
     }
     setPageInfo()
     return () => <Framework appPath={props.appPath} >
-     <PageDesign
-       v-model:scheme={scheme.value}
+     <DrPageDesign
+       v-model:schema={scheme.value}
+       v-model:equipment={equipment.value}
        onSave={handleSave}
        componentsGroupList={componentsGroupList}
        drawTypeMap={drawTypeMap}
-       appendModules={[
-         { name: 'api', title: 'API Config', icon: <ApiIcon /> }
-       ]}
-       tabList={[
-         { name: 'style', label: '外观' }
-       ]}
      >
         {{
           title: () => <ToolBar pageInfo={pageInfo.value} onBack={() => handleBack()}/>,
-          nav: ({ name }) => <>
-            {name === 'api' && <ApiConfig v-model={pageInfo.value} />}
-          </>,
-          configure: ({ name }) => <>
-            {name === 'style' && <div>style</div>}
+          handle: () => <>
+            <CipButton type={'success'} onClick={() => { }}>发布</CipButton>
           </>
         }}
-      </PageDesign>
+      </DrPageDesign>
     </Framework>
   }
 

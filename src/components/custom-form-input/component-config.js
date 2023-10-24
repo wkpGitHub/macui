@@ -30,5 +30,6 @@ export default {
     layout: true
   },
   urlWithMethod: () => () => import('./url-with-method'),
-  'field-table': () => () => import('./field-table')
+  'field-table': () => () => import('./field-table'),
+  curdConfig: () => () => import('./curdConfig')
 }

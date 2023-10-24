@@ -7,6 +7,10 @@ export default {
     component: () => () => import('./page-table-design'),
     layout: true
   },
+  curd: {
+    component: () => () => import('./curd/'),
+    layout: true
+  },
   dialogDesign: {
     component: () => () => import('./dialog-design'),
     layout: true
