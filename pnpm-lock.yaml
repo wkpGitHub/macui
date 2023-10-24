@@ -86,6 +86,9 @@ dependencies:
   '@xdp/button':
     specifier: ^1.0.4
     version: 1.0.5(@d-render/shared@1.2.4-beta.3)(@element-plus/icons-vue@2.1.0)(element-plus@2.2.22)(vue@3.3.4)
+  '@xdp/config':
+    specifier: ^1.0.1
+    version: 1.0.1(@xdp/utils@1.0.1)(deepmerge@4.3.1)(vue@3.3.4)
   app-root-path:
     specifier: ^3.1.0
     version: 3.1.0

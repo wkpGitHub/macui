@@ -5,6 +5,10 @@ import { CipForm, defineFormFieldConfig, generateFieldList } from 'd-render'
 // import cipStore from '@cip/components/store'
 import { apiConfigService, centerService } from '@/api/service/chr'
 
+function getId () {
+  return Math.random().toString(16).substring(2, 10)
+}
+
 export default defineComponent({
   name: 'select-field',
   props: formInputProps,
@@ -75,6 +79,7 @@ export default defineComponent({
                   type: 'input',
                   label: opt.title
                 },
+                id: getId(),
                 key: opt.name
               }))
             }
@@ -86,6 +91,7 @@ export default defineComponent({
                   type: 'input',
                   label: opt.title
                 },
+                id: getId(),
                 key: opt.name
               }))
             }

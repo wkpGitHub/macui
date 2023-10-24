@@ -44,6 +44,7 @@
     "@vue/runtime-core": "^3.2.26",
     "@vue/shared": "^3.2.26",
     "@xdp/button": "^1.0.4",
+    "@xdp/config": "^1.0.1",
     "app-root-path": "^3.1.0",
     "axios": "^0.21.1",
     "codemirror": "^5.65.6",
