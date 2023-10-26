@@ -46,6 +46,16 @@ export const routes = [
     component: () => import('./data-sources')
   },
   {
+    name: 'configureDataSourcesDetail',
+    path: 'data-sources/:id/detail',
+    props (route) {
+      return {
+        id: route.params.id
+      }
+    },
+    component: () => import('./data-sources/detail')
+  },
+  {
     name: 'configureConnectorManagerItem',
     path: 'connector/:id/item',
     props (route) {
