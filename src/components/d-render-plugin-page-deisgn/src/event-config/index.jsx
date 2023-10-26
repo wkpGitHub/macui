@@ -3,7 +3,8 @@ import CipButtonText from '@cip/components/cip-button-text'
 import { Edit, Delete } from '@element-plus/icons-vue'
 import CpTree from '@cip/components/cip-tree'
 import CipDialog from '@cip/components/cip-dialog'
-import { CipForm, CipFormInputTransform } from 'd-render'
+// import { CipForm, CipFormInputTransform } from 'd-render'
+import { CipForm } from 'd-render'
 import { computed, ref, inject, watch, nextTick } from 'vue'
 import CipMessageBox from '@cip/components/cip-message-box'
 import LayoutBox from '@/components/d-render-plugin-page-render/layout-box'
@@ -13,7 +14,7 @@ import { filterList } from '@/lib/utils'
 import { EVENT_TYPE } from './const'
 import VueDraggable from 'vuedraggable'
 import './index.less'
-export const EventConfig = {
+export default {
   props: {
     modelValue: Array,
     includes: {
@@ -30,10 +31,10 @@ export const EventConfig = {
     const treeRef = ref()
     const contentModel = ref({})
     const formFieldList = ref([])
-    const pageDesign = inject('pageDesign', {})
+    const pageDesignGloabal = inject('pageDesignGloabal', {})
     watch(() => treeModel.value.eventType, () => {
-      contentModel.value._dialogList = getDialogKeyList(pageDesign.scheme.list)
-      contentModel.value._methodList = pageDesign.scheme.methods
+      contentModel.value._dialogList = getDialogKeyList(pageDesignGloabal.scheme.list)
+      contentModel.value._methodList = pageDesignGloabal.scheme.methods
       nextTick().then(() => {
         formFieldList.value = config[treeModel.value.eventType] || []
       })
@@ -143,15 +144,15 @@ export const EventConfig = {
   }
 }
 
-export default {
-  setup () {
-    const eventHandleProps = [
-      'includes',
-      'excludes'
-    ]
-    return () => <CipFormInputTransform
-      inputPropsConfig={eventHandleProps}
-      comp={EventConfig}
-    />
-  }
-}
+// export default {
+//   setup () {
+//     const eventHandleProps = [
+//       'includes',
+//       'excludes'
+//     ]
+//     return () => <CipFormInputTransform
+//       inputPropsConfig={eventHandleProps}
+//       comp={EventConfig}
+//     />
+//   }
+// }

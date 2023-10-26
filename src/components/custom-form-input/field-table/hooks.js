@@ -17,7 +17,7 @@ export function useFxDialog (proxyValue, config) {
 
   function onConfirm (resolve) {
     const ns = treeRef.value.tree.getCheckedNodes(true)
-    const v = (ns || []).map(({ label, value }) => ({ title: label, name: value }))
+    const v = (ns || []).map(({ label, value, dataType }) => ({ title: label, name: value, dataType }))
     if (proxyValue.value?.length) {
       proxyValue.value.push(...v)
     } else {

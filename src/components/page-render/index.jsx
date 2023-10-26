@@ -32,6 +32,7 @@ export default {
       // const model = toRaw(props.model) // 导致无响应
       const model = props.model
       setFieldValue(model, target, data)
+      debugger
       emit('update:model', model)
     }
     const methods = computed(() => {

@@ -23,8 +23,12 @@ export const componentsGroupList = [
                       key: 'default',
                       children: []
                     }
-                  ]
-                }
+                  ],
+                  key: 'searchFilter',
+                  id: 'searchFilter'
+                },
+                key: 'searchFilter',
+                id: 'searchFilter'
               }
             ]
           },

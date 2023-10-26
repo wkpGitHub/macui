@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, reactive, watch, provide } from 'vue'
 import Framework from './framework/index.vue'
 import ToolBar from './widgets/tool-bar'
 // import ApiConfig from './widgets/api-config'
@@ -9,6 +9,8 @@ import { componentsGroupList } from './config'
 import { pageInfoService } from '@/api'
 import CipMessage from '@cip/components/cip-message'
 import CipButton from '@cip/components/cip-button'
+import { FxPlugin } from './plugins/fx-plugin'
+import { ApiPlugin } from './plugins/api-plugin'
 // import { ApiIcon } from './widgets/svg-icons'
 export default {
   props: {
@@ -45,6 +47,17 @@ export default {
       entity: 'entityDesign'
     }
     setPageInfo()
+    const pageDesignGloabal = reactive({
+      drawTypeMap: drawTypeMap,
+      scheme: scheme.value
+    })
+    provide('pageDesignGloabal', pageDesignGloabal)
+    watch(scheme, (val) => {
+      pageDesignGloabal.scheme = val
+    }, {
+      deep: true
+    })
+
     return () => <Framework appPath={props.appPath} >
      <DrPageDesign
        v-model:schema={scheme.value}
@@ -52,11 +65,15 @@ export default {
        onSave={handleSave}
        componentsGroupList={componentsGroupList}
        drawTypeMap={drawTypeMap}
+       plugins={[
+         new FxPlugin(),
+         new ApiPlugin()
+       ]}
      >
         {{
           title: () => <ToolBar pageInfo={pageInfo.value} onBack={() => handleBack()}/>,
           handle: () => <>
-            <CipButton type={'success'} onClick={() => { }}>发布</CipButton>
+            <CipButton type={'success'} onClick={handleSave}>发布</CipButton>
           </>
         }}
       </DrPageDesign>
