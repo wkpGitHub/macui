@@ -6,7 +6,14 @@ export default [
   },
   {
     name: 'configureDataSources',
-    title: '实体'
+    title: '实体',
+    children: [
+      {
+        name: 'configureDataSourcesDetail',
+        hideInMenu: true,
+        title: '实体详情'
+      }
+    ]
   },
   {
     name: 'configureSetting',

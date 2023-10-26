@@ -47,6 +47,7 @@ export const useDataModel = (getData) => {
   }
 
   const handleClick = (command, data) => {
+    console.log(command, data, 'command, data')
     if (command === 'deleteItem') {
       console.log('删除')
     } else {

@@ -45,7 +45,7 @@ export default {
     }
 
     const theme = computed(() => {
-      return getFieldValue(cipStore.state.app, 'config.layout.pageTheme') ?? 'standard'
+      return getFieldValue(cipStore.state.app, 'config.layout.pageTheme') ?? 'supergravity'
     })
     const themes = {
       standard: Standard,
