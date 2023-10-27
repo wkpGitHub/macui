@@ -24,11 +24,12 @@ export const componentsGroupList = [
                       children: []
                     }
                   ],
-                  key: 'searchFilter',
-                  id: 'searchFilter'
-                },
-                key: 'searchFilter',
-                id: 'searchFilter'
+                  search: [{
+                    eventType: 'method',
+                    eventName: '函数',
+                    methods: 'page'
+                  }]
+                }
               }
             ]
           },
@@ -82,7 +83,17 @@ export const componentsGroupList = [
                   type: 'pagination',
                   label: '分页器',
                   limit: 10,
-                  offset: 1
+                  offset: 1,
+                  otherKey: ['page_num', 'total'],
+                  layout: 'total,sizes,prev,pager,next,jumper',
+                  pageSizes: [5, 10, 15, 20],
+                  onRefresh: [
+                    {
+                      eventType: 'method',
+                      eventName: '函数',
+                      methods: 'page'
+                    }
+                  ]
                 }
               }
             ]

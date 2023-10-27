@@ -18,17 +18,30 @@ export default defineComponent({
     const { proxyValue, proxyOtherValue } = useFormInput(props, ctx, { maxOtherKey: 1 })
 
     const { scheme } = inject('pageDesignGloabal', {})
-    function updateMethod (key, value) {
+    function updateMethod (key, value, { filterChildren, defaultChildren, paginationChildren }) {
       if (!scheme) return
+      const filterKey = filterChildren[0].key
+      const dataKey = defaultChildren[0].key
+      const pageSize = paginationChildren[0].key
+      const [pageNum, total] = paginationChildren[0]?.config?.otherKey || {}
+      const fnBody = `const page = {pageNum: model.${pageNum} || 1, pageSize: model.${pageSize} || 10}
+service.page({params:{...model.${filterKey}, ...page}}).then((res)=>{
+    const {data, page} = res.data.data
+    dataBus('${dataKey}', data)
+    dataBus('${pageSize}', page.pageSize)
+    dataBus('${pageNum}', page.pageNum)
+    dataBus('${total}', page.total)
+})
+      `
       if (scheme.methods) {
         const pageMethod = scheme.methods.find(m => m.name === key)
         if (pageMethod) {
-          pageMethod.body = 'xxx'
+          pageMethod.body = fnBody
         } else {
           scheme.methods.push({
             methodName: key,
             // 根据不同的key，生成不同的代码
-            body: "service.page({params:{...model.searchFilter, ...model.page}}).then((res)=>{\n    dataBus('data', res.data.data.data)\n    console.log('data',res.data.data)\n    dataBus(key, res.data.data.page)\n    console.log(model.page)\n})",
+            body: fnBody,
             index: scheme.methods.length - 1,
             name: key
           })
@@ -37,7 +50,7 @@ export default defineComponent({
         scheme.methods = [{
           methodName: key,
           // 根据不同的key，生成不同的代码
-          body: "service.page({params:{...model.searchFilter, ...model.page}}).then((res)=>{\n    dataBus('data', res.data.data.data)\n    console.log('data',res.data.data)\n    dataBus('page', res.data.data.page)\n    console.log(model.page)\n})",
+          body: fnBody,
           index: 0,
           name: key
         }]
@@ -71,25 +84,6 @@ export default defineComponent({
           fullPath: row.fullPath,
           index: 0,
           query: flow.inputParams.map(item => ({ name: item.name }))
-        }]
-      }
-    }
-
-    function updateSearch (config) {
-      if (config.search) {
-        const pageEvent = config.search.find(s => s.methods === 'page')
-        if (!pageEvent) {
-          config.search.push({
-            eventType: 'method',
-            eventName: '函数',
-            methods: 'page'
-          })
-        }
-      } else {
-        config.search = [{
-          eventType: 'method',
-          eventName: '函数',
-          methods: 'page'
         }]
       }
     }
@@ -149,17 +143,17 @@ export default defineComponent({
           if (!value) return
           // TODO：给查询按钮加接口
           // 给 scheme.methods添加方法
-          updateMethod('page', value)
+          const filterChildren = proxyValue.value.find(opt => opt.key === 'filter')?.children || []
+          const defaultChildren = proxyValue.value.find(opt => opt.key === 'default')?.children || []
+          const paginationChildren = proxyValue.value.find(opt => opt.key === 'pagination')?.children || []
+          updateMethod('page', value, { filterChildren, defaultChildren, paginationChildren })
           centerService.getContent(value).then(({ data }) => {
             updateApis('page', value, data)
             const { outParams = [], inputParams = [] } = data.flow || {}
-            const filterChildren = proxyValue.value.find(opt => opt.key === 'filter')?.children
             if (filterChildren?.length && inputParams.length) {
               const filterOpts = filterChildren[0].config.options
               filterOpts[0].children = inputParams.map(opt => getItemConfig(opt))
-              updateSearch(filterChildren[0].config)
             }
-            const defaultChildren = proxyValue.value.find(opt => opt.key === 'default')?.children
             if (defaultChildren?.length && outParams.length) {
               const defaultOpts = defaultChildren[0].config.options
               defaultOpts[0].children = outParams.map(opt => getItemConfig(opt))
