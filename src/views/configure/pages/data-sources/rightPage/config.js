@@ -36,8 +36,13 @@ export const tableColumns = generateFieldList(defineFormFieldConfig({
     type: 'table',
     hideLabel: true,
     options: generateFieldList(defineTableFieldConfig({
-      isPk: { align: 'center', type: 'tableRadio', writable: true, label: '主键', width: '60px' },
-      name: { label: '字段名称', writable: true },
+      name: {
+        label: '字段名称',
+        writable: true,
+        required: true,
+        regexpValidate: /^[a-zA-Z][0-9a-zA-Z]+$/,
+        regexpValidateErrorMessage: '只能以字母开头，允许输入数字、字母'
+      },
       title: { label: '显示名称', writable: true },
       typeScope: {
         type: 'dataType2',
@@ -56,6 +61,7 @@ export const tableColumns = generateFieldList(defineFormFieldConfig({
         min: 0,
         writable: true
       },
+      isPk: { align: 'center', type: 'tableRadio', writable: true, label: '主键', width: '60px' },
       nullable: {
         align: 'center',
         type: 'singleCheckbox',

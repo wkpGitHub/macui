@@ -58,6 +58,7 @@ export default {
             simpleSearchModel
             searchFieldList={searchFieldList}
             permission={{ info: 'no' }}
+            withPagination={false}
             dialogSize='mini'
           >
             {{
