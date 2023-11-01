@@ -16,6 +16,6 @@ export default {
   },
   options: {
     type: 'curdConfig',
-    otherKey: ['apiList', 'filedOptionMap']
+    otherKey: ['apiList']
   }
 }

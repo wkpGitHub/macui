@@ -25,7 +25,9 @@ export default {
     id: {}
   },
   setup (props) {
-    const schema = ref({})
+    const schema = ref({
+      dataModel: []
+    })
     const handleSave = (item) => {
       const data = { ...pageInfo.value, schema: schema.value, apiList: apiList.value }
       pageInfoService.save(data).then(res => {
@@ -38,7 +40,9 @@ export default {
     const setPageInfo = () => {
       pageInfoService.detail({ id: props.id }).then(res => {
         pageInfo.value = res.data
-        schema.value = res.data.schema
+        schema.value = Object.assign({}, {
+          dataModel: []
+        }, res.data.schema)
         apiList.value = res.data.apiList || []
         console.log(schema.value)
       })

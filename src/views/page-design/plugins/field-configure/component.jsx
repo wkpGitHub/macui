@@ -37,23 +37,18 @@ export default {
         console.warn(`form-design: 获取${val}组件配置文件发生错误,使用默认配置进行替换`)
         configure = defaultConfigureOptions()
       }
-      const { config: { filedOptionMap } } = drDesign.path.find(item => item?.config?.type === 'curd') || { config: {} }
-      if (filedOptionMap && !['curd', 'searchForm', 'pageTable'].includes(configBridge.value.type)) {
-        let options = []
-        if (drDesign.path.find(item => item?.config?.type === 'searchForm')) {
-          options = ((filedOptionMap.search || []).map(item => ({ label: item.key, value: item.key, type: item.config.type, title: item.config.label })))
-        } else if (drDesign.path.find(item => item?.config?.type === 'pageTable')) {
-          options = ((filedOptionMap.table || []).map(item => ({ label: item.key, value: item.key, type: item.config.type, title: item.config.label })))
-        } else if (drDesign.path.find(item => item?.config?.type === 'form')) {
-          options = ((filedOptionMap.form || []).map(item => ({ label: item.key, value: item.key, type: item.config.type, title: item.config.label })))
-        }
+      const curdConfig = drDesign.path.find(item => item?.config?.type === 'curd')
+      if (curdConfig && !['curd', 'searchForm', 'pageTable'].includes(configBridge.value.type)) {
         configure.type = { hideItem: true }
         return generateFieldList(configure, configureOptionsFieldConfigMap, {
           key: {
-            type: 'select',
-            options,
+            type: 'cascader',
             withObject: true,
-            otherKey: 'keyObj'
+            otherKey: 'keyObj',
+            optionProps: {
+              emitPath: false
+            },
+            asyncOptions: () => drDesign.schema.dataModel
           },
           label: {
             dependOn: ['keyObj'],
