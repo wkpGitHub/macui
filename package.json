@@ -34,7 +34,7 @@
     "@cip/styles": "^6.0.11",
     "@cip/utils": "^5.0.6",
     "@ctrl/tinycolor": "^3.4.1",
-    "@d-render/design": "1.1.2-beta.6",
+    "@d-render/design": "1.1.2-beta.7",
     "@d-render/shared": "1.2.4-beta.4",
     "@element-plus/icons-vue": "^2.0.6",
     "@micro-zoe/micro-app": "^0.8.10",
