@@ -64,6 +64,7 @@ export default {
     const componentDictionary = dRender.componentDictionary
     const components = {}
     const getComponents = () => {
+      // eslint-disable-next-line no-unused-vars
       for (const key of Object.keys(componentDictionary)) {
         components[key] = defineAsyncComponent(() => {
           const component = componentDictionary[key] ?? componentDictionary.input
@@ -174,7 +175,7 @@ export default {
 
     const renderSelect = (item) => {
       const _options = Object.entries(item.conditions[0]?.targetOtherValue || {}).map(item => {
-        const [key, value] = item
+        const [key] = item
         return {
           label: key,
           value: key
