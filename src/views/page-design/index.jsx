@@ -16,6 +16,7 @@ import { StructurePlugin } from './plugins/structure'
 import { PalettePlugin } from './plugins/palette'
 import { FieldConfigurePlugin } from './plugins/field-configure'
 import { PageDrawPlugin } from './plugins/page-draw'
+import { DataModelPlugin } from './plugins/data-model'
 
 // import { ApiIcon } from './widgets/svg-icons'
 export default {
@@ -62,7 +63,8 @@ export default {
       new FieldConfigurePlugin(),
       new PageDrawPlugin(),
       new FxPlugin(),
-      new ApiPlugin()
+      new ApiPlugin(),
+      new DataModelPlugin()
     ]
 
     return () => <Framework appPath={props.appPath} >

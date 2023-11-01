@@ -11,6 +11,18 @@ export default {
     component: () => () => import('./curd/'),
     layout: true
   },
+  pageInfo: {
+    component: () => () => import('./page-info'),
+    layout: true
+  },
+  pageHandle: {
+    component: () => () => import('./page-handle'),
+    layout: true
+  },
+  pageLeftRight: {
+    component: () => () => import('./page-left-right'),
+    layout: true
+  },
   // tableDesign: {
   //   component: () => () => import('./table-design'),
   //   layout: true

@@ -12,7 +12,6 @@ export default {
         return props.schema || props.config
       })
       const columns = options[0] ? options[0].children : []
-      console.log(columns)
       return <CipTable
         {...componentProps}
         data={modelValue}

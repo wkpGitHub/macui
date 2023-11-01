@@ -115,6 +115,9 @@ service.page({params:{...model.${filterKey}, ...page}}).then((res)=>{
               const formSlots = dialogOpts.find(opt => opt.key === 'default')?.children
               if (!formSlots?.length) return
               formSlots[0].config.options[0].children = inputParams.map(opt => getItemConfig(opt))
+              const optsMap = proxyOtherValue[1].value || {}
+              optsMap.form = inputParams.map(opt => getItemConfig(opt))
+              proxyOtherValue[1].value = optsMap
             }
           })
         }

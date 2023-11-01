@@ -21,7 +21,7 @@ export default {
     return () => {
       return <CipForm class="cip-search-form" fieldList={[]} grid={1} labelPosition={labelPosition.value}>
         <div class="search-form-design-wrapper">
-          <div class="search-form-design-content">
+          <div class="search-form-design-content" style={{ '--dr-page-render-cols': props.config.grid }}>
             {componentSlots.value.default?.()}
           </div>
           {

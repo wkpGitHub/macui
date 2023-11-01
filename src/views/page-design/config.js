@@ -151,6 +151,32 @@ export const componentsGroupList = [
           }
         ],
         apiList: { save: '', del: '', search: '' }
+      },
+      {
+        type: 'pageLeftRight',
+        icon: 'el-icon-edit',
+        label: '左右布局',
+        options: [
+          { key: 'left', children: [] },
+          { key: 'default', children: [] }
+        ]
+      },
+      {
+        type: 'pageInfo',
+        icon: 'el-icon-edit',
+        label: '详情页',
+        options: [
+          { key: 'default', children: [] }
+        ]
+      },
+      {
+        type: 'pageHandle',
+        icon: 'el-icon-edit',
+        label: '编辑页',
+        options: [
+          { key: 'default', children: [] },
+          { key: 'handle', children: [] }
+        ]
       }
     ]
   },

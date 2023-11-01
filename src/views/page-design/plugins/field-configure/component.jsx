@@ -6,6 +6,7 @@ import {
   defaultConfigureOptions,
   generateFieldList
 } from '@d-render/shared'
+
 export default {
   name: 'DrDesignFieldConfig',
   inheritAttrs: false,
@@ -15,6 +16,7 @@ export default {
   },
   emits: ['update:selectItem'],
   setup (props, { emit }) {
+    Reflect.deleteProperty(configureOptionsFieldConfigMap.width, 'defaultValue')
     provide('getSchema', () => props.schema)
     const drDesign = inject('drDesign', {})
     // TODO: 通过源代码修改，修改的值无法正常的回显，因为检测不到selectItem的变化
@@ -42,6 +44,8 @@ export default {
           options = ((filedOptionMap.search || []).map(item => ({ label: item.key, value: item.key, type: item.config.type, title: item.config.label })))
         } else if (drDesign.path.find(item => item?.config?.type === 'pageTable')) {
           options = ((filedOptionMap.table || []).map(item => ({ label: item.key, value: item.key, type: item.config.type, title: item.config.label })))
+        } else if (drDesign.path.find(item => item?.config?.type === 'form')) {
+          options = ((filedOptionMap.form || []).map(item => ({ label: item.key, value: item.key, type: item.config.type, title: item.config.label })))
         }
         configure.type = { hideItem: true }
         return generateFieldList(configure, configureOptionsFieldConfigMap, {
