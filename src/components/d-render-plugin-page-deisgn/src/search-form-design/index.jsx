@@ -19,7 +19,7 @@ export default {
     })
     // fieldList 存放地址 options.value[0].children
     return () => {
-      return <CipForm class="cip-search-form" fieldList={[]} grid={props.config.grid || 1} labelPosition={labelPosition.value}>
+      return <CipForm class="cip-search-form" fieldList={[]} grid={1} labelPosition={labelPosition.value}>
         <div class="search-form-design-wrapper">
           <div class="search-form-design-content">
             {componentSlots.value.default?.()}

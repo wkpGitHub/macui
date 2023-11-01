@@ -11,6 +11,10 @@ export default {
     component: () => () => import('./curd/'),
     layout: true
   },
+  // tableDesign: {
+  //   component: () => () => import('./table-design'),
+  //   layout: true
+  // },
   dialogDesign: {
     component: () => () => import('./dialog-design'),
     layout: true

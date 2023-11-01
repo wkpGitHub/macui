@@ -1,9 +1,9 @@
-import { ref, reactive, watch, provide } from 'vue'
+import { ref } from 'vue'
 import Framework from './framework/index.vue'
 import ToolBar from './widgets/tool-bar'
 // import ApiConfig from './widgets/api-config'
 // import DrPageDesign from '@/components/page-design'
-import { DrPageDesign } from '@d-render/design'
+import { DrBasicDesign } from '@d-render/design'
 import '@d-render/design/dist/index.css'
 import { componentsGroupList } from './config'
 import { pageInfoService } from '@/api'
@@ -11,6 +11,12 @@ import CipMessage from '@cip/components/cip-message'
 import CipButton from '@cip/components/cip-button'
 import { FxPlugin } from './plugins/fx-plugin'
 import { ApiPlugin } from './plugins/api-plugin'
+import { CodeSourcePlugin } from './plugins/code-source/index'
+import { StructurePlugin } from './plugins/structure'
+import { PalettePlugin } from './plugins/palette'
+import { FieldConfigurePlugin } from './plugins/field-configure'
+import { PageDrawPlugin } from './plugins/page-draw'
+
 // import { ApiIcon } from './widgets/svg-icons'
 export default {
   props: {
@@ -18,9 +24,9 @@ export default {
     id: {}
   },
   setup (props) {
-    const scheme = ref({})
+    const schema = ref({})
     const handleSave = (item) => {
-      const data = { ...pageInfo.value, schema: scheme.value, apiList: apiList.value }
+      const data = { ...pageInfo.value, schema: schema.value, apiList: apiList.value }
       pageInfoService.save(data).then(res => {
         CipMessage.success(res.message)
       })
@@ -31,9 +37,9 @@ export default {
     const setPageInfo = () => {
       pageInfoService.detail({ id: props.id }).then(res => {
         pageInfo.value = res.data
-        scheme.value = res.data.schema
+        schema.value = res.data.schema
         apiList.value = res.data.apiList || []
-        console.log(scheme.value)
+        console.log(schema.value)
       })
     }
     const handleBack = () => {
@@ -47,28 +53,25 @@ export default {
       entity: 'entityDesign'
     }
     setPageInfo()
-    const pageDesignGloabal = reactive({
-      drawTypeMap: drawTypeMap,
-      scheme: scheme.value
-    })
-    provide('pageDesignGloabal', pageDesignGloabal)
-    watch(scheme, (val) => {
-      pageDesignGloabal.scheme = val
-    }, {
-      deep: true
-    })
+    const plugins = [
+      new PalettePlugin({
+        data: componentsGroupList
+      }),
+      new StructurePlugin(),
+      new CodeSourcePlugin(),
+      new FieldConfigurePlugin(),
+      new PageDrawPlugin(),
+      new FxPlugin(),
+      new ApiPlugin()
+    ]
 
     return () => <Framework appPath={props.appPath} >
-     <DrPageDesign
-       v-model:schema={scheme.value}
+     <DrBasicDesign
+       v-model:schema={schema.value}
        v-model:equipment={equipment.value}
-       onSave={handleSave}
        componentsGroupList={componentsGroupList}
        drawTypeMap={drawTypeMap}
-       plugins={[
-         new FxPlugin(),
-         new ApiPlugin()
-       ]}
+       plugins={plugins}
      >
         {{
           title: () => <ToolBar pageInfo={pageInfo.value} onBack={() => handleBack()}/>,
@@ -76,7 +79,7 @@ export default {
             <CipButton type={'success'} onClick={handleSave}>发布</CipButton>
           </>
         }}
-      </DrPageDesign>
+      </DrBasicDesign>
     </Framework>
   }
 

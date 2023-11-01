@@ -257,6 +257,21 @@ export const componentsGroupList = [
         ]
       },
       {
+        type: 'tableDesign',
+        class: 'disabled-table',
+        icon: 'el-icon-menu',
+        label: '子表格',
+        hideLabel: true,
+        usingSlots: ['default'],
+        options: [
+          {
+            key: 'default',
+            children: [
+            ]
+          }
+        ]
+      },
+      {
         type: 'dialog',
         class: 'disabled-table',
         icon: 'el-icon-menu',

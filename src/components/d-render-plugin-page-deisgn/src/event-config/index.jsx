@@ -31,7 +31,7 @@ export default {
     const treeRef = ref()
     const contentModel = ref({})
     const formFieldList = ref([])
-    const pageDesignGloabal = inject('pageDesignGloabal', {})
+    const pageDesignGloabal = inject('dr-design', {})
     watch(() => treeModel.value.eventType, () => {
       contentModel.value._dialogList = getDialogKeyList(pageDesignGloabal.scheme.list)
       contentModel.value._methodList = pageDesignGloabal.scheme.methods

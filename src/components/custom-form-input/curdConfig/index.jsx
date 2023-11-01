@@ -15,9 +15,9 @@ export default defineComponent({
       apiOptions: [],
       formVal: {}
     })
-    const { proxyValue, proxyOtherValue } = useFormInput(props, ctx, { maxOtherKey: 1 })
+    const { proxyValue, proxyOtherValue } = useFormInput(props, ctx, { maxOtherKey: 2 })
 
-    const { scheme } = inject('pageDesignGloabal', {})
+    const { scheme } = inject('dr-design', {})
     function updateMethod (key, value, { filterChildren, defaultChildren, paginationChildren }) {
       if (!scheme) return
       const filterKey = filterChildren[0].key
@@ -147,29 +147,28 @@ service.page({params:{...model.${filterKey}, ...page}}).then((res)=>{
           const defaultChildren = proxyValue.value.find(opt => opt.key === 'default')?.children || []
           const paginationChildren = proxyValue.value.find(opt => opt.key === 'pagination')?.children || []
           updateMethod('page', value, { filterChildren, defaultChildren, paginationChildren })
+          const optsMap = proxyOtherValue[1].value || {}
           centerService.getContent(value).then(({ data }) => {
             updateApis('page', value, data)
             const { outParams = [], inputParams = [] } = data.flow || {}
             if (filterChildren?.length && inputParams.length) {
               const filterOpts = filterChildren[0].config.options
               filterOpts[0].children = inputParams.map(opt => getItemConfig(opt))
+              optsMap.search = inputParams.map(opt => getItemConfig(opt))
             }
             if (defaultChildren?.length && outParams.length) {
               const defaultOpts = defaultChildren[0].config.options
               defaultOpts[0].children = outParams.map(opt => getItemConfig(opt))
+              optsMap.table = outParams.map(opt => getItemConfig(opt))
             }
+            proxyOtherValue[1].value = optsMap
           })
         }
       }
     })))
 
-    return () => {
-      const { usingSlots } = props.dependOnValues
-      return <div class="curd-config__container" style="width: 100%">
-        <CipForm v-model:model={proxyOtherValue[0].value} fieldList={fieldList.value} />
-        {usingSlots.includes('filter')}
-        {usingSlots.includes('default')}
-      </div>
-    }
+    return () => <div class="curd-config__container" style="width: 100%">
+    <CipForm v-model:model={proxyOtherValue[0].value} fieldList={fieldList.value} />
+  </div>
   }
 })

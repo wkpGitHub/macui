@@ -1,6 +1,11 @@
 export default {
   key: {},
   label: {},
+  grid: {
+    label: '栅格数',
+    defaultValue: 6,
+    type: 'number'
+  },
   hideSearch: {
     label: '是否隐藏操作按钮',
     type: 'switch'
@@ -11,7 +16,7 @@ export default {
   },
   labelPosition: {
     type: 'select',
-    defaultValue: 'top',
+    defaultValue: 'right',
     options: [
       {
         label: '上对齐',
