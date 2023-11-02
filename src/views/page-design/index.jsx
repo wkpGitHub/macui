@@ -29,7 +29,7 @@ export default {
   setup (props) {
     const schema = ref({
       dataModel: [{
-        label: '自定义数据',
+        label: '静态数据',
         value: 'private',
         children: []
       }]
