@@ -10,5 +10,6 @@ export default {
   pagination: () => import('./pagination'),
   form: () => import('./form-design'),
   entity: () => import('./entity-design'),
-  pageHandle: () => import('./page-handle')
+  pageHandle: () => import('./page-handle'),
+  blockViewChart: () => import('./block-view-chart')
 }
