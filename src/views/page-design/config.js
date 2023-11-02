@@ -42,7 +42,8 @@ export const componentsGroupList = [
                   label: '按钮',
                   text: '新增',
                   icon: 'el-icon-plus',
-                  inputType: 'primary'
+                  inputType: 'primary',
+                  click: []
                 }
               },
               {
@@ -50,7 +51,8 @@ export const componentsGroupList = [
                   type: 'button',
                   label: '按钮',
                   text: '删除',
-                  icon: 'el-icon-delete'
+                  icon: 'el-icon-delete',
+                  click: []
                 }
               }
             ]
@@ -272,21 +274,6 @@ export const componentsGroupList = [
         class: 'disabled-table',
         icon: 'el-icon-menu',
         label: '表单',
-        hideLabel: true,
-        usingSlots: ['default'],
-        options: [
-          {
-            key: 'default',
-            children: [
-            ]
-          }
-        ]
-      },
-      {
-        type: 'tableDesign',
-        class: 'disabled-table',
-        icon: 'el-icon-menu',
-        label: '子表格',
         hideLabel: true,
         usingSlots: ['default'],
         options: [

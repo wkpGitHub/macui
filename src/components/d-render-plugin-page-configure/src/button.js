@@ -11,9 +11,9 @@ export default {
   },
   click: {
     label: '点击事件',
-    type: 'eventConfig',
-    infoRender: (h, { item }) => h('div', null, [item.remark]),
-    itemType: '事件',
-    itemKey: 'index'
+    type: 'eventConfig'
+    // infoRender: (h, { item }) => h('div', null, [item.remark]),
+    // itemType: '事件',
+    // itemKey: 'index'
   }
 }

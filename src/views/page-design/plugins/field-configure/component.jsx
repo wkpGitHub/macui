@@ -68,7 +68,8 @@ export default {
       }
     }
     const fieldComponentConfigureFieldConfigList = ref([])
-    watch([() => configBridge.value.type, () => configBridge.value.key], ([val]) => {
+
+    watch(() => configBridge.value.type, (val) => {
       if (val) {
         fieldComponentConfigureFieldConfigList.value = []
         // dependOn存在缓存问题，暂时先进行清空再赋值操作

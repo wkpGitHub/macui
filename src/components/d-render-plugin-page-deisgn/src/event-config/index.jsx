@@ -31,10 +31,10 @@ export default {
     const treeRef = ref()
     const contentModel = ref({})
     const formFieldList = ref([])
-    const pageDesignGloabal = inject('dr-design', {})
+    const { schema } = inject('drDesign', {})
     watch(() => treeModel.value.eventType, () => {
-      contentModel.value._dialogList = getDialogKeyList(pageDesignGloabal.scheme.list)
-      contentModel.value._methodList = pageDesignGloabal.scheme.methods
+      contentModel.value._dialogList = getDialogKeyList(schema.list)
+      contentModel.value._methodList = schema.methods
       nextTick().then(() => {
         formFieldList.value = config[treeModel.value.eventType] || []
       })

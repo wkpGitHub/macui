@@ -27,7 +27,11 @@ export default {
   },
   setup (props) {
     const schema = ref({
-      dataModel: []
+      dataModel: [{
+        label: '自定义数据',
+        value: 'private',
+        children: []
+      }]
     })
     const handleSave = (item) => {
       const data = { ...pageInfo.value, schema: schema.value, apiList: apiList.value }

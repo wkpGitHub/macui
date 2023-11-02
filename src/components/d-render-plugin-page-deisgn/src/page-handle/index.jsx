@@ -1,6 +1,7 @@
 import { PlHandle as CipPageHandle } from '@cip/page-layout'
 import { layoutProps } from '@d-render/shared'
 import { useComponentSlots } from '@/components/d-render-plugin-page-render/use-component-slots'
+import './index.less'
 
 export default {
   props: layoutProps,
