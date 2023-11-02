@@ -1,7 +1,7 @@
 import { DRender } from 'd-render'
 
 const dRender = new DRender()
-export const getComponentCssConfigure = async (type) => {
-  const { cssConfigure } = await dRender.componentDictionary[type]('/configure')()
-  return cssConfigure
+export const getComponentCssConfigure = async (val, type) => {
+  const { cssConfigure = {}, advancedConfigure = {} } = await dRender.componentDictionary[val]('/configure')()
+  return type === 'css' ? cssConfigure : advancedConfigure
 }

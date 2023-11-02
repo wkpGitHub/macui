@@ -4,14 +4,15 @@ import { nextTick, ref, watch } from 'vue'
 export default {
   props: {
     selectItem: {},
-    schema: {}
+    schema: {},
+    type: {}
   },
   emits: ['update:selectItem'],
   setup (props, { emit }) {
     const getFieldComponentConfigureFieldConfigList = async (val) => {
       let configure
       try {
-        configure = await getComponentCssConfigure(val)
+        configure = await getComponentCssConfigure(val, props.type)
       } catch (e) {
         // 若获取配置发生错误直接使用默认配置
         console.warn(`form-design: 获取${val}组件配置文件发生错误,使用默认配置进行替换`)
