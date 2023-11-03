@@ -5,14 +5,17 @@
       :key="'y-'+index"
       style="display: flex; align-items: center; margin-bottom: 12px;"
     >
-      <el-select v-model="item.field"
-                  filterable
-                  placeholder="请选择字段"
-                  @change="t => yFieldChange(t, item)">
-        <el-option v-for="op in yFields"
-                    :key="'yo'+index+op.name"
-                    :label="op.label"
-                    :value="op.name" />
+      <el-select
+        v-model="item.field"
+        filterable
+        placeholder="请选择字段"
+        @change="t => yFieldChange(t)"
+      >
+        <el-option
+          v-for="op in yFields"
+          :key="'yo'+index+op.name"
+          :label="op.label"
+          :value="op.name" />
       </el-select>
       <el-icon style='color: #D9D9D9; cursor: pointer;' @click="deleteYField(index)"><Remove /></el-icon>
     </div>
@@ -40,19 +43,20 @@ export default {
   components: { ElSelect, ElOption, ElIcon, Remove, Plus },
   setup (props, ctx) {
     const { proxyValue, emitModelValue, securityConfig } = useFormInput(props, ctx)
-    const yFields = []
+    const yFields = computed(() => {
+      return securityConfig.value.yFields || []
+    })
 
     // y 轴字段选择
-    const yFieldChange = (name, item) => {
-      console.log('~name, item~~~~~', name, item)
-      // item.name = this.getLabel(name)
+    const yFieldChange = (name) => {
+      emitModelValue(proxyValue.value)
     }
 
     const addYField = () => {
       if (!proxyValue.value.columns) {
         proxyValue.value.columns = []
       }
-      proxyValue.value.columns.push({ name: '', field: '', chartType: 'bar', alias: '' })
+      proxyValue.value.columns.push({ field: '' })
       emitModelValue(proxyValue.value)
     }
 
@@ -62,17 +66,12 @@ export default {
       emitModelValue(proxyValue.value)
     }
 
-    const isShow = computed(() => {
-      return !securityConfig.value.chartTypeDisabled
-    })
-
     onMounted(() => {
-      proxyValue.value = proxyValue.value ? proxyValue.value : { columns: [{ name: '', field: '', chartType: 'bar', alias: '' }] }
+      proxyValue.value = proxyValue.value ? proxyValue.value : { columns: [{ field: '' }] }
     })
 
     return {
       proxyValue,
-      isShow,
       yFields,
       addYField,
       deleteYField,

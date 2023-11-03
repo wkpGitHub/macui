@@ -1,6 +1,66 @@
 
 import { generateFieldList } from 'd-render'
-import { addConfigPrefix } from '../utils'
+import { addConfigPrefix, xField, yField } from '../utils'
+
+const columns = [
+  {
+    label: '名称',
+    name: 'name',
+    sortable: false,
+    sum: false,
+    table: 'test_person',
+    tag: false,
+    type: 'STRING',
+    typeId: '402894984d8ac7ea014d8af02b650002'
+  },
+  {
+    label: '密码',
+    name: 'password',
+    sortable: false,
+    sum: false,
+    table: 'test_person',
+    tag: false,
+    type: 'STRING',
+    typeId: '402894984d8ac7ea014d8af02b650002'
+  },
+  {
+    label: '年龄',
+    name: 'age',
+    sortable: false,
+    sum: false,
+    table: 'test_person',
+    tag: false,
+    type: 'STRING',
+    typeId: '402894984d8ac7ea014d8af02b650002'
+  },
+  {
+    label: 'year',
+    name: 'year',
+    sortable: false,
+    sum: false,
+    table: 'test_person',
+    tag: false,
+    type: 'LONG',
+    typeId: '402894984d8ac7ea014d8af02b650012'
+  },
+  {
+    label: '钱',
+    name: 'money',
+    sortable: false,
+    sum: false,
+    table: 'test_person',
+    tag: false,
+    type: 'INT',
+    typeId: '402894984d8ac7ea014d8af02b650112'
+  }
+]
+
+const xFields = columns.filter(column => {
+  return xField(column)
+})
+const yFields = columns.filter(column => {
+  return yField(column)
+})
 
 export default {
   defaultValue: { },
@@ -81,7 +141,8 @@ export default {
   xField: {
     label: '键字段',
     type: 'select',
-    options: [],
+    optionProps: { label: 'label', value: 'name' },
+    options: xFields,
     dependOn: ['chartType'],
     changeConfig: (config, { chartType }) => {
       if (!['pie'].includes(chartType)) {
@@ -98,6 +159,7 @@ export default {
       if (!['pie'].includes(chartType)) {
         config.readable = false
       }
+      config.yFields = yFields
       return config
     }
   }

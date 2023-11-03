@@ -1,10 +1,31 @@
+import { startsWith } from 'lodash-es'
+
 export const addConfigPrefix = (configObj = {}) => {
-  const keyArr = Object.keys(configObj)
   const obj = {}
-  keyArr.forEach(key => {
+  Object.keys(configObj).forEach(key => {
     obj['config.' + key] = configObj[key]
   })
   return obj
+}
+
+/**
+ * 字段是否可以作为 x 轴  主要是字符串类型, 所有字段都可以
+ * @param {字段} field {name:'', label:'', type}
+ */
+export const xField = (field) => {
+  return true
+}
+
+/**
+ * 字段是否可以作为 y 轴 数值类型
+ * @param {字段} field
+ */
+export const yField = (field) => {
+  if (field && field.type) {
+    if (startsWith(field.type, 'LONG') || startsWith(field.type, 'DOUBLE') ||
+      startsWith(field.type, 'INT') || startsWith(field.type, 'BIT') || startsWith(field.type, 'FLOAT')) { return true }
+  }
+  return false
 }
 
 export function getId () {
