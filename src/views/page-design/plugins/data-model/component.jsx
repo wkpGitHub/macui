@@ -14,27 +14,27 @@ export default {
     const treeRef = ref()
     const { schema } = inject('drDesign', {})
 
-    function getStaticData() {
-      const temp = (schema.dataModel || []).find(v=> v.value==='private')?.children || []
+    function getStaticData () {
+      const temp = (schema.dataModel || []).find(v => v.value === 'private')?.children || []
       return cloneDeep(temp)
     }
 
-    onMounted(()=> {
-      console.log('mounted');
+    onMounted(() => {
+      console.log('mounted')
     })
 
-    function setStaticData(data) {
-      (schema.dataModel || []).find(v=> v.value==='private').children = data
+    function setStaticData (data) {
+      (schema.dataModel || []).find(v => v.value === 'private').children = data
     }
 
     const visible = ref(false)
     const form = ref({})
     function openDialog () {
-      form.fields = getStaticData()
+      form.value.fields = getStaticData()
       visible.value = true
     }
-    function handleConfirm(resolve) {
-      const data = (form.value.fields || []).map(v=> {
+    function handleConfirm (resolve) {
+      const data = (form.value.fields || []).map(v => {
         return {
           label: `${v.name}【${v.ename}】`,
           value: v.ename,
@@ -45,13 +45,13 @@ export default {
       resolve()
     }
 
-    watchEffect(()=> {
-      console.log(schema.dataModel, 'kkk');
+    watchEffect(() => {
+      console.log(schema.dataModel, 'kkk')
     })
     return () => <div style={'padding: 0 12px;'}>
       <CipButton type='primary' onClick={openDialog} buttonType='create'>新增静态数据</CipButton>
       <ElTree ref={treeRef} data={schema.dataModel || []} />
-      <CipDialog 
+      <CipDialog
         v-model={visible.value}
         title='静态数据'
         onConfirm={handleConfirm}
