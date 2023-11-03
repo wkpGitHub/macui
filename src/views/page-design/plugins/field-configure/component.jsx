@@ -46,7 +46,11 @@ export default {
             withObject: true,
             otherKey: 'keyObj',
             optionProps: {
-              emitPath: false
+              emitPath: false,
+              checkStrictly: true,
+              disabled (data, node) {
+                return node.level === 1
+              }
             },
             asyncOptions: () => drDesign.schema.dataModel
           },

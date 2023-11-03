@@ -1,4 +1,4 @@
-import { ref, inject } from 'vue'
+import { ref } from 'vue'
 import { ElTree } from 'element-plus'
 
 export default {
@@ -8,9 +8,8 @@ export default {
   emits: ['update:schema'],
   setup (props, { emit }) {
     const treeRef = ref()
-    const { schema } = inject('drDesign', {})
     return () => <div style={'padding: 0 12px;'}>
-      <ElTree ref={treeRef} data={schema.dataModel || []} />
+      <ElTree ref={treeRef} data={props.schema.dataModel || []} />
     </div>
   }
 }

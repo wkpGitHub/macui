@@ -7,7 +7,7 @@ import { apiConfigService, centerService } from '@/api/service/chr'
 import { getItemConfig } from './config'
 
 export default defineComponent({
-  name: 'select-field',
+  name: 'curd-config',
   props: formInputProps,
   emits: fromInputEmits,
   setup (props, ctx) {

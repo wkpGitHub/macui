@@ -50,6 +50,7 @@ export default {
         }, res.data.schema)
         apiList.value = res.data.apiList || []
         console.log(schema.value)
+        debugger
       })
     }
     const handleBack = () => {

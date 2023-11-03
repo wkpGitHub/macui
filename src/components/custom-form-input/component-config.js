@@ -31,5 +31,6 @@ export default {
   },
   urlWithMethod: () => () => import('./url-with-method'),
   'field-table': () => () => import('./field-table'),
-  curdConfig: () => () => import('./curdConfig')
+  curdConfig: () => () => import('./curdConfig'),
+  'select-api': () => () => import('./select-api')
 }

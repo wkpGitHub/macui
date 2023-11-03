@@ -14,8 +14,17 @@ export default {
       { value: 'dialog', label: '弹窗' }
     ]
   },
-  options: {
-    type: 'curdConfig',
-    otherKey: ['apiList']
+  // options: {
+  //   type: 'curdConfig',
+  //   otherKey: ['apiList']
+  // },
+  searchApi: {
+    type: 'select-api',
+    label: '保存接口',
+    dependOn: ['options'],
+    onChange ({ row, schema, updateApis, updateDataModel }) {
+      updateApis('save')
+      updateDataModel('保存接口')
+    }
   }
 }

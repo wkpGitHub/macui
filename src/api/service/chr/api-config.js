@@ -70,12 +70,12 @@ class ApiConfigService extends Model {
 
   // 树状结构
   @transformData()
-  tree ({ apiMethod, dataId, devMode, name, path, pid }) {
+  tree ({ apiMethod, dataId, devMode, name, path, pid, isApi }) {
     return req({
       method: 'get',
       apiName: 'apiChr',
       url: '/api/v1/api/center/config/tree',
-      params: { apiMethod, dataId, devMode, name, path, pid }
+      params: { apiMethod, dataId, devMode, name, path, pid, isApi }
     })
   }
 
