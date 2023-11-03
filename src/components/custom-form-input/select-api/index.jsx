@@ -29,7 +29,6 @@ export default {
 
     function updateApis (row, key) {
       if (!drDesign.schema) return
-      debugger
       if (drDesign.schema.apiList) {
         const pageMethod = drDesign.schema.apiList.find(m => m.objId === row.id)
         if (pageMethod) {
@@ -91,6 +90,7 @@ export default {
       props.config?.onChange({
         row: data,
         schema: drDesign.schema,
+        dependOn: props.dependOnValues,
         updateApis: updateApis.bind(null, data),
         updateDataModel: updateDataModel.bind(null, v)
       })

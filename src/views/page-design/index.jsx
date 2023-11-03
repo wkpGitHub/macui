@@ -47,12 +47,13 @@ export default {
     const setPageInfo = () => {
       pageInfoService.detail({ id: props.id }).then(res => {
         pageInfo.value = res.data
-        schema.value = Object.assign({}, {
-          dataModel: initDataModel
-        }, res.data.schema)
+        if (res.data.schema.dataModel) {
+          res.data.schema.dataModel.push(...initDataModel)
+        } else {
+          res.data.schema.dataModel = initDataModel
+        }
+        schema.value = res.data.schema
         apiList.value = res.data.apiList || []
-        console.log(schema.value)
-        debugger
       })
     }
     const handleBack = () => {

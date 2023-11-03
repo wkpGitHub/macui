@@ -8,40 +8,33 @@ import { CipForm } from 'd-render'
 import { computed, ref, inject, watch, nextTick } from 'vue'
 import CipMessageBox from '@cip/components/cip-message-box'
 import LayoutBox from '@/components/d-render-plugin-page-render/layout-box'
-import { cloneDeep } from '@d-render/shared'
+import { cloneDeep, formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import { config, getDialogKeyList } from './config'
 import { filterList } from '@/lib/utils'
 import { EVENT_TYPE } from './const'
 import VueDraggable from 'vuedraggable'
 import './index.less'
 export default {
-  props: {
-    modelValue: Array,
-    includes: {
-      type: Array
-    },
-    excludes: {
-      type: Array
-    }
-  },
-  emits: ['update:modelValue'],
-  setup (props, { emit }) {
+  props: formInputProps,
+  emits: fromInputEmits,
+  setup (props, ctx) {
+    const { proxyValue } = useFormInput(props, ctx)
     const dialog = ref(false)
     const treeModel = ref({})
     const treeRef = ref()
     const contentModel = ref({})
     const formFieldList = ref([])
-    const { schema } = inject('drDesign', {})
+    const drDesign = inject('drDesign', {})
     watch(() => treeModel.value.eventType, () => {
-      contentModel.value._dialogList = getDialogKeyList(schema.list)
-      contentModel.value._methodList = schema.methods
+      contentModel.value._dialogList = getDialogKeyList(drDesign.schema.list)
+      contentModel.value._methodList = drDesign.schema.methods
       nextTick().then(() => {
         formFieldList.value = config[treeModel.value.eventType] || []
       })
     }, { immediate: true })
 
     const emitModelValue = (val) => {
-      emit('update:modelValue', val)
+      proxyValue.value = val
     }
     const item = computed({
       get () {
