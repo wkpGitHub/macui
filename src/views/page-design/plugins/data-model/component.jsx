@@ -1,4 +1,4 @@
-import { ref, inject, watchEffect } from 'vue'
+import { ref, inject, watchEffect, onMounted } from 'vue'
 import { ElTree } from 'element-plus'
 import { CipButton } from '@xdp/button'
 import CipDialog from '@cip/components/cip-dialog'
@@ -18,6 +18,10 @@ export default {
       const temp = (schema.dataModel || []).find(v=> v.value==='private')?.children || []
       return cloneDeep(temp)
     }
+
+    onMounted(()=> {
+      console.log('mounted');
+    })
 
     function setStaticData(data) {
       (schema.dataModel || []).find(v=> v.value==='private').children = data

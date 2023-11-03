@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, watchEffect, watch } from 'vue'
 import Framework from './framework/index.vue'
 import ToolBar from './widgets/tool-bar'
 // import ApiConfig from './widgets/api-config'
@@ -26,12 +26,13 @@ export default {
     id: {}
   },
   setup (props) {
+    const initDataModel = [{
+      label: '静态数据',
+      value: 'private',
+      children: []
+    }]
     const schema = ref({
-      dataModel: [{
-        label: '静态数据',
-        value: 'private',
-        children: []
-      }]
+      dataModel: initDataModel
     })
     const handleSave = (item) => {
       const data = { ...pageInfo.value, schema: schema.value, apiList: apiList.value }
@@ -46,10 +47,10 @@ export default {
       pageInfoService.detail({ id: props.id }).then(res => {
         pageInfo.value = res.data
         schema.value = Object.assign({}, {
-          dataModel: []
+          dataModel: initDataModel
         }, res.data.schema)
+        console.log({...schema.value}, 'hhhh');
         apiList.value = res.data.apiList || []
-        console.log(schema.value)
       })
     }
     const handleBack = () => {
@@ -77,6 +78,12 @@ export default {
       new CssConfigurePlugin()
     ]
 
+    watch(()=> schema.value, (n)=> {
+      console.log(n, 'nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn');
+    },{
+      deep:true,
+      immediate: true
+    })
     return () => <Framework appPath={props.appPath} >
      <DrBasicDesign
        v-model:schema={schema.value}
