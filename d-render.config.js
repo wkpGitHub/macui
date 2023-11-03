@@ -11,7 +11,8 @@ import pageRenderConfigurePlugin from '@/components/d-render-plugin-page-configu
 export default {
   components: {
     // 自定义的输入类型
-    codeMirror: (mode) => () => import(`@cip/plugins/form/form-input/basic/code-mirror${mode}`)
+    codeMirror: (mode) => () => import(`@cip/plugins/form/form-input/basic/code-mirror${mode}`),
+    blockViewChart: (mode) => () => import(`@/components/block-view-chart${mode}`)
   },
   plugins: [
     CCIPlugin,
