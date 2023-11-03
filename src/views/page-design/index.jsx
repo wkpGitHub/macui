@@ -18,6 +18,7 @@ import { FieldConfigurePlugin } from './plugins/field-configure'
 import { PageDrawPlugin } from './plugins/page-draw'
 import { DataModelPlugin } from './plugins/data-model'
 import { CssConfigurePlugin } from './plugins/css'
+import { AdvancedConfigurePlugin } from './plugins/advanced'
 
 // import { ApiIcon } from './widgets/svg-icons'
 export default {
@@ -75,7 +76,8 @@ export default {
       new FxPlugin(),
       new ApiPlugin(),
       new DataModelPlugin(),
-      new CssConfigurePlugin()
+      new CssConfigurePlugin(),
+      new AdvancedConfigurePlugin()
     ]
 
     watch(()=> schema.value, (n)=> {

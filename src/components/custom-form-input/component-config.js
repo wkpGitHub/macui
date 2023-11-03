@@ -31,5 +31,9 @@ export default {
   },
   urlWithMethod: () => () => import('./url-with-method'),
   'field-table': () => () => import('./field-table'),
-  curdConfig: () => () => import('./curdConfig')
+  curdConfig: () => () => import('./curdConfig'),
+  chartMargin: () => () => import('./block-view-chart/chart-margin/index'),
+  xAxis: () => () => import('./block-view-chart/x-axis/index'),
+  yAxis: () => () => import('./block-view-chart/y-axis/index'),
+  yAxisField: () => () => import('./block-view-chart/y-axis-field/index')
 }
