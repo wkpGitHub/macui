@@ -9,5 +9,7 @@ export default {
   dialog: () => import('./dialog-design'),
   pagination: () => import('./pagination'),
   form: () => import('./form-design'),
-  entity: () => import('./entity-design')
+  entity: () => import('./entity-design'),
+  pageHandle: () => import('./page-handle'),
+  blockViewChart: () => import('./block-view-chart')
 }

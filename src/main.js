@@ -6,6 +6,7 @@ import 'element-plus/theme-chalk/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 // @cip/components样式
 import '@cip/styles'
+import '@xdp/button/dist/index.css'
 // d-render组件样式
 import 'd-render/style'
 // cci标准主题样式

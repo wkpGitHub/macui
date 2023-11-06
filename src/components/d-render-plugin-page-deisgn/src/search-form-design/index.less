@@ -6,9 +6,11 @@
   &-content {
     flex: 1;
     width: 100%;
-    .form-drawing__layout__item {
+    .dr-design-draw-content__layout__item {
       width: 100%;
       display: grid;
+      grid-column-gap: 16px;
+      grid-row-gap: 16px;
       grid-template-columns: repeat(var(--dr-page-render-cols, 5), 1fr);
     }
   }

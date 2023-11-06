@@ -42,7 +42,8 @@ export const componentsGroupList = [
                   label: '按钮',
                   text: '新增',
                   icon: 'el-icon-plus',
-                  inputType: 'primary'
+                  inputType: 'primary',
+                  click: []
                 }
               },
               {
@@ -50,7 +51,8 @@ export const componentsGroupList = [
                   type: 'button',
                   label: '按钮',
                   text: '删除',
-                  icon: 'el-icon-delete'
+                  icon: 'el-icon-delete',
+                  click: []
                 }
               }
             ]
@@ -151,6 +153,38 @@ export const componentsGroupList = [
           }
         ],
         apiList: { save: '', del: '', search: '' }
+      },
+      {
+        type: 'pageLeftRight',
+        icon: 'el-icon-edit',
+        label: '左右布局',
+        options: [
+          { key: 'left', children: [] },
+          { key: 'default', children: [] }
+        ]
+      },
+      {
+        type: 'pageInfo',
+        icon: 'el-icon-edit',
+        label: '详情页',
+        options: [
+          { key: 'default', children: [] }
+        ]
+      },
+      {
+        type: 'pageHandle',
+        icon: 'el-icon-edit',
+        label: '编辑页',
+        options: [
+          { key: 'default', children: [] },
+          { key: 'handle', children: [] }
+        ]
+      },
+      {
+        type: 'blockViewChart',
+        icon: 'el-icon-s-operation',
+        label: '图形配置',
+        hideLabel: true
       }
     ]
   },
@@ -208,7 +242,8 @@ export const componentsGroupList = [
       { type: 'slider', icon: 'el-icon-s-operation', label: '滑块', max: 100, min: 0, step: 1 },
       { type: 'text', icon: 'el-icon-tickets', label: '文字', hideLabel: true, defaultValue: '这里是文字', fontWeight: 'normal', fontSize: 14, textAlign: 'left' },
       { type: 'text', icon: 'el-icon-edit', label: '展示值' },
-      { type: 'pagination', icon: 'el-icon-edit', label: '分页器', limit: 10, offset: 1, pageSizes: [5, 8, 10, 15, 20] }
+      { type: 'pagination', icon: 'el-icon-edit', label: '分页器', limit: 10, offset: 1, pageSizes: [5, 8, 10, 15, 20] },
+      { type: 'tree', icon: 'el-icon-menu', label: '树' }
     ]
   },
   {
