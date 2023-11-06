@@ -27,7 +27,7 @@ export default {
           <PageTree v-model={currentPageId.value} />
         </>,
         content: () => <div style={'height: 100%'}>
-          {currentPageInfo.value.id && <LowCodePage key={currentPageId.value} id={currentPageInfo.value.id}/>}
+          {currentPageInfo.value.id && <LowCodePage key={currentPageId.value.id} id={currentPageInfo.value.id}/>}
         </div>,
         configure: () => 'configure'
       }}

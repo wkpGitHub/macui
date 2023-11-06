@@ -41,16 +41,14 @@ export default {
         return acc
       }, {}) ?? {}
     })
-    const init = computed(() => securityScheme.value.init)
     watch(() => props.scheme, (v) => {
-      if (init.value) {
-        init.value.forEach(key => {
-          const method = methods.value[key]
-          if (method) {
-            method()
-          }
-        })
-      }
+      // 页面初始化自动执行的方法
+      securityScheme.value.methods?.forEach(v => {
+        if (v.initRun) {
+          // eslint-disable-next-line
+          new Function('model', 'service', 'dataBus', 'utils', 'options', v.body).call(null, props.model, props.service, dataBus, utils)
+        }
+      })
       setRouterQuery(v)
     }, { immediate: true })
     const router = useRouter()

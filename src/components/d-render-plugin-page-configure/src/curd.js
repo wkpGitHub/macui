@@ -46,7 +46,7 @@ export default {
     dependOn: ['options'],
     onChange ({ row, updateApis, updateDataModel, dependOn, updateMethod }) {
       updateApis('page')
-      updateMethod('page')
+      updateMethod('page', null, true)
       updateDataModel('查询接口')
       const filterChildren = dependOn.options.find(opt => opt.key === 'filter')?.children || []
       const defaultChildren = dependOn.options.find(opt => opt.key === 'default')?.children || []

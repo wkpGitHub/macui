@@ -63,7 +63,7 @@ export default {
       }
     }
 
-    function updateMethod (key, body) {
+    function updateMethod (key, body, initRun = false) {
       const { options } = props.dependOnValues
       if (!drDesign.schema || !options) return
       let fnBody = ''
@@ -98,6 +98,7 @@ service.page({params:{...model.${filterKey}, ...page, ...model.routerQuery}}).th
         } else {
           drDesign.schema.methods.push({
             methodName: key,
+            initRun,
             // 根据不同的key，生成不同的代码
             body: fnBody,
             index: drDesign.schema.methods.length - 1,
@@ -109,6 +110,7 @@ service.page({params:{...model.${filterKey}, ...page, ...model.routerQuery}}).th
           methodName: key,
           // 根据不同的key，生成不同的代码
           body: fnBody,
+          initRun,
           index: 0,
           name: key
         }]
