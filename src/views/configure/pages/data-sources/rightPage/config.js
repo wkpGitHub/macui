@@ -3,8 +3,14 @@ import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig } from
 import { baseDicService } from '@/api'
 
 export const formFieldList = generateFieldList(defineFormFieldConfig({
-  name: { required: true, span: 6 },
-  tableName: { required: true, label: '数据表名称', span: 6 },
+  title: { required: true, span: 6 },
+  name: {
+    required: true,
+    label: '数据表名称',
+    span: 6,
+    regexpValidate: /^[a-zA-Z][0-9a-zA-Z]+$/,
+    regexpValidateErrorMessage: '只能以字母开头，允许输入数字、字母'
+  },
   idStrategy: {
     required: true,
     type: 'select',
