@@ -115,7 +115,7 @@ import { generateFieldList, defineFormFieldConfig } from 'd-render'
 export default {
   category: '人工节点',
   type: 'write',
-  label: '填写节点',
+  title: '填写节点',
   formField: generateFieldList(defineFormFieldConfig({
     label: { label: '节点名称' },
     objectKey: {
@@ -174,6 +174,6 @@ export default {
   initData: {
     id: '',
     type: 'write',
-    label: '填写节点'
+    title: '填写节点'
   }
 }

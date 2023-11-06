@@ -463,11 +463,17 @@
 	background: #528eff;
 }
 
+.no-background{
+	background: none !important;
+}
+
 .api-editor .api-editor-view .action-node .icon-outer [class*='icon-'] {
 	width: 20px;
 	height: 32px;
 }
-
+.api-editor .api-editor-view .action-node .no-background [class*='icon-'] {
+	width: 32px !important;
+}
 .api-editor .api-editor-view .action-node .icon-outer.icon-crud {
 	background: #4949fb;
 }
