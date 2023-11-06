@@ -12,14 +12,14 @@ const staticInfoStyle = {
 
 export default {
   category: '自动节点',
-  type: 'auto-entity-delete-records',
-  title: '删除记录',
+  type: 'auto-entity-update-records',
+  title: '更新记录',
   formField: generateFieldList(defineFormFieldConfig({
     _staticInfo: { type: 'staticInfo', staticInfo: '节点信息', ...staticInfoStyle },
-    title: { label: '节点名称', defaultValue: '删除记录' },
+    title: { label: '节点名称', defaultValue: '更新记录' },
     objectKey: {
       type: 'dataSource',
-      label: '删除对象',
+      label: '更新对象',
       required: true,
       otherKey: 'fields'
     },
@@ -52,7 +52,7 @@ export default {
   })),
   initData: {
     id: '', // 不重复 前端生成 建议使用 uuid
-    type: 'auto-entity-delete-records',
-    title: '删除记录'
+    type: 'auto-entity-update-records',
+    title: '更新记录'
   }
 }

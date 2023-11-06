@@ -27,7 +27,7 @@ export default {
   type: 'connector',
   title: '连接器',
   formField: generateFieldList(defineFormFieldConfig({
-    title: { label: '节点标题' },
+    title: { label: '节点标题', defaultValue: '调用服务' },
     // link: { label: '连接', type: 'select', options: [], required: true },
     // methods: { label: '方法', type: 'select', options: [], required: true },
     targetName: { label: '节点出参', required: true },

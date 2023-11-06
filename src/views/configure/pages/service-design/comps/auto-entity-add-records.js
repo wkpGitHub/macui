@@ -6,7 +6,7 @@ export default {
   type: 'auto-entity-add-records',
   title: '新增记录',
   formField: generateFieldList(defineFormFieldConfig({
-    label: { label: '节点名称' },
+    label: { label: '节点名称', defaultValue: '新增记录' },
     objectKey: {
       label: '选择对象',
       required: true,
