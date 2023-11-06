@@ -22,12 +22,13 @@ import { generateFieldList, defineFormFieldConfig } from 'd-render'
 export default {
   category: '自动节点',
   type: 'capture-time',
-  label: '延时节点',
+  title: '延时节点',
   formField: generateFieldList(defineFormFieldConfig({
-    label: { label: '节点名称' },
+    label: { label: '节点名称', defaultValue: '延时节点' },
     delayType: {
       label: '类型',
       type: 'radio',
+      defaultValue: 'period',
       options: [
         { label: '延期一段时间', value: 'period' },
         { label: '延期到指定时间', value: 'specified' }
@@ -36,26 +37,31 @@ export default {
     baseTime: {
       label: '基准时间',
       type: 'radio',
+      defaultValue: 'after',
       options: [
         { label: '上节点完成后', value: 'after' },
         { label: '自定义', value: 'custom' }
       ],
       dependOn: ['delayType'],
+      readable: false,
       changeConfig (config, { delayType }) {
-        config.readable = delayType !== 'specified'
-        return config
+        if (delayType !== 'specified') {
+          config.writable = true
+          return config
+        }
       }
     },
     customBaseTime: {
       label: '自定义基准时间',
       type: 'date',
       viewType: 'datetime',
+      readable: false,
       dependOn: ['baseTime', 'delayType'],
       changeConfig (config, { baseTime, delayType }) {
         if (delayType !== 'specified') {
-          config.readable = baseTime === 'custom'
-        } else {
-          config.readable = false
+          if (baseTime === 'custom') {
+            config.writable = true
+          }
         }
         return config
       }
@@ -63,8 +69,11 @@ export default {
     delayTime: {
       label: '延期时间',
       dependOn: ['delayType'],
+      readable: false,
       changeConfig (config, { delayType }) {
-        config.readable = delayType !== 'specified'
+        if (delayType !== 'specified') {
+          config.writable = true
+        }
         return config
       }
     },
@@ -73,8 +82,11 @@ export default {
       type: 'date',
       viewType: 'datetime',
       dependOn: ['delayType'],
+      readable: false,
       changeConfig (config, { delayType }) {
-        config.readable = delayType === 'specified'
+        if (delayType === 'specified') {
+          config.writable = true
+        }
         return config
       }
     }
@@ -82,6 +94,6 @@ export default {
   initData: {
     id: '',
     type: 'capture-time',
-    label: '延时节点'
+    title: '延时节点'
   }
 }

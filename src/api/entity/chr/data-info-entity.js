@@ -16,6 +16,7 @@ export const dataInfoEntityEntity = {
   isTree: { type: Boolean, _renderConfig: { label: '树形结构', type: 'select', options: [{ value: true, label: '是' }, { value: false, label: '否' }] } },
   logicDelete: { type: Boolean, _renderConfig: { label: '逻辑删除', type: 'select', options: [{ value: true, label: '是' }, { value: false, label: '否' }] } },
   name: { type: String, _renderConfig: { label: '名称' } },
+  title: { type: String, _renderConfig: { label: '名称' } },
   remark: { type: String, _renderConfig: { label: '描述' } },
   saveOperator: { type: Boolean, _renderConfig: { label: '记录操作人', type: 'select', options: [{ value: true, label: '是' }, { value: false, label: '否' }] } },
   saveTimestamp: { type: Boolean, _renderConfig: { label: '记录时间', type: 'select', options: [{ value: true, label: '是' }, { value: false, label: '否' }] } },

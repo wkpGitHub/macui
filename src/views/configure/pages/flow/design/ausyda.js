@@ -20,6 +20,10 @@ export const iconHtmlMap = {
   'update-data-records': '<svg viewBox="0 0 16 16" class=" icon-api-update-data-records"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g ><rect  x="0" y="0" width="16" height="16"></rect><g  transform="translate(1.963298, 2.000000)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"><path d="M0,6 C0,2.6862915 2.6862915,0 6,0 C7.65735633,0 9.15776333,0.671979951 10.2436277,1.75834651" ></path><polyline  transform="translate(10.479231, 1.972611) scale(1, -1) rotate(45.000000) translate(-10.479231, -1.972611) " points="8.97623139 2.72411128 10.4848911 1.22111128 11.9822314 2.72411128"></polyline></g><g  transform="translate(8.000000, 10.805960) scale(-1, -1) translate(-8.000000, -10.805960) translate(1.963298, 7.805960)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"><path d="M0,6 C0,2.6862915 2.6862915,0 6,0 C7.65735633,0 9.15776333,0.671979951 10.2436277,1.75834651" ></path><polyline  transform="translate(10.479231, 1.972611) scale(1, -1) rotate(45.000000) translate(-10.479231, -1.972611) " points="8.97623139 2.72411128 10.4848911 1.22111128 11.9822314 2.72411128"></polyline></g></g></g></svg>',
   'query-data-records': '<svg viewBox="0 0 16 16" class=" icon-api-query-data-records"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g ><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><line x1="1.50246765" y1="2.33337333" x2="14.5009356" y2="2.33337333"  stroke="#FFFFFF" stroke-linecap="round"></line><line x1="1.50246765" y1="7.6667" x2="5.16913432" y2="7.6667"  stroke="#FFFFFF" stroke-linecap="round"></line><line x1="1.50246765" y1="13.0000333" x2="5.16913432" y2="13.0000333"  stroke="#FFFFFF" stroke-linecap="round"></line><path d="M10.334269,11.3333667 C11.899069,11.3333667 13.1676023,10.0648333 13.1676023,8.50003333 C13.1676023,6.93523333 11.899069,5.6667 10.334269,5.6667 C8.76946897,5.6667 7.50093564,6.93523333 7.50093564,8.50003333 C7.50093564,10.0648333 8.76946897,11.3333667 10.334269,11.3333667 Z"  stroke="#FFFFFF"></path><line x1="12.1676023" y1="10.6667" x2="14.5009356" y2="13.0168667"  stroke="#FFFFFF" stroke-linecap="round"></line></g></g></svg>',
   'delete-data-records': '<svg viewBox="0 0 17 16" class=" icon-api-delete-data-records"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g  transform="translate(0.262783, 0.000000)"><g  fill="#FFFFFF" fill-opacity="0.01" fill-rule="nonzero"><rect  x="0" y="0" width="16" height="16"></rect></g><polygon  stroke="#FFFFFF" stroke-linejoin="round" points="4 4 12 4 12 14 4 14"></polygon><line x1="2.5" y1="4" x2="13.5" y2="4"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><line x1="6.5" y1="7" x2="6.5" y2="11"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><line x1="9.5" y1="7" x2="9.5" y2="11"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><line x1="9.5" y1="2" x2="6.5" y2="2"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line></g></g></svg>',
+  'auto-entity-add-records': '<svg viewBox="0 0 16 16" class=" icon-api-create-data-records"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g ><rect  x="0" y="0" width="16" height="16"></rect><line x1="9.47035404" y1="11.0181142" x2="14.470354" y2="11.0181142"  stroke="#FFFFFF" stroke-linecap="round"></line><line x1="11.970354" y1="13.5181142" x2="11.970354" y2="8.51811421"  stroke="#FFFFFF" stroke-linecap="round"></line><polyline  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="9.47035404 14.4947447 2.50475625 14.4947447 2.50475625 1.71371716 12.7586033 1.71371716 12.7586033 5.99022478"></polyline><line x1="5.47035404" y1="4.5" x2="9.47035404" y2="4.5"  stroke="#FFFFFF" stroke-linecap="round"></line><line x1="5.47035404" y1="7.08810507" x2="7.89397599" y2="7.08810507"  stroke="#FFFFFF" stroke-linecap="round"></line></g></g></svg>',
+  'auto-entity-delete-records': '<svg viewBox="0 0 17 16" class=" icon-api-delete-data-records"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g  transform="translate(0.262783, 0.000000)"><g  fill="#FFFFFF" fill-opacity="0.01" fill-rule="nonzero"><rect  x="0" y="0" width="16" height="16"></rect></g><polygon  stroke="#FFFFFF" stroke-linejoin="round" points="4 4 12 4 12 14 4 14"></polygon><line x1="2.5" y1="4" x2="13.5" y2="4"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><line x1="6.5" y1="7" x2="6.5" y2="11"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><line x1="9.5" y1="7" x2="9.5" y2="11"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><line x1="9.5" y1="2" x2="6.5" y2="2"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line></g></g></svg>',
+  'auto-entity-update-records': '<svg viewBox="0 0 16 16" class=" icon-api-update-data-records"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g ><rect  x="0" y="0" width="16" height="16"></rect><g  transform="translate(1.963298, 2.000000)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"><path d="M0,6 C0,2.6862915 2.6862915,0 6,0 C7.65735633,0 9.15776333,0.671979951 10.2436277,1.75834651" ></path><polyline  transform="translate(10.479231, 1.972611) scale(1, -1) rotate(45.000000) translate(-10.479231, -1.972611) " points="8.97623139 2.72411128 10.4848911 1.22111128 11.9822314 2.72411128"></polyline></g><g  transform="translate(8.000000, 10.805960) scale(-1, -1) translate(-8.000000, -10.805960) translate(1.963298, 7.805960)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"><path d="M0,6 C0,2.6862915 2.6862915,0 6,0 C7.65735633,0 9.15776333,0.671979951 10.2436277,1.75834651" ></path><polyline  transform="translate(10.479231, 1.972611) scale(1, -1) rotate(45.000000) translate(-10.479231, -1.972611) " points="8.97623139 2.72411128 10.4848911 1.22111128 11.9822314 2.72411128"></polyline></g></g></g></svg>',
+  'auto-entity-search-records': '<svg viewBox="0 0 16 16" class=" icon-api-query-data-records"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g ><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><line x1="1.50246765" y1="2.33337333" x2="14.5009356" y2="2.33337333"  stroke="#FFFFFF" stroke-linecap="round"></line><line x1="1.50246765" y1="7.6667" x2="5.16913432" y2="7.6667"  stroke="#FFFFFF" stroke-linecap="round"></line><line x1="1.50246765" y1="13.0000333" x2="5.16913432" y2="13.0000333"  stroke="#FFFFFF" stroke-linecap="round"></line><path d="M10.334269,11.3333667 C11.899069,11.3333667 13.1676023,10.0648333 13.1676023,8.50003333 C13.1676023,6.93523333 11.899069,5.6667 10.334269,5.6667 C8.76946897,5.6667 7.50093564,6.93523333 7.50093564,8.50003333 C7.50093564,10.0648333 8.76946897,11.3333667 10.334269,11.3333667 Z"  stroke="#FFFFFF"></path><line x1="12.1676023" y1="10.6667" x2="14.5009356" y2="13.0168667"  stroke="#FFFFFF" stroke-linecap="round"></line></g></g></svg>',
   http: '<svg viewBox="0 0 16 16" class=" icon-api-http"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect  x="0" y="0" width="16" height="16"></rect><polygon  stroke="#FFFFFF" stroke-linejoin="round" points="2 3 8.0012 3 14 3 14 13 2 13"></polygon><path d="M3.95358565,9.5 L3.95358565,8.37654263 L5.06547405,8.37654263 L5.06547405,9.5 L5.60810047,9.5 L5.60810047,6.8582 L5.06547405,6.8582 L5.06547405,7.90142499 L3.95358565,7.90142499 L3.95358565,6.8582 L3.40290047,6.8582 L3.40290047,9.5 L3.95358565,9.5 Z M7.28524228,9.5 L7.28524228,7.34646322 L8.08710047,7.34646322 L8.08710047,6.8582 L5.92260047,6.8582 L5.92260047,7.34646322 L6.71274282,7.34646322 L6.71274282,9.5 L7.28524228,9.5 Z M9.64631659,9.5 L9.64631659,7.34646322 L10.4481748,7.34646322 L10.4481748,6.8582 L8.28367478,6.8582 L8.28367478,7.34646322 L9.07381712,7.34646322 L9.07381712,9.5 L9.64631659,9.5 Z M11.1869154,9.5 L11.1869154,8.4862 L11.7649005,8.4862 C12.4087005,8.4862 12.7306005,8.2124 12.7306005,7.6685 C12.7306005,7.1283 12.4087005,6.8582 11.7723005,6.8582 L10.6771005,6.8582 L10.6771005,9.5 L11.1869154,9.5 Z M11.7357159,8.07250993 L11.1940034,8.07250993 L11.1940034,7.26879055 L11.7357159,7.26879055 C11.8982297,7.26879055 12.0193183,7.29893003 12.0957954,7.36255781 C12.1722725,7.42283676 12.2136975,7.52330169 12.2136975,7.66730141 C12.2136975,7.81130113 12.175459,7.91511489 12.0989819,7.97874267 C12.0225049,8.03902163 11.9014162,8.07250993 11.7357159,8.07250993 Z"  fill="#FFFFFF" fill-rule="nonzero"></path></g></svg>',
   apicenter: '<svg viewBox="0 0 16 16" class=" icon-api-apicenter"><g  stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g ><rect  fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><path d="M12.3333333,7.33336667 L11.3333333,8.33336667 L7.66666667,4.6667 L8.66666667,3.6667 C9.16666667,3.16667333 11,2.33335 12.3333333,3.6667 C13.6666667,5.00003333 12.8333333,6.83333333 12.3333333,7.33336667 Z"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></path><line x1="14" y1="2" x2="12.3333333" y2="3.66666667"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><path d="M3.66666667,8.66663333 L4.66666667,7.66663333 L8.33333333,11.3333 L7.33333333,12.3333 C6.83333333,12.8333333 5,13.6666667 3.66666667,12.3333 C2.33333333,10.9999667 3.16666667,9.16666667 3.66666667,8.66663333 Z"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></path><line x1="7.66666667" y1="10.6666667" x2="9" y2="9.33333333"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2" y1="14" x2="3.66666667" y2="12.3333333"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line><line x1="5.33333333" y1="8.33333333" x2="6.66666667" y2="7"  stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"></line></g></g></svg>',
   flow: '<svg viewBox="0 0 16 16" class=" icon-api-flow"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g  fill="#FFFFFF"><rect  fill-opacity="0.01" fill-rule="nonzero" x="0" y="0" width="16" height="16"></rect><g  transform="translate(1.500000, 1.000000)"><path d="M6.5,0 C7.23096511,0 7.83981186,0.522850854 7.97295275,1.21496507 L7.96173087,1.16501488 C10.8476936,1.82821186 13,4.41275689 13,7.5 C13,8.35391853 12.8353373,9.16937802 12.5360319,9.91635837 C12.8195348,10.1832659 13,10.570558 13,11 C13,11.8284271 12.3284271,12.5 11.5,12.5 C11.194561,12.5 10.9104444,12.4087078 10.673448,12.2519212 C10.7249638,12.2859807 10.7783156,12.3167524 10.8336022,12.3442137 L10.7793455,12.3926843 C9.63603186,13.3934897 8.13884496,14 6.5,14 C4.83498005,14 3.31617932,13.3739611 2.16614446,12.34443 L2.29403781,12.2728711 L2.29403781,12.2728711 C2.06523315,12.4163439 1.79238604,12.5 1.5,12.5 C0.671572875,12.5 0,11.8284271 0,11 C0,10.5659895 0.18432535,10.1750304 0.478963092,9.90113583 L0.4635581,9.91565903 L0.4635581,9.91565903 C0.164662727,9.16937802 0,8.35391853 0,7.5 C0,4.41275689 2.15230636,1.82821186 5.03826913,1.16501488 L5.03475903,1.17747507 C5.18231393,0.504056693 5.78229259,0 6.5,0 Z M5.13320579,2.11885227 L5.15578635,2.16639778 L5.15578635,2.16639778 C2.76817179,2.76501257 1,4.92601696 1,7.5 C1,8.2078156 1.13370676,8.88440231 1.37724081,9.50588067 L1.5,9.5 L1.41885992,9.50215719 C1.44572507,9.50072515 1.47277785,9.5 1.5,9.5 C2.32842712,9.5 3,10.1715729 3,11 C3,11.2342987 2.94628146,11.4560507 2.85048876,11.6536118 L2.86406039,11.6248454 L2.86406039,11.6248454 C3.83161179,12.480775 5.10517015,13 6.5,13 C7.89482985,13 9.16838821,12.480775 10.1379375,11.6250627 L10.1048364,11.5520151 C10.0371805,11.3811641 10,11.194924 10,11 C10,10.1715729 10.6715729,9.5 11.5,9.5 L11.6327382,9.50579266 C11.6290396,9.50546836 11.6253372,9.50515748 11.6216309,9.50486008 C11.8662932,8.88440231 12,8.2078156 12,7.5 C12,4.92601696 10.2318282,2.76501257 7.84385277,2.16535497 L7.83881221,2.17716316 C7.59138843,2.66537545 7.08477209,3 6.5,3 C5.89222688,3 5.36887867,2.63853395 5.13320579,2.11885227 Z M1.5,10.5 C1.22385763,10.5 1,10.7238576 1,11 C1,11.2761424 1.22385763,11.5 1.5,11.5 C1.77614237,11.5 2,11.2761424 2,11 C2,10.7238576 1.77614237,10.5 1.5,10.5 Z M11.5,10.5 C11.2238576,10.5 11,10.7238576 11,11 C11,11.2761424 11.2238576,11.5 11.5,11.5 C11.7761424,11.5 12,11.2761424 12,11 C12,10.7238576 11.7761424,10.5 11.5,10.5 Z M6.5,5.6 C7.6045695,5.6 8.5,6.4954305 8.5,7.6 C8.5,8.7045695 7.6045695,9.6 6.5,9.6 C5.3954305,9.6 4.5,8.7045695 4.5,7.6 C4.5,6.4954305 5.3954305,5.6 6.5,5.6 Z M6.5,6.6 C5.94771525,6.6 5.5,7.04771525 5.5,7.6 C5.5,8.15228475 5.94771525,8.6 6.5,8.6 C7.05228475,8.6 7.5,8.15228475 7.5,7.6 C7.5,7.04771525 7.05228475,6.6 6.5,6.6 Z M6.5,1 C6.22385763,1 6,1.22385763 6,1.5 C6,1.77614237 6.22385763,2 6.5,2 C6.77614237,2 7,1.77614237 7,1.5 C7,1.22385763 6.77614237,1 6.5,1 Z" ></path></g></g></g></svg>',
@@ -41,7 +45,16 @@ export const iconHtmlMap = {
       </g>
     </g>
   </svg>`,
-  end: '<div class="icon-end"></div>'
+  end: '<div class="icon-end"></div>',
+  'exclusive-gateway': '<svg viewBox="0 0 284 284" class="icon-flow-gateway-xor" icon="flow-gateway-xor"><g id="\u6392\u4ED6" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="\u753B\u677F" transform="translate(-81.000000, -24.000000)"><g id="\u6392\u4ED6" transform="translate(81.578644, 24.578644)"><rect id="\u77E9\u5F62" fill="#FF9326" transform="translate(141.421356, 141.421356) rotate(45.000000) translate(-141.421356, -141.421356) " x="41.4213562" y="41.4213562" width="200" height="200" rx="28"></rect><line x1="91.4213562" y1="140.921356" x2="191.421356" y2="141.421356" id="\u76F4\u7EBF" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round" transform="translate(141.421356, 141.171356) rotate(-45.286477) translate(-141.421356, -141.171356) "></line><line x1="91.4213562" y1="140.921356" x2="191.421356" y2="141.421356" id="\u76F4\u7EBF" stroke="#FFFFFF" stroke-width="20" fill="#FFFFFF" stroke-linecap="round" transform="translate(141.421356, 141.171356) rotate(44.713523) translate(-141.421356, -141.171356) "></line></g></g></g></svg>',
+  'inclusive-gateway': '<svg viewBox="0 0 284 284" class="icon-flow-gateway-inclusive" icon="flow-gateway-inclusive"><g id="\u5305\u5BB9" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="\u753B\u677F" transform="translate(-222.000000, -322.000000)" fill="#FF9326"><g id="\u5305\u5BB9" transform="translate(222.578644, 322.578644)"><rect id="\u77E9\u5F62" transform="translate(141.421356, 141.421356) rotate(45.000000) translate(-141.421356, -141.421356) " x="41.4213562" y="41.4213562" width="200" height="200" rx="28"></rect><circle id="\u692D\u5706\u5F62" stroke="#FFFFFF" stroke-width="20" cx="141.421356" cy="141.421356" r="50"></circle></g></g></g></svg>',
+  'parallel-gateway': '<svg viewBox="0 0 284 284" class="icon-flow-gateway-parallel" icon="flow-gateway-parallel"><g id="\u5E76\u884C" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="\u753B\u677F" transform="translate(-396.000000, -24.000000)"><g id="\u5E76\u884C" transform="translate(396.578644, 24.578644)"><rect id="\u77E9\u5F62" fill="#FF9326" transform="translate(141.421356, 141.421356) rotate(45.000000) translate(-141.421356, -141.421356) " x="41.4213562" y="41.4213562" width="200" height="200" rx="28"></rect><line x1="91.4213562" y1="140.921356" x2="191.421356" y2="141.421356" id="\u76F4\u7EBF" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round" transform="translate(141.421356, 141.171356) rotate(89.713523) translate(-141.421356, -141.171356) "></line><line x1="91.4213562" y1="140.921356" x2="191.421356" y2="141.421356" id="\u76F4\u7EBF" stroke="#FFFFFF" stroke-width="20" fill="#FFFFFF" stroke-linecap="round" transform="translate(141.421356, 141.171356) rotate(-0.286477) translate(-141.421356, -141.171356) "></line></g></g></g></svg>',
+  'submit-node': '<svg t="1689045790441" class="icon-flow-submit" viewBox="0 0 1024 1024" p-id="11733" icon="flow-submit"><path d="M744 112c17.673 0 32 14.327 32 32v387.602c-35.346 0-64-28.654-64-64L711.999 176h-536v672h229.582c34.993 0 63.426 28.084 63.991 62.942l0.01 1.058H144c-17.673 0-32-14.327-32-32V144c0-17.673 14.327-32 32-32h600z m180.325 549.305l0.753 0.743L683.965 902.65c-12.51 12.484-32.771 12.462-45.255-0.048l-0.403-0.411-143.554-149.133c25.211-24.268 65.172-23.753 89.753 0.968l0.74 0.757 76.574 79.55 172.749-172.382c24.522-24.47 63.936-24.916 89-1.368l0.756 0.72zM408 424c30.619 0 55.498 24.573 55.992 55.074L464 480H302c-30.928 0-56-25.072-56-56h162z m178-156c30.619 0 55.498 24.573 55.992 55.074L642 324H302c-30.928 0-56-25.072-56-56h340z" fill="#ffffff" p-id="11734"></path></svg>',
+  'capture-time': '<svg viewBox="0 0 14 14" class="icon-flow-node-time" icon="flow-node-time"><title>时间</title><g id="\u6D41\u7A0B\u7F16\u8F91\u5668\u8C03\u6574" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="\u8865\u5145icon" transform="translate(-74.000000, -120.000000)"><g id="\u65F6\u95F4" transform="translate(74.000000, 120.000000)"><rect id="\u77E9\u5F62" fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="14" height="14"></rect><path d="M7,12.8333333 C10.2216625,12.8333333 12.8333333,10.2216625 12.8333333,7 C12.8333333,3.7783375 10.2216625,1.16666667 7,1.16666667 C3.7783375,1.16666667 1.16666667,3.7783375 1.16666667,7 C1.16666667,10.2216625 3.7783375,12.8333333 7,12.8333333 Z" id="\u8DEF\u5F84" stroke="#FFFFFF" stroke-width="0.875" stroke-linejoin="round"></path><polyline id="\u8DEF\u5F84" stroke="#FFFFFF" stroke-width="0.875" stroke-linecap="round" stroke-linejoin="round" points="7.00242083 3.5 7.00207083 7.00256667 9.47522917 9.475725"></polyline></g></g></g></svg>',
+  'web-api': '<svg t="1689045092136" class="icon-flow-web-api" viewBox="0 0 1027 1024" p-id="2316" icon="flow-web-api"><path d="M321.828571 226.742857c-14.628571-14.628571-36.571429-14.628571-51.2 0L7.314286 482.742857c-14.628571 14.628571-14.628571 36.571429 0 51.2l256 256c14.628571 14.628571 36.571429 14.628571 51.2 0 14.628571-14.628571 14.628571-36.571429 0-51.2L87.771429 512l234.057142-234.057143c7.314286-14.628571 7.314286-36.571429 0-51.2z m263.314286 0c-14.628571 0-36.571429 7.314286-43.885714 29.257143l-131.657143 497.371429c-7.314286 21.942857 7.314286 36.571429 29.257143 43.885714s36.571429-7.314286 43.885714-29.257143l131.657143-497.371429c7.314286-14.628571-7.314286-36.571429-29.257143-43.885714z m431.542857 256l-256-256c-14.628571-14.628571-36.571429-14.628571-51.2 0-14.628571 14.628571-14.628571 36.571429 0 51.2L936.228571 512l-234.057142 234.057143c-14.628571 14.628571-14.628571 36.571429 0 51.2 14.628571 14.628571 36.571429 14.628571 51.2 0l256-256c14.628571-14.628571 14.628571-43.885714 7.314285-58.514286z" fill="#FFFFFF" p-id="2317"></path></svg>',
+  'examine-and-approve-task': '<svg viewBox="0 0 14 14" class="icon-flow-examine-and-approve-task" icon="flow-examine-and-approve-task"><title>审批节点</title><g id="\u6D41\u7A0B\u7F16\u8F91\u5668\u8C03\u6574" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="\u8865\u5145icon" transform="translate(-24.000000, -62.000000)"><g id="\u5BA1\u6279\u8282\u70B9" transform="translate(24.000000, 62.000000)"><rect id="\u77E9\u5F62" fill-opacity="0.01" fill="#FFFFFF" fill-rule="nonzero" x="0" y="0" width="14" height="14"></rect><path d="M1.45833333,9.80215269 C1.45833333,9.5445956 1.71950042,9.33581721 2.04166667,9.33581721 L11.9583333,9.33581721 C12.2805083,9.33581721 12.5416667,9.5445956 12.5416667,9.80215269 L12.5416667,12.3669978 C12.5416667,12.6245549 12.2805083,12.8333333 11.9583333,12.8333333 L2.04166667,12.8333333 C1.71950042,12.8333333 1.45833333,12.6245549 1.45833333,12.3669978 L1.45833333,9.80215269 Z" id="\u8DEF\u5F84" stroke="#FFFFFF" stroke-width="0.875" stroke-linejoin="round"></path><path d="M5.47254167,6.27958179 C5.5139875,6.18837346 5.62394583,6.12748387 5.74720417,6.12748387 L8.25279583,6.12748387 C8.37605417,6.12748387 8.4860125,6.18837346 8.52745833,6.27958179 L9.91666667,9.33581721 L4.08333333,9.33581721 L5.47254167,6.27958179 Z" id="\u8DEF\u5F84" stroke="#FFFFFF" stroke-width="0.875" stroke-linecap="round" stroke-linejoin="round"></path><rect id="\u77E9\u5F62" stroke="#FFFFFF" stroke-width="0.875" stroke-linejoin="round" x="4.375" y="0.877483875" width="5.25" height="5.25" rx="2.625"></rect></g></g></g></svg>',
+  'notify-node': '<svg viewBox="0 0 14 14" class="icon-flow-send-task" icon="flow-send-task"><title>知会节点</title><g id="\u6D41\u7A0B\u7F16\u8F91\u5668\u8C03\u6574" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="\u8865\u5145icon" transform="translate(-56.000000, -62.000000)"><g id="\u77E5\u4F1A\u8282\u70B9" transform="translate(56.000000, 62.000000)"><rect id="\u77E9\u5F62" x="0" y="0" width="14" height="14"></rect><path d="M9.64441601,12.0366484 C11.453736,11.0847321 12.6875,9.18644656 12.6875,7 C12.6875,3.85888049 10.1411195,1.3125 7,1.3125 C3.85888049,1.3125 1.3125,3.85888049 1.3125,7 C1.3125,9.19905926 2.56053924,11.1066233 4.38695295,12.0530275" id="\u8DEF\u5F84" stroke="#FFFFFF" stroke-width="0.875" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9.19718934,9.72455435 C9.99178844,9.08295142 10.5,8.1008253 10.5,7 C10.5,5.06700338 8.93299662,3.5 7,3.5 C5.06700338,3.5 3.5,5.06700338 3.5,7 C3.5,8.11360704 4.02008182,9.10574245 4.83060454,9.74676533" id="\u8DEF\u5F84" stroke="#FFFFFF" stroke-width="0.875" stroke-linecap="round" stroke-linejoin="round"></path><circle id="\u692D\u5706\u5F62\u5907\u4EFD-2" fill="#FFFFFF" cx="7" cy="7" r="1.3125"></circle></g></g></g></svg>',
+  write: '<svg viewBox="0 0 14 15" class="icon-flow-write" icon="flow-write"><title>填写</title><g id="\u6D41\u7A0B\u7F16\u8F91\u5668" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="\u6D41\u7A0B\u8282\u70B9" transform="translate(-202.000000, -1750.000000)"><g id="\u7F16\u7EC4-9\u5907\u4EFD" transform="translate(174.000000, 1653.843735)"><g id="\u7EC4\u4EF6\u5907\u4EFD-106" transform="translate(16.000000, 88.000000)"><g id="\u7F16\u7EC4-8" transform="translate(9.000000, 6.000000)"><g id="\u7F16\u7EC4-2" transform="translate(3.000000, 3.000000)"><rect id="\u77E9\u5F62" x="0" y="0" width="14" height="14"></rect><polygon id="\u8DEF\u5F84-11" stroke="#FFFFFF" stroke-width="0.875" stroke-linejoin="round" transform="translate(9.916112, 10.271743) rotate(-320.000000) translate(-9.916112, -10.271743) " points="8.81784454 7.04394182 8.81784454 12.2930093 9.83024678 13.4995433 11.0143795 12.505938 11.003999 7.04394182"></polygon><polyline id="\u8DEF\u5F84" stroke="#FFFFFF" stroke-width="0.875" stroke-linecap="round" stroke-linejoin="round" points="6.06891641 12.6829016 1.63837786 12.6829016 1.63837786 1.49950251 10.610494 1.49950251 10.610494 5.24144669"></polyline><line x1="3.5" y1="3.9375" x2="7" y2="3.9375" id="\u76F4\u7EBF-6" stroke="#FFFFFF" stroke-width="0.875" stroke-linecap="round"></line><line x1="3.5" y1="6.20209194" x2="5.62066921" y2="6.20209194" id="\u76F4\u7EBF-6\u5907\u4EFD" stroke="#FFFFFF" stroke-width="0.875" stroke-linecap="round"></line></g></g></g></g></g></g></svg>'
 }
 
 const nodeConfig = {
@@ -163,6 +176,30 @@ const nodeConfig = {
       selection.append('span').classed('node-label', true)
     }
   },
+  'submit-node': {
+    x: 140,
+    y: 64,
+    enter (selection) {
+      selection.append('div').classed('icon-outer icon-crud', true).html(iconHtmlMap['submit-node'])
+      selection.append('span').classed('node-label', true)
+    }
+  },
+  'notify-node': {
+    x: 140,
+    y: 64,
+    enter (selection) {
+      selection.append('div').classed('icon-outer icon-crud', true).html(iconHtmlMap['notify-node'])
+      selection.append('span').classed('node-label', true)
+    }
+  },
+  write: {
+    x: 140,
+    y: 64,
+    enter (selection) {
+      selection.append('div').classed('icon-outer icon-crud', true).html(iconHtmlMap.write)
+      selection.append('span').classed('node-label', true)
+    }
+  },
   'create-data-records': {
     x: 140,
     y: 64,
@@ -179,11 +216,43 @@ const nodeConfig = {
       selection.append('span').classed('node-label', true)
     }
   },
+  'inclusive-gateway': {
+    x: 140,
+    y: 64,
+    enter (selection) {
+      selection.append('div').attr('class', 'icon-outer no-background').html(iconHtmlMap['inclusive-gateway'])
+      selection.append('span').classed('node-label', true)
+    }
+  },
+  'exclusive-gateway': {
+    x: 140,
+    y: 64,
+    enter (selection) {
+      selection.append('div').attr('class', 'icon-outer no-background').html(iconHtmlMap['exclusive-gateway'])
+      selection.append('span').classed('node-label', true)
+    }
+  },
+  'parallel-gateway': {
+    x: 140,
+    y: 64,
+    enter (selection) {
+      selection.append('div').attr('class', 'icon-outer no-background').html(iconHtmlMap['parallel-gateway'])
+      selection.append('span').classed('node-label', true)
+    }
+  },
   'query-data-records': {
     x: 140,
     y: 64,
     enter (selection) {
       selection.append('div').attr('class', 'icon-outer icon-crud').html(iconHtmlMap['query-data-records'])
+      selection.append('span').classed('node-label', true)
+    }
+  },
+  'capture-time': {
+    x: 48,
+    y: 48,
+    enter (selection) {
+      selection.append('div').attr('class', 'icon-outer icon-crud').html(iconHtmlMap['capture-time'])
       selection.append('span').classed('node-label', true)
     }
   },
@@ -247,7 +316,31 @@ const nodeConfig = {
     x: 140,
     y: 64,
     enter (selection) {
-      selection.append('div').classed('icon-outer', true).html(iconHtmlMap.notification)
+      selection.append('div').classed('icon-outer', true).html(iconHtmlMap['auto-entity-add-records'])
+      selection.append('span').classed('node-label', true)
+    }
+  },
+  'auto-entity-delete-records': {
+    x: 140,
+    y: 64,
+    enter (selection) {
+      selection.append('div').classed('icon-outer', true).html(iconHtmlMap['auto-entity-delete-records'])
+      selection.append('span').classed('node-label', true)
+    }
+  },
+  'auto-entity-update-records': {
+    x: 140,
+    y: 64,
+    enter (selection) {
+      selection.append('div').classed('icon-outer', true).html(iconHtmlMap['auto-entity-update-records'])
+      selection.append('span').classed('node-label', true)
+    }
+  },
+  'auto-entity-search-records': {
+    x: 140,
+    y: 64,
+    enter (selection) {
+      selection.append('div').classed('icon-outer', true).html(iconHtmlMap['auto-entity-search-records'])
       selection.append('span').classed('node-label', true)
     }
   },
@@ -271,7 +364,7 @@ const nodeConfig = {
     x: 140,
     y: 64,
     enter (selection) {
-      selection.append('div').classed('icon-outer', true).html(iconHtmlMap.notification)
+      selection.append('div').classed('icon-outer', true).html(iconHtmlMap['examine-and-approve-task'])
       selection.append('span').classed('node-label', true)
     }
   },
@@ -305,6 +398,7 @@ const nodeConfig = {
       selection.append('div').attr('class', 'node-logic').html(iconHtmlMap.exit)
     }
   }
+
 }
 export class Ausyda {
   constructor ({ el, nodes, links }) {

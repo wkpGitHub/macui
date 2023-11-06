@@ -3,10 +3,20 @@ import { ElCollapse, ElCollapseItem } from 'element-plus'
 import CipButton from '@cip/components/cip-button'
 import { iconHtmlMap } from './ausyda'
 import { CipForm } from 'd-render'
-import createDataRecordsConfig from '../../service-design/comps/create-data-records'
-import deleteDataRecordsConfig from '../../service-design/comps/delete-data-records'
-import updateDataRecordsConfig from '../../service-design/comps/update-data-records'
-import queryDataRecordsConfig from '../../service-design/comps/query-data-records'
+import createDataRecordsConfig from '../../service-design/comps/auto-entity-add-records'
+import deleteDataRecordsConfig from '../../service-design/comps/auto-entity-delete-records'
+import updateDataRecordsConfig from '../../service-design/comps/auto-entity-update-records'
+import queryDataRecordsConfig from '../../service-design/comps/auto-entity-search-records'
+import examineAndApproveTaskConfig from '../../service-design/comps/examine-and-approve-task'
+import webApiConfig from '../../service-design/comps/web-api'
+import captureTimeConfig from '../../service-design/comps/capture-time'
+import flowConfig from '../../service-design/comps/flow'
+import writeConfig from '../../service-design/comps/write'
+import inclusiveGateWayConfig from '../../service-design/flow-path/inclusive-gateway'
+import exclusiveGateWayConfig from '../../service-design/flow-path/exclusive-gateway'
+import parallelGateWayConfig from '../../service-design/flow-path/parallel-gateway'
+import notifyNodeConfig from '../../service-design/flow-path/notify-node'
+import submitNodeConfig from '../../service-design/flow-path/submit-node'
 import startConfig from '../../service-design/comps/start'
 import endConfig from '../../service-design/comps/end'
 import { allComps } from '../../service-design/comps'
@@ -37,7 +47,20 @@ const iconClassMap = {
   folded: 'icon-outer',
   delete: 'icon-outer',
   set: 'icon-outer',
-  end: 'node-end'
+  end: 'node-end',
+  'exclusive-gateway': 'icon-outer no-background',
+  'parallel-gateway': 'icon-outer no-background',
+  'inclusive-gateway': 'icon-outer no-background',
+  'submit-node': 'icon-outer',
+  'capture-time': 'icon-outer',
+  'web-api': 'icon-outer',
+  'examine-and-approve-task': 'icon-outer',
+  'notify-node': 'icon-outer',
+  write: 'icon-outer',
+  'auto-entity-add-records': 'icon-outer',
+  'auto-entity-delete-records': 'icon-outer',
+  'auto-entity-update-records': 'icon-outer',
+  'auto-entity-search-records': 'icon-outer'
 }
 
 export function useNodes () {
@@ -45,17 +68,17 @@ export function useNodes () {
     {
       title: '人工节点',
       name: 'rg',
-      children: []
+      children: [examineAndApproveTaskConfig, notifyNodeConfig, writeConfig]
     },
     {
       title: '网关节点',
       name: 'branch',
-      children: []
+      children: [inclusiveGateWayConfig, exclusiveGateWayConfig, parallelGateWayConfig]
     },
     {
       title: '自动节点',
       name: 'auto',
-      children: [createDataRecordsConfig, updateDataRecordsConfig, queryDataRecordsConfig, deleteDataRecordsConfig]
+      children: [webApiConfig, flowConfig, captureTimeConfig, submitNodeConfig, createDataRecordsConfig, updateDataRecordsConfig, queryDataRecordsConfig, deleteDataRecordsConfig]
     },
     {
       title: '开始结束',
@@ -124,17 +147,22 @@ export function useNodeMenu () {
     {
       title: '人工节点',
       name: 'rg',
-      children: []
+      children: [examineAndApproveTaskConfig, writeConfig, flowConfig, notifyNodeConfig]
     },
     {
       title: '网关节点',
       name: 'branch',
-      children: []
+      children: [exclusiveGateWayConfig, inclusiveGateWayConfig, parallelGateWayConfig]
     },
     {
       title: '自动节点',
       name: 'auto',
-      children: [createDataRecordsConfig, updateDataRecordsConfig, queryDataRecordsConfig, deleteDataRecordsConfig]
+      children: [webApiConfig, captureTimeConfig, createDataRecordsConfig, submitNodeConfig, updateDataRecordsConfig, queryDataRecordsConfig, deleteDataRecordsConfig]
+    },
+    {
+      title: '开始结束',
+      name: 'start',
+      children: [startConfig, endConfig]
     },
     {
       title: '高级',

@@ -17,7 +17,12 @@ import deleteDataRecordsConfig from './delete-data-records'
 import updateDataRecordsConfig from './update-data-records'
 import queryDataRecordsConfig from './query-data-records'
 import addRecordsConfig from './auto-entity-add-records'
+import deleteRecordsConfig from './auto-entity-delete-records'
+import inclusiveConfig from '../flow-path/inclusive-gateway'
+import exclusiveConfig from '../flow-path/exclusive-gateway'
+import parallelConfig from '../flow-path/parallel-gateway'
 import updateRecordsConfig from './update-entity-add-records'
+import notifyNodeConfig from '../flow-path/notify-node'
 import httpConfig from './http'
 import apicenterConfig from './apicenter'
 import datasourceSqlConfig from './datasource-sql'
@@ -27,8 +32,11 @@ import emailConfig from './email'
 import writeConfig from './write'
 import captureTimeConfig from './capture-time'
 import autoEntitySearchRecordsConfig from './auto-entity-search-records'
+import autoEntityUpdateRecordsConfig from './auto-entity-update-records'
 import startConfig from './start'
 import endConfig from './end'
+import submitNodeConfig from '../flow-path/submit-node'
+
 /**
  * 通过category字段对组件进行分类
  */
@@ -76,7 +84,14 @@ export const compList = [
   emailConfig,
   writeConfig,
   captureTimeConfig,
-  autoEntitySearchRecordsConfig
+  autoEntitySearchRecordsConfig,
+  autoEntityUpdateRecordsConfig,
+  inclusiveConfig,
+  exclusiveConfig,
+  parallelConfig,
+  notifyNodeConfig,
+  submitNodeConfig,
+  deleteRecordsConfig
 ]
 
 // 全部组件
