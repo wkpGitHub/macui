@@ -1,16 +1,18 @@
 import axios from 'axios'
+import { store as requestStore } from '@cip/request'
 
-const instance = axios.create({})
+const instance = axios.create({
+  baseURL: requestStore.apiConfig.apiChr
+})
 
 export default instance
 
 export const apiConfigToApi = (apiConfig) => {
-  const { fullPath, query, method = 'get' } = apiConfig
+  const { fullPath, httpMethod = 'get' } = apiConfig
   return (data) => {
-    console.log('[low_code] request', data)
     return instance({
       ...data,
-      method: method,
+      method: httpMethod,
       url: fullPath
     })
   }

@@ -1,7 +1,7 @@
 // import * as service from '@/api'
 import { ref, reactive, computed, provide, watch } from 'vue'
 import { setFieldValue } from '@d-render/shared'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import * as sharedUtils from '@d-render/shared/utils/util'
 import CipMessage from '@cip/components/cip-message'
 import CipMessageBox from '@cip/components/cip-message-box'
@@ -19,7 +19,7 @@ export default {
   },
   emits: ['update:model'],
   setup (props, { emit, expose }) {
-    console.log(props.service)
+    const route = useRoute()
     const securityScheme = computed(() => {
       return props.scheme || {}
     })
@@ -42,9 +42,8 @@ export default {
       }, {}) ?? {}
     })
     const init = computed(() => securityScheme.value.init)
-    watch(() => props.scheme, () => {
+    watch(() => props.scheme, (v) => {
       if (init.value) {
-        console.log(methods.value)
         init.value.forEach(key => {
           const method = methods.value[key]
           if (method) {
@@ -52,8 +51,21 @@ export default {
           }
         })
       }
+      setRouterQuery(v)
     }, { immediate: true })
     const router = useRouter()
+
+    // 设置路由参数
+    function setRouterQuery (scheme) {
+      const { query } = route
+      const queryList = (scheme.routerQuery || []).map(r => r.value)
+      const _query = {}
+      Object.keys(query).forEach(key => {
+        queryList.includes(key) && (_query[key] = query[key])
+      })
+      setFieldValue(props.model, 'routerQuery', _query)
+    }
+
     provide('drPageRender', reactive({
       methods,
       router,

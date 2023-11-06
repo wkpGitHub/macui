@@ -10,29 +10,18 @@ export default {
   },
   setup (props) {
     const pageSchema = ref({})
-    const model = ref({
-      filter: {}
-    })
+    const model = ref({})
     const apiList = ref([])
     const service = computed(() => {
-      console.log(apiList.value)
       return apiList.value?.reduce((acc, api) => {
-        console.log(api)
-        acc[api.apiName] = apiConfigToApi(api)
-        console.log(acc)
+        acc[api.name] = apiConfigToApi(api)
         return acc
       }, {})
     })
     const getPageScheme = (path, id) => {
       pageInfoService.detail({ fullPath: path, app: props.appPath, id }).then(res => {
         pageSchema.value = res.data.schema
-        apiList.value = res.data.schema.apiList // // res.data.apiList ||
-        //   [{
-        //     apiName: 'page',
-        //     method: 'get',
-        //     fullPath: '/apiChr/api/v1/app/page'
-        //   }
-        // ]
+        apiList.value = res.data.apiList
       })
     }
 

@@ -4,24 +4,38 @@ const methodsConfigFieldList = generateFieldList({
   apiList: {
     type: 'simpleCurd',
     itemType: '接口',
-    itemKey: 'apiName',
+    itemKey: 'name',
     infoRender: (h, { item }) => {
-      return h('div', null, [item.apiName])
+      return h('div', null, [item.name])
     },
     dialogProps: {
       size: 'small'
     },
     formProps: {
       fieldList: generateFieldList({
-        apiName: { label: '接口名称' },
-        method: {
+        name: { label: '接口名称' },
+        httpMethod: {
           label: '请求方式',
           type: 'select',
           options: [
-            'get', 'post', 'put', 'delete'
+            'GET', 'POST'
           ]
         },
         fullPath: { label: '接口地址' },
+        apiId: {
+          hideItem: true,
+          dependOn: ['fullPath'],
+          changeValue () {
+            return { value: Math.random().toString(16).substring(2, 10) }
+          }
+        },
+        objId: {
+          hideItem: true,
+          dependOn: ['apiId'],
+          changeValue ({ apiId }) {
+            return { value: apiId }
+          }
+        },
         query: {
           type: 'table',
           rowKey: 'id',
