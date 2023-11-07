@@ -1,5 +1,6 @@
 export default {
   grid: () => import('./grid'),
+  tree: () => import('./tree'),
   pageLayoutList: () => import('./page-layout/list'),
   curd: () => import('./curd'),
   searchForm: () => import('./search-form-design'),

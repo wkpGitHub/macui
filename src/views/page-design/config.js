@@ -1,58 +1,177 @@
+const curdConfig = {
+  type: 'curd',
+  icon: 'el-icon-edit',
+  label: '增删改查',
+  usingSlots: ['filter', 'handle', 'default', 'pagination', 'dialog'],
+  options: [
+    {
+      key: 'filter',
+      children: [
+        {
+          config: {
+            type: 'searchForm',
+            class: 'disabled-table',
+            label: '搜索表单',
+            hideLabel: true,
+            options: [
+              {
+                key: 'default',
+                children: []
+              }
+            ],
+            search: [{
+              eventType: 'method',
+              eventName: '函数',
+              methods: 'page'
+            }]
+          }
+        }
+      ]
+    },
+    {
+      key: 'handle',
+      children: [
+        {
+          config: {
+            type: 'button',
+            label: '按钮',
+            text: '新增',
+            icon: 'el-icon-plus',
+            inputType: 'primary',
+            click: []
+          }
+        },
+        {
+          config: {
+            type: 'button',
+            label: '按钮',
+            text: '删除',
+            icon: 'el-icon-delete',
+            click: []
+          }
+        }
+      ]
+    },
+    {
+      key: 'default',
+      children: [
+        {
+          config: {
+            type: 'pageTable',
+            class: 'disabled-table',
+            label: '表格',
+            hideLabel: true,
+            options: [
+              {
+                key: 'default',
+                children: []
+              }
+            ],
+            hideItem: false
+          }
+        }
+      ]
+    },
+    {
+      key: 'pagination',
+      children: [
+        {
+          config: {
+            type: 'pagination',
+            label: '分页器',
+            limit: 10,
+            offset: 1,
+            otherKey: ['page_num', 'total'],
+            layout: 'total,sizes,prev,pager,next,jumper',
+            pageSizes: [5, 10, 15, 20],
+            onRefresh: [
+              {
+                eventType: 'method',
+                eventName: '函数',
+                methods: 'page'
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      key: 'dialog',
+      children: [
+        {
+          config: {
+            type: 'dialog',
+            class: 'disabled-table',
+            label: '弹窗',
+            hideLabel: true,
+            usingSlots: [
+              'default'
+            ],
+            options: [
+              {
+                key: 'default',
+                children: [
+                  {
+                    config: {
+                      type: 'form',
+                      class: 'disabled-table',
+                      label: '表单',
+                      hideLabel: true,
+                      usingSlots: [
+                        'default'
+                      ],
+                      options: [
+                        {
+                          key: 'default',
+                          children: []
+                        }
+                      ],
+                      labelPosition: 'right'
+                    }
+                  }
+                ]
+              }
+            ],
+            size: 'default',
+            width: '100%',
+            top: '15vh',
+            buttonSize: 'default',
+            dialogType: 'dialog',
+            defaultValue: true,
+            closeOnClickModal: false,
+            showOnly: false,
+            showCancel: true,
+            title: '新增'
+          }
+        }
+      ]
+    }
+  ],
+  apiList: { save: '', del: '', search: '' }
+}
+
 export const componentsGroupList = [
   {
     groupName: 'function',
     label: '功能',
     components: [
+      curdConfig,
       {
-        type: 'curd',
+        type: 'pageLeftRight',
         icon: 'el-icon-edit',
-        label: '增删改查',
-        usingSlots: ['filter', 'handle', 'default', 'pagination', 'dialog'],
+        label: '左右布局',
         options: [
           {
-            key: 'filter',
+            key: 'left',
             children: [
               {
                 config: {
-                  type: 'searchForm',
-                  class: 'disabled-table',
-                  label: '搜索表单',
-                  hideLabel: true,
-                  options: [
-                    {
-                      key: 'default',
-                      children: []
-                    }
-                  ],
-                  search: [{
+                  type: 'tree',
+                  nodeClick: [{
                     eventType: 'method',
                     eventName: '函数',
-                    methods: 'page'
+                    methods: 'nodeClick'
                   }]
-                }
-              }
-            ]
-          },
-          {
-            key: 'handle',
-            children: [
-              {
-                config: {
-                  type: 'button',
-                  label: '按钮',
-                  text: '新增',
-                  icon: 'el-icon-plus',
-                  inputType: 'primary',
-                  click: []
-                }
-              },
-              {
-                config: {
-                  type: 'button',
-                  label: '按钮',
-                  text: '删除',
-                  icon: 'el-icon-delete',
-                  click: []
                 }
               }
             ]
@@ -61,106 +180,10 @@ export const componentsGroupList = [
             key: 'default',
             children: [
               {
-                config: {
-                  type: 'pageTable',
-                  class: 'disabled-table',
-                  label: '表格',
-                  hideLabel: true,
-                  options: [
-                    {
-                      key: 'default',
-                      children: []
-                    }
-                  ],
-                  hideItem: false
-                }
-              }
-            ]
-          },
-          {
-            key: 'pagination',
-            children: [
-              {
-                config: {
-                  type: 'pagination',
-                  label: '分页器',
-                  limit: 10,
-                  offset: 1,
-                  otherKey: ['page_num', 'total'],
-                  layout: 'total,sizes,prev,pager,next,jumper',
-                  pageSizes: [5, 10, 15, 20],
-                  onRefresh: [
-                    {
-                      eventType: 'method',
-                      eventName: '函数',
-                      methods: 'page'
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            key: 'dialog',
-            children: [
-              {
-                config: {
-                  type: 'dialog',
-                  class: 'disabled-table',
-                  label: '弹窗',
-                  hideLabel: true,
-                  usingSlots: [
-                    'default'
-                  ],
-                  options: [
-                    {
-                      key: 'default',
-                      children: [
-                        {
-                          config: {
-                            type: 'form',
-                            class: 'disabled-table',
-                            label: '表单',
-                            hideLabel: true,
-                            usingSlots: [
-                              'default'
-                            ],
-                            options: [
-                              {
-                                key: 'default',
-                                children: []
-                              }
-                            ],
-                            labelPosition: 'right'
-                          }
-                        }
-                      ]
-                    }
-                  ],
-                  size: 'default',
-                  width: '100%',
-                  top: '15vh',
-                  buttonSize: 'default',
-                  dialogType: 'dialog',
-                  defaultValue: true,
-                  closeOnClickModal: false,
-                  showOnly: false,
-                  showCancel: true,
-                  title: '新增'
-                }
+                config: curdConfig
               }
             ]
           }
-        ],
-        apiList: { save: '', del: '', search: '' }
-      },
-      {
-        type: 'pageLeftRight',
-        icon: 'el-icon-edit',
-        label: '左右布局',
-        options: [
-          { key: 'left', children: [] },
-          { key: 'default', children: [] }
         ]
       },
       {

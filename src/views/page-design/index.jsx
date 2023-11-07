@@ -49,10 +49,10 @@ export default {
     const setPageInfo = () => {
       pageInfoService.detail({ id: props.id }).then(res => {
         pageInfo.value = res.data
-        if (!res.data.schema.dataModel) {
+        if (res.data.schema && !res.data.schema.dataModel) {
           res.data.schema.dataModel = initDataModel
         }
-        Object.assign(schema.value, res.data.schema, { apiList: res.data.apiList || [] })
+        Object.assign(schema.value, res.data.schema || {}, { apiList: res.data.apiList || [] })
       })
     }
     const handleBack = () => {

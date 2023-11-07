@@ -22,5 +22,6 @@ export default {
   },
   form: () => () => import('./form'),
   selectTreePanel: () => () => import('./select-tree-panel'),
-  blockViewChart: () => () => import('./block-view-chart')
+  blockViewChart: () => () => import('./block-view-chart'),
+  tree: () => () => import('./tree')
 }

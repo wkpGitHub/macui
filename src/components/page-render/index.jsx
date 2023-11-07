@@ -35,18 +35,25 @@ export default {
       emit('update:model', model)
     }
     const methods = computed(() => {
-      return securityScheme.value.methods?.reduce((acc, v) => {
+      const _methods = securityScheme.value.methods?.reduce((acc, v) => {
         // eslint-disable-next-line no-new-func
         acc[v.name] = (new Function('model', 'service', 'dataBus', 'utils', 'options', v.body)).bind(acc, props.model, props.service, dataBus, utils)
         return acc
       }, {}) ?? {}
+      setFieldValue(props.model, 'methods', _methods)
+      return _methods
     })
     watch(() => props.scheme, (v) => {
       // 页面初始化自动执行的方法
       securityScheme.value.methods?.forEach(v => {
         if (v.initRun) {
+          const options = (v.args || []).reduce((total, current) => {
+            total[current.key] = current.value
+            return total
+          }, {})
+
           // eslint-disable-next-line
-          new Function('model', 'service', 'dataBus', 'utils', 'options', v.body).call(null, props.model, props.service, dataBus, utils)
+          new Function('model', 'service', 'dataBus', 'utils', 'options', v.body).call(null, props.model, props.service, dataBus, utils, options)
         }
       })
       setRouterQuery(v)

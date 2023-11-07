@@ -1,9 +1,14 @@
 import { CipForm, generateFieldList } from 'd-render'
 
+const tableColumns = generateFieldList({
+  key: { label: '参数' },
+  value: { label: '默认值' }
+})
+
 const methodsConfigFieldList = generateFieldList({
   methods: {
     type: 'simpleCurd',
-    itemType: '方法',
+    itemType: '函数',
     itemKey: 'name',
     infoRender: (h, { item }) => {
       return h('div', null, [item.name])
@@ -14,7 +19,13 @@ const methodsConfigFieldList = generateFieldList({
     formProps: {
       fieldList: generateFieldList({
         name: { label: '方法名称' },
-        body: { label: '接口地址', type: 'codeMirror', mode: 'javascript' }
+        initRun: { label: '自执行', type: 'switch' },
+        args: {
+          label: '参数',
+          type: 'table',
+          options: tableColumns
+        },
+        body: { label: '函数体', type: 'codeMirror', mode: 'javascript' }
       })
     }
   }

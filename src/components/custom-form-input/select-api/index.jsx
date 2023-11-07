@@ -80,7 +80,8 @@ export default {
           const pageSize = paginationChildren[0].key
           const [pageNum, total] = paginationChildren[0]?.config?.otherKey || {}
           fnBody = `const page = {pageNum: model.${pageNum} || 1, pageSize: model.${pageSize} || 10}
-service.page({params:{...model.${filterKey}, ...page, ...model.routerQuery}}).then((res)=>{
+options && (model.options = options)
+service.page({params:{...model.${filterKey}, ...page, ...model.routerQuery, ...model.options}}).then((res)=>{
     const {list, page} = res.data.data
     dataBus('${dataKey}', list)
     dataBus('${pageSize}', page.pageSize)
