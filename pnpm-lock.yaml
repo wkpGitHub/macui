@@ -119,6 +119,9 @@ dependencies:
   dayjs:
     specifier: ^1.11.6
     version: 1.11.10
+  echarts:
+    specifier: ^5.4.3
+    version: 5.4.3
   element-plus:
     specifier: 2.2.22
     version: 2.2.22(vue@3.3.7)

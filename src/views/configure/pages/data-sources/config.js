@@ -13,5 +13,12 @@ export const tableColumns = generateFieldList(defineTableFieldConfig({
 
 export const formFieldList = generateFieldList(defineFormFieldConfig({
   title: { label: '实体名称', required: true },
+  name: {
+    required: true,
+    label: '数据表名称',
+    span: 6,
+    regexpValidate: /^[a-zA-Z][0-9a-zA-Z]+$/,
+    regexpValidateErrorMessage: '只能以字母开头，允许输入数字、字母'
+  },
   remark: {}
 }), dataInfoEntityEntity)
