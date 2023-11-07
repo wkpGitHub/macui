@@ -26,8 +26,8 @@ export default defineComponent({
       const [pageNum, total] = paginationChildren[0]?.config?.otherKey || {}
       const fnBody = `const page = {pageNum: model.${pageNum} || 1, pageSize: model.${pageSize} || 10}
 service.page({params:{...model.${filterKey}, ...page}}).then((res)=>{
-    const {data, page} = res.data.data
-    dataBus('${dataKey}', data)
+    const {list, page} = res.data
+    dataBus('${dataKey}', list)
     dataBus('${pageSize}', page.pageSize)
     dataBus('${pageNum}', page.pageNum)
     dataBus('${total}', page.total)

@@ -44,8 +44,9 @@ export default {
     type: 'select-api',
     label: '查询接口',
     dependOn: ['options'],
-    onChange ({ row, updateApis, updateDataModel, dependOn }) {
+    onChange ({ row, updateApis, updateDataModel, dependOn, updateMethod }) {
       updateApis('page')
+      updateMethod('page', null, true)
       updateDataModel('查询接口')
       const filterChildren = dependOn.options.find(opt => opt.key === 'filter')?.children || []
       const defaultChildren = dependOn.options.find(opt => opt.key === 'default')?.children || []

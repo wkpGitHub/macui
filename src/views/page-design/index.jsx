@@ -19,6 +19,7 @@ import { PageDrawPlugin } from './plugins/page-draw'
 import { DataModelPlugin } from './plugins/data-model'
 import { CssConfigurePlugin } from './plugins/css'
 import { AdvancedConfigurePlugin } from './plugins/advanced'
+import { RouterQueryPlugin } from './plugins/router-query'
 
 // import { ApiIcon } from './widgets/svg-icons'
 export default {
@@ -36,24 +37,22 @@ export default {
       dataModel: initDataModel
     })
     const handleSave = (item) => {
-      const data = { ...pageInfo.value, schema: schema.value, apiList: apiList.value }
+      const { apiList, ...schemaOther } = schema.value;
+      (apiList || []).forEach(item => Reflect.deleteProperty(item, 'index'))
+      const data = { ...pageInfo.value, schema: schemaOther, apiList }
       pageInfoService.save(data).then(res => {
         CipMessage.success(res.message)
       })
     }
     const pageInfo = ref({})
-    const apiList = ref([])
     const equipment = ref('pc')
     const setPageInfo = () => {
       pageInfoService.detail({ id: props.id }).then(res => {
         pageInfo.value = res.data
-        if (res.data.schema.dataModel) {
-          res.data.schema.dataModel.push(...initDataModel)
-        } else {
+        if (!res.data.schema.dataModel) {
           res.data.schema.dataModel = initDataModel
         }
-        schema.value = res.data.schema
-        apiList.value = res.data.apiList || []
+        Object.assign(schema.value, res.data.schema, { apiList: res.data.apiList || [] })
       })
     }
     const handleBack = () => {
@@ -79,7 +78,8 @@ export default {
       new ApiPlugin(),
       new DataModelPlugin(),
       new CssConfigurePlugin(),
-      new AdvancedConfigurePlugin()
+      new AdvancedConfigurePlugin(),
+      new RouterQueryPlugin()
     ]
 
     watch(() => schema.value, (n) => {
