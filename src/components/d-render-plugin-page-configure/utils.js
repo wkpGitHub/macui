@@ -21,9 +21,9 @@ export const xField = (field) => {
  * @param {字段} field
  */
 export const yField = (field) => {
-  if (field && field.type) {
-    if (startsWith(field.type, 'LONG') || startsWith(field.type, 'DOUBLE') ||
-      startsWith(field.type, 'INT') || startsWith(field.type, 'BIT') || startsWith(field.type, 'FLOAT')) { return true }
+  if (field && field.dataType) {
+    if (startsWith(field.dataType, 'LONG') || startsWith(field.dataType, 'DOUBLE') ||
+      startsWith(field.dataType, 'INT') || startsWith(field.dataType, 'BIT') || startsWith(field.dataType, 'FLOAT')) { return true }
   }
   return false
 }
