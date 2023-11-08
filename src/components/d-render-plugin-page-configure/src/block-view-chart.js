@@ -199,6 +199,24 @@ export const cssConfigure = {
     type: 'collapse',
     options: [
       {
+        title: '颜色',
+        children: generateFieldList(addConfigPrefix(
+          {
+            colorScheme: { type: 'colorScheme', label: '配色方案' },
+            gradation: {
+              label: '渐变',
+              type: 'singleCheckbox',
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: ''
+              }
+            },
+            opacity: { type: 'slider', label: '不透明度', showInput: true }
+          }
+        ))
+      },
+      {
         title: '组件样式',
         children: generateFieldList(addConfigPrefix(
           {
