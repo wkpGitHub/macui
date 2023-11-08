@@ -1,3 +1,4 @@
+import { computed } from 'vue'
 import { formInputProps, useFormInput } from '@d-render/shared'
 import {
   ElInput,
@@ -11,9 +12,30 @@ export default {
   name: 'xAxis',
   props: formInputProps,
   setup (props, ctx) {
-    const { proxyValue, emitModelValue } = useFormInput(props, ctx)
+    const { proxyValue, emitModelValue, securityConfig } = useFormInput(props, ctx)
+    const xFields = computed(() => {
+      return securityConfig.value.xFields || []
+    })
+
+    const xFieldChange = () => {
+      emitModelValue(proxyValue.value)
+    }
 
     return () => <div class="x-axis">
+      <ElSelect
+        v-model={proxyValue.value.field}
+        class="form-item-xy"
+        filterable
+        placeholder="请选择字段"
+        oChange={xFieldChange}
+      >
+        {
+          xFields.value.map(item => (
+            <ElOption key={'xo' + item.name} label={item.title} value={item.name} />
+          ))
+        }
+      </ElSelect>
+
       <ElTooltip effect="dark"
                   placement="top"
                   content="x轴别名，优先作为坐标轴的名称，非必填项，内容中可以使用\n换行">

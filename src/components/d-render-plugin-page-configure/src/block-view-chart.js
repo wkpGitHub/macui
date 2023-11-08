@@ -1,69 +1,28 @@
-
 import { generateFieldList } from 'd-render'
 import { addConfigPrefix, xField, yField } from '../utils'
+import { centerService } from '@/api'
 
-const columns = [
-  {
-    label: '名称',
-    name: 'name',
-    sortable: false,
-    sum: false,
-    table: 'test_person',
-    tag: false,
-    type: 'STRING',
-    typeId: '402894984d8ac7ea014d8af02b650002'
-  },
-  {
-    label: '密码',
-    name: 'password',
-    sortable: false,
-    sum: false,
-    table: 'test_person',
-    tag: false,
-    type: 'STRING',
-    typeId: '402894984d8ac7ea014d8af02b650002'
-  },
-  {
-    label: '年龄',
-    name: 'age',
-    sortable: false,
-    sum: false,
-    table: 'test_person',
-    tag: false,
-    type: 'STRING',
-    typeId: '402894984d8ac7ea014d8af02b650002'
-  },
-  {
-    label: 'year',
-    name: 'year',
-    sortable: false,
-    sum: false,
-    table: 'test_person',
-    tag: false,
-    type: 'LONG',
-    typeId: '402894984d8ac7ea014d8af02b650012'
-  },
-  {
-    label: '钱',
-    name: 'money',
-    sortable: false,
-    sum: false,
-    table: 'test_person',
-    tag: false,
-    type: 'INT',
-    typeId: '402894984d8ac7ea014d8af02b650112'
+const getOutParams = async (searchApi, type) => {
+  let fields = []
+  if (searchApi) {
+    const { data } = await centerService.getContent(searchApi)
+    const { outParams = [] } = data.flow || {}
+    fields = outParams.filter(column => {
+      if (type === 'value') {
+        return yField(column)
+      } else {
+        return xField(column)
+      }
+    })
   }
-]
-
-const xFields = columns.filter(column => {
-  return xField(column)
-})
-const yFields = columns.filter(column => {
-  return yField(column)
-})
+  return fields
+}
 
 export default {
-  defaultValue: { },
+  searchApi: {
+    type: 'select-api',
+    label: '查询接口'
+  },
   chartType: {
     label: '显示方式',
     type: 'radio',
@@ -83,13 +42,15 @@ export default {
     type: 'xAxis',
     defaultValue: {
       alias: '',
-      xType: ''
+      xType: '',
+      field: ''
     },
-    dependOn: ['chartType'],
-    changeConfig: (config, { chartType }) => {
+    dependOn: ['chartType', 'searchApi'],
+    changeConfig: async (config, { chartType, searchApi }) => {
       if (['pie', 'sankey'].includes(chartType)) {
         config.readable = false
       }
+      config.xFields = await getOutParams(searchApi)
       return config
     }
   },
@@ -128,23 +89,27 @@ export default {
     label: 'y轴(度量)',
     required: true,
     type: 'yAxis',
-    dependOn: ['chartType'],
-    changeConfig: (config, { chartType }) => {
+    dependOn: ['chartType', 'searchApi'],
+    changeConfig: async (config, { chartType, searchApi }) => {
       if (['pie', 'sankey'].includes(chartType)) {
         config.readable = false
       } else {
         config.chartTypeDisabled = chartType === 'scatter'
       }
+      config.yFields = await getOutParams(searchApi, 'value')
       return config
     }
   },
   xField: {
     label: '键字段',
+    dependOn: ['chartType', 'searchApi'],
     type: 'select',
-    optionProps: { label: 'label', value: 'name' },
-    options: xFields,
-    dependOn: ['chartType'],
-    changeConfig: (config, { chartType }) => {
+    optionProps: { label: 'title', value: 'name' },
+    asyncOptions: async ({ searchApi }) => {
+      const option = await getOutParams(searchApi)
+      return option
+    },
+    changeConfig: async (config, { chartType }) => {
       if (!['pie'].includes(chartType)) {
         config.readable = false
       }
@@ -154,12 +119,62 @@ export default {
   yField: {
     label: '值字段',
     type: 'yAxisField',
-    dependOn: ['chartType'],
-    changeConfig: (config, { chartType }) => {
+    dependOn: ['chartType', 'searchApi'],
+    changeConfig: async (config, { chartType, searchApi }) => {
       if (!['pie'].includes(chartType)) {
         config.readable = false
       }
-      config.yFields = yFields
+      config.yFields = await getOutParams(searchApi, 'value')
+      return config
+    }
+  },
+  xAxisField: {
+    label: '源',
+    dependOn: ['chartType', 'searchApi'],
+    type: 'select',
+    required: true,
+    optionProps: { label: 'title', value: 'name' },
+    asyncOptions: async ({ searchApi }) => {
+      const option = await getOutParams(searchApi)
+      return option
+    },
+    changeConfig: async (config, { chartType }) => {
+      if (!['sankey'].includes(chartType)) {
+        config.readable = false
+      }
+      return config
+    }
+  },
+  yAxisColumns: {
+    label: '目标',
+    dependOn: ['chartType', 'searchApi'],
+    type: 'select',
+    required: true,
+    optionProps: { label: 'title', value: 'name' },
+    asyncOptions: async ({ searchApi }) => {
+      const option = await getOutParams(searchApi)
+      return option
+    },
+    changeConfig: async (config, { chartType }) => {
+      if (!['sankey'].includes(chartType)) {
+        config.readable = false
+      }
+      return config
+    }
+  },
+  zAxisField: {
+    label: '值',
+    dependOn: ['chartType', 'searchApi'],
+    type: 'select',
+    optionProps: { label: 'title', value: 'name' },
+    asyncOptions: async ({ searchApi }) => {
+      const option = await getOutParams(searchApi, 'value')
+      return option
+    },
+    changeConfig: async (config, { chartType }) => {
+      if (!['sankey'].includes(chartType)) {
+        config.readable = false
+      }
       return config
     }
   }
