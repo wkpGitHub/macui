@@ -1,6 +1,7 @@
 import { generateFieldList } from 'd-render'
 import { addConfigPrefix, xField, yField } from '../utils'
 import { centerService } from '@/api'
+import req from '@cip/request'
 
 const getOutParams = async (searchApi, type) => {
   let fields = []
@@ -21,7 +22,20 @@ const getOutParams = async (searchApi, type) => {
 export default {
   searchApi: {
     type: 'select-api',
-    label: '查询接口'
+    label: '查询接口',
+    dependOn: ['yAxis'],
+    async onChange ({ row, updateApis, updateDataModel, updateMethod, dependOn }) {
+      updateApis('page')
+      updateMethod('page', null, true)
+      updateDataModel('查询接口')
+      const { data } = await req({
+        method: 'get',
+        apiName: 'apiChr',
+        url: `/${row.fullPath}`,
+        params: { offset: 0, limit: 10 }
+      })
+      dependOn.yAxis.data = data?.list || []
+    }
   },
   chartType: {
     label: '显示方式',
