@@ -36,5 +36,6 @@ export default {
   chartMargin: () => () => import('./block-view-chart/chart-margin/index'),
   xAxis: () => () => import('./block-view-chart/x-axis/index'),
   yAxis: () => () => import('./block-view-chart/y-axis/index'),
-  yAxisField: () => () => import('./block-view-chart/y-axis-field/index')
+  yAxisField: () => () => import('./block-view-chart/y-axis-field/index'),
+  colorScheme: () => () => import('./block-view-chart/color-scheme/index')
 }
