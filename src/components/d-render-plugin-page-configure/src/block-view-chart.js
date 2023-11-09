@@ -328,7 +328,7 @@ export const cssConfigure = {
               type: 'select',
               label: '字体大小',
               defaultValue: 12,
-              options: handelLabelSizeOptions(40),
+              options: handelLabelSizeOptions(10, 40),
               dependOn: ['config.isShowLabel', 'config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
                 if (!chartConfig.isShowLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
@@ -386,7 +386,7 @@ export const cssConfigure = {
               type: 'select',
               label: '字体大小',
               defaultValue: 14,
-              options: handelLabelSizeOptions(20),
+              options: handelLabelSizeOptions(10, 20),
               dependOn: ['config.isShowTooltip', 'config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
                 if (!chartConfig.isShowTooltip || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
@@ -410,6 +410,143 @@ export const cssConfigure = {
               dependOn: ['config.isShowTooltip', 'config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
                 if (!chartConfig.isShowTooltip || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            }
+          }
+        ))
+      },
+      {
+        title: '横轴',
+        children: generateFieldList(addConfigPrefix(
+          {
+            isShowXAxis: {
+              type: 'singleCheckbox',
+              label: '显示',
+              defaultValue: true,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: '显示'
+              },
+              dependOn: ['config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            xAxisPosition: {
+              type: 'radio',
+              label: '位置',
+              isButton: true,
+              defaultValue: 'bottom',
+              options: [{ label: '上', value: 'top' }, { label: '下', value: 'bottom' }],
+              dependOn: ['config.isShowXAxis', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowXAxis || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            // xAxisName: {
+            //   label: '名称'
+            // },
+            xAxisNameColor: {
+              type: 'colorPicker',
+              label: '名称颜色',
+              defaultValue: '#333',
+              dependOn: ['config.isShowXAxis', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowXAxis || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            xAxisNameSize: {
+              type: 'select',
+              label: '名称字体',
+              defaultValue: 14,
+              options: handelLabelSizeOptions(10, 40),
+              dependOn: ['config.isShowXAxis', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowXAxis || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            isShowAxisTick: {
+              type: 'singleCheckbox',
+              label: '轴线显示',
+              defaultValue: true,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: '轴线显示'
+              },
+              dependOn: ['config.isShowXAxis', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowXAxis || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            isShowSplitLine: {
+              type: 'singleCheckbox',
+              label: '网格线显示',
+              defaultValue: false,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: '网格线显示'
+              },
+              dependOn: ['config.isShowXAxis', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowXAxis || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            isShowAxisLabel: {
+              type: 'singleCheckbox',
+              label: '标签显示',
+              defaultValue: true,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: '标签显示'
+              },
+              dependOn: ['config.isShowXAxis', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowXAxis || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            axisLabelColor: {
+              type: 'colorPicker',
+              label: '标签颜色',
+              defaultValue: '#333',
+              dependOn: ['config.isShowAxisLabel', 'config.chartType', 'config.isShowXAxis'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowXAxis || !chartConfig.isShowAxisLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            axisLabelRotate: {
+              type: 'slider',
+              label: '标签角度',
+              min: -90,
+              max: 90,
+              showInput: true,
+              defaultValue: 0,
+              dependOn: ['config.isShowAxisLabel', 'config.chartType', 'config.isShowXAxis'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowXAxis || !chartConfig.isShowAxisLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            axisLabelSize: {
+              type: 'select',
+              label: '标签大小',
+              defaultValue: 12,
+              options: handelLabelSizeOptions(6, 40),
+              dependOn: ['config.isShowAxisLabel', 'config.chartType', 'config.isShowXAxis'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowXAxis || !chartConfig.isShowAxisLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
                 return config
               }
             }

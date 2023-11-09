@@ -1,6 +1,6 @@
 
 export default function useChartBarLine (securityConfig, dataset) {
-  const { chartType: configChartType, text, subtext, titleLeft, grid, xAxis, yType, yAxis, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap, isShowLabel, labelSize, labelColor, labelPosition, isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg } = securityConfig
+  const { chartType: configChartType, text, subtext, titleLeft, grid, xAxis, yType, yAxis, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap, isShowLabel, labelSize, labelColor, labelPosition, isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, isShowXAxis = true, xAxisPosition = 'bottom', xAxisNameColor, xAxisNameSize, isShowAxisTick = true, isShowSplitLine = false, isShowAxisLabel = true, axisLabelColor, axisLabelRotate = 0, axisLabelSize } = securityConfig
 
   const yAxisArr = []
   const seriesArr = []
@@ -128,8 +128,31 @@ export default function useChartBarLine (securityConfig, dataset) {
       {
         name: xAxis.alias,
         type: advancedConfig.includes('isReversed') ? yType || 'value' : xAxis.xType || 'category',
+        show: isShowXAxis,
+        position: xAxisPosition,
+        // name: 'x名称',
+        nameTextStyle: {
+          color: xAxisNameColor || '#333',
+          fontSize: xAxisNameSize || 14
+        },
         axisTick: {
+          show: isShowAxisTick,
           alignWithLabel: true
+        },
+        axisLine: {
+          onZero: xAxisPosition === 'bottom',
+          lineStyle: {
+            color: gradation ? 'rgba(204, 204, 204, 0.5)' : '#333'
+          }
+        },
+        splitLine: {
+          show: isShowSplitLine
+        },
+        axisLabel: {
+          show: isShowAxisLabel,
+          color: axisLabelColor || '#333',
+          rotate: axisLabelRotate,
+          fontSize: axisLabelSize || 12
         }
       }
     ],

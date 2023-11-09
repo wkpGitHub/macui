@@ -181,9 +181,9 @@ export function getItemConfig (item) {
   }
 }
 
-export const handelLabelSizeOptions = (maxValue) => {
+export const handelLabelSizeOptions = (minValue, maxValue) => {
   const arr = []
-  for (let i = 10; i <= maxValue; i = i + 2) {
+  for (let i = minValue; i <= maxValue; i = i + 2) {
     arr.push({ label: i, value: i })
   }
   return arr
