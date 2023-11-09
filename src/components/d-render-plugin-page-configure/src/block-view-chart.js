@@ -1,5 +1,5 @@
 import { generateFieldList } from 'd-render'
-import { addConfigPrefix, xField, yField } from '../utils'
+import { addConfigPrefix, xField, yField, handelLabelSizeOptions } from '../utils'
 import { centerService } from '@/api'
 import req from '@cip/request'
 
@@ -17,14 +17,6 @@ const getOutParams = async (searchApi, type) => {
     })
   }
   return fields
-}
-
-const handelLabelSizeOptions = () => {
-  const arr = []
-  for (let i = 10; i <= 40; i = i + 2) {
-    arr.push({ label: i, value: i })
-  }
-  return arr
 }
 
 export default {
@@ -336,7 +328,7 @@ export const cssConfigure = {
               type: 'select',
               label: '字体大小',
               defaultValue: 12,
-              options: handelLabelSizeOptions(),
+              options: handelLabelSizeOptions(40),
               dependOn: ['config.isShowLabel', 'config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
                 if (!chartConfig.isShowLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
@@ -365,6 +357,59 @@ export const cssConfigure = {
               dependOn: ['config.isShowLabel', 'config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
                 if (!chartConfig.isShowLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            }
+          }
+        ))
+      },
+      {
+        title: '提示',
+        children: generateFieldList(addConfigPrefix(
+          {
+            isShowTooltip: {
+              type: 'singleCheckbox',
+              label: '显示',
+              defaultValue: true,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: '显示'
+              },
+              dependOn: ['config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            tooltipSize: {
+              type: 'select',
+              label: '字体大小',
+              defaultValue: 14,
+              options: handelLabelSizeOptions(20),
+              dependOn: ['config.isShowTooltip', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowTooltip || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            tooltipColor: {
+              type: 'colorPicker',
+              label: '字体颜色',
+              defaultValue: '#333',
+              dependOn: ['config.isShowTooltip', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowTooltip || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            tooltipBg: {
+              type: 'colorPicker',
+              label: '背景',
+              defaultValue: '#fff',
+              dependOn: ['config.isShowTooltip', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowTooltip || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
                 return config
               }
             }

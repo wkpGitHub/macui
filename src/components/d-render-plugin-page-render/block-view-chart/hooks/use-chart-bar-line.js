@@ -1,6 +1,6 @@
 
 export default function useChartBarLine (securityConfig, dataset) {
-  const { chartType: configChartType, text, subtext, titleLeft, grid, xAxis, yType, yAxis, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap, isShowLabel, labelSize, labelColor, labelPosition } = securityConfig
+  const { chartType: configChartType, text, subtext, titleLeft, grid, xAxis, yType, yAxis, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap, isShowLabel, labelSize, labelColor, labelPosition, isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg } = securityConfig
 
   const yAxisArr = []
   const seriesArr = []
@@ -77,8 +77,8 @@ export default function useChartBarLine (securityConfig, dataset) {
       },
       encode: {
         x: advancedConfig.includes('isReversed') ? field : (xAxis.field ? xAxis.field : 'name'),
-        y: advancedConfig.includes('isReversed') ? (xAxis.field ? xAxis.field : 'name') : field,
-        tooltip: [advancedConfig.includes('isReversed') ? (xAxis.field ? xAxis.field : 'name') : field]
+        y: advancedConfig.includes('isReversed') ? (xAxis.field ? xAxis.field : 'name') : field
+        // tooltip: [advancedConfig.includes('isReversed') ? (xAxis.field ? xAxis.field : 'name') : field]
       },
       barGap: barGapSelfAdaption ? null : `${barGap}%`,
       label: {
@@ -97,7 +97,12 @@ export default function useChartBarLine (securityConfig, dataset) {
       textAlign: titleLeft
     },
     tooltip: {
-      trigger: 'axis',
+      trigger: isShowTooltip ? configChartType === 'scatter' ? 'axis' : 'item' : 'none',
+      textStyle: {
+        color: tooltipColor || '#333',
+        fontSize: tooltipSize || 14
+      },
+      backgroundColor: tooltipBg || '#fff',
       axisPointer: {
         type: 'shadow'
       }
