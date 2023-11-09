@@ -1,10 +1,29 @@
 
 export default function useChartBarLine (securityConfig, dataset) {
-  const { chartType: configChartType, text, subtext, titleLeft, grid, xAxis, yType, yAxis, advancedConfig = '', xField = 'name', yField = { columns: [] } } = securityConfig
+  const { chartType: configChartType, text, subtext, titleLeft, grid, xAxis, yType, yAxis, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap, isShowLabel, labelSize, labelColor, labelPosition, isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg } = securityConfig
+
   const yAxisArr = []
   const seriesArr = []
   let markLineDataArr = []
   let markPointArr = []
+
+  const handleColor = (color) => {
+    return gradation
+      ? {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [{
+            offset: 0, color: color.replace('rgb', 'rgba').replace(')', `, ${opacity / 100})`)
+          }, {
+            offset: 1, color: 'white'
+          }],
+          global: false
+        }
+      : color.replace('rgb', 'rgba').replace(')', `, ${opacity / 100})`)
+  }
 
   const dataZoomArr = advancedConfig.includes('xDataZoom')
     ? [
@@ -37,15 +56,19 @@ export default function useChartBarLine (securityConfig, dataset) {
     }]
   }
 
-  yAxis.columns.forEach(column => {
-    const { alias, chartType } = column
+  yAxis.columns.forEach((column, index) => {
+    const { alias, chartType, field = 'value' } = column
     yAxisArr.push({
       name: alias,
       type: advancedConfig.includes('isReversed') ? xAxis.xType || 'category' : yType || 'value'
+      // axisLabel: {
+      //   formatter: '{yyyy}-{MM}-{dd}'
+      // }
     })
     seriesArr.push({
       name: alias,
       type: configChartType === 'scatter' ? 'scatter' : chartType,
+      itemStyle: colorScheme ? { color: handleColor(colorScheme[index]) } : {},
       markLine: {
         data: markLineDataArr
       },
@@ -53,8 +76,16 @@ export default function useChartBarLine (securityConfig, dataset) {
         data: markPointArr
       },
       encode: {
-        x: advancedConfig.includes('isReversed') ? yField.columns.length ? yField.columns[0].field : 'value' : xField,
-        y: advancedConfig.includes('isReversed') ? xField : yField.columns.length ? yField.columns[0].field : 'value'
+        x: advancedConfig.includes('isReversed') ? field : (xAxis.field ? xAxis.field : 'name'),
+        y: advancedConfig.includes('isReversed') ? (xAxis.field ? xAxis.field : 'name') : field
+        // tooltip: [advancedConfig.includes('isReversed') ? (xAxis.field ? xAxis.field : 'name') : field]
+      },
+      barGap: barGapSelfAdaption ? null : `${barGap}%`,
+      label: {
+        show: !!isShowLabel,
+        fontSize: labelSize,
+        color: labelColor,
+        position: labelPosition
       }
     })
   })
@@ -66,10 +97,24 @@ export default function useChartBarLine (securityConfig, dataset) {
       textAlign: titleLeft
     },
     tooltip: {
-      trigger: 'axis',
+      trigger: isShowTooltip ? configChartType === 'scatter' ? 'axis' : 'item' : 'none',
+      textStyle: {
+        color: tooltipColor || '#333',
+        fontSize: tooltipSize || 14
+      },
+      backgroundColor: tooltipBg || '#fff',
       axisPointer: {
         type: 'shadow'
       }
+      // formatter: (params) => {
+      //   const name = params[0].value[xAxis.field]
+      //   const year = params[0].value.year
+      //   if (yType === 'time') {
+      //     return name + '-' + year
+      //   } else {
+
+      //   }
+      // }
     },
     legend: {},
     grid: {

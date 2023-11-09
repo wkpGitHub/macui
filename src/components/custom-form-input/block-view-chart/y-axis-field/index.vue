@@ -14,7 +14,7 @@
         <el-option
           v-for="op in yFields"
           :key="'yo'+index+op.name"
-          :label="op.label"
+          :label="op.title"
           :value="op.name" />
       </el-select>
       <el-icon style='color: #D9D9D9; cursor: pointer;' @click="deleteYField(index)"><Remove /></el-icon>

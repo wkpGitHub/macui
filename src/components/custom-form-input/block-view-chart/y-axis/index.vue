@@ -5,20 +5,19 @@
       :key="'y-'+index"
       style="display: flex; align-items: center; margin-bottom: 12px;"
     >
-      <!-- <el-select
+      <el-select
         v-model="item.field"
         class="form-item-xy"
         filterable
         placeholder="请选择字段"
-        @change="t => yFieldChange(t, item)"
+        @change="val => yFieldChange(val, item)"
       >
         <el-option
           v-for="op in yFields"
           :key="'yo'+index+op.name"
-          :label="op.label"
-          :value="op.name"
-        />
-      </el-select> -->
+          :label="op.title"
+          :value="op.name" />
+      </el-select>
 
       <el-tooltip
         effect="dark"
@@ -75,6 +74,19 @@ export default {
   components: { ElInput, ElSelect, ElOption, ElTooltip, ElIcon, Remove, Plus },
   setup (props, ctx) {
     const { proxyValue, emitModelValue, securityConfig } = useFormInput(props, ctx)
+    const yFields = computed(() => {
+      return securityConfig.value.yFields || []
+    })
+
+    const getTitle = (val) => {
+      return yFields.value.find(yField => yField.name === val).title
+    }
+
+    const yFieldChange = (val, item) => {
+      item.name = getTitle(val)
+      emitModelValue(proxyValue.value)
+    }
+
     const addYField = () => {
       if (!proxyValue.value.columns) {
         proxyValue.value.columns = []
@@ -100,8 +112,10 @@ export default {
     return {
       proxyValue,
       isShow,
+      yFields,
       addYField,
-      deleteYField
+      deleteYField,
+      yFieldChange
     }
   }
 }

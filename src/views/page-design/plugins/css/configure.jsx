@@ -1,6 +1,8 @@
 import { CipForm, generateFieldList } from 'd-render'
 import { getComponentCssConfigure } from './util'
 import { nextTick, ref, watch } from 'vue'
+import './index.less'
+
 export default {
   props: {
     selectItem: {},
@@ -37,6 +39,7 @@ export default {
     }, { immediate: true })
 
     return () => <CipForm
+      class="css-configure"
       model={props.selectItem}
       labelPosition={'top'}
       onUpdate:model={(val) => emit('update:selectItem', val)}

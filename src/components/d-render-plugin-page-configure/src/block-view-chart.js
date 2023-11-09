@@ -1,69 +1,42 @@
-
 import { generateFieldList } from 'd-render'
-import { addConfigPrefix, xField, yField } from '../utils'
+import { addConfigPrefix, xField, yField, handelLabelSizeOptions } from '../utils'
+import { centerService } from '@/api'
+import req from '@cip/request'
 
-const columns = [
-  {
-    label: '名称',
-    name: 'name',
-    sortable: false,
-    sum: false,
-    table: 'test_person',
-    tag: false,
-    type: 'STRING',
-    typeId: '402894984d8ac7ea014d8af02b650002'
-  },
-  {
-    label: '密码',
-    name: 'password',
-    sortable: false,
-    sum: false,
-    table: 'test_person',
-    tag: false,
-    type: 'STRING',
-    typeId: '402894984d8ac7ea014d8af02b650002'
-  },
-  {
-    label: '年龄',
-    name: 'age',
-    sortable: false,
-    sum: false,
-    table: 'test_person',
-    tag: false,
-    type: 'STRING',
-    typeId: '402894984d8ac7ea014d8af02b650002'
-  },
-  {
-    label: 'year',
-    name: 'year',
-    sortable: false,
-    sum: false,
-    table: 'test_person',
-    tag: false,
-    type: 'LONG',
-    typeId: '402894984d8ac7ea014d8af02b650012'
-  },
-  {
-    label: '钱',
-    name: 'money',
-    sortable: false,
-    sum: false,
-    table: 'test_person',
-    tag: false,
-    type: 'INT',
-    typeId: '402894984d8ac7ea014d8af02b650112'
+const getOutParams = async (searchApi, type) => {
+  let fields = []
+  if (searchApi) {
+    const { data } = await centerService.getContent(searchApi)
+    const { outParams = [] } = data.flow || {}
+    fields = outParams.filter(column => {
+      if (type === 'value') {
+        return yField(column)
+      } else {
+        return xField(column)
+      }
+    })
   }
-]
-
-const xFields = columns.filter(column => {
-  return xField(column)
-})
-const yFields = columns.filter(column => {
-  return yField(column)
-})
+  return fields
+}
 
 export default {
-  defaultValue: { },
+  searchApi: {
+    type: 'select-api',
+    label: '查询接口',
+    dependOn: ['yAxis'],
+    async onChange ({ row, updateApis, updateDataModel, updateMethod, dependOn }) {
+      updateApis('page')
+      updateMethod('page', null, true)
+      updateDataModel('查询接口')
+      const { data } = await req({
+        method: 'get',
+        apiName: 'apiChr',
+        url: `/${row.fullPath}`,
+        params: { offset: 0, limit: 10 }
+      })
+      dependOn.yAxis.data = data?.list || []
+    }
+  },
   chartType: {
     label: '显示方式',
     type: 'radio',
@@ -83,13 +56,15 @@ export default {
     type: 'xAxis',
     defaultValue: {
       alias: '',
-      xType: ''
+      xType: '',
+      field: ''
     },
-    dependOn: ['chartType'],
-    changeConfig: (config, { chartType }) => {
+    dependOn: ['chartType', 'searchApi'],
+    changeConfig: async (config, { chartType, searchApi }) => {
       if (['pie', 'sankey'].includes(chartType)) {
         config.readable = false
       }
+      config.xFields = await getOutParams(searchApi)
       return config
     }
   },
@@ -128,23 +103,27 @@ export default {
     label: 'y轴(度量)',
     required: true,
     type: 'yAxis',
-    dependOn: ['chartType'],
-    changeConfig: (config, { chartType }) => {
+    dependOn: ['chartType', 'searchApi'],
+    changeConfig: async (config, { chartType, searchApi }) => {
       if (['pie', 'sankey'].includes(chartType)) {
         config.readable = false
       } else {
         config.chartTypeDisabled = chartType === 'scatter'
       }
+      config.yFields = await getOutParams(searchApi, 'value')
       return config
     }
   },
   xField: {
     label: '键字段',
+    dependOn: ['chartType', 'searchApi'],
     type: 'select',
-    optionProps: { label: 'label', value: 'name' },
-    options: xFields,
-    dependOn: ['chartType'],
-    changeConfig: (config, { chartType }) => {
+    optionProps: { label: 'title', value: 'name' },
+    asyncOptions: async ({ searchApi }) => {
+      const option = await getOutParams(searchApi)
+      return option
+    },
+    changeConfig: async (config, { chartType }) => {
       if (!['pie'].includes(chartType)) {
         config.readable = false
       }
@@ -154,12 +133,62 @@ export default {
   yField: {
     label: '值字段',
     type: 'yAxisField',
-    dependOn: ['chartType'],
-    changeConfig: (config, { chartType }) => {
+    dependOn: ['chartType', 'searchApi'],
+    changeConfig: async (config, { chartType, searchApi }) => {
       if (!['pie'].includes(chartType)) {
         config.readable = false
       }
-      config.yFields = yFields
+      config.yFields = await getOutParams(searchApi, 'value')
+      return config
+    }
+  },
+  xAxisField: {
+    label: '源',
+    dependOn: ['chartType', 'searchApi'],
+    type: 'select',
+    required: true,
+    optionProps: { label: 'title', value: 'name' },
+    asyncOptions: async ({ searchApi }) => {
+      const option = await getOutParams(searchApi)
+      return option
+    },
+    changeConfig: async (config, { chartType }) => {
+      if (!['sankey'].includes(chartType)) {
+        config.readable = false
+      }
+      return config
+    }
+  },
+  yAxisColumns: {
+    label: '目标',
+    dependOn: ['chartType', 'searchApi'],
+    type: 'select',
+    required: true,
+    optionProps: { label: 'title', value: 'name' },
+    asyncOptions: async ({ searchApi }) => {
+      const option = await getOutParams(searchApi)
+      return option
+    },
+    changeConfig: async (config, { chartType }) => {
+      if (!['sankey'].includes(chartType)) {
+        config.readable = false
+      }
+      return config
+    }
+  },
+  zAxisField: {
+    label: '值',
+    dependOn: ['chartType', 'searchApi'],
+    type: 'select',
+    optionProps: { label: 'title', value: 'name' },
+    asyncOptions: async ({ searchApi }) => {
+      const option = await getOutParams(searchApi, 'value')
+      return option
+    },
+    changeConfig: async (config, { chartType }) => {
+      if (!['sankey'].includes(chartType)) {
+        config.readable = false
+      }
       return config
     }
   }
@@ -169,6 +198,224 @@ export const cssConfigure = {
   __collapse: {
     type: 'collapse',
     options: [
+      {
+        title: '颜色',
+        children: generateFieldList(addConfigPrefix(
+          {
+            colorScheme: {
+              type: 'colorScheme',
+              defaultValue: ['rgb(84, 112, 198)', 'rgb(145, 204, 117)', 'rgb(250, 200, 88)', 'rgb(238, 102, 102)', 'rgb(115, 192, 222)', 'rgb(59, 162, 114)', 'rgb(252, 132, 82)', 'rgb(154, 96, 180)', 'rgb(234, 124, 204)'],
+              label: '配色方案',
+              otherKey: 'config.yAxis',
+              dependOn: ['config.chartType'],
+              changeConfig: async (config, { config: chartConfig }) => {
+                if (!['barline', 'scatter'].includes(chartConfig.chartType)) {
+                  config.readable = false
+                }
+                return config
+              }
+            },
+            gradation: {
+              label: '渐变',
+              type: 'singleCheckbox',
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: ''
+              },
+              dependOn: ['config.chartType'],
+              changeConfig: async (config, { config: chartConfig }) => {
+                if (!['barline', 'scatter'].includes(chartConfig.chartType)) {
+                  config.readable = false
+                }
+                return config
+              }
+            },
+            opacity: {
+              type: 'slider',
+              label: '不透明度',
+              showInput: true,
+              dependOn: ['config.chartType'],
+              changeConfig: async (config, { config: chartConfig }) => {
+                if (!['barline', 'scatter'].includes(chartConfig.chartType)) {
+                  config.readable = false
+                }
+                return config
+              }
+            }
+          }
+        ))
+      },
+      {
+        title: '大小',
+        children: generateFieldList(addConfigPrefix(
+          {
+            barGapSelfAdaption: {
+              type: 'singleCheckbox',
+              label: '自适应',
+              defaultValue: true,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: '自适应'
+              },
+              dependOn: ['config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (chartConfig.chartType !== 'barline') {
+                  config.readable = false
+                }
+                return config
+              }
+            },
+            barGap: {
+              type: 'slider',
+              label: '柱间隔',
+              min: 0,
+              max: 50,
+              showInput: true,
+              dependOn: ['config.barGapSelfAdaption', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                config.disabled = chartConfig.barGapSelfAdaption
+                if (chartConfig.chartType !== 'barline') {
+                  config.readable = false
+                }
+                return config
+              },
+              changeValue: ({ config: chartConfig }) => {
+                if (chartConfig) return { value: 0 }
+              }
+            },
+            radius: {
+              label: '半径',
+              type: 'slider',
+              min: 0,
+              max: 100,
+              range: true,
+              dependOn: ['config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (chartConfig.chartType !== 'pie') {
+                  config.readable = false
+                }
+                return config
+              }
+            // formatTooltip: (val) => {
+            //   return val + '%'
+            // }
+            }
+          }
+        ))
+      },
+      {
+        title: '标签',
+        children: generateFieldList(addConfigPrefix(
+          {
+            isShowLabel: {
+              type: 'singleCheckbox',
+              label: '显示',
+              defaultValue: false,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: '显示'
+              },
+              dependOn: ['config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            labelSize: {
+              type: 'select',
+              label: '字体大小',
+              defaultValue: 12,
+              options: handelLabelSizeOptions(40),
+              dependOn: ['config.isShowLabel', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            labelColor: {
+              type: 'colorPicker',
+              label: '字体颜色',
+              defaultValue: '#333',
+              dependOn: ['config.isShowLabel', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            labelPosition: {
+              type: 'select',
+              label: '标签位置',
+              defaultValue: 'inside',
+              options: [
+                { label: '上', value: 'top' },
+                { label: '中心', value: 'inside' },
+                { label: '下', value: 'insideBottom' }
+              ],
+              dependOn: ['config.isShowLabel', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            }
+          }
+        ))
+      },
+      {
+        title: '提示',
+        children: generateFieldList(addConfigPrefix(
+          {
+            isShowTooltip: {
+              type: 'singleCheckbox',
+              label: '显示',
+              defaultValue: true,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: '显示'
+              },
+              dependOn: ['config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            tooltipSize: {
+              type: 'select',
+              label: '字体大小',
+              defaultValue: 14,
+              options: handelLabelSizeOptions(20),
+              dependOn: ['config.isShowTooltip', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowTooltip || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            tooltipColor: {
+              type: 'colorPicker',
+              label: '字体颜色',
+              defaultValue: '#333',
+              dependOn: ['config.isShowTooltip', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowTooltip || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            tooltipBg: {
+              type: 'colorPicker',
+              label: '背景',
+              defaultValue: '#fff',
+              dependOn: ['config.isShowTooltip', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowTooltip || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            }
+          }
+        ))
+      },
       {
         title: '组件样式',
         children: generateFieldList(addConfigPrefix(
@@ -195,30 +442,6 @@ export const cssConfigure = {
                 left: '',
                 bottom: ''
               }
-            }
-          })
-        )
-      },
-      {
-        title: '大小',
-        children: generateFieldList(addConfigPrefix(
-          {
-            radius: {
-              label: '半径',
-              type: 'slider',
-              min: 0,
-              max: 100,
-              range: true,
-              dependOn: ['config.chartType'],
-              changeConfig: (config, { config: chartConfig }) => {
-                if (chartConfig.chartType !== 'pie') {
-                  config.readable = false
-                }
-                return config
-              }
-            // formatTooltip: (val) => {
-            //   return val + '%'
-            // }
             }
           })
         )

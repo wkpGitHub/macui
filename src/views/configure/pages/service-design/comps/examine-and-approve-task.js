@@ -12,16 +12,29 @@ const showConfig = params => {
     }
   }
 }
+const staticInfoStyle = {
+  fontWeight: 'bold',
+  fontSize: 16,
+  inputStyle: {
+    borderBottom: '1px solid #ccc',
+    padding: '0 0 10px 0'
+  }
+}
 export default {
   category: '流程管理',
   type: 'examine-and-approve-task',
   title: '人工节点',
+  labelWidth: '120px',
   formField: generateFieldList(defineFormFieldConfig({
     actionGroup: {
       hideItem: true,
       defaultValue: 0
     },
-    taskTitle: { label: '任务标题' },
+    _staticInfo1: { type: 'staticInfo', staticInfo: '节点信息', ...staticInfoStyle },
+    taskTitle: {
+      label: '任务标题',
+      type: 'setFx'
+    },
     fieldAclGroup: {
       hideItem: true,
       defaultValue: uuid()
@@ -47,6 +60,32 @@ export default {
         { label: '自定义页面', value: 'pageView' }
       ]
     },
+    _staticInfo2: { type: 'staticInfo', staticInfo: '处理对象', ...staticInfoStyle },
+    processObject: {
+      label: '处理对象',
+      type: 'select',
+      ...showConfig('formView'),
+      options: [
+        { label: '开始_fa97', value: '开始_fa97' }
+      ]
+    },
+    nodeOperateType: { // 字段操作权限 未找到对应字段
+      label: '字段操作权限',
+      type: 'select',
+      ...showConfig('formView'),
+      options: [
+        { label: '编辑', value: '编辑' },
+        { label: '查看', value: '查看' }
+      ]
+    },
+    processOperateType: { // 流程操作权限 未找到对应字段
+      label: '流程操作权限',
+      type: 'select',
+      ...showConfig('formView'),
+      options: [
+        { label: '审批', value: '审批' }
+      ]
+    },
     formView: {
       label: '表单视图',
       type: 'select',
@@ -63,6 +102,8 @@ export default {
         return config
       }
     },
+    _staticInfo3: { type: 'staticInfo', staticInfo: '处理人', ...staticInfoStyle },
+    transactor: { label: '处理人', type: 'transactorSelect' },
     pageView: {
       label: '任务页面',
       type: 'cascader',
@@ -99,32 +140,12 @@ export default {
         return config
       }
     },
-    processObject: {
-      label: '处理对象',
-      type: 'select',
-      ...showConfig('formView'),
-      options: [
-        { label: '开始_fa97', value: '开始_fa97' }
-      ]
-    },
-    nodeOperateType: { // 字段操作权限 未找到对应字段
-      label: '字段操作权限',
-      type: 'select',
-      ...showConfig('formView'),
-      options: [
-        { label: '编辑', value: '编辑' },
-        { label: '查看', value: '查看' }
-      ]
-    },
-    processOperateType: { // 流程操作权限 未找到对应字段
-      label: '流程操作权限',
-      type: 'select',
-      ...showConfig('formView'),
-      options: [
-        { label: '审批', value: '审批' }
-      ]
-    },
-    transactor: { label: '处理人', type: 'transactorSelect' },
+    _staticInfo4: { type: 'staticInfo', staticInfo: '多人处理', ...staticInfoStyle },
+
+    _staticInfo5: { type: 'staticInfo', staticInfo: '合并处理策略', ...staticInfoStyle },
+
+    _staticInfo6: { type: 'staticInfo', staticInfo: '超期设置', ...staticInfoStyle },
+    _staticInfo7: { type: 'staticInfo', staticInfo: '节点信息', ...staticInfoStyle },
     processStrategy: {
       type: 'radio',
       label: '多人处理策略',
