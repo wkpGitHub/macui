@@ -202,7 +202,19 @@ export const cssConfigure = {
         title: '颜色',
         children: generateFieldList(addConfigPrefix(
           {
-            colorScheme: { type: 'colorScheme', label: '配色方案' },
+            colorScheme: {
+              type: 'colorScheme',
+              defaultValue: ['rgb(84, 112, 198)', 'rgb(145, 204, 117)', 'rgb(250, 200, 88)', 'rgb(238, 102, 102)', 'rgb(115, 192, 222)', 'rgb(59, 162, 114)', 'rgb(252, 132, 82)', 'rgb(154, 96, 180)', 'rgb(234, 124, 204)'],
+              label: '配色方案',
+              otherKey: 'config.yAxis',
+              dependOn: ['config.chartType'],
+              changeConfig: async (config, { config: chartConfig }) => {
+                if (!['barline', 'scatter'].includes(chartConfig.chartType)) {
+                  config.readable = false
+                }
+                return config
+              }
+            },
             gradation: {
               label: '渐变',
               type: 'singleCheckbox',
@@ -210,9 +222,27 @@ export const cssConfigure = {
                 value: true,
                 inactiveValue: false,
                 label: ''
+              },
+              dependOn: ['config.chartType'],
+              changeConfig: async (config, { config: chartConfig }) => {
+                if (!['barline', 'scatter'].includes(chartConfig.chartType)) {
+                  config.readable = false
+                }
+                return config
               }
             },
-            opacity: { type: 'slider', label: '不透明度', showInput: true }
+            opacity: {
+              type: 'slider',
+              label: '不透明度',
+              showInput: true,
+              dependOn: ['config.chartType'],
+              changeConfig: async (config, { config: chartConfig }) => {
+                if (!['barline', 'scatter'].includes(chartConfig.chartType)) {
+                  config.readable = false
+                }
+                return config
+              }
+            }
           }
         ))
       },

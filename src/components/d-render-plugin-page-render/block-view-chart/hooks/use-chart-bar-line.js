@@ -1,26 +1,29 @@
 
 export default function useChartBarLine (securityConfig, dataset) {
-  const { chartType: configChartType, text, subtext, titleLeft, grid, xAxis, yType, yAxis, advancedConfig = '', colorScheme = 'rgb(84, 112, 198)', gradation = false, opacity } = securityConfig
+  const { chartType: configChartType, text, subtext, titleLeft, grid, xAxis, yType, yAxis, advancedConfig = '', colorScheme, gradation = false, opacity } = securityConfig
+
   const yAxisArr = []
   const seriesArr = []
   let markLineDataArr = []
   let markPointArr = []
 
-  const color = gradation
-    ? {
-        type: 'linear',
-        x: 0,
-        y: 0,
-        x2: 0,
-        y2: 1,
-        colorStops: [{
-          offset: 0, color: colorScheme.replace('rgb', 'rgba').replace(')', `, ${opacity / 100})`)
-        }, {
-          offset: 1, color: 'white'
-        }],
-        global: false
-      }
-    : colorScheme.replace('rgb', 'rgba').replace(')', `, ${opacity / 100})`)
+  const handleColor = (color) => {
+    return gradation
+      ? {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [{
+            offset: 0, color: color.replace('rgb', 'rgba').replace(')', `, ${opacity / 100})`)
+          }, {
+            offset: 1, color: 'white'
+          }],
+          global: false
+        }
+      : color.replace('rgb', 'rgba').replace(')', `, ${opacity / 100})`)
+  }
 
   const dataZoomArr = advancedConfig.includes('xDataZoom')
     ? [
@@ -53,7 +56,7 @@ export default function useChartBarLine (securityConfig, dataset) {
     }]
   }
 
-  yAxis.columns.forEach(column => {
+  yAxis.columns.forEach((column, index) => {
     const { alias, chartType, field = 'value' } = column
     yAxisArr.push({
       name: alias,
@@ -65,7 +68,7 @@ export default function useChartBarLine (securityConfig, dataset) {
     seriesArr.push({
       name: alias,
       type: configChartType === 'scatter' ? 'scatter' : chartType,
-      itemStyle: { color },
+      itemStyle: colorScheme ? { color: handleColor(colorScheme[index]) } : {},
       markLine: {
         data: markLineDataArr
       },
