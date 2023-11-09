@@ -1,6 +1,6 @@
 
 export default function useChartBarLine (securityConfig, dataset) {
-  const { chartType: configChartType, text, subtext, titleLeft, grid, xAxis, yType, yAxis, advancedConfig = '', colorScheme, gradation = false, opacity } = securityConfig
+  const { chartType: configChartType, text, subtext, titleLeft, grid, xAxis, yType, yAxis, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap } = securityConfig
 
   const yAxisArr = []
   const seriesArr = []
@@ -79,7 +79,8 @@ export default function useChartBarLine (securityConfig, dataset) {
         x: advancedConfig.includes('isReversed') ? field : (xAxis.field ? xAxis.field : 'name'),
         y: advancedConfig.includes('isReversed') ? (xAxis.field ? xAxis.field : 'name') : field,
         tooltip: [advancedConfig.includes('isReversed') ? (xAxis.field ? xAxis.field : 'name') : field]
-      }
+      },
+      barGap: barGapSelfAdaption ? null : `${barGap}%`
     })
   })
 

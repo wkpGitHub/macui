@@ -247,6 +247,65 @@ export const cssConfigure = {
         ))
       },
       {
+        title: '大小',
+        children: generateFieldList(addConfigPrefix(
+          {
+            barGapSelfAdaption: {
+              type: 'singleCheckbox',
+              label: '自适应',
+              defaultValue: true,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: '自适应'
+              },
+              dependOn: ['config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (chartConfig.chartType !== 'barline') {
+                  config.readable = false
+                }
+                return config
+              }
+            },
+            barGap: {
+              type: 'slider',
+              label: '柱间隔',
+              min: 0,
+              max: 50,
+              showInput: true,
+              dependOn: ['config.barGapSelfAdaption', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                config.disabled = chartConfig.barGapSelfAdaption
+                if (chartConfig.chartType !== 'barline') {
+                  config.readable = false
+                }
+                return config
+              },
+              changeValue: ({ config: chartConfig }) => {
+                if (chartConfig) return { value: 0 }
+              }
+            },
+            radius: {
+              label: '半径',
+              type: 'slider',
+              min: 0,
+              max: 100,
+              range: true,
+              dependOn: ['config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (chartConfig.chartType !== 'pie') {
+                  config.readable = false
+                }
+                return config
+              }
+            // formatTooltip: (val) => {
+            //   return val + '%'
+            // }
+            }
+          }
+        ))
+      },
+      {
         title: '组件样式',
         children: generateFieldList(addConfigPrefix(
           {
@@ -272,30 +331,6 @@ export const cssConfigure = {
                 left: '',
                 bottom: ''
               }
-            }
-          })
-        )
-      },
-      {
-        title: '大小',
-        children: generateFieldList(addConfigPrefix(
-          {
-            radius: {
-              label: '半径',
-              type: 'slider',
-              min: 0,
-              max: 100,
-              range: true,
-              dependOn: ['config.chartType'],
-              changeConfig: (config, { config: chartConfig }) => {
-                if (chartConfig.chartType !== 'pie') {
-                  config.readable = false
-                }
-                return config
-              }
-            // formatTooltip: (val) => {
-            //   return val + '%'
-            // }
             }
           })
         )
