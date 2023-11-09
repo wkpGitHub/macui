@@ -20,6 +20,7 @@ import { DataModelPlugin } from './plugins/data-model'
 import { CssConfigurePlugin } from './plugins/css'
 import { AdvancedConfigurePlugin } from './plugins/advanced'
 import { VariablesPlugin } from './plugins/variables'
+import { EventsPlugin } from './plugins/events'
 
 // import { ApiIcon } from './widgets/svg-icons'
 export default {
@@ -73,6 +74,7 @@ export default {
       new StructurePlugin(),
       new CodeSourcePlugin(),
       new FieldConfigurePlugin(),
+      new EventsPlugin(),
       new PageDrawPlugin(),
       new FxPlugin(),
       new ApiPlugin(),
