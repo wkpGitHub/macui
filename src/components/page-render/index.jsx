@@ -1,11 +1,12 @@
 // import * as service from '@/api'
 import { ref, reactive, computed, provide, watch } from 'vue'
 import { setFieldValue } from '@d-render/shared'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import * as sharedUtils from '@d-render/shared/utils/util'
 import CipMessage from '@cip/components/cip-message'
 import CipMessageBox from '@cip/components/cip-message-box'
 import DrPage from './component.jsx'
+import axiosInstance from '@/views/app/pages/api'
 const utils = sharedUtils
 utils.$message = CipMessage
 utils.$messageBox = CipMessageBox
@@ -19,7 +20,7 @@ export default {
   },
   emits: ['update:model'],
   setup (props, { emit, expose }) {
-    const route = useRoute()
+    // const route = useRoute()
     const securityScheme = computed(() => {
       return props.scheme || {}
     })
@@ -36,8 +37,11 @@ export default {
     }
     const methods = computed(() => {
       const _methods = securityScheme.value.methods?.reduce((acc, v) => {
-        // eslint-disable-next-line no-new-func
-        acc[v.name] = (new Function('model', 'service', 'dataBus', 'utils', 'options', v.body)).bind(acc, props.model, props.service, dataBus, utils)
+        acc[v.name] = {
+          ...v,
+          // eslint-disable-next-line no-new-func
+          fn: (new Function('model', 'service', 'dataBus', 'utils', 'options', v.body)).bind(acc, props.model, props.service, dataBus, utils)
+        }
         return acc
       }, {}) ?? {}
       setFieldValue(props.model, 'methods', _methods)
@@ -56,25 +60,70 @@ export default {
           new Function('model', 'service', 'dataBus', 'utils', 'options', v.body).call(null, props.model, props.service, dataBus, utils, options)
         }
       })
-      setRouterQuery(v)
+      // setRouterQuery(v)
     }, { immediate: true })
     const router = useRouter()
 
-    // 设置路由参数
-    function setRouterQuery (scheme) {
-      const { query } = route
-      const queryList = (scheme.routerQuery || []).map(r => r.value)
-      const _query = {}
-      Object.keys(query).forEach(key => {
-        queryList.includes(key) && (_query[key] = query[key])
-      })
-      setFieldValue(props.model, 'routerQuery', _query)
-    }
+    // // 设置路由参数
+    // function setRouterQuery (scheme) {
+    //   const { query } = route
+    //   const queryList = (scheme.routerQuery || []).map(r => r.value)
+    //   const _query = {}
+    //   Object.keys(query).forEach(key => {
+    //     queryList.includes(key) && (_query[key] = query[key])
+    //   })
+    //   setFieldValue(props.model, 'routerQuery', _query)
+    // }
+
+    const variables = computed(() => {
+      const _variables = securityScheme.value.variables.reduce((total, current) => {
+        total[current.name] = current.value || ''
+        return total
+      }, {})
+
+      return _variables
+    })
+
+    const apiList = computed(() => {
+      const _apiList = securityScheme.value.apiList.reduce((total, current) => {
+        total[current.name] = async function (options) {
+          const params = current.inputParams.reduce((total, current) => {
+            total[current.name] = current.value.replace(/\${(.*)?}/g, function (match, $1) {
+              return variables.value[$1]
+            })
+            return total
+          }, {})
+
+          const headers = current.headers?.reduce((total, current) => {
+            total[current.name] = current.value.replace(/\${(.*)?}/g, function (match, $1) {
+              return variables.value[$1]
+            })
+            return total
+          }, {})
+
+          await axiosInstance({
+            url: current.fullPath,
+            method: current.httpMethod,
+            headers,
+            params
+          }).then(({ data }) => {
+            if (current.objId) {
+              variables.value[current.objId] = data.data
+            }
+          })
+        }
+        return total
+      }, {})
+
+      return _apiList
+    }, {})
 
     provide('drPageRender', reactive({
       methods,
       router,
-      dataBus
+      dataBus,
+      variables,
+      apiList
     }))
     provide('cipForm', reactive({ equipment: props.equipment }))
 

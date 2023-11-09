@@ -14,6 +14,8 @@ export default defineComponent({
     const {
       securityConfig
     } = useFormInput(props, ctx)
+    const drPageRender = inject('drPageRender', {})
+    const drDesign = inject('drDesign')
 
     const treeRef = ref()
 
@@ -79,7 +81,7 @@ export default defineComponent({
 
     const handleEvent = useEventConfigure()
     function onNodeClick (...args) {
-      handleEvent(securityConfig.value.nodeClick, args)
+      handleEvent(securityConfig.value.nodeClick, drPageRender, args)
     }
 
     const filterNode = (value, data) => {
@@ -91,7 +93,6 @@ export default defineComponent({
       treeRef.value?.filter(val)
     })
 
-    const drDesign = inject('drDesign')
     if (drDesign) {
       if (drDesign.schema.methods) {
         const nodeClickMethod = drDesign.schema.methods?.find(m => m.name === 'nodeClick')

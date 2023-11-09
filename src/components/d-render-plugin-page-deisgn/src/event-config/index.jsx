@@ -18,16 +18,18 @@ export default {
   props: formInputProps,
   emits: fromInputEmits,
   setup (props, ctx) {
-    const { proxyValue } = useFormInput(props, ctx)
     const dialog = ref(false)
     const treeModel = ref({})
     const treeRef = ref()
     const contentModel = ref({})
     const formFieldList = ref([])
     const drDesign = inject('drDesign', {})
+    const { proxyValue } = useFormInput(props, ctx)
     watch(() => treeModel.value.eventType, () => {
       contentModel.value._dialogList = getDialogKeyList(drDesign.schema.list)
       contentModel.value._methodList = drDesign.schema.methods
+      contentModel.value._apiList = drDesign.schema.apiList
+      contentModel.value._variables = drDesign.schema.variables
       nextTick().then(() => {
         formFieldList.value = config[treeModel.value.eventType] || []
       })
@@ -59,6 +61,7 @@ export default {
       let modelValue = props.modelValue
       if (modelValue) {
         const { index } = item.value
+        if (item.value.type !== 'var') Reflect.deleteProperty(item.value, 'var')
         if (index > -1) {
           modelValue.splice(index, 1, item.value)
         } else {
@@ -67,12 +70,27 @@ export default {
       } else {
         modelValue = [item.value]
       }
+      if (item.value.eventType === 'var') {
+        const varObj = { name: item.value.var, title: item.value.desc }
+        if (drDesign.schema.variables) {
+          const index = drDesign.schema.variables.findIndex(v => v.name === item.value.var)
+          if (index > -1) {
+            drDesign.schema.variables.splice(index, 1, varObj)
+          } else {
+            drDesign.schema.variables.push(varObj)
+          }
+        } else {
+          drDesign.schema.variables = [varObj]
+        }
+      }
       emitModelValue(modelValue)
       resolve()
     }
     // 新增
     const createItem = () => {
-      item.value = {}
+      item.value = {
+        var: Math.random().toString(16).substring(2, 10)
+      }
       dialog.value = true
     }
     // 删除

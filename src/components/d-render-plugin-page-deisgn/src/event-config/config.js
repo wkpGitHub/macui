@@ -1,5 +1,7 @@
 import { generateFieldList } from 'd-render'
 import { EVENT_TYPE, TYPE_KEY } from './const'
+import { getModuleTree } from '@/components/d-render-plugin-page-render/use-event-configure'
+
 // 左侧树
 export const fieldList = generateFieldList({
   eventType: {
@@ -68,11 +70,65 @@ export const methodFieldList = generateFieldList({
   }
 })
 
+export const apiFieldList = generateFieldList({
+  api: {
+    label: '接口请求',
+    type: 'select',
+    dependOn: ['_apiList'],
+    asyncOptions: ({ _apiList }) => {
+      return _apiList.map(item => item.name)
+    }
+  }
+})
+
+export const varFieldList = generateFieldList({
+  var: {
+    label: '导出参数',
+    description: '把事件的参数映射到一个变量上，进行数据存储',
+    disabled: true
+  },
+  desc: { label: '描述' }
+})
+
+const setValFieldList = generateFieldList({
+  type: {
+    label: '类型',
+    type: 'radio',
+    options: [{ value: 'module', label: '组件' }, { value: 'variable', label: '页面变量' }],
+    defaultValue: 'module'
+  },
+  target: {
+    label: '赋值目标',
+    type: 'cascader',
+    optionProps: {
+      label: 'title',
+      value: 'name',
+      emitPath: false,
+      checkStrictly: true
+    },
+    dependOn: ['type', '_variables'],
+    resetValue: true,
+    asyncOptions ({ type, _variables }) {
+      if (type === 'module') {
+        return getModuleTree()
+      } else if (type === 'variable') {
+        return _variables
+      }
+    }
+  },
+  value: {
+    label: '值'
+  }
+})
+
 export const config = {
   [TYPE_KEY.method]: methodFieldList,
   [TYPE_KEY.script]: scriptFieldList,
   [TYPE_KEY.openDialog]: openDialogFieldList,
-  [TYPE_KEY.router]: routerFieldList
+  [TYPE_KEY.router]: routerFieldList,
+  [TYPE_KEY.var]: varFieldList,
+  [TYPE_KEY.api]: apiFieldList,
+  [TYPE_KEY.setVal]: setValFieldList
 }
 
 export const getDialogKeyList = (list, result = []) => {
