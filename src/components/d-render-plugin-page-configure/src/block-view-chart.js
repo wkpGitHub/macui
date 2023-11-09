@@ -19,6 +19,14 @@ const getOutParams = async (searchApi, type) => {
   return fields
 }
 
+const handelLabelSizeOptions = () => {
+  const arr = []
+  for (let i = 10; i <= 40; i = i + 2) {
+    arr.push({ label: i, value: i })
+  }
+  return arr
+}
+
 export default {
   searchApi: {
     type: 'select-api',
@@ -301,6 +309,64 @@ export const cssConfigure = {
             // formatTooltip: (val) => {
             //   return val + '%'
             // }
+            }
+          }
+        ))
+      },
+      {
+        title: '标签',
+        children: generateFieldList(addConfigPrefix(
+          {
+            isShowLabel: {
+              type: 'singleCheckbox',
+              label: '显示',
+              defaultValue: false,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: '显示'
+              },
+              dependOn: ['config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            labelSize: {
+              type: 'select',
+              label: '字体大小',
+              defaultValue: 12,
+              options: handelLabelSizeOptions(),
+              dependOn: ['config.isShowLabel', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            labelColor: {
+              type: 'colorPicker',
+              label: '字体颜色',
+              defaultValue: '#333',
+              dependOn: ['config.isShowLabel', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            labelPosition: {
+              type: 'select',
+              label: '标签位置',
+              defaultValue: 'inside',
+              options: [
+                { label: '上', value: 'top' },
+                { label: '中心', value: 'inside' },
+                { label: '下', value: 'insideBottom' }
+              ],
+              dependOn: ['config.isShowLabel', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
             }
           }
         ))

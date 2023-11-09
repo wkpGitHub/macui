@@ -1,6 +1,6 @@
 
 export default function useChartBarLine (securityConfig, dataset) {
-  const { chartType: configChartType, text, subtext, titleLeft, grid, xAxis, yType, yAxis, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap } = securityConfig
+  const { chartType: configChartType, text, subtext, titleLeft, grid, xAxis, yType, yAxis, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap, isShowLabel, labelSize, labelColor, labelPosition } = securityConfig
 
   const yAxisArr = []
   const seriesArr = []
@@ -80,7 +80,13 @@ export default function useChartBarLine (securityConfig, dataset) {
         y: advancedConfig.includes('isReversed') ? (xAxis.field ? xAxis.field : 'name') : field,
         tooltip: [advancedConfig.includes('isReversed') ? (xAxis.field ? xAxis.field : 'name') : field]
       },
-      barGap: barGapSelfAdaption ? null : `${barGap}%`
+      barGap: barGapSelfAdaption ? null : `${barGap}%`,
+      label: {
+        show: !!isShowLabel,
+        fontSize: labelSize,
+        color: labelColor,
+        position: labelPosition
+      }
     })
   })
 
