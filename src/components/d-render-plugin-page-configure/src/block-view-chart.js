@@ -463,7 +463,7 @@ export const cssConfigure = {
             xAxisNameSize: {
               type: 'select',
               label: '名称字体',
-              defaultValue: 14,
+              defaultValue: 12,
               options: handelLabelSizeOptions(10, 40),
               dependOn: ['config.isShowXAxis', 'config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
@@ -547,6 +547,277 @@ export const cssConfigure = {
               dependOn: ['config.isShowAxisLabel', 'config.chartType', 'config.isShowXAxis'],
               changeConfig: (config, { config: chartConfig }) => {
                 if (!chartConfig.isShowXAxis || !chartConfig.isShowAxisLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            }
+          }
+        ))
+      },
+      {
+        title: '纵轴',
+        children: generateFieldList(addConfigPrefix(
+          {
+            isShowYAxis: {
+              type: 'singleCheckbox',
+              label: '显示',
+              defaultValue: true,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: '显示'
+              },
+              dependOn: ['config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            yAxisPosition: {
+              type: 'radio',
+              label: '位置',
+              isButton: true,
+              defaultValue: 'left',
+              options: [{ label: '左', value: 'left' }, { label: '右', value: 'right' }],
+              dependOn: ['config.isShowYAxis', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowYAxis || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            // yAxisName: {
+            //   label: '名称'
+            // },
+            yAxisNameColor: {
+              type: 'colorPicker',
+              label: '名称颜色',
+              defaultValue: '#333',
+              dependOn: ['config.isShowYAxis', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowYAxis || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            yAxisNameSize: {
+              type: 'select',
+              label: '名称字体',
+              defaultValue: 12,
+              options: handelLabelSizeOptions(10, 40),
+              dependOn: ['config.isShowYAxis', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowYAxis || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            yAxisValue: {
+              type: 'singleCheckbox',
+              label: '轴值',
+              defaultValue: true,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: '自动'
+              },
+              dependOn: ['config.isShowYAxis', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowYAxis || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            yAxisMinValue: {
+              type: 'number',
+              label: '最小值',
+              dependOn: ['config.yAxisValue', 'config.isShowYAxis', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (chartConfig.yAxisValue || !chartConfig.isShowYAxis || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            yAxisMaxValue: {
+              type: 'number',
+              label: '最大值',
+              dependOn: ['config.yAxisValue', 'config.isShowYAxis', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (chartConfig.yAxisValue || !chartConfig.isShowYAxis || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            yAxisSplitNumber: {
+              type: 'number',
+              label: '刻度数',
+              dependOn: ['config.yAxisValue', 'config.isShowYAxis', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (chartConfig.yAxisValue || !chartConfig.isShowYAxis || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            isShowYAxisTick: {
+              type: 'singleCheckbox',
+              label: '轴线显示',
+              defaultValue: true,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: '轴线显示'
+              },
+              dependOn: ['config.isShowYAxis', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowYAxis || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            isShowYSplitLine: {
+              type: 'singleCheckbox',
+              label: '网格线显示',
+              defaultValue: true,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: '网格线显示'
+              },
+              dependOn: ['config.isShowYAxis', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowYAxis || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            ySplitLineColor: {
+              type: 'colorPicker',
+              label: '网格线颜色',
+              defaultValue: '#ccc',
+              dependOn: ['config.isShowYAxis', 'config.chartType', 'config.isShowYSplitLine'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowYSplitLine || !chartConfig.isShowYAxis || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            ySplitLineWidth: {
+              type: 'slider',
+              label: '网格线宽度',
+              min: 1,
+              max: 10,
+              showInput: true,
+              defaultValue: 1,
+              dependOn: ['config.isShowYAxis', 'config.chartType', 'config.isShowYSplitLine'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowYSplitLine || !chartConfig.isShowYAxis || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            isShowYAxisLabel: {
+              type: 'singleCheckbox',
+              label: '标签显示',
+              defaultValue: true,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: '标签显示'
+              },
+              dependOn: ['config.isShowYAxis', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowYAxis || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            yAxisLabelColor: {
+              type: 'colorPicker',
+              label: '标签颜色',
+              defaultValue: '#333',
+              dependOn: ['config.isShowYAxisLabel', 'config.chartType', 'config.isShowYAxis'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowYAxis || !chartConfig.isShowYAxisLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            yAxisLabelRotate: {
+              type: 'slider',
+              label: '标签角度',
+              min: -90,
+              max: 90,
+              showInput: true,
+              defaultValue: 0,
+              dependOn: ['config.isShowYAxisLabel', 'config.chartType', 'config.isShowYAxis'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowYAxis || !chartConfig.isShowYAxisLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            yAxisLabelSize: {
+              type: 'select',
+              label: '标签大小',
+              defaultValue: 12,
+              options: handelLabelSizeOptions(6, 40),
+              dependOn: ['config.isShowYAxisLabel', 'config.chartType', 'config.isShowYAxis'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowYAxis || !chartConfig.isShowYAxisLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            yAxisLabelFormatType: {
+              type: 'select',
+              label: '格式类型',
+              defaultValue: 'auto',
+              options: [
+                { label: '自动', value: 'auto' },
+                { label: '数值', value: 'value' },
+                { label: '百分比', value: 'percent' }
+              ],
+              dependOn: ['config.isShowYAxisLabel', 'config.chartType', 'config.isShowYAxis'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowYAxis || !chartConfig.isShowYAxisLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            yAxisLabelDecimalNum: {
+              type: 'number',
+              label: '小数位数',
+              defaultValue: 0,
+              min: 0,
+              max: 10,
+              step: 1,
+              dependOn: ['config.isShowYAxisLabel', 'config.chartType', 'config.isShowYAxis', 'config.yAxisLabelFormatType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (chartConfig.yAxisLabelFormatType === 'auto' || !chartConfig.isShowYAxis || !chartConfig.isShowYAxisLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            yAxisLabelNumUnit: {
+              type: 'select',
+              label: '数量单位',
+              defaultValue: '',
+              options: [
+                { label: '无', value: '' },
+                { label: '千', value: '千' },
+                { label: '万', value: '万' },
+                { label: '百万', value: '百万' },
+                { label: '亿', value: '亿' }
+              ],
+              dependOn: ['config.isShowYAxisLabel', 'config.chartType', 'config.isShowYAxis', 'config.yAxisLabelFormatType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (chartConfig.yAxisLabelFormatType === 'percent' || !chartConfig.isShowYAxis || !chartConfig.isShowYAxisLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            yAxisLabelUnitSuffix: {
+              label: '单位后缀',
+              defaultValue: '',
+              dependOn: ['config.isShowYAxisLabel', 'config.chartType', 'config.isShowYAxis'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowYAxis || !chartConfig.isShowYAxisLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            isShowYAxisLabelMillage: {
+              type: 'singleCheckbox',
+              label: '千分符',
+              defaultValue: false,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: ''
+              },
+              dependOn: ['config.isShowYAxisLabel', 'config.chartType', 'config.isShowYAxis'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowYAxis || !chartConfig.isShowYAxisLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
                 return config
               }
             }
