@@ -22,7 +22,7 @@ export function useFxDialog (proxyValue, config, drDesign) {
     </div>
   }
 
-  function getEventVars (list) {
+  function getEventVars () {
     const children = []
     function getModules (list) {
       // eslint-disable-next-line array-callback-return
@@ -37,7 +37,7 @@ export function useFxDialog (proxyValue, config, drDesign) {
         }
         if (item.config?.options) {
           const _children = []
-          item.config.options?.forEach(o => _children.push(...o.children))
+          item.config.options?.forEach(o => o.children && _children.push(...o.children))
           getModules(_children)
         }
       })
@@ -56,7 +56,7 @@ export function useFxDialog (proxyValue, config, drDesign) {
   const varTreeOpts = computed(() => {
     return [
       {
-        title: '自定义变量',
+        title: '页面变量',
         children: drDesign.schema.variables
       },
       {

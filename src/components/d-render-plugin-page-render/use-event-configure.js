@@ -70,7 +70,7 @@ export function getVarValue (str, variables) {
 export const useEventConfigure = () => {
   const drPageRender = inject('drPageRender', {})
   const handleEventBridge = (e, varKey, options) => {
-    drPageRender.variables[varKey] = options
+    if (varKey) drPageRender.variables[varKey] = options
     return handleEvent(e, drPageRender, options)
   }
   return handleEventBridge
@@ -83,7 +83,7 @@ function getModules (list) {
     _item.title = item.config.type
     if (item.config.options) {
       const _children = []
-      item.config.options.forEach(o => _children.push(...o.children))
+      item.config.options.forEach(o => o.children && _children.push(...o.children))
       _item.children = getModules(_children)
     }
     return _item

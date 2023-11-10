@@ -7,7 +7,7 @@ import CipMessage from '@cip/components/cip-message'
 import CipMessageBox from '@cip/components/cip-message-box'
 import DrPage from './component.jsx'
 import axiosInstance from '@/views/app/pages/api'
-import { getVarValue } from '@/components/d-render-plugin-page-render/use-event-configure'
+import { getVarValue, handleEvent } from '@/components/d-render-plugin-page-render/use-event-configure'
 const utils = sharedUtils
 utils.$message = CipMessage
 utils.$messageBox = CipMessageBox
@@ -51,31 +51,22 @@ export default {
     })
     watch(() => props.scheme, (v) => {
       // 页面初始化自动执行的方法
-      securityScheme.value.methods?.forEach(v => {
+      securityScheme.value.methods?.forEach(async v => {
         if (v.initRun) {
           const options = (v.args || []).reduce((total, current) => {
-            total[current.key] = current.value
+            total[current.key] = getVarValue(current.value, variables.value)
             return total
           }, {})
-
-          // eslint-disable-next-line
-          new Function('model', 'service', 'dataBus', 'utils', 'options', v.body).call(null, props.model, props.service, dataBus, utils, options)
+          if (v.type === 'event') await handleEvent(v.events, drPageRender, options)
+          else if (v.type === 'js') {
+            // eslint-disable-next-line
+            await new Function('model', 'service', 'dataBus', 'utils', 'options', v.body).call(null, props.model, props.service, dataBus, utils, options)
+          }
         }
       })
       // setRouterQuery(v)
     }, { immediate: true })
     const router = useRouter()
-
-    // // 设置路由参数
-    // function setRouterQuery (scheme) {
-    //   const { query } = route
-    //   const queryList = (scheme.routerQuery || []).map(r => r.value)
-    //   const _query = {}
-    //   Object.keys(query).forEach(key => {
-    //     queryList.includes(key) && (_query[key] = query[key])
-    //   })
-    //   setFieldValue(props.model, 'routerQuery', _query)
-    // }
 
     const variables = computed(() => {
       const _variables = securityScheme.value.variables.reduce((total, current) => {
@@ -116,13 +107,15 @@ export default {
       return _apiList
     }, {})
 
-    provide('drPageRender', reactive({
+    const drPageRender = reactive({
       methods,
       router,
       dataBus,
       variables,
       apiList
-    }))
+    })
+
+    provide('drPageRender', drPageRender)
     provide('cipForm', reactive({ equipment: props.equipment }))
 
     const drPageRef = ref()
