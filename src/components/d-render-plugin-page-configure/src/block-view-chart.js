@@ -927,6 +927,114 @@ export const cssConfigure = {
         ))
       },
       {
+        title: '图例',
+        children: generateFieldList(addConfigPrefix(
+          {
+            isShowLegend: {
+              type: 'singleCheckbox',
+              label: '显示',
+              defaultValue: true,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: '显示'
+              },
+              dependOn: ['config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            legendIcon: {
+              type: 'select',
+              label: '图标',
+              defaultValue: 'circle',
+              options: [
+                { label: '圆形', value: 'circle' },
+                { label: '矩形', value: 'rect' },
+                { label: '圆矩形', value: 'roundRect' },
+                { label: '三角形', value: 'triangle' },
+                { label: '棱形', value: 'diamond' },
+                { label: '箭头形', value: 'arrow' }
+              ],
+              dependOn: ['config.isShowLegend', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowLegend || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            legendOrient: {
+              type: 'radio',
+              label: '方向',
+              isButton: true,
+              defaultValue: 'horizontal',
+              options: [
+                { label: '水平', value: 'horizontal' },
+                { label: '垂直', value: 'vertical' }
+              ],
+              dependOn: ['config.isShowLegend', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowLegend || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            legendTextSize: {
+              type: 'select',
+              label: '字体大小',
+              defaultValue: 12,
+              options: handelLabelSizeOptions(10, 60),
+              dependOn: ['config.isShowLegend', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowLegend || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            legendTextColor: {
+              type: 'colorPicker',
+              label: '字体颜色',
+              defaultValue: '#333',
+              dependOn: ['config.isShowLegend', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowLegend || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            legendLeft: {
+              type: 'radio',
+              label: '水平位置',
+              isButton: true,
+              defaultValue: 'center',
+              options: [
+                { label: '左', value: 'left' },
+                { label: '中', value: 'center' },
+                { label: '右', value: 'right' }
+              ],
+              dependOn: ['config.isShowLegend', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowLegend || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            legendTop: {
+              type: 'radio',
+              label: '垂直位置',
+              isButton: true,
+              defaultValue: 'top',
+              options: [
+                { label: '上', value: 'top' },
+                { label: '中', value: 'middle' },
+                { label: '下', value: 'bottom' }
+              ],
+              dependOn: ['config.isShowLegend', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowLegend || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            }
+          }
+        ))
+      },
+      {
         title: '组件样式',
         children: generateFieldList(addConfigPrefix(
           {

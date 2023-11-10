@@ -3,7 +3,8 @@ export default function useChartBarLine (securityConfig, dataset) {
   const {
     chartType: configChartType, grid, xAxis, yType, yAxis, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap, isShowLabel, labelSize, labelColor, labelPosition, isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, isShowXAxis = true, xAxisPosition = 'bottom', xAxisNameColor, xAxisNameSize, isShowAxisTick = true, isShowSplitLine = false, isShowAxisLabel = true, axisLabelColor, axisLabelRotate = 0, axisLabelSize,
     isShowYAxis = true, yAxisPosition, yAxisNameColor, yAxisNameSize, yAxisValue = true, yAxisMinValue, yAxisMaxValue, yAxisSplitNumber, isShowYAxisTick = false, isShowYSplitLine = true, ySplitLineColor, ySplitLineWidth, isShowYAxisLabel = true, yAxisLabelColor, yAxisLabelRotate = 0, yAxisLabelSize, yAxisLabelFormatType = 'auto', yAxisLabelDecimalNum = 0, yAxisLabelNumUnit = '', yAxisLabelUnitSuffix = '', isShowYAxisLabelMillage = false,
-    isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false
+    isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false,
+    isShowLegend = true, legendIcon, legendOrient, legendTextSize, legendTextColor, legendLeft, legendTop
   } = securityConfig
 
   const yAxisArr = []
@@ -61,7 +62,7 @@ export default function useChartBarLine (securityConfig, dataset) {
   }
 
   yAxis.columns.forEach((column, index) => {
-    const { alias, chartType, field = 'value' } = column
+    const { name, alias, chartType, field = 'value' } = column
     yAxisArr.push({
       name: alias,
       type: advancedConfig.includes('isReversed') ? xAxis.xType || 'category' : yType || 'value',
@@ -102,7 +103,7 @@ export default function useChartBarLine (securityConfig, dataset) {
       }
     })
     seriesArr.push({
-      name: alias,
+      name: alias || name,
       type: configChartType === 'scatter' ? 'scatter' : chartType,
       itemStyle: colorScheme ? { color: handleColor(colorScheme[index]) } : {},
       markLine: {
@@ -163,7 +164,17 @@ export default function useChartBarLine (securityConfig, dataset) {
       //   }
       // }
     },
-    legend: {},
+    legend: {
+      show: isShowLegend,
+      icon: legendIcon || 'circle',
+      orient: legendOrient || 'horizontal',
+      textStyle: {
+        color: legendTextColor || '#333',
+        fontSize: legendTextSize || 12
+      },
+      left: legendLeft || 'center',
+      top: legendTop || 'auto'
+    },
     grid: {
       left: grid.left || '3%',
       right: grid.right || '10%',
