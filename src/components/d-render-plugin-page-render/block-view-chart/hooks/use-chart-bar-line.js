@@ -1,6 +1,9 @@
 
 export default function useChartBarLine (securityConfig, dataset) {
-  const { chartType: configChartType, text, subtext, titleLeft, grid, xAxis, yType, yAxis, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap, isShowLabel, labelSize, labelColor, labelPosition, isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg } = securityConfig
+  const {
+    chartType: configChartType, text, subtext, titleLeft, grid, xAxis, yType, yAxis, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap, isShowLabel, labelSize, labelColor, labelPosition, isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, isShowXAxis = true, xAxisPosition = 'bottom', xAxisNameColor, xAxisNameSize, isShowAxisTick = true, isShowSplitLine = false, isShowAxisLabel = true, axisLabelColor, axisLabelRotate = 0, axisLabelSize,
+    isShowYAxis = true, yAxisPosition, yAxisNameColor, yAxisNameSize, yAxisValue = true, yAxisMinValue, yAxisMaxValue, yAxisSplitNumber, isShowYAxisTick = false, isShowYSplitLine = true, ySplitLineColor, ySplitLineWidth, isShowYAxisLabel = true, yAxisLabelColor, yAxisLabelRotate = 0, yAxisLabelSize, yAxisLabelFormatType = 'auto', yAxisLabelDecimalNum = 0, yAxisLabelNumUnit = '', yAxisLabelUnitSuffix = '', isShowYAxisLabelMillage = false
+  } = securityConfig
 
   const yAxisArr = []
   const seriesArr = []
@@ -60,10 +63,42 @@ export default function useChartBarLine (securityConfig, dataset) {
     const { alias, chartType, field = 'value' } = column
     yAxisArr.push({
       name: alias,
-      type: advancedConfig.includes('isReversed') ? xAxis.xType || 'category' : yType || 'value'
-      // axisLabel: {
-      //   formatter: '{yyyy}-{MM}-{dd}'
-      // }
+      type: advancedConfig.includes('isReversed') ? xAxis.xType || 'category' : yType || 'value',
+      show: isShowYAxis,
+      position: yAxisPosition || 'left',
+      // name: 'x名称',
+      nameTextStyle: {
+        color: yAxisNameColor || '#333',
+        fontSize: yAxisNameSize || 12
+      },
+      min: yAxisValue ? null : yAxisMinValue,
+      max: yAxisValue ? null : yAxisMaxValue,
+      splitNumber: yAxisValue ? null : yAxisSplitNumber,
+      axisLine: {
+        show: isShowYAxisTick
+      },
+      splitLine: {
+        show: isShowYSplitLine,
+        lineStyle: {
+          color: ySplitLineColor || '#ccc',
+          width: ySplitLineWidth || 1
+        }
+      },
+      axisLabel: {
+        show: isShowYAxisLabel,
+        color: yAxisLabelColor || '#333',
+        rotate: yAxisLabelRotate,
+        fontSize: yAxisLabelSize || 12,
+        formatter: (value) => {
+          const formattedValue = isShowYAxisLabelMillage
+            ? (yAxisLabelFormatType !== 'auto' ? value.toFixed(yAxisLabelDecimalNum).toLocaleString() : value.toLocaleString())
+            : (yAxisLabelFormatType !== 'auto' ? value.toFixed(yAxisLabelDecimalNum) : value)
+
+          return yAxisLabelFormatType === 'percent'
+            ? `${formattedValue}%${yAxisLabelUnitSuffix}`
+            : `${formattedValue}${yAxisLabelNumUnit}${yAxisLabelUnitSuffix}`
+        }
+      }
     })
     seriesArr.push({
       name: alias,
@@ -128,8 +163,31 @@ export default function useChartBarLine (securityConfig, dataset) {
       {
         name: xAxis.alias,
         type: advancedConfig.includes('isReversed') ? yType || 'value' : xAxis.xType || 'category',
+        show: isShowXAxis,
+        position: xAxisPosition,
+        // name: 'x名称',
+        nameTextStyle: {
+          color: xAxisNameColor || '#333',
+          fontSize: xAxisNameSize || 14
+        },
         axisTick: {
+          show: isShowAxisTick,
           alignWithLabel: true
+        },
+        axisLine: {
+          onZero: xAxisPosition === 'bottom',
+          lineStyle: {
+            color: gradation ? 'rgba(204, 204, 204, 0.5)' : '#333'
+          }
+        },
+        splitLine: {
+          show: isShowSplitLine
+        },
+        axisLabel: {
+          show: isShowAxisLabel,
+          color: axisLabelColor || '#333',
+          rotate: axisLabelRotate,
+          fontSize: axisLabelSize || 12
         }
       }
     ],
