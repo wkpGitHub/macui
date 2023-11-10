@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent, inject } from 'vue'
 import { ElInput, ElIcon } from 'element-plus'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import { MoreFilled } from '@element-plus/icons-vue'
@@ -10,7 +10,8 @@ export default defineComponent({
   emits: fromInputEmits,
   setup (props, ctx) {
     const { proxyValue, securityConfig } = useFormInput(props, ctx)
-    const { state, render } = useFxDialog(proxyValue, securityConfig.value)
+    const drDesign = inject('drDesign', {})
+    const { state, render } = useFxDialog(proxyValue, securityConfig.value, drDesign)
 
     return () => <>
       <ElInput v-model={proxyValue.value}>{{

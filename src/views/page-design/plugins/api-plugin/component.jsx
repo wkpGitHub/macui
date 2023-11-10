@@ -42,7 +42,7 @@ const methodsConfigFieldList = generateFieldList({
           type: 'table',
           options: generateFieldList({
             name: { label: 'key', writable: true },
-            value: { label: 'value', writable: true }
+            value: { label: 'value', writable: true, type: 'pageVar' }
           })
         },
         inputParams: {
@@ -50,12 +50,8 @@ const methodsConfigFieldList = generateFieldList({
           type: 'table',
           options: generateFieldList({
             name: { label: 'key', writable: true },
-            value: { label: 'value', writable: true }
+            value: { label: 'value', writable: true, type: 'pageVar' }
           })
-        },
-        pageName: {
-          label: '设置返回值变量名',
-          description: '把返回结果数据存到一个变量里，提供给其他组件或变量赋值'
         }
       })
     }

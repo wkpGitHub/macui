@@ -7,9 +7,11 @@ import CipMessage from '@cip/components/cip-message'
 import CipMessageBox from '@cip/components/cip-message-box'
 import DrPage from './component.jsx'
 import axiosInstance from '@/views/app/pages/api'
+import { getVarValue } from '@/components/d-render-plugin-page-render/use-event-configure'
 const utils = sharedUtils
 utils.$message = CipMessage
 utils.$messageBox = CipMessageBox
+utils.getVarValue = getVarValue
 export default {
   name: 'PageRender',
   props: {
@@ -88,16 +90,12 @@ export default {
       const _apiList = securityScheme.value.apiList.reduce((total, current) => {
         total[current.name] = async function (options) {
           const params = current.inputParams.reduce((total, current) => {
-            total[current.name] = current.value.replace(/\${(.*)?}/g, function (match, $1) {
-              return variables.value[$1]
-            })
+            total[current.name] = getVarValue(current.value, variables.value)
             return total
           }, {})
 
           const headers = current.headers?.reduce((total, current) => {
-            total[current.name] = current.value.replace(/\${(.*)?}/g, function (match, $1) {
-              return variables.value[$1]
-            })
+            total[current.name] = getVarValue(current.value, variables.value)
             return total
           }, {})
 

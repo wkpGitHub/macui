@@ -27,7 +27,7 @@ export default {
     dependOn: ['options'],
     onChange ({ row, updateApis, updateDataModel, dependOn }) {
       updateApis('save')
-      updateDataModel('保存接口')
+      // updateDataModel('保存接口')
       centerService.getContent(row.id).then(({ data }) => {
         const { inputParams = [] } = data.flow || {}
         const dialogChildren = dependOn.options.find(opt => opt.key === 'dialog')?.children
@@ -46,7 +46,7 @@ export default {
     dependOn: ['options'],
     onChange ({ row, updateApis, updateDataModel, dependOn, updateMethod }) {
       updateApis('page')
-      updateMethod('page', null, true)
+      // updateMethod('page', null, true)
       updateDataModel('查询接口')
       const filterChildren = dependOn.options.find(opt => opt.key === 'filter')?.children || []
       const defaultChildren = dependOn.options.find(opt => opt.key === 'default')?.children || []

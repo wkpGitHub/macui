@@ -32,8 +32,8 @@ export default {
       }
     ]
   },
-  search: {
-    label: '搜索事件',
-    type: 'eventConfig'
+  events: {
+    hideItem: true,
+    options: [{ label: '查询件', value: 'search' }]
   }
 }

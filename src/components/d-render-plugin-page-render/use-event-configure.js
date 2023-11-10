@@ -33,23 +33,10 @@ export const handleEvent = async (e, drPageRender, options) => {
       eval(event.script)
     } else if (eventType === 'router') {
       handleRouter(event, drPageRender, options)
-    } else if (eventType === 'var') {
-      drPageRender.apiList[event.var] = options
     } else if (eventType === 'api') {
       await drPageRender.apiList[event.api](options)
     } else if (eventType === 'setVal') {
-      let _value = event.value.replace(/\${(.*)?}/g, (match, $1) => {
-        return $1
-      })
-      const fxList = _value.split('.')
-      fxList.forEach((item, index) => {
-        if (index === 0) {
-          _value = drPageRender.variables[item] || item
-        } else {
-          _value = _value[item] || item
-        }
-      })
-      debugger
+      const _value = getVarValue(event.value, drPageRender.variables)
       if (event.type === 'module') {
         drPageRender.dataBus(event.target, _value)
       } else if (event.type === 'variable') {
@@ -59,9 +46,33 @@ export const handleEvent = async (e, drPageRender, options) => {
   }
 }
 
+/**
+ *
+ * @param {String} str 需要解析的字符串
+ * @param {Object} variables 存储变量值的map对象
+ * @returns 真正的值
+ */
+export function getVarValue (str, variables) {
+  let _value = str.replace(/\${(.*)?}/g, (match, $1) => {
+    return $1
+  })
+  const fxList = _value.split('.')
+  fxList.forEach((item, index) => {
+    if (index === 0) {
+      _value = variables[item] || item
+    } else {
+      _value = _value[item] || item
+    }
+  })
+  return _value
+}
+
 export const useEventConfigure = () => {
   const drPageRender = inject('drPageRender', {})
-  const handleEventBridge = (e, options) => handleEvent(e, drPageRender, options)
+  const handleEventBridge = (e, varKey, options) => {
+    drPageRender.variables[varKey] = options
+    return handleEvent(e, drPageRender, options)
+  }
   return handleEventBridge
 }
 
