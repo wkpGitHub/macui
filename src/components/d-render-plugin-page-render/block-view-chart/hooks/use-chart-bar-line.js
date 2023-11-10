@@ -1,8 +1,9 @@
 
 export default function useChartBarLine (securityConfig, dataset) {
   const {
-    chartType: configChartType, text, subtext, titleLeft, grid, xAxis, yType, yAxis, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap, isShowLabel, labelSize, labelColor, labelPosition, isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, isShowXAxis = true, xAxisPosition = 'bottom', xAxisNameColor, xAxisNameSize, isShowAxisTick = true, isShowSplitLine = false, isShowAxisLabel = true, axisLabelColor, axisLabelRotate = 0, axisLabelSize,
-    isShowYAxis = true, yAxisPosition, yAxisNameColor, yAxisNameSize, yAxisValue = true, yAxisMinValue, yAxisMaxValue, yAxisSplitNumber, isShowYAxisTick = false, isShowYSplitLine = true, ySplitLineColor, ySplitLineWidth, isShowYAxisLabel = true, yAxisLabelColor, yAxisLabelRotate = 0, yAxisLabelSize, yAxisLabelFormatType = 'auto', yAxisLabelDecimalNum = 0, yAxisLabelNumUnit = '', yAxisLabelUnitSuffix = '', isShowYAxisLabelMillage = false
+    chartType: configChartType, grid, xAxis, yType, yAxis, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap, isShowLabel, labelSize, labelColor, labelPosition, isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, isShowXAxis = true, xAxisPosition = 'bottom', xAxisNameColor, xAxisNameSize, isShowAxisTick = true, isShowSplitLine = false, isShowAxisLabel = true, axisLabelColor, axisLabelRotate = 0, axisLabelSize,
+    isShowYAxis = true, yAxisPosition, yAxisNameColor, yAxisNameSize, yAxisValue = true, yAxisMinValue, yAxisMaxValue, yAxisSplitNumber, isShowYAxisTick = false, isShowYSplitLine = true, ySplitLineColor, ySplitLineWidth, isShowYAxisLabel = true, yAxisLabelColor, yAxisLabelRotate = 0, yAxisLabelSize, yAxisLabelFormatType = 'auto', yAxisLabelDecimalNum = 0, yAxisLabelNumUnit = '', yAxisLabelUnitSuffix = '', isShowYAxisLabelMillage = false,
+    isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false
   } = securityConfig
 
   const yAxisArr = []
@@ -127,9 +128,20 @@ export default function useChartBarLine (securityConfig, dataset) {
 
   return {
     title: {
+      show: isShowText,
       text: text || '标题',
       subtext: subtext || '',
-      textAlign: titleLeft
+      textStyle: {
+        fontSize: textSize || 18,
+        color: textColor || '#333',
+        fontStyle: textFontStyle.includes('italic') ? 'italic' : 'normal',
+        fontWeight: textFontStyle.includes('bolder') ? 'bolder' : 'normal',
+        textShadowColor: textColor || '#333',
+        textShadowBlur: textShadow ? 8 : 0,
+        textShadowOffsetX: 6,
+        textShadowOffsetY: 6
+      },
+      textAlign
     },
     tooltip: {
       trigger: isShowTooltip ? configChartType === 'scatter' ? 'axis' : 'item' : 'none',

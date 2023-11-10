@@ -825,22 +825,111 @@ export const cssConfigure = {
         ))
       },
       {
-        title: '组件样式',
+        title: '标题',
         children: generateFieldList(addConfigPrefix(
           {
-            text: { type: 'input', label: '标题' },
-            subtext: { type: 'input', label: '子标题' },
-            titleLeft: {
+            isShowText: {
+              type: 'singleCheckbox',
+              label: '显示',
+              defaultValue: true,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: '显示'
+              }
+            },
+            text: {
+              type: 'input',
+              label: '标题',
+              dependOn: ['config.isShowText'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowText) config.readable = false
+                return config
+              }
+            },
+            subtext: {
+              type: 'input',
+              label: '子标题',
+              dependOn: ['config.isShowText'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowText) config.readable = false
+                return config
+              }
+            },
+            textSize: {
               type: 'select',
+              label: '字体大小',
+              defaultValue: 18,
+              options: handelLabelSizeOptions(10, 60),
+              dependOn: ['config.isShowText'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowText) config.readable = false
+                return config
+              }
+            },
+            textColor: {
+              type: 'colorPicker',
+              label: '字体颜色',
+              defaultValue: '#333',
+              dependOn: ['config.isShowText'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowText) config.readable = false
+                return config
+              }
+            },
+            textAlign: {
+              type: 'radio',
               label: '标题显示位置',
+              isButton: true,
               defaultValue: 'auto',
               options: [
                 { label: '自动', value: 'auto' },
                 { label: '居左', value: 'left' },
                 { label: '居中', value: 'center' },
                 { label: '居右', value: 'right' }
-              ]
+              ],
+              dependOn: ['config.isShowText'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowText) config.readable = false
+                return config
+              }
             },
+            textFontStyle: {
+              type: 'checkbox',
+              label: '字体样式',
+              defaultValue: 'bolder',
+              options: [
+                { label: '倾斜', value: 'italic' },
+                { label: '加粗', value: 'bolder' }
+              ],
+              dependOn: ['config.isShowText'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowText) config.readable = false
+                return config
+              }
+            },
+            textShadow: {
+              type: 'singleCheckbox',
+              label: '字体阴影',
+              defaultValue: false,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: '字体阴影'
+              },
+              dependOn: ['config.isShowText'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowText) config.readable = false
+                return config
+              }
+            }
+          }
+        ))
+      },
+      {
+        title: '组件样式',
+        children: generateFieldList(addConfigPrefix(
+          {
             grid: {
               type: 'chartMargin',
               label: '边距',
