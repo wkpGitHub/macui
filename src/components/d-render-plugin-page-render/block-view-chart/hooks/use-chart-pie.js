@@ -2,8 +2,10 @@
 export default function useChartPie (securityConfig, dataset) {
   const {
     grid, radius = [0, 100], xField = 'name', yField = { columns: [] },
-    isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false
+    isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false,
+    colorScheme, opacity
   } = securityConfig
+
   let seriesArr = []
 
   seriesArr = [{
@@ -30,6 +32,8 @@ export default function useChartPie (securityConfig, dataset) {
     }
   }]
 
+  const colorArr = colorScheme.map(color => color.replace('rgb', 'rgba').replace(')', `, ${opacity / 100})`))
+
   return {
     title: {
       show: isShowText,
@@ -47,6 +51,7 @@ export default function useChartPie (securityConfig, dataset) {
       },
       textAlign
     },
+    color: colorArr,
     tooltip: {
       trigger: 'item'
     },

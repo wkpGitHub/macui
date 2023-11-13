@@ -24,10 +24,8 @@ export default {
     type: 'select-api',
     label: '查询接口',
     dependOn: ['yAxis'],
-    async onChange ({ row, updateApis, updateDataModel, updateMethod, dependOn }) {
-      updateApis('page')
-      updateMethod('page', null, true)
-      updateDataModel('查询接口')
+    async onChange ({ row, updateApis, dependOn }) {
+      updateApis('chart')
       const { data } = await req({
         method: 'get',
         apiName: 'apiChr',
@@ -206,10 +204,10 @@ export const cssConfigure = {
               type: 'colorScheme',
               defaultValue: ['rgb(84, 112, 198)', 'rgb(145, 204, 117)', 'rgb(250, 200, 88)', 'rgb(238, 102, 102)', 'rgb(115, 192, 222)', 'rgb(59, 162, 114)', 'rgb(252, 132, 82)', 'rgb(154, 96, 180)', 'rgb(234, 124, 204)'],
               label: '配色方案',
-              otherKey: 'config.yAxis',
+              otherKey: ['config.yAxis', 'config.chartType', 'config.xField'],
               dependOn: ['config.chartType'],
               changeConfig: async (config, { config: chartConfig }) => {
-                if (!['barline', 'scatter'].includes(chartConfig.chartType)) {
+                if (!['barline', 'scatter', 'pie'].includes(chartConfig.chartType)) {
                   config.readable = false
                 }
                 return config
@@ -235,9 +233,10 @@ export const cssConfigure = {
               type: 'slider',
               label: '不透明度',
               showInput: true,
+              defaultValue: 100,
               dependOn: ['config.chartType'],
               changeConfig: async (config, { config: chartConfig }) => {
-                if (!['barline', 'scatter'].includes(chartConfig.chartType)) {
+                if (!['barline', 'scatter', 'pie'].includes(chartConfig.chartType)) {
                   config.readable = false
                 }
                 return config
@@ -653,7 +652,7 @@ export const cssConfigure = {
             isShowYAxisTick: {
               type: 'singleCheckbox',
               label: '轴线显示',
-              defaultValue: true,
+              defaultValue: false,
               option: {
                 value: true,
                 inactiveValue: false,
