@@ -1,6 +1,6 @@
 const defaultLayout = 'total,sizes,prev,pager,next,jumper'
 export default {
-  key: {},
+  key: { readable: true },
   otherKey: {
     type: 'select',
     allowCreate: true,

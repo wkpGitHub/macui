@@ -5,5 +5,9 @@ export default {
   events: {
     hideItem: true,
     options: [{ label: '点击事件', value: 'click' }]
+  },
+  options: {
+    label: '选项',
+    type: 'setOptions'
   }
 }

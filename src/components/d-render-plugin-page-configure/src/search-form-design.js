@@ -1,5 +1,5 @@
 export default {
-  key: {},
+  key: { readable: true },
   label: {},
   grid: {
     label: '栅格数',
@@ -34,6 +34,6 @@ export default {
   },
   events: {
     hideItem: true,
-    options: [{ label: '查询件', value: 'search' }]
+    options: [{ label: '查询', value: 'search' }, { label: '重置', value: 'reset' }]
   }
 }

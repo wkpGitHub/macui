@@ -128,7 +128,8 @@ export default {
       dataBus,
       variables,
       apiList,
-      model: props.model
+      model: props.model,
+      fieldList
     })
 
     provide('drPageRender', drPageRender)
