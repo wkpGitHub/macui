@@ -9,9 +9,9 @@ export default defineComponent({
   props: formInputProps,
   emits: fromInputEmits,
   setup (props, ctx) {
-    const { proxyValue, securityConfig } = useFormInput(props, ctx)
+    const { proxyValue, proxyOtherValue, securityConfig } = useFormInput(props, ctx)
     const drDesign = inject('drDesign', {})
-    const { state, render } = useFxDialog(proxyValue, securityConfig.value, drDesign)
+    const { state, render } = useFxDialog(proxyValue, proxyOtherValue, securityConfig.value, drDesign)
 
     return () => <>
       <ElInput v-model={proxyValue.value}>{{

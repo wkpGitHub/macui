@@ -117,7 +117,8 @@ export function getConfig (drDesign) {
     },
     value: {
       label: '值',
-      type: 'pageVar'
+      type: 'pageVar',
+      otherKey: 'source'
     }
   })
 

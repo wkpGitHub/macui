@@ -4,7 +4,7 @@ import CipDialog from '@cip/components/cip-dialog'
 import CipTree from '@cip/components/cip-tree'
 import { getModuleTree } from '@/components/d-render-plugin-page-render/use-event-configure'
 
-export function useFxDialog (proxyValue, config, drDesign) {
+export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign) {
   const state = reactive({ isShow: false, item: {} })
 
   function selectVar (item) {
@@ -15,6 +15,7 @@ export function useFxDialog (proxyValue, config, drDesign) {
   function onConfirm (resolve) {
     if (state.item.name) {
       proxyValue.value = '${' + state.item.name + '}'
+      proxyOtherValue[0].value = state.item.source
     }
     resolve()
   }
@@ -35,7 +36,8 @@ export function useFxDialog (proxyValue, config, drDesign) {
           Object.values(item.config.events).forEach(e => {
             children.push({
               name: `${item.key}_${e.type}`,
-              title: `${item.key}_${e.label}`
+              title: `${item.key}_${e.label}`,
+              source: 'event'
             })
           })
         }
@@ -53,7 +55,8 @@ export function useFxDialog (proxyValue, config, drDesign) {
   function getApiResults () {
     return (drDesign.schema?.apiList || []).map(api => ({
       title: api.name,
-      name: api.objId
+      name: api.objId,
+      source: 'api'
     }))
   }
 

@@ -48,18 +48,25 @@ const eventHandleMap = {
     const _value = getVarValue(event.value, drPageRender.variables, drPageRender.model)
     // 给组件赋值
     if (event.type === 'module') {
-      const item = getListConfigByKey(drPageRender.fieldList, event.target)
-      if (item.config.type === 'curd') {
-        const pageTable = getListConfigByType([item], 'pageTable')
-        drPageRender.dataBus(pageTable.key, _value.list)
-        const pagination = getListConfigByType([item], 'pagination')
-        drPageRender.dataBus(pagination.config.otherKey[0], _value.page.pageNum)
-        drPageRender.dataBus(pagination.config.otherKey[1], _value.page.total)
-      } else if (item.config.type === 'pageTable') {
-        drPageRender.dataBus(event.target, _value.list)
-      } else if (item.config.type === 'pagination') {
-        drPageRender.dataBus(item.config.otherKey[0], _value.page.pageNum)
-        drPageRender.dataBus(item.config.otherKey[1], _value.page.total)
+      // 值来自api接口返回结果
+      if (event.source === 'api') {
+        const item = getListConfigByKey(drPageRender.fieldList, event.target)
+        if (item.config.type === 'curd') {
+          const pageTable = getListConfigByType([item], 'pageTable')
+          drPageRender.dataBus(pageTable.key, _value.list)
+          const pagination = getListConfigByType([item], 'pagination')
+          drPageRender.dataBus(pagination.config.otherKey[0], _value.page.pageNum)
+          drPageRender.dataBus(pagination.config.otherKey[1], _value.page.total)
+        } else if (item.config.type === 'pageTable') {
+          drPageRender.dataBus(event.target, _value.list)
+        } else if (item.config.type === 'pagination') {
+          drPageRender.dataBus(item.config.otherKey[0], _value.page.pageNum)
+          drPageRender.dataBus(item.config.otherKey[1], _value.page.total)
+        } else if (item.config.type === 'blockViewChart') {
+          drPageRender.dataBus(event.target, _value.list)
+        } else {
+          drPageRender.dataBus(event.target, _value)
+        }
       } else {
         drPageRender.dataBus(event.target, _value)
       }
@@ -124,7 +131,7 @@ export const useEventConfigure = () => {
 // }
 export function getModules (list, c, pKey = '', disabledLayout) {
   list.forEach(item => {
-    const _item = { disabled: disabledLayout && isLayoutType(item.config.type) }
+    const _item = { disabled: disabledLayout && isLayoutType(item.config.type), source: 'module' }
     let _pKey
     if (item.config.type === 'pagination') {
       if (disabledLayout) {
@@ -132,12 +139,14 @@ export function getModules (list, c, pKey = '', disabledLayout) {
           if (i === 0) {
             c.push({
               name: k,
-              title: '当前页'
+              title: '当前页',
+              source: 'module'
             })
           } else if (i === 1) {
             c.push({
               name: k,
-              title: '总条数'
+              title: '总条数',
+              source: 'module'
             })
           }
         })
