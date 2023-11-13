@@ -422,7 +422,7 @@ export const cssConfigure = {
               },
               dependOn: ['config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
-                if (!['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                if (!['barline', 'scatter', 'pie'].includes(chartConfig.chartType)) config.readable = false
                 return config
               }
             },
@@ -433,7 +433,7 @@ export const cssConfigure = {
               options: handelLabelSizeOptions(10, 20),
               dependOn: ['config.isShowTooltip', 'config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
-                if (!chartConfig.isShowTooltip || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                if (!chartConfig.isShowTooltip || !['barline', 'scatter', 'pie'].includes(chartConfig.chartType)) config.readable = false
                 return config
               }
             },
@@ -443,7 +443,7 @@ export const cssConfigure = {
               defaultValue: '#333',
               dependOn: ['config.isShowTooltip', 'config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
-                if (!chartConfig.isShowTooltip || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                if (!chartConfig.isShowTooltip || !['barline', 'scatter', 'pie'].includes(chartConfig.chartType)) config.readable = false
                 return config
               }
             },
@@ -453,7 +453,7 @@ export const cssConfigure = {
               defaultValue: '#fff',
               dependOn: ['config.isShowTooltip', 'config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
-                if (!chartConfig.isShowTooltip || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                if (!chartConfig.isShowTooltip || !['barline', 'scatter', 'pie'].includes(chartConfig.chartType)) config.readable = false
                 return config
               }
             }

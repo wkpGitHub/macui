@@ -2,9 +2,10 @@
 export default function useChartPie (securityConfig, dataset) {
   const {
     grid, radius = [0, 100], xField = 'name', yField = { columns: [] },
-    isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false,
-    colorScheme, opacity,
-    isShowLabel = false, labelFormat = 'dimension', labelSize, labelColor, pieLabelPosition, keepDecimal
+    isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false, // 标题配置
+    colorScheme, opacity, // 颜色配置
+    isShowLabel = false, labelFormat = 'dimension', labelSize, labelColor, pieLabelPosition, keepDecimal, // 标签配置
+    isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg // 提示配置
   } = securityConfig
 
   const colorArr = colorScheme.map(color => color.replace('rgb', 'rgba').replace(')', `, ${opacity / 100})`))
@@ -65,7 +66,12 @@ export default function useChartPie (securityConfig, dataset) {
     },
     color: colorArr,
     tooltip: {
-      trigger: 'item'
+      trigger: isShowTooltip ? 'item' : 'none',
+      textStyle: {
+        color: tooltipColor || '#333',
+        fontSize: tooltipSize || 14
+      },
+      backgroundColor: tooltipBg || '#fff'
     },
     legend: {
       type: 'scroll',
