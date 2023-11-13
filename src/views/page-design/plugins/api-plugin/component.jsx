@@ -38,7 +38,7 @@ const methodsConfigFieldList = generateFieldList({
           }
         },
         headers: {
-          label: '请求头',
+          label: '请求头【key为&，将解构整个对象】',
           type: 'table',
           options: generateFieldList({
             name: { label: 'key', writable: true },
@@ -46,7 +46,7 @@ const methodsConfigFieldList = generateFieldList({
           })
         },
         inputParams: {
-          label: '发送数据',
+          label: '发送数据【key为&，将解构整个对象】',
           type: 'table',
           options: generateFieldList({
             name: { label: 'key', writable: true },

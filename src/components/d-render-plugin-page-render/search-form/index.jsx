@@ -29,7 +29,7 @@ export default {
         onUpdate:model={componentProps['onUpdate:modelValue']}
         fieldList={fieldList}
         onSearch={(e) => {
-          handleEvent(events?.search?.value || [], `${props.config.id}_click`, e)
+          handleEvent(events?.search?.value || [], `${props.config.id}_search`, modelValue)
           // cipFormRenderMethod.page()
           // search(dataBus, modelValue)
         }}

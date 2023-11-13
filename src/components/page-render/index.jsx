@@ -54,7 +54,12 @@ export default {
       securityScheme.value.methods?.forEach(async v => {
         if (v.initRun) {
           const options = (v.args || []).reduce((total, current) => {
-            total[current.key] = getVarValue(current.value, variables.value)
+            if (current.name === '&') {
+              const _obj = getVarValue(current.value, variables.value, props.model) || {}
+              Object.assign(total, _obj)
+            } else {
+              total[current.name] = getVarValue(current.value, variables.value, props.model)
+            }
             return total
           }, {})
           if (v.type === 'event') await handleEvent(v.events, drPageRender, options)
@@ -81,12 +86,22 @@ export default {
       const _apiList = securityScheme.value.apiList.reduce((total, current) => {
         total[current.name] = async function (options) {
           const params = current.inputParams.reduce((total, current) => {
-            total[current.name] = getVarValue(current.value, variables.value)
+            if (current.name === '&') {
+              const _obj = getVarValue(current.value, variables.value, props.model) || {}
+              Object.assign(total, _obj)
+            } else {
+              total[current.name] = getVarValue(current.value, variables.value, props.model)
+            }
             return total
           }, {})
 
           const headers = current.headers?.reduce((total, current) => {
-            total[current.name] = getVarValue(current.value, variables.value)
+            if (current.name === '&') {
+              const _obj = getVarValue(current.value, variables.value, props.model) || {}
+              Object.assign(total, _obj)
+            } else {
+              total[current.name] = getVarValue(current.value, variables.value, props.model)
+            }
             return total
           }, {})
 
@@ -112,7 +127,8 @@ export default {
       router,
       dataBus,
       variables,
-      apiList
+      apiList,
+      model: props.model
     })
 
     provide('drPageRender', drPageRender)

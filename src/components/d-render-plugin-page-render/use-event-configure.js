@@ -36,8 +36,9 @@ export const handleEvent = async (e, drPageRender, options) => {
     } else if (eventType === 'api') {
       await drPageRender.apiList[event.api](options)
     } else if (eventType === 'setVal') {
-      const _value = getVarValue(event.value, drPageRender.variables)
+      const _value = getVarValue(event.value, drPageRender.variables, drPageRender.model)
       if (event.type === 'module') {
+        debugger
         drPageRender.dataBus(event.target, _value)
       } else if (event.type === 'variable') {
         drPageRender.variables[event.target] = _value
@@ -52,16 +53,16 @@ export const handleEvent = async (e, drPageRender, options) => {
  * @param {Object} variables 存储变量值的map对象
  * @returns 真正的值
  */
-export function getVarValue (str, variables) {
+export function getVarValue (str = '', variables, model) {
   let _value = str.replace(/\${(.*)?}/g, (match, $1) => {
     return $1
   })
   const fxList = _value.split('.')
   fxList.forEach((item, index) => {
     if (index === 0) {
-      _value = variables[item] || item
+      _value = variables[item] || model[item] || item
     } else {
-      _value = _value[item] || item
+      _value = _value[item] || model[item] || item
     }
   })
   return _value
@@ -76,20 +77,52 @@ export const useEventConfigure = () => {
   return handleEventBridge
 }
 
-function getModules (list) {
-  return list.map(item => {
+// function getModules (list) {
+//   return list.map(item => {
+//     const _item = {}
+//     _item.name = item.key
+//     _item.title = item.config.label
+//     if (item.config.options) {
+//       const _children = []
+//       item.config.options.forEach(o => o.children && _children.push(...o.children))
+//       _item.children = getModules(_children)
+//     }
+//     return _item
+//   })
+// }
+function getModules (list, c) {
+  list.forEach(item => {
     const _item = {}
-    _item.name = item.key
-    _item.title = item.config.type
+    if (item.config.type === 'pagination') {
+      (item.config.otherKey || []).forEach((k, i) => {
+        if (i === 0) {
+          c.push({
+            name: k,
+            title: '当前页'
+          })
+        } else if (i === 1) {
+          c.push({
+            name: k,
+            title: '总条数'
+          })
+        }
+      })
+    } else {
+      _item.name = item.id
+      _item.title = item.config.label
+      c.push(_item)
+    }
     if (item.config.options) {
       const _children = []
+      _item.children = []
       item.config.options.forEach(o => o.children && _children.push(...o.children))
-      _item.children = getModules(_children)
+      getModules(_children, _item.children)
     }
-    return _item
   })
 }
 export function getModuleTree () {
   const drDesign = inject('drDesign', {})
-  return getModules(drDesign.schema?.list || [])
+  const c = []
+  getModules(drDesign.schema?.list || [], c)
+  return c
 }

@@ -119,6 +119,7 @@ export default {
     }
     // 编辑
     const handleEdit = (parent, item, index) => {
+      handleNodeClick({ data: { value: item.eventType, label: item.eventName } })
       currentDialog.value = {
         parent,
         item,

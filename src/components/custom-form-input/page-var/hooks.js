@@ -2,6 +2,7 @@ import { reactive, computed } from 'vue'
 import CipDialog from '@cip/components/cip-dialog'
 // import { ElTag } from 'element-plus'
 import CipTree from '@cip/components/cip-tree'
+import { getModuleTree } from '@/components/d-render-plugin-page-render/use-event-configure'
 
 export function useFxDialog (proxyValue, config, drDesign) {
   const state = reactive({ isShow: false, item: {} })
@@ -66,6 +67,10 @@ export function useFxDialog (proxyValue, config, drDesign) {
       {
         title: '接口返回数据',
         children: getApiResults()
+      },
+      {
+        title: '组件',
+        children: getModuleTree()
       }
     ]
   })
