@@ -8,11 +8,14 @@ export function useFxDialog (proxyValue, config, drDesign) {
   const state = reactive({ isShow: false, item: {} })
 
   function selectVar (item) {
+    if (item.disabled) return
     state.item = item
   }
 
   function onConfirm (resolve) {
-    proxyValue.value = '${' + state.item.name + '}'
+    if (state.item.name) {
+      proxyValue.value = '${' + state.item.name + '}'
+    }
     resolve()
   }
 
@@ -58,19 +61,23 @@ export function useFxDialog (proxyValue, config, drDesign) {
     return [
       {
         title: '页面变量',
+        disabled: true,
         children: drDesign.schema.variables
       },
       {
         title: '事件动作',
+        disabled: true,
         children: getEventVars()
       },
       {
         title: '接口返回数据',
+        disabled: true,
         children: getApiResults()
       },
       {
         title: '组件',
-        children: getModuleTree()
+        disabled: true,
+        children: getModuleTree(true, drDesign)
       }
     ]
   })

@@ -166,7 +166,8 @@ export const componentsGroupList = [
             children: [
               {
                 config: {
-                  type: 'tree'
+                  type: 'tree',
+                  label: '树'
                 }
               }
             ]

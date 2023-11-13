@@ -109,7 +109,7 @@ export function getConfig (drDesign) {
       resetValue: true,
       asyncOptions ({ type }) {
         if (type === 'module') {
-          return getModuleTree()
+          return getModuleTree(false, drDesign)
         } else if (type === 'variable') {
           return drDesign.schema.variables
         }
