@@ -7,7 +7,9 @@ export default {
     options: [{ label: '点击事件', value: 'click' }]
   },
   options: {
-    label: '选项',
-    type: 'setOptions'
+    otherKey: ['asyncOptions', 'optionProps'],
+    type: 'setOptions',
+    isTree: true,
+    label: '设置数据'
   }
 }
