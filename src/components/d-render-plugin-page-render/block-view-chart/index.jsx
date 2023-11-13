@@ -25,8 +25,8 @@ export default {
       return chartFunction(securityConfig.value, dataList)
     })
 
-    return () => <div style="width: 100%;" >
-      <Charts option={option.value} height="250px"></Charts>
+    return () => <div style="width: 100%; height: 250px" >
+      <Charts option={option.value}></Charts>
     </div>
   }
 }
