@@ -1,6 +1,9 @@
 
 export default function useChartPie (securityConfig, dataset) {
-  const { text, subtext, titleLeft, grid, radius = [0, 100], xField = 'name', yField = { columns: [] } } = securityConfig
+  const {
+    grid, radius = [0, 100], xField = 'name', yField = { columns: [] },
+    isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false
+  } = securityConfig
   let seriesArr = []
 
   seriesArr = [{
@@ -29,9 +32,20 @@ export default function useChartPie (securityConfig, dataset) {
 
   return {
     title: {
+      show: isShowText,
       text: text || '标题',
       subtext: subtext || '',
-      textAlign: titleLeft
+      textStyle: {
+        fontSize: textSize || 18,
+        color: textColor || '#333',
+        fontStyle: textFontStyle.includes('italic') ? 'italic' : 'normal',
+        fontWeight: textFontStyle.includes('bolder') ? 'bolder' : 'normal',
+        textShadowColor: textColor || '#333',
+        textShadowBlur: textShadow ? 8 : 0,
+        textShadowOffsetX: 6,
+        textShadowOffsetY: 6
+      },
+      textAlign
     },
     tooltip: {
       trigger: 'item'
