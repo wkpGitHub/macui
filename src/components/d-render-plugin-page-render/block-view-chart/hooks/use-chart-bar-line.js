@@ -166,13 +166,14 @@ export default function useChartBarLine (securityConfig, dataset) {
     },
     legend: {
       show: isShowLegend,
+      type: 'scroll',
       icon: legendIcon || 'circle',
       orient: legendOrient || 'horizontal',
       textStyle: {
         color: legendTextColor || '#333',
         fontSize: legendTextSize || 12
       },
-      left: legendLeft || 'center',
+      left: legendLeft || 'right',
       top: legendTop || 'auto'
     },
     grid: {

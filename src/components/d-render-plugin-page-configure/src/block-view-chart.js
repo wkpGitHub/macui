@@ -985,7 +985,7 @@ export const cssConfigure = {
               },
               dependOn: ['config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
-                if (!['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                if (!['barline', 'scatter', 'pie'].includes(chartConfig.chartType)) config.readable = false
                 return config
               }
             },
@@ -1003,7 +1003,7 @@ export const cssConfigure = {
               ],
               dependOn: ['config.isShowLegend', 'config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
-                if (!chartConfig.isShowLegend || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                if (!chartConfig.isShowLegend || !['barline', 'scatter', 'pie'].includes(chartConfig.chartType)) config.readable = false
                 return config
               }
             },
@@ -1018,7 +1018,7 @@ export const cssConfigure = {
               ],
               dependOn: ['config.isShowLegend', 'config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
-                if (!chartConfig.isShowLegend || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                if (!chartConfig.isShowLegend || !['barline', 'scatter', 'pie'].includes(chartConfig.chartType)) config.readable = false
                 return config
               }
             },
@@ -1029,7 +1029,7 @@ export const cssConfigure = {
               options: handelLabelSizeOptions(10, 60),
               dependOn: ['config.isShowLegend', 'config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
-                if (!chartConfig.isShowLegend || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                if (!chartConfig.isShowLegend || !['barline', 'scatter', 'pie'].includes(chartConfig.chartType)) config.readable = false
                 return config
               }
             },
@@ -1039,7 +1039,7 @@ export const cssConfigure = {
               defaultValue: '#333',
               dependOn: ['config.isShowLegend', 'config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
-                if (!chartConfig.isShowLegend || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                if (!chartConfig.isShowLegend || !['barline', 'scatter', 'pie'].includes(chartConfig.chartType)) config.readable = false
                 return config
               }
             },
@@ -1047,7 +1047,7 @@ export const cssConfigure = {
               type: 'radio',
               label: '水平位置',
               isButton: true,
-              defaultValue: 'center',
+              defaultValue: 'right',
               options: [
                 { label: '左', value: 'left' },
                 { label: '中', value: 'center' },
@@ -1055,7 +1055,7 @@ export const cssConfigure = {
               ],
               dependOn: ['config.isShowLegend', 'config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
-                if (!chartConfig.isShowLegend || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                if (!chartConfig.isShowLegend || !['barline', 'scatter', 'pie'].includes(chartConfig.chartType)) config.readable = false
                 return config
               }
             },
@@ -1071,7 +1071,7 @@ export const cssConfigure = {
               ],
               dependOn: ['config.isShowLegend', 'config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
-                if (!chartConfig.isShowLegend || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                if (!chartConfig.isShowLegend || !['barline', 'scatter', 'pie'].includes(chartConfig.chartType)) config.readable = false
                 return config
               }
             }

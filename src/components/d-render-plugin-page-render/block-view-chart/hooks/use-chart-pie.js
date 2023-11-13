@@ -5,7 +5,8 @@ export default function useChartPie (securityConfig, dataset) {
     isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false, // 标题配置
     colorScheme, opacity, // 颜色配置
     isShowLabel = false, labelFormat = 'dimension', labelSize, labelColor, pieLabelPosition, keepDecimal, // 标签配置
-    isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg // 提示配置
+    isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, // 提示配置
+    isShowLegend = true, legendIcon, legendOrient, legendTextSize, legendTextColor, legendLeft, legendTop // 图例配置
   } = securityConfig
 
   const colorArr = colorScheme.map(color => color.replace('rgb', 'rgba').replace(')', `, ${opacity / 100})`))
@@ -74,10 +75,16 @@ export default function useChartPie (securityConfig, dataset) {
       backgroundColor: tooltipBg || '#fff'
     },
     legend: {
+      show: isShowLegend,
       type: 'scroll',
-      orient: 'vertical',
-      top: 'middle',
-      right: 0
+      icon: legendIcon || 'circle',
+      orient: legendOrient || 'horizontal',
+      textStyle: {
+        color: legendTextColor || '#333',
+        fontSize: legendTextSize || 12
+      },
+      left: legendLeft || 'right',
+      top: legendTop || 'auto'
     },
     grid: {
       left: grid.left || '3%',
