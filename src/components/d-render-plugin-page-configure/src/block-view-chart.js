@@ -319,7 +319,22 @@ export const cssConfigure = {
               },
               dependOn: ['config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
-                if (!['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                if (!['barline', 'scatter', 'pie'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            labelFormat: {
+              type: 'checkbox',
+              label: '标签展示',
+              defaultValue: 'dimension',
+              options: [
+                { label: '维度', value: 'dimension' },
+                { label: '指标', value: 'index' },
+                { label: '占比', value: 'percent' }
+              ],
+              dependOn: ['config.isShowLabel', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowLabel || !['pie'].includes(chartConfig.chartType)) config.readable = false
                 return config
               }
             },
@@ -330,7 +345,7 @@ export const cssConfigure = {
               options: handelLabelSizeOptions(10, 40),
               dependOn: ['config.isShowLabel', 'config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
-                if (!chartConfig.isShowLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                if (!chartConfig.isShowLabel || !['barline', 'scatter', 'pie'].includes(chartConfig.chartType)) config.readable = false
                 return config
               }
             },
@@ -340,7 +355,7 @@ export const cssConfigure = {
               defaultValue: '#333',
               dependOn: ['config.isShowLabel', 'config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
-                if (!chartConfig.isShowLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                if (!chartConfig.isShowLabel || !['barline', 'scatter', 'pie'].includes(chartConfig.chartType)) config.readable = false
                 return config
               }
             },
@@ -356,6 +371,36 @@ export const cssConfigure = {
               dependOn: ['config.isShowLabel', 'config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
                 if (!chartConfig.isShowLabel || !['barline', 'scatter'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            pieLabelPosition: {
+              type: 'select',
+              label: '标签位置',
+              defaultValue: 'outside',
+              options: [
+                { label: '内', value: 'inside' },
+                { label: '外', value: 'outside' },
+                { label: '中心', value: 'center' }
+              ],
+              dependOn: ['config.isShowLabel', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.isShowLabel || !['pie'].includes(chartConfig.chartType)) config.readable = false
+                return config
+              }
+            },
+            keepDecimal: {
+              type: 'radio',
+              label: '保留小数',
+              defaultValue: 'two',
+              options: [
+                { label: '取整', value: 'zero' },
+                { label: '一位', value: 'one' },
+                { label: '两位', value: 'two' }
+              ],
+              dependOn: ['config.labelFormat', 'config.isShowLabel', 'config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (!chartConfig.labelFormat.includes('percent') || !chartConfig.isShowLabel || !['pie'].includes(chartConfig.chartType)) config.readable = false
                 return config
               }
             }
