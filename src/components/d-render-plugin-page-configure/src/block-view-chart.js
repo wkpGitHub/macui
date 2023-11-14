@@ -258,9 +258,9 @@ export const cssConfigure = {
                 inactiveValue: false,
                 label: '自适应'
               },
-              dependOn: ['config.chartType'],
+              dependOn: ['config.chartType', 'config.yAxis'],
               changeConfig: (config, { config: chartConfig }) => {
-                if (chartConfig.chartType !== 'barline') {
+                if (chartConfig.chartType !== 'barline' || chartConfig.yAxis.columns.findIndex(column => column.chartType === 'bar') === -1) {
                   config.readable = false
                 }
                 return config
@@ -272,10 +272,10 @@ export const cssConfigure = {
               min: 0,
               max: 50,
               showInput: true,
-              dependOn: ['config.barGapSelfAdaption', 'config.chartType'],
+              dependOn: ['config.barGapSelfAdaption', 'config.chartType', 'config.yAxis'],
               changeConfig: (config, { config: chartConfig }) => {
                 config.disabled = chartConfig.barGapSelfAdaption
-                if (chartConfig.chartType !== 'barline') {
+                if (chartConfig.chartType !== 'barline' || chartConfig.yAxis.columns.findIndex(column => column.chartType === 'bar') === -1) {
                   config.readable = false
                 }
                 return config
@@ -300,6 +300,104 @@ export const cssConfigure = {
             // formatTooltip: (val) => {
             //   return val + '%'
             // }
+            },
+            lineStyle: {
+              type: 'slider',
+              label: '线宽',
+              min: 0,
+              max: 10,
+              showInput: true,
+              defaultValue: 2,
+              dependOn: ['config.chartType', 'config.yAxis'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (chartConfig.chartType !== 'barline' || chartConfig.yAxis.columns.findIndex(column => column.chartType === 'line') === -1) {
+                  config.readable = false
+                }
+                return config
+              }
+            },
+            lineSymbol: {
+              type: 'select',
+              label: '折点',
+              defaultValue: 'circle',
+              options: [
+                { label: '圆形', value: 'circle' },
+                { label: '矩形', value: 'rect' },
+                { label: '三角形', value: 'triangle' },
+                { label: '菱形', value: 'diamond' }
+              ],
+              dependOn: ['config.chartType', 'config.yAxis'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (chartConfig.chartType !== 'barline' || chartConfig.yAxis.columns.findIndex(column => column.chartType === 'line') === -1) {
+                  config.readable = false
+                }
+                return config
+              }
+            },
+            lineSymbolSize: {
+              type: 'slider',
+              label: '折点大小',
+              min: 0,
+              max: 20,
+              showInput: true,
+              defaultValue: 8,
+              dependOn: ['config.chartType', 'config.yAxis'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (chartConfig.chartType !== 'barline' || chartConfig.yAxis.columns.findIndex(column => column.chartType === 'line') === -1) {
+                  config.readable = false
+                }
+                return config
+              }
+            },
+            lineSmooth: {
+              type: 'singleCheckbox',
+              label: '平滑折线',
+              defaultValue: true,
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: '平滑折线'
+              },
+              dependOn: ['config.chartType', 'config.yAxis'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (chartConfig.chartType !== 'barline' || chartConfig.yAxis.columns.findIndex(column => column.chartType === 'line') === -1) {
+                  config.readable = false
+                }
+                return config
+              }
+            },
+            scatterSymbol: {
+              type: 'select',
+              label: '图形',
+              defaultValue: 'circle',
+              options: [
+                { label: '圆形', value: 'circle' },
+                { label: '矩形', value: 'rect' },
+                { label: '三角形', value: 'triangle' },
+                { label: '菱形', value: 'diamond' }
+              ],
+              dependOn: ['config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (chartConfig.chartType !== 'scatter') {
+                  config.readable = false
+                }
+                return config
+              }
+            },
+            scatterSymbolSize: {
+              type: 'slider',
+              label: '气泡大小',
+              min: 0,
+              max: 40,
+              showInput: true,
+              defaultValue: 20,
+              dependOn: ['config.chartType'],
+              changeConfig: (config, { config: chartConfig }) => {
+                if (chartConfig.chartType !== 'scatter') {
+                  config.readable = false
+                }
+                return config
+              }
             }
           }
         ))
