@@ -400,7 +400,7 @@ export const cssConfigure = {
               ],
               dependOn: ['config.labelFormat', 'config.isShowLabel', 'config.chartType'],
               changeConfig: (config, { config: chartConfig }) => {
-                if (!chartConfig.labelFormat.includes('percent') || !chartConfig.isShowLabel || !['pie'].includes(chartConfig.chartType)) config.readable = false
+                if (!chartConfig.labelFormat?.includes('percent') || !chartConfig.isShowLabel || !['pie'].includes(chartConfig.chartType)) config.readable = false
                 return config
               }
             }

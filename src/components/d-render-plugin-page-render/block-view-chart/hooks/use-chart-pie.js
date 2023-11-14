@@ -3,7 +3,7 @@ export default function useChartPie (securityConfig, dataset) {
   const {
     grid, radius = [0, 100], xField = 'name', yField = { columns: [] },
     isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false, // 标题配置
-    colorScheme, opacity, // 颜色配置
+    colorScheme = [], opacity, // 颜色配置
     isShowLabel = false, labelFormat = 'dimension', labelSize, labelColor, pieLabelPosition, keepDecimal, // 标签配置
     isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, // 提示配置
     isShowLegend = true, legendIcon, legendOrient, legendTextSize, legendTextColor, legendLeft, legendTop // 图例配置
@@ -87,10 +87,10 @@ export default function useChartPie (securityConfig, dataset) {
       top: legendTop || 'auto'
     },
     grid: {
-      left: grid.left || '3%',
-      right: grid.right || '10%',
-      bottom: grid.bottom || '3%',
-      top: grid.top || 60,
+      left: grid?.left || '3%',
+      right: grid?.right || '10%',
+      bottom: grid?.bottom || '3%',
+      top: grid?.top || 60,
       containLabel: true
     },
     dataset,
