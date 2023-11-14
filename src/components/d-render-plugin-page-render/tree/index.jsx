@@ -4,11 +4,8 @@ import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import { useEventConfigure } from '../use-event-configure'
 
 export default defineComponent({
-  name: 'select-field',
-  props: {
-    ...formInputProps,
-    nodeClick: {}
-  },
+  name: 'tree',
+  props: formInputProps,
   emits: fromInputEmits,
   setup (props, ctx) {
     const {

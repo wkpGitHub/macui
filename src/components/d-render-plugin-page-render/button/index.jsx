@@ -1,6 +1,6 @@
 import CipButton from '@cip/components/cip-button'
 import { CipFormInputTransform } from 'd-render'
-import { useEventConfigure } from '../use-event-configure'
+import { useEventConfigure, bindEvent } from '../use-event-configure'
 export default {
   setup (props) {
     const buttonProps = [
@@ -9,16 +9,12 @@ export default {
       'buttonType',
       ['inputType', 'type'],
       'icon',
-      'events'
+      'hideItem'
     ]
     const handleEvent = useEventConfigure()
     const TransformComp = (props, { attrs }) => {
-      const { events, text, dataBus, ...otherConfig } = props
-      return <CipButton {...otherConfig} onClick={(e) => {
-        handleEvent(events?.click?.value || [], `${props.config.id}_click`, e)
-        // const method = cipFormRender.methods[click]
-        // if (method) method()
-      }} >{text}</CipButton>
+      const { text, dataBus, hideItem, config, ...otherConfig } = props
+      return !hideItem && <CipButton {...otherConfig} onClick={(e) => bindEvent(handleEvent, 'click', props, e)} >{text}</CipButton>
     }
     return () => <CipFormInputTransform
       inputPropsConfig={buttonProps}
