@@ -4,15 +4,17 @@ import { ElIcon } from 'element-plus'
 import { CaretLeft, CaretRight } from '@element-plus/icons-vue'
 import './index.less'
 import '../../service-design/ausyda.css'
-import { Ausyda } from './ausyda.js'
-import { onMounted, reactive } from 'vue'
+import { Ausyda, initFlow } from './ausyda.js'
+import { onMounted, reactive, ref } from 'vue'
 import { useNodes, useNodeSetDialog, useNodeMenu } from './hooks'
+import { v4 as uuid } from 'uuid'
 
 export default {
   setup () {
+    let tempNode = null
+    const zoom = ref(100)
     const state = reactive({
-      showLeftDraw: true,
-      showRightDraw: false,
+      rootNode: {},
       selectNode: {}
     })
     const { render: renderNodes } = useNodes()
@@ -20,46 +22,18 @@ export default {
     const { state: nodeMenuState, render: renderNodeMenu } = useNodeMenu()
     let au = {}
     let currentLink = {}
+    let isBranch = false
     onMounted(() => {
       setTimeout(() => {
         au = new Ausyda({
           el: '#api-editor',
-          nodes: [
-            // {
-            //   type: 'coder',
-            //   id: 'e3845e9ed090b-5800f8092',
-            //   title: '删除记录',
-            //   x: 728,
-            //   y: 113,
-            //   active: false
-            // },
-            // {
-            //   type: 'coder',
-            //   id: '477649edc02f5-d2f4dd937',
-            //   title: '更新记录',
-            //   x: 525,
-            //   y: 395,
-            //   active: false
-            // }
-          ],
-          links: [
-            // {
-            //   source: '477649edc02f5-d2f4dd937',
-            //   sourcePosition: 'top',
-            //   target: 'e3845e9ed090b-5800f8092',
-            //   targetPosition: 'left'
-            // }
-          ]
+          data: initFlow
         })
-        // 点击节点删除按钮
-        au.on('deleteNode', (d, cb) => {
-          alert(d.title)
-          // 执行回调函数删除节点
-          cb()
-        })
+        // 点击连接线上的+
         au.on('addNode', (link, position) => {
-          console.log(link, position)
+          // 添加节点
           currentLink = link
+          isBranch = false
           nodeMenuState.isShow = true
           nodeMenuState.position = position
         })
@@ -68,14 +42,43 @@ export default {
         })
         // 点击选中节点
         au.on('updateNode', (d) => {
-          state.selectNode = {}
           // 更新节点
+          state.selectNode = {}
           d.isBranch = false
           state.selectNode = d
           state.showRightDraw = true
           nodeSetState.isShow = true
         })
-      }, 300)
+        // 点击分支节点上的+，增加分支
+        au.on('addBranch', (parent) => {
+          isBranch = true
+          currentLink = parent
+          // 添加节点
+          nodeMenuState.isShow = true
+        })
+        // au.on('addBranchNode', (node) => {
+        //   au.addBranch(tempNode, node.parent)
+        // })
+        // 点击分支文字或者线段，修改分支
+        au.on('updateBranch', (branch) => {
+          // 更新分支
+          // au.updateBranch({ ...branch, expression: '分支新名称' })
+          state.selectNode = {}
+          branch.isBranch = true
+          state.selectNode = branch
+          nodeSetState.isShow = true
+          state.showRightDraw = true
+        })
+        // 点击节点删除按钮
+        au.on('deleteNode', (d, cb) => {
+          alert(d.title)
+          // 执行回调函数删除节点
+          cb()
+        })
+        au.on('scale', (ratio) => {
+          zoom.value = Math.floor(ratio * 100)
+        })
+      }, 1000)
     })
 
     function switchShowDraw (key) {
@@ -88,8 +91,14 @@ export default {
     }
 
     function nodeClick ({ title, type }, e) {
+      tempNode = { title, type, id: uuid(), children: [] }
+      if (isBranch) {
+        au.addBranch(tempNode, currentLink)
+      } else {
+        au.insertNode(tempNode, currentLink)
+      }
+      currentLink = null
       nodeMenuState.isShow = false
-      au.insertNode({ title, type }, currentLink)
     }
 
     return () => <PageLayoutInfo class="flow-design-page">
