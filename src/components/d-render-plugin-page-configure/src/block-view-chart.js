@@ -24,12 +24,11 @@ export default {
     type: 'select-api',
     label: '查询接口',
     dependOn: ['yAxis'],
-    async onChange ({ row, updateApis, dependOn }) {
-      updateApis('chart')
+    async onChange ({ api, dependOn }) {
       const { data } = await req({
         method: 'get',
         apiName: 'apiChr',
-        url: `/${row.fullPath}`,
+        url: `/${api.fullPath}`,
         params: { offset: 0, limit: 10 }
       })
       dependOn.yAxis.data = data?.list || []
