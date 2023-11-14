@@ -145,7 +145,7 @@ export default function useChartBarLine (securityConfig, dataset) {
       textAlign
     },
     tooltip: {
-      trigger: isShowTooltip ? configChartType === 'scatter' ? 'axis' : 'item' : 'none',
+      trigger: isShowTooltip ? (configChartType === 'scatter' ? 'axis' : 'item') : 'none',
       textStyle: {
         color: tooltipColor || '#333',
         fontSize: tooltipSize || 14
@@ -177,10 +177,10 @@ export default function useChartBarLine (securityConfig, dataset) {
       top: legendTop || 'auto'
     },
     grid: {
-      left: grid.left || '3%',
-      right: grid.right || '10%',
-      bottom: advancedConfig.includes('xDataZoom') ? grid.bottom || 50 : grid.bottom || '3%',
-      top: grid.top || 60,
+      left: grid?.left || '3%',
+      right: grid?.right || '10%',
+      bottom: advancedConfig.includes('xDataZoom') ? grid?.bottom || 50 : grid?.bottom || '3%',
+      top: grid?.top || 60,
       containLabel: true
     },
     xAxis: [

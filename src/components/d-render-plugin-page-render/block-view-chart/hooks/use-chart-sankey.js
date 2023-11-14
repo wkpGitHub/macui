@@ -85,10 +85,10 @@ export default function useChartSankey (securityConfig, dataset) {
     },
     legend: {},
     grid: {
-      left: grid.left || '3%',
-      right: grid.right || '10%',
-      bottom: grid.bottom || '3%',
-      top: grid.top || 60,
+      left: grid?.left || '3%',
+      right: grid?.right || '10%',
+      bottom: grid?.bottom || '3%',
+      top: grid?.top || 60,
       containLabel: true
     },
     series: seriesArr

@@ -12,86 +12,181 @@ const staticInfoStyle = {
 export default {
   category: '人工节点',
   type: 'write',
-  title: '填写节点',
-  labelWidth: '120px',
+  title: '办理人',
+  labelWidth: '270px',
   formField: generateFieldList(defineFormFieldConfig({
-    _staticInfo1: {
-      type: 'staticInfo',
-      staticInfo: '节点信息',
-      ...staticInfoStyle
-    },
-    label: { label: '节点名称', defaultValue: '填写节点' },
-    taskTitle: { label: '任务标题', type: 'setFx' },
-    objectKey: {
-      type: 'dataSource',
-      label: '选择对象',
-      required: true,
-      otherKey: 'fields'
-    },
-    formView: {
-      label: '表单视图',
-      type: 'select',
-      dependOn: ['fields']
-    },
-    _staticInfo2: {
-      type: 'staticInfo',
-      staticInfo: '处理人',
-      ...staticInfoStyle
-    },
-    transactor: {
-      label: '处理人',
-      required: true
-    },
-    processStrategy: {
-      label: '多人处理策略',
+    assignedType: {
+      label: '⚙ 选择办理对象',
       type: 'radio',
       required: true,
+      defaultValue: 'ASSIGN_USER',
       options: [
-        { label: '串行填写一条记录、', value: 'serial' },
-        { label: '并行填写多条记录', value: 'parallel' }
+        { label: '指定人员', value: 'ASSIGN_USER' },
+        { label: '发起人自选', value: 'SELF_SELECT' },
+        { label: '连续多级主管', value: 'LEADER_TOP' },
+        { label: '主管', value: 'LEADER' },
+        { label: '角色', value: 'ROLE' },
+        { label: '发起人自己', value: 'SELF' },
+        { label: '表单内联系人', value: 'FORM_USER' }
       ]
     },
-    _staticInfo3: {
+    _staticInfo0: {
       type: 'staticInfo',
-      staticInfo: '权限设置',
-      ...staticInfoStyle
+      staticInfo: '发起人自己作为办理人进行办理',
+      dependOn: ['assignedType'],
+      readable: false,
+      changeConfig (config, { assignedType }) {
+        if (assignedType === 'SELF') {
+          config.writable = true
+          return config
+        }
+      }
     },
-    fieldAclGroup: {
-      label: '字段操作权限',
+    formUser: {
+      label: '选择表单联系人项',
       type: 'select',
-      required: true,
-      dependOn: ['fields'],
-      changeConfig (config, { fields }) {
-        config.disabled = !!fields
+      dependOn: ['assignedType'],
+      readable: false,
+      changeConfig (config, { assignedType }) {
+        if (assignedType === 'FORM_USER') {
+          config.writable = true
+          return config
+        }
+      }
+    },
+    leaderTop: {
+      label: '办理终点',
+      type: 'radio',
+      options: [
+        { label: '直到最上层主管', value: 'TOP' },
+        { label: '不超过发起人的', value: 'LEAVE' }
+      ],
+      defaultValue: 'TOP',
+      readable: false,
+      dependOn: ['assignedType'],
+      changeConfig: (config, { assignedType }) => {
+        if (assignedType === 'LEADER_TOP') config.writable = true
         return config
       }
     },
-    actionGroup: {
-      label: '流程操作权限',
-      type: 'select',
-      required: true
+    leaderLevel: {
+      label: '指定主管级别',
+      dependOn: ['assignedType'],
+      type: 'number',
+      readable: false,
+      defaultValue: 1,
+      changeConfig: (config, { assignedType }) => {
+        if (assignedType === 'LEADER') config.writable = true
+        return config
+      }
     },
-    _staticInfo4: {
+    choosePeople: {
+      type: 'roleSelect',
+      text: '选择人员',
+      readable: false,
+      dependOn: ['assignedType'],
+      changeConfig: (config, { assignedType }) => {
+        if (assignedType === 'ASSIGN_USER') config.writable = true
+        return config
+      }
+    },
+
+    role: {
+      type: 'roleSelect',
+      text: '选择系统角色',
+      readable: false,
+      dependOn: ['assignedType'],
+      changeConfig: (config, { assignedType }) => {
+        if (assignedType === 'ROLE') config.writable = true
+        return config
+      }
+    },
+    multiple: {
+      label: '',
+      dependOn: ['assignedType'],
+      readable: false,
+      type: 'radio',
+      isButton: true,
+      defaultValue: false,
+      options: [
+        { label: '自选一个人', value: false },
+        { label: '自选多个人', value: true }
+      ],
+      changeConfig: (config, { assignedType }) => {
+        if (assignedType === 'SELF_SELECT') config.writable = true
+        return config
+      }
+    },
+    _staticInfo2: {
       type: 'staticInfo',
-      staticInfo: '提交规则',
+      staticInfo: '',
       ...staticInfoStyle
     },
-    submitRule: {
-      label: '提交规则',
-      type: 'select',
+    nobody: {
+      label: '👤 办理人为空时',
+      type: 'radio',
+      required: true,
+      defaultValue: 'TO_PASS',
       options: [
-        { label: '提交', value: 'submit' },
-        { label: '不提交', value: 'unsubmit' }
+        { label: '自动通过', value: 'TO_PASS' },
+        { label: '自动驳回', value: 'TO_REFUSE' },
+        { label: '转交办理管理员', value: 'TO_ADMIN' },
+        { label: '转交到指定人员', value: 'TO_USER' }
       ]
     },
-    _staticInfo5: {
+    assignedUser: {
+      type: 'roleSelect',
+      text: '选择人员',
+      readable: false,
+      dependOn: ['nobody'],
+      changeConfig: (config, { nobody }) => {
+        if (nobody === 'TO_USER') config.writable = true
+        return config
+      }
+    },
+    mode: {
+      label: '👩‍👦‍👦 多人办理时办理方式',
+      type: 'radio',
+      readable: false,
+      dependOn: ['multiple', 'assignedType'],
+      defaultValue: 'AND',
+      options: [
+        { label: '会签 （按选择顺序办理，每个人必须同意）', value: 'NEXT' },
+        { label: '会签（可同时办理，每个人必须同意）', value: 'AND' },
+        { label: '或签（有一人同意即可）', value: 'OR' }
+      ],
+      changeConfig (config, { multiple, assignedType }) {
+        if (multiple || assignedType === 'ROLE' || assignedType === 'FORM_USER') {
+          config.writable = true
+          return config
+        }
+      }
+    },
+
+    _staticInfo3: {
       type: 'staticInfo',
-      staticInfo: '输出参数',
+      staticInfo: '高级设置',
       ...staticInfoStyle
     },
-    outputParamName: {
-      label: '参数名称',
-      dependOn: ['label']
+    sign: {
+      label: '✍ 办理同意时是否需要签字',
+      type: 'switch',
+      activeText: '需要',
+      inactiveText: '不用'
+    },
+    timeLimit: {
+      label: '⏱ 办理期限（为 0 则不生效）',
+      type: 'timeLimit'
+    },
+    rejectResult: {
+      label: '🙅‍ 如果办理被驳回 👇',
+      type: 'radio',
+      defaultValue: 'TO_END',
+      options: [
+        { label: '直接结束流程', value: 'TO_END' },
+        { label: '驳回到上级办理节点', value: 'TO_BEFORE' },
+        { label: '驳回到指定节点', value: 'TO_NODE' }
+      ]
     }
   })),
   initData: {

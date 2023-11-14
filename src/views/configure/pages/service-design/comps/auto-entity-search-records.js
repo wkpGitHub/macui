@@ -1,5 +1,6 @@
 import { generateFieldList, defineFormFieldConfig } from 'd-render'
 import { cloneDeep } from 'lodash-es'
+import { v4 as uuidv4 } from 'uuid'
 
 const staticInfoStyle = {
   fontWeight: 'bold',
@@ -9,7 +10,9 @@ const staticInfoStyle = {
     padding: '0 0 10px 0'
   }
 }
-
+const uuid = () => {
+  return uuidv4().substring(0, 4)
+}
 export default {
   category: '自动节点',
   type: 'auto-entity-search-records',
@@ -60,7 +63,8 @@ export default {
     },
     _staticInfo3: { type: 'staticInfo', staticInfo: '查询字段', ...staticInfoStyle },
     queryFields: {
-      dependOn: ['fields']
+      dependOn: ['fields'],
+      type: 'select'
     },
     _staticInfo4: {
       type: 'staticInfo',
@@ -162,7 +166,8 @@ export default {
     _staticInfo6: { type: 'staticInfo', staticInfo: '输出参数', ...staticInfoStyle },
     outputParamName: {
       label: '参数名称',
-      dependOn: ['title']
+      dependOn: ['title'],
+      defaultValue: '查询记录_' + uuid()
     }
   })),
   initData: {

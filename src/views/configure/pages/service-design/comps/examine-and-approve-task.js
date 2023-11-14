@@ -1,17 +1,4 @@
-import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig } from 'd-render'
-import { v4 as uuid } from 'uuid'
-const showConfig = params => {
-  return {
-    dependOn: ['viewType'],
-    readable: false,
-    changeConfig (config, { viewType }) {
-      if (viewType === params) {
-        config.writable = true
-      }
-      return config
-    }
-  }
-}
+import { generateFieldList, defineFormFieldConfig } from 'd-render'
 const staticInfoStyle = {
   fontWeight: 'bold',
   fontSize: 16,
@@ -23,224 +10,186 @@ const staticInfoStyle = {
 export default {
   category: '流程管理',
   type: 'examine-and-approve-task',
-  title: '人工节点',
-  labelWidth: '120px',
+  title: '审批人',
+  labelWidth: '270px',
   formField: generateFieldList(defineFormFieldConfig({
-    actionGroup: {
-      hideItem: true,
-      defaultValue: 0
+    assignedType: {
+      label: '⚙ 选择审批对象',
+      type: 'radio',
+      required: true,
+      defaultValue: 'ASSIGN_USER',
+      options: [
+        { label: '指定人员', value: 'ASSIGN_USER' },
+        { label: '发起人自选', value: 'SELF_SELECT' },
+        { label: '连续多级主管', value: 'LEADER_TOP' },
+        { label: '主管', value: 'LEADER' },
+        { label: '角色', value: 'ROLE' },
+        { label: '发起人自己', value: 'SELF' },
+        { label: '表单内联系人', value: 'FORM_USER' }
+      ]
     },
-    _staticInfo1: { type: 'staticInfo', staticInfo: '节点信息', ...staticInfoStyle },
-    taskTitle: {
-      label: '任务标题',
-      type: 'setFx'
+    _staticInfo0: {
+      type: 'staticInfo',
+      staticInfo: '发起人自己作为审批人进行审批',
+      dependOn: ['assignedType'],
+      readable: false,
+      changeConfig (config, { assignedType }) {
+        if (assignedType === 'SELF') {
+          config.writable = true
+          return config
+        }
+      }
     },
-    fieldAclGroup: {
-      hideItem: true,
-      defaultValue: uuid()
+    formUser: {
+      label: '选择表单联系人项',
+      type: 'select',
+      dependOn: ['assignedType'],
+      readable: false,
+      changeConfig (config, { assignedType }) {
+        if (assignedType === 'FORM_USER') {
+          config.writable = true
+          return config
+        }
+      }
     },
-    formViewBody: {
-      hideItem: true,
-      defaultValue: [{
-        name: '产品编号',
-        type: 'input-text',
-        label: '产品编号',
-        required: false,
-        validations: {},
-        validationErrors: {}
-      }]
+    leaderTop: {
+      label: '审批终点',
+      type: 'radio',
+      options: [
+        { label: '直到最上层主管', value: 'TOP' },
+        { label: '不超过发起人的', value: 'LEAVE' }
+      ],
+      defaultValue: 'TOP',
+      readable: false,
+      dependOn: ['assignedType'],
+      changeConfig: (config, { assignedType }) => {
+        if (assignedType === 'LEADER_TOP') config.writable = true
+        return config
+      }
     },
-    viewType: {
-      label: '渲染类型',
+    leaderLevel: {
+      label: '指定主管级别',
+      dependOn: ['assignedType'],
+      type: 'number',
+      readable: false,
+      defaultValue: 1,
+      changeConfig: (config, { assignedType }) => {
+        if (assignedType === 'LEADER') config.writable = true
+        return config
+      }
+    },
+    choosePeople: {
+      type: 'roleSelect',
+      text: '选择人员',
+      readable: false,
+      dependOn: ['assignedType'],
+      changeConfig: (config, { assignedType }) => {
+        if (assignedType === 'ASSIGN_USER') config.writable = true
+        return config
+      }
+    },
+    role: {
+      type: 'roleSelect',
+      text: '选择系统角色',
+      readable: false,
+      dependOn: ['assignedType'],
+      changeConfig: (config, { assignedType }) => {
+        if (assignedType === 'ROLE') config.writable = true
+        return config
+      }
+    },
+    multiple: {
+      label: '',
+      dependOn: ['assignedType'],
+      readable: false,
       type: 'radio',
       isButton: true,
-      defaultValue: 'formView',
+      defaultValue: false,
       options: [
-        { label: '标准表单', value: 'formView' },
-        { label: '自定义页面', value: 'pageView' }
-      ]
-    },
-    _staticInfo2: { type: 'staticInfo', staticInfo: '处理对象', ...staticInfoStyle },
-    processObject: {
-      label: '处理对象',
-      type: 'select',
-      ...showConfig('formView'),
-      options: [
-        { label: '开始_fa97', value: '开始_fa97' }
-      ]
-    },
-    nodeOperateType: { // 字段操作权限 未找到对应字段
-      label: '字段操作权限',
-      type: 'select',
-      ...showConfig('formView'),
-      options: [
-        { label: '编辑', value: '编辑' },
-        { label: '查看', value: '查看' }
-      ]
-    },
-    processOperateType: { // 流程操作权限 未找到对应字段
-      label: '流程操作权限',
-      type: 'select',
-      ...showConfig('formView'),
-      options: [
-        { label: '审批', value: '审批' }
-      ]
-    },
-    formView: {
-      label: '表单视图',
-      type: 'select',
-      options: [
-        { label: 'yjq', value: 'd35ABeDfNCmoCQ1r9asRrk' },
-        { label: 'tt', value: 'wXsu8Vv3MFc951fzrmbuvr' }
+        { label: '自选一个人', value: false },
+        { label: '自选多个人', value: true }
       ],
-      dependOn: ['processObject'],
-      readable: false,
-      changeConfig (config, { processObject }) {
-        if (processObject) {
-          config.writable = true
-        }
+      changeConfig: (config, { assignedType }) => {
+        if (assignedType === 'SELF_SELECT') config.writable = true
         return config
       }
     },
-    _staticInfo3: { type: 'staticInfo', staticInfo: '处理人', ...staticInfoStyle },
-    transactor: { label: '处理人', type: 'transactorSelect' },
-    pageView: {
-      label: '任务页面',
-      type: 'cascader',
-      optionProps: { label: 'name', value: 'id', emitPath: false },
-      ...showConfig('pageView'),
-      asyncOptions () {
-        return [
-          {
-            name: '产品',
-            id: 'bqwesadzxc',
-            children: [
-              {
-                name: '新增产品',
-                id: '123axzcads'
-              }
-            ]
-          }
-        ]
-      }
+    _staticInfo2: {
+      type: 'staticInfo',
+      staticInfo: '',
+      ...staticInfoStyle
     },
-    dataMapping: {
-      type: 'table',
-      options: generateFieldList(defineTableFieldConfig({
-        key: { required: true, writable: true, label: '页面变量：' },
-        formula: { writable: true, label: '流程变量：' }
-      })),
-      label: '数据映射',
-      dependOn: ['pageView'],
-      readable: false,
-      changeConfig (config, { pageView }) {
-        if (pageView) {
-          config.writable = true
-        }
-        return config
-      }
-    },
-    _staticInfo4: { type: 'staticInfo', staticInfo: '多人处理', ...staticInfoStyle },
-
-    _staticInfo5: { type: 'staticInfo', staticInfo: '合并处理策略', ...staticInfoStyle },
-
-    _staticInfo6: { type: 'staticInfo', staticInfo: '超期设置', ...staticInfoStyle },
-    _staticInfo7: { type: 'staticInfo', staticInfo: '节点信息', ...staticInfoStyle },
-    processStrategy: {
+    nobody: {
+      label: '👤 审批人为空时',
       type: 'radio',
-      label: '多人处理策略',
+      required: true,
+      defaultValue: 'TO_PASS',
       options: [
-        { label: '并行', value: 'parallel' },
-        { label: '串行', value: 'serial' }
+        { label: '自动通过', value: 'TO_PASS' },
+        { label: '自动驳回', value: 'TO_REFUSE' },
+        { label: '转交审批管理员', value: 'TO_ADMIN' },
+        { label: '转交到指定人员', value: 'TO_USER' }
       ]
     },
-    parallelApprove: {
-      type: 'select',
-      options: [
-        {
-          label: '全体通过',
-          value: 'allOf'
-        },
-        {
-          label: '一人通过即通过',
-          value: 'oneOf'
-        },
-        {
-          label: '按比例通过',
-          value: 'someOf'
-        },
-        {
-          label: '一人拒绝则拒绝',
-          value: 'oneRefuse'
-        }
-      ]
-    },
-    inputSource: {
-      hideItem: true,
-      defaultValue: [{ label: 'id', value: 'id' }]
-    },
-    processStrategies: {
-      label: '合并处理策略',
-      type: 'checkbox',
-      multiple: true,
-      options: [
-        {
-          label: '处理人与发起人相同时',
-          value: 'sameAsInitiator'
-        },
-        {
-          label: '处理人与上一处理人相同时',
-          value: 'sameAsPrev'
-        },
-        {
-          label: '处理人已经处理过',
-          value: 'hasApprovedIt'
-        }
-      ]
-    },
-    'boundaryTimerEventActivity.ruleType': {
-      label: '超期设置',
-      type: 'select',
-      options: [
-        {
-          label: '流程统一超期规则',
-          value: 'inherit'
-        },
-        {
-          label: '自定义节点超期规则',
-          value: 'custom'
-        },
-        {
-          label: '不设置超期规则',
-          value: 'none'
-        }
-      ]
-    },
-    label: {
-      label: '节点名称'
-    },
-    id: {
-      label: '节点id',
-      writable: false,
-      readable: true,
-      defaultValue: uuid()
-    },
-    rootId: {
-      hideItem: true,
-      defaultValue: uuid()
-    },
-    outputParamName: {
-      hideItem: true,
-      dependOn: ['label'],
-      changeValue ({ label }) {
-        return { value: label + '_371b' }
+    assignedUser: {
+      type: 'roleSelect',
+      text: '选择人员',
+      readable: false,
+      dependOn: ['nobody'],
+      changeConfig: (config, { nobody }) => {
+        if (nobody === 'TO_USER') config.writable = true
+        return config
       }
+    },
+    mode: {
+      label: '👩‍👦‍👦 多人审批时审批方式',
+      type: 'radio',
+      readable: false,
+      dependOn: ['multiple', 'assignedType'],
+      defaultValue: 'AND',
+      options: [
+        { label: '会签 （按选择顺序审批，每个人必须同意）', value: 'NEXT' },
+        { label: '会签（可同时审批，每个人必须同意）', value: 'AND' },
+        { label: '或签（有一人同意即可）', value: 'OR' }
+      ],
+      changeConfig (config, { multiple, assignedType }) {
+        if (multiple || assignedType === 'ROLE' || assignedType === 'FORM_USER') {
+          config.writable = true
+          return config
+        }
+      }
+    },
+
+    _staticInfo3: {
+      type: 'staticInfo',
+      staticInfo: '高级设置',
+      ...staticInfoStyle
+    },
+    sign: {
+      label: '✍ 审批同意时是否需要签字',
+      type: 'switch',
+      activeText: '需要',
+      inactiveText: '不用'
+    },
+    timeLimit: {
+      label: '⏱ 审批期限（为 0 则不生效）',
+      type: 'timeLimit'
+    },
+    rejectResult: {
+      label: '🙅‍ 如果审批被驳回 👇',
+      type: 'radio',
+      defaultValue: 'TO_END',
+      options: [
+        { label: '直接结束流程', value: 'TO_END' },
+        { label: '驳回到上级办理节点', value: 'TO_BEFORE' },
+        { label: '驳回到指定节点', value: 'TO_NODE' }
+      ]
     }
   })),
   initData: {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'examine-and-approve-task',
-    title: '人工节点',
+    title: '审批人',
     conditions: {},
     children: []
   }

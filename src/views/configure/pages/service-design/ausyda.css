@@ -496,6 +496,7 @@
 .api-editor .api-editor-view .action-node--continue,
 .api-editor .api-editor-view .action-node--exit,
 .api-editor .api-editor-view .action-node--sequence,
+.api-editor .api-editor-view .action-node--gateway-branch,
 .api-editor .api-editor-view .action-node--loop {
 	border: 1px solid transparent;
 	display: block;

@@ -1,5 +1,6 @@
 import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig } from 'd-render'
 import { v4 as uuid } from 'uuid'
+
 function findObjectById (arr, id) {
   for (let i = 0; i < arr.length; i++) {
     if (arr[i].id === id) {
@@ -13,13 +14,23 @@ function findObjectById (arr, id) {
   }
   return null
 }
+const staticInfoStyle = {
+  fontWeight: 'bold',
+  fontSize: 16,
+  inputStyle: {
+    borderBottom: '1px solid #ccc',
+    padding: '0 0 10px 0'
+  }
+}
 let apiList = ''
 export default {
   category: '流程管理',
   type: 'web-api',
   title: '调用服务',
+  labelWidth: '120px',
   formField: generateFieldList(defineFormFieldConfig({
-    label: { label: '节点名称' },
+    _staticInfo1: { type: 'staticInfo', staticInfo: '节点信息', ...staticInfoStyle },
+    label: { label: '节点名称', defaultValue: '调用服务' },
     apiKey: {
       label: '调用服务',
       required: true,
@@ -81,6 +92,7 @@ export default {
       },
       description: '输出当前记录的ID，方便于流程中的其他节点引用它；可输入中文、数字、字母或者下划线_'
     },
+    _staticInfo2: { type: 'staticInfo', staticInfo: '输入参数', ...staticInfoStyle },
     inputParams: {
       label: '输入参数',
       type: 'table',
@@ -93,6 +105,7 @@ export default {
       hideItem: true,
       defaultValue: 'api'
     },
+    _staticInfo3: { type: 'staticInfo', staticInfo: '输出参数', ...staticInfoStyle },
     useMapping: {
       label: '参数映射',
       type: 'radio',

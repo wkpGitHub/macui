@@ -20,6 +20,8 @@ import submitNodeConfig from '../../service-design/flow-path/submit-node'
 import startConfig from '../../service-design/comps/start'
 import endConfig from '../../service-design/comps/end'
 import { allComps } from '../../service-design/comps'
+import { gatewayBranchConfig } from '../../service-design/flow-path/gateway-branch'
+// import { gatewayBranch } from '../../service-design/flow-path/gateway-branch'
 
 const iconClassMap = {
   start: 'node-start',
@@ -60,7 +62,8 @@ const iconClassMap = {
   'auto-entity-add-records': 'icon-outer',
   'auto-entity-delete-records': 'icon-outer',
   'auto-entity-update-records': 'icon-outer',
-  'auto-entity-search-records': 'icon-outer'
+  'auto-entity-search-records': 'icon-outer',
+  'gateway-branch': 'node-logic'
 }
 
 export function useNodes () {
@@ -73,7 +76,7 @@ export function useNodes () {
     {
       title: '网关节点',
       name: 'branch',
-      children: [inclusiveGateWayConfig, exclusiveGateWayConfig, parallelGateWayConfig]
+      children: [inclusiveGateWayConfig, exclusiveGateWayConfig, parallelGateWayConfig, gatewayBranchConfig]
     },
     {
       title: '自动节点',
@@ -118,7 +121,8 @@ export function useNodeSetDialog (props, parentState = {}) {
   function setNode (node, updateConfig) {
     if (!node.type) return
     model.value = node.config || {}
-    nodeConfig = allComps.find(comp => comp.type === node.type)
+    console.log(allComps)
+    nodeConfig = allComps.find(comp => comp.type === node.type || (comp.type === 'gateway-branch-line' && node.isBranch))
     if (nodeConfig.formField instanceof Function) {
       nodeConfig.formField = nodeConfig.formField({ parentState })
     }
@@ -126,6 +130,7 @@ export function useNodeSetDialog (props, parentState = {}) {
     nodeConfig.formField.map(v => {
       v.config.parentState = parentState
       v.config.changeEffect = async (value, key, data) => {
+        if (key === 'title') node.title = value
         const _data = data ? { ...data } : {}
         _data[key] = value
         updateConfig(_data)
@@ -152,7 +157,7 @@ export function useNodeMenu () {
     {
       title: '网关节点',
       name: 'branch',
-      children: [exclusiveGateWayConfig, inclusiveGateWayConfig, parallelGateWayConfig]
+      children: [exclusiveGateWayConfig, inclusiveGateWayConfig, parallelGateWayConfig, gatewayBranchConfig]
     },
     {
       title: '自动节点',

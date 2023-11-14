@@ -4,6 +4,7 @@ export default {
   category: '自动节点',
   type: 'flow',
   title: '调用流程',
+  labelWidth: '100px',
   formField: generateFieldList(defineFormFieldConfig({
     title: { label: '节点名称', defaultValue: '调用流程' },
     id: {
@@ -72,10 +73,12 @@ export default {
       ]
     },
     activityControllers: {
-      label: '实例控制'
+      label: '实例控制',
+      type: 'setFx'
     },
     activityInitiators: {
-      label: '子流程启动者'
+      label: '子流程启动者',
+      type: 'setFx'
     },
     inputParams: {
       label: '输入参数',
