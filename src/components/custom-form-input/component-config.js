@@ -36,5 +36,9 @@ export default {
   chartMargin: () => () => import('./block-view-chart/chart-margin/index'),
   xAxis: () => () => import('./block-view-chart/x-axis/index'),
   yAxis: () => () => import('./block-view-chart/y-axis/index'),
-  yAxisField: () => () => import('./block-view-chart/y-axis-field/index')
+  yAxisField: () => () => import('./block-view-chart/y-axis-field/index'),
+  timeLimit: () => () => import('./time-limit'),
+  roleSelect: () => () => import('./role-select'),
+  'custom-priority': () => () => import('./custom-priority'),
+  'condition-group': () => () => import('./condition-group')
 }
