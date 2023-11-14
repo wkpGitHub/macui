@@ -36,6 +36,7 @@ import autoEntityUpdateRecordsConfig from './auto-entity-update-records'
 import startConfig from './start'
 import endConfig from './end'
 import submitNodeConfig from '../flow-path/submit-node'
+import { gatewayBranchConfig, gatewayBranchLineConfig } from '../flow-path/gateway-branch'
 
 /**
  * 通过category字段对组件进行分类
@@ -57,6 +58,8 @@ export function classifyCompByCategory (compList) {
 export const compList = [
   branchConfig,
   branchLineConfig,
+  gatewayBranchConfig,
+  gatewayBranchLineConfig,
   loopConfig,
   continueConfig,
   breakConfig,
