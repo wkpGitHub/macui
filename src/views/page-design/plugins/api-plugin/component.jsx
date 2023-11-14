@@ -14,14 +14,15 @@ const methodsConfigFieldList = generateFieldList({
     formProps: {
       fieldList: generateFieldList({
         name: { label: '接口名称' },
+        fullPath: { label: '接口地址' },
         httpMethod: {
           label: '请求方式',
           type: 'select',
+          defaultValue: 'GET',
           options: [
             'GET', 'POST'
           ]
         },
-        fullPath: { label: '接口地址' },
         apiId: {
           hideItem: true,
           dependOn: ['fullPath'],
@@ -36,11 +37,20 @@ const methodsConfigFieldList = generateFieldList({
             return { value: apiId }
           }
         },
-        query: {
+        headers: {
+          label: '请求头【key为&，将解构整个对象】',
           type: 'table',
-          rowKey: 'id',
           options: generateFieldList({
-            name: { label: '键', writable: true }
+            name: { label: 'key', writable: true },
+            value: { label: 'value', writable: true, type: 'pageVar' }
+          })
+        },
+        inputParams: {
+          label: '发送数据【key为&，将解构整个对象】',
+          type: 'table',
+          options: generateFieldList({
+            name: { label: 'key', writable: true },
+            value: { label: 'value', writable: true, type: 'pageVar' }
           })
         }
       })

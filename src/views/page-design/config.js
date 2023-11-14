@@ -167,11 +167,7 @@ export const componentsGroupList = [
               {
                 config: {
                   type: 'tree',
-                  nodeClick: [{
-                    eventType: 'method',
-                    eventName: '函数',
-                    methods: 'nodeClick'
-                  }]
+                  label: '树'
                 }
               }
             ]

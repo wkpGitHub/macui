@@ -10,7 +10,7 @@
         class="form-item-xy"
         filterable
         placeholder="请选择字段"
-        @change="t => yFieldChange(t)"
+        @change="val => yFieldChange(val, item)"
       >
         <el-option
           v-for="op in yFields"
@@ -78,7 +78,12 @@ export default {
       return securityConfig.value.yFields || []
     })
 
-    const yFieldChange = (name) => {
+    const getTitle = (val) => {
+      return yFields.value.find(yField => yField.name === val).title
+    }
+
+    const yFieldChange = (val, item) => {
+      item.name = getTitle(val)
       emitModelValue(proxyValue.value)
     }
 

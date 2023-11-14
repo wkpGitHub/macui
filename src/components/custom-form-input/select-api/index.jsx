@@ -29,6 +29,14 @@ export default {
 
     function updateApis (row, key) {
       if (!drDesign.schema) return
+      const inputParams = [{
+        value: 1,
+        name: 'pageNum'
+      },
+      {
+        name: 'pageSize',
+        value: 20
+      }]
       if (drDesign.schema.apiList) {
         const pageMethod = drDesign.schema.apiList.find(m => m.name === key)
         if (pageMethod) {
@@ -37,7 +45,7 @@ export default {
             objId: row.id,
             apiId: row.id,
             fullPath: row.fullPath,
-            query: []
+            inputParams
           })
         } else {
           drDesign.schema.apiList.push({
@@ -47,7 +55,7 @@ export default {
             apiId: row.id,
             fullPath: row.fullPath,
             // index: drDesign.schema.apiList.length - 1,
-            query: []
+            inputParams
           })
         }
       } else {
@@ -57,8 +65,8 @@ export default {
           objId: row.id,
           apiId: row.id,
           fullPath: row.fullPath,
+          inputParams
           // index: 0,
-          query: []
         }]
       }
     }

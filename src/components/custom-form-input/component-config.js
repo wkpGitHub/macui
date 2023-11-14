@@ -25,6 +25,7 @@ export default {
   fxTable: () => () => import('./fx-table'),
   setFx: () => () => import('./set-fx'),
   selectVar: () => () => import('./select-var'),
+  pageVar: () => () => import('./page-var'),
   tabsLayout: {
     component: () => () => import('./tabs-layout'),
     layout: true
@@ -40,5 +41,8 @@ export default {
   timeLimit: () => () => import('./time-limit'),
   roleSelect: () => () => import('./role-select'),
   'custom-priority': () => () => import('./custom-priority'),
-  'condition-group': () => () => import('./condition-group')
+  'condition-group': () => () => import('./condition-group'),
+  colorScheme: () => () => import('./block-view-chart/color-scheme/index'),
+  colorPicker: () => () => import('./block-view-chart/color-picker/index'),
+  setOptions: () => () => import('./set-options')
 }

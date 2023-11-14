@@ -9,28 +9,24 @@ import { computed, ref, inject, watch, nextTick } from 'vue'
 import CipMessageBox from '@cip/components/cip-message-box'
 import LayoutBox from '@/components/d-render-plugin-page-render/layout-box'
 import { cloneDeep, formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
-import { config, getDialogKeyList } from './config'
+import { getConfig, EVENT_TYPE } from '@/views/page-design/plugins/events/config'
 import { filterList } from '@/lib/utils'
-import { EVENT_TYPE } from './const'
 import VueDraggable from 'vuedraggable'
 import './index.less'
 export default {
   props: formInputProps,
   emits: fromInputEmits,
   setup (props, ctx) {
-    const { proxyValue } = useFormInput(props, ctx)
     const dialog = ref(false)
     const treeModel = ref({})
     const treeRef = ref()
     const contentModel = ref({})
     const formFieldList = ref([])
     const drDesign = inject('drDesign', {})
+    const config = getConfig(drDesign)
+    const { proxyValue } = useFormInput(props, ctx)
     watch(() => treeModel.value.eventType, () => {
-      contentModel.value._dialogList = getDialogKeyList(drDesign.schema.list)
-      contentModel.value._methodList = drDesign.schema.methods
-      nextTick().then(() => {
-        formFieldList.value = config[treeModel.value.eventType] || []
-      })
+      formFieldList.value = config[treeModel.value.eventType] || []
     }, { immediate: true })
 
     const emitModelValue = (val) => {
@@ -67,6 +63,7 @@ export default {
       } else {
         modelValue = [item.value]
       }
+
       emitModelValue(modelValue)
       resolve()
     }

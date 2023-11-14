@@ -180,3 +180,11 @@ export function getItemConfig (item) {
     }
   }
 }
+
+export const handelLabelSizeOptions = (minValue, maxValue) => {
+  const arr = []
+  for (let i = minValue; i <= maxValue; i = i + 2) {
+    arr.push({ label: i, value: i })
+  }
+  return arr
+}

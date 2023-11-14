@@ -1,5 +1,5 @@
 export default {
-  key: {},
+  key: { readable: true },
   otherKey: {
     type: 'select',
     allowCreate: true,

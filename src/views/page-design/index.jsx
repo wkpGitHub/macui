@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import Framework from './framework/index.vue'
 import ToolBar from './widgets/tool-bar'
 // import ApiConfig from './widgets/api-config'
@@ -19,7 +19,8 @@ import { PageDrawPlugin } from './plugins/page-draw'
 import { DataModelPlugin } from './plugins/data-model'
 import { CssConfigurePlugin } from './plugins/css'
 import { AdvancedConfigurePlugin } from './plugins/advanced'
-import { RouterQueryPlugin } from './plugins/router-query'
+import { VariablesPlugin } from './plugins/variables'
+import { EventsPlugin } from './plugins/events'
 
 // import { ApiIcon } from './widgets/svg-icons'
 export default {
@@ -73,21 +74,16 @@ export default {
       new StructurePlugin(),
       new CodeSourcePlugin(),
       new FieldConfigurePlugin(),
+      new EventsPlugin(),
       new PageDrawPlugin(),
       new FxPlugin(),
       new ApiPlugin(),
       new DataModelPlugin(),
       new CssConfigurePlugin(),
       new AdvancedConfigurePlugin(),
-      new RouterQueryPlugin()
+      new VariablesPlugin()
     ]
 
-    watch(() => schema.value, (n) => {
-      console.log(n, 'nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn')
-    }, {
-      deep: true,
-      immediate: true
-    })
     return () => <Framework appPath={props.appPath} >
      <DrBasicDesign
        v-model:schema={schema.value}

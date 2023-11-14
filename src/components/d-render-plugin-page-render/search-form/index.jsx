@@ -1,8 +1,9 @@
 import { CipSearchForm, CipFormInputTransform } from 'd-render'
 import { useEventConfigure } from '../use-event-configure'
+
 export default {
   emits: ['update:modelValue'],
-  setup () {
+  setup (_props) {
     const searchFromProps = [
       'options',
       'hideSearch',
@@ -15,11 +16,11 @@ export default {
       'labelPosition',
       'completeRow',
       'defaultModel',
-      'search'
+      'events'
     ]
 
     const TransformModelSearchForm = (props, { emit }) => {
-      const { modelValue = {}, dataBus, search, options, ...componentProps } = props
+      const { modelValue = {}, dataBus, events, options, ...componentProps } = props
       const fieldList = options[0] ? options[0].children : []
       const handleEvent = useEventConfigure()
       return <CipSearchForm
@@ -27,8 +28,9 @@ export default {
         model={modelValue}
         onUpdate:model={componentProps['onUpdate:modelValue']}
         fieldList={fieldList}
-        onSearch={() => {
-          handleEvent(search)
+        onSearch={(isReset) => {
+          if (isReset) handleEvent(events?.reset?.value || [], `${props.config.id}_reset`, modelValue)
+          else handleEvent(events?.search?.value || [], `${props.config.id}_search`, modelValue)
           // cipFormRenderMethod.page()
           // search(dataBus, modelValue)
         }}

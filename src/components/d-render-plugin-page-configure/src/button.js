@@ -9,11 +9,8 @@ export default {
       'primary', 'success', 'warning', 'danger'
     ]
   },
-  click: {
-    label: '点击事件',
-    type: 'eventConfig'
-    // infoRender: (h, { item }) => h('div', null, [item.remark]),
-    // itemType: '事件',
-    // itemKey: 'index'
+  events: {
+    hideItem: true,
+    options: [{ label: '点击事件', value: 'click' }]
   }
 }

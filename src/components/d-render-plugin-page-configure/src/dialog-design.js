@@ -1,7 +1,7 @@
 import { slotsCommonConfig } from './slots-common-config'
 
 export default {
-  key: {},
+  key: { readable: true },
   title: {
     label: '标题'
   },
