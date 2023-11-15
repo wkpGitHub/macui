@@ -229,8 +229,19 @@ const nodeConfig = {
     x: 140,
     y: 64,
     enter (selection) {
-      selection.append('div').attr('class', 'icon-outer no-background').html(iconHtmlMap['inclusive-gateway'])
+      selection.append('div').attr('class', 'icon-outer no-background').html(iconHtmlMap['exclusive-gateway'])
       selection.append('span').classed('node-label', true)
+      const toorBar = selection.select('.node-toolbar')
+      toorBar.insert('div', '.trash').attr('class', 'node-tool-outer icon-expand').on('click', d => {
+        d3.event.stopPropagation()
+        d.folded = !d.folded
+        this.update()
+      })
+      toorBar.insert('div', '.icon-expand').attr('class', 'node-tool-outer icon-add').attr('title', '添加分支').html('<div class="line-1"></div><div class="line-2"></div>').on('click', d => {
+        d3.event.stopPropagation()
+        d.folded = false
+        this.emit('addBranch', d)
+      })
     }
   },
   'exclusive-gateway': {
@@ -781,7 +792,7 @@ export class Ausyda {
           currentBranchMaxWidth = Math.max(currentBranchMaxWidth, item.width)
           if (nextItem && Object.prototype.hasOwnProperty.call(nextItem, 'expression')) {
             currentBranchs.forEach(item => { item.branchWidth = currentBranchMaxWidth })
-            parent.width += currentBranchMaxWidth + 40
+            parent.width += currentBranchMaxWidth + 240
             currentBranchMaxWidth = 0
             currentBranchs = []
           }
@@ -796,7 +807,7 @@ export class Ausyda {
     // 设置left
     // 1.  根据每个元素的宽度，设置left
     const computedPositionLeft = (children, parent) => {
-      let branchLeft = 0
+      let branchLeft = 100
       children.forEach((item, index) => {
         if (GATEWAY_TYPE.indexOf(parent.type) > -1) {
           if (item.type === 'branch-close') {
