@@ -2,6 +2,7 @@ import * as d3 from 'd3'
 function getId () {
   return Math.random().toString(16).slice(2) + '-' + Math.random().toString(16).slice(6)
 }
+const GATEWAY_TYPE = ['inclusive-gateway', 'gateway-branch', 'exclusive-gateway', 'parallel-gateway']
 const BRANCH_KEYS = ['expression', 'conditionType', 'conditions']
 export const iconHtmlMap = {
   start: '<svg viewBox="0 0 14 14" class="icon-flow-start"><title>开始</title><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g  transform="translate(-24.000000, -119.000000)"><g  transform="translate(24.000000, 119.000000)"><rect  x="0" y="0" width="14" height="14"></rect><g  transform="translate(4.843553, 3.875000)" fill="#FFFFFF" fill-rule="nonzero"><g ><path d="M0.567757553,6.13057769 C0.706753664,6.20845457 0.862462291,6.24950026 1.0207913,6.25 C1.21481242,6.24844339 1.40422283,6.18907595 1.56603546,6.07910258 L4.48870452,4.10039864 C4.81177035,3.88084907 5.00426901,3.5078842 4.99987093,3.11001717 C5.0056203,2.72309889 4.81897612,2.35985472 4.50474111,2.14640277 L1.55601259,0.171816849 C1.25777121,-0.0371088557 0.870768955,-0.0569843925 0.553725525,0.120341714 C0.200639293,0.334511484 -0.011268745,0.728826826 0.000463074478,1.1498443 L0.000463074478,5.10107513 C-0.0097328944,5.52543861 0.208301484,5.92111839 0.567757553,6.13057769 Z" ></path></g></g></g></g></g></svg>',
@@ -445,7 +446,7 @@ export class Ausyda {
             const { parent, index } = d
             const { children } = parent
             // 当前删除的是分支
-            if (parent.type === 'gateway-branch' && Object.prototype.hasOwnProperty.call(d, 'expression')) {
+            if (GATEWAY_TYPE.indexOf(parent.type) > -1 && Object.prototype.hasOwnProperty.call(d, 'expression')) {
               const nextItem = children[index + 1]
               // 下一个不是分支节点，也不是分支结束节点；那么下一个要继承这个分支的属性
               if (nextItem && (!Object.prototype.hasOwnProperty.call(nextItem, 'expression') && nextItem.type !== 'branch-close')) {
@@ -512,7 +513,7 @@ export class Ausyda {
         if (['path', 'text'].includes(d3.event.target.tagName)) {
           this.links.forEach(link => { link.active = link.id === d.id })
           this.updateLinks()
-          d.source?.type === 'gateway-branch' && this.emit('updateBranch', d.target)
+          GATEWAY_TYPE.indexOf(d.source?.type) > -1 && this.emit('updateBranch', d.target)
         }
       })
 
@@ -530,7 +531,7 @@ export class Ausyda {
       // if (diffX === 0) y2 = diffY
       if (diffX < -24) {
         // 左边
-        if (source.type === 'gateway-branch' && !source.folded) {
+        if (GATEWAY_TYPE.indexOf(source.type) > -1 && !source.folded) {
           y0 = diffY + 24
           x2 = -diffX - 24
         }
@@ -541,7 +542,7 @@ export class Ausyda {
         }
       } else if (diffX > 24) {
         // 右边
-        if (source.type === 'gateway-branch' && !source.folded) {
+        if (GATEWAY_TYPE.indexOf(source.type) > -1 && !source.folded) {
           x1 = x2 = diffX - 24
           y2 = diffY + 24
         }
@@ -572,15 +573,15 @@ export class Ausyda {
       const { diffX, height } = clientRect
       const h = height / 2 || 0
       // 分支的开始节点 右侧 、 分支结束节点的右侧，需要做位移
-      const isNeedX = (source.type === 'gateway-branch' && !source.folded && diffX > 24) || (target.type === 'branch-close' && diffX < -24)
+      const isNeedX = (GATEWAY_TYPE.indexOf(source.type) > -1 && !source.folded && diffX > 24) || (target.type === 'branch-close' && diffX < -24)
       const x = isNeedX ? (clientRect.width || 0) : 0
       return `translate(${x}, ${h})`
     })
     mergeSelections.select('text').text(({ source, target }) => {
-      return source.type === 'gateway-branch' ? target.expression : ''
+      return GATEWAY_TYPE.indexOf(source.type) > -1 ? target.expression : ''
     }).attr('x', function ({ clientRect, source }) {
       const { width, vertical } = clientRect
-      if (source.type === 'gateway-branch') {
+      if (GATEWAY_TYPE.indexOf(source.type) > -1) {
         if (vertical) {
           return 8
         } else {
@@ -590,7 +591,7 @@ export class Ausyda {
       }
     }).attr('y', function ({ clientRect, source }) {
       const { height, vertical } = clientRect
-      if (source.type === 'gateway-branch') {
+      if (GATEWAY_TYPE.indexOf(source.type) > -1) {
         if (vertical) {
           return (height + 12) / 2
         } else {
@@ -602,7 +603,7 @@ export class Ausyda {
       const { diffX, height, vertical } = clientRect
       const h = height || 0
       // 分支的开始节点 右侧 、 分支结束节点的右侧，需要做位移
-      const isNeedX = (source.type === 'gateway-branch' && !source.folded && diffX > 24) || (target.type === 'branch-close' && diffX > 24)
+      const isNeedX = (GATEWAY_TYPE.indexOf(source.type) > -1 && !source.folded && diffX > 24) || (target.type === 'branch-close' && diffX > 24)
       const x = isNeedX ? (clientRect.width || 0) : 0
       // 分支的开始节点 右侧 、 分支结束节点的右侧，需要做位移
       if (target.type === 'branch-close' && !vertical) {
@@ -636,7 +637,7 @@ export class Ausyda {
       let _w = 0
 
       if (diffX < -24) {
-        if (source.type === 'gateway-branch' && !source.folded) {
+        if (GATEWAY_TYPE.indexOf(source.type) > -1 && !source.folded) {
           y -= 24
           _w = (width || 0) + 24
         }
@@ -644,7 +645,7 @@ export class Ausyda {
           _w = (width || 0)
         }
       } else if (diffX > 24) {
-        if (source.type === 'gateway-branch' && !source.folded) {
+        if (GATEWAY_TYPE.indexOf(source.type) > -1 && !source.folded) {
           y -= 24
           _w = -24
         }
@@ -653,7 +654,7 @@ export class Ausyda {
     }).style('z-index', d => {
       const { clientRect, source, target } = d
       const { diffX } = clientRect
-      if (source.type === 'gateway-branch' && !source.folded) {
+      if (GATEWAY_TYPE.indexOf(source.type) > -1 && !source.folded) {
         // 左边
         if (diffX <= 0) {
           source.branchIndex = (source.branchIndex || 0) + 1
@@ -680,7 +681,29 @@ export class Ausyda {
   setPosition () {
     let nextTop = 0
     const computedPositionTop = (children, parent) => {
-      if (parent.type === 'gateway-branch' && children.at(-1)?.type !== 'branch-close') children.push({ type: 'branch-close', id: getId() })
+      // if (parent.type === 'gateway-branch' && children.at(-1)?.type !== 'branch-close') children.push({ type: 'branch-close', id: getId() })
+      if (GATEWAY_TYPE.indexOf(parent.type) > -1 && children.at(-1)?.type !== 'branch-close') {
+        children.push({
+          branchWidth: 140,
+          conditionType: 'formula',
+          condtions: '1===1',
+          expression: '分支',
+          id: getId(),
+          index: 0,
+          left: 0,
+          title: '审核人',
+          top: 276,
+          type: 'examine-and-approve-task'
+        }, {
+          conditionType: 'formula',
+          conditions: '1===1',
+          expression: '分支',
+          id: getId(),
+          title: '审批人',
+          type: 'examine-and-approve-task'
+        },
+        { type: 'branch-close', id: getId() })
+      }
       if (parent.type === 'loop' && children.at(-1)?.type !== 'loop-close') children.push({ type: 'loop-close', id: getId() })
       // 设置top
       children.forEach((item, index) => {
@@ -700,7 +723,7 @@ export class Ausyda {
           // 获取当前分支最大的一个高度，作为 branch-close 结束分支的参考高度
           const h = Math.max(..._children.map(c => {
             // 分支和循环在展开状态下
-            if (['loop', 'gateway-branch'].includes(c.type) && !c.folded) {
+            if (['loop', ...GATEWAY_TYPE].includes(c.type) && !c.folded) {
               return (c.top || 0) + c.height + 24
             }
             return (c.top || 0) + nodeConfig[c.type].y
@@ -725,7 +748,7 @@ export class Ausyda {
           }
         }
         // 这个层级，用来结算连线的zIndex。防止外面的线更宽更高，覆盖了里面的线，操作不到
-        if (['gateway-branch', 'loop'].includes(item.type)) {
+        if ([...GATEWAY_TYPE, 'loop'].includes(item.type)) {
           item.depth = (parent.depth || 0) + 1
         }
         if (item.folded) return false
@@ -746,8 +769,8 @@ export class Ausyda {
       })
       if (parent.type === 'loop' && !parent.folded) {
         parent.width = (Math.max(...children.map(c => c.width)) || 0) + 80
-      } else if (parent.type === 'gateway-branch' && !parent.folded) {
-        parent.width = 0
+      } else if (GATEWAY_TYPE.indexOf(parent.type) > -1 && !parent.folded) {
+        parent.width = 200
         // 获取当前分支最大的宽度
         let currentBranchMaxWidth = 0
         let currentBranchs = []
@@ -775,7 +798,7 @@ export class Ausyda {
     const computedPositionLeft = (children, parent) => {
       let branchLeft = 0
       children.forEach((item, index) => {
-        if (parent.type === 'gateway-branch') {
+        if (GATEWAY_TYPE.indexOf(parent.type) > -1) {
           if (item.type === 'branch-close') {
             item.left = parent.left
           } else {
@@ -787,7 +810,7 @@ export class Ausyda {
           const nextItem = children[index + 1]
           if ((nextItem && Object.prototype.hasOwnProperty.call(nextItem, 'expression')) || item.type === 'branch-close') {
             // branchLeft += (nextItem.branchWidth / 2 + item.branchWidth / 2 + 40)
-            branchLeft += item.branchWidth + 40
+            branchLeft += item.branchWidth + 240
           }
         } else {
           item.left = parent.left || 0
@@ -870,7 +893,7 @@ export class Ausyda {
         if (index === children.length - 1) {
           nextSource = item
         }
-        if (parent.type === 'gateway-branch') {
+        if (GATEWAY_TYPE.indexOf(parent.type) > -1) {
           const branchClose = children.at(-1)
           // 如果下一个节点是分支
           const nextItem = children[index + 1]
@@ -878,7 +901,7 @@ export class Ausyda {
           if (nextItem && (Object.prototype.hasOwnProperty.call(nextItem, 'expression') || nextItem.type === 'branch-close')) {
             // 排排除分支，分支一定是有branch-close节点，当前branch不和下个节点连线，让branch-close再和下个节点，或者结束节点（父节点的branch-close节点）连接
             // 再排除掉loop. 循环一定是有loop-close节点，当前loop不和下个节点连线，让loop-close节点再和下个节点，或者结束节点（父节点的branch-close节点）连接
-            if (!['gateway-branch', 'loop'].includes(item.type) || item.folded) {
+            if (![...GATEWAY_TYPE, 'loop'].includes(item.type) || item.folded) {
               links.push({
                 id: `${branchClose.id}-${item.id}`,
                 name: '',
@@ -956,7 +979,7 @@ export class Ausyda {
           parent.children.splice(source.index + 1, 0, node)
         }
       }
-    } else if (source.type === 'gateway-branch') {
+    } else if (GATEWAY_TYPE.indexOf(source.type) > -1) {
       // 如果在分支的头部添加分支，那么替换分支的第一个节点
       BRANCH_KEYS.forEach(key => {
         node[key] = target[key]
