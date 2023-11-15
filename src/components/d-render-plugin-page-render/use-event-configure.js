@@ -70,6 +70,16 @@ const eventHandleMap = {
           drPageRender.dataBus(item.config.otherKey[1], _value.page.total)
         } else if (item.config.type === 'blockViewChart') {
           drPageRender.dataBus(event.target, _value.list)
+        } else if (item.config.type === 'lineChart') {
+          drPageRender.dataBus(event.target, _value.list)
+        } else if (item.config.type === 'barChart') {
+          drPageRender.dataBus(event.target, _value.list)
+        } else if (item.config.type === 'pieChart') {
+          drPageRender.dataBus(event.target, _value.list)
+        } else if (item.config.type === 'scatterChart') {
+          drPageRender.dataBus(event.target, _value.list)
+        } else if (item.config.type === 'sankeyChart') {
+          drPageRender.dataBus(event.target, _value.list)
         } else {
           drPageRender.dataBus(event.target, _value)
         }

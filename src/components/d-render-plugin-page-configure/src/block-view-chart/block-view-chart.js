@@ -1,5 +1,5 @@
 import { generateFieldList } from 'd-render'
-import { addConfigPrefix, xField, yField, handelLabelSizeOptions } from '../utils'
+import { addConfigPrefix, xField, yField, handelLabelSizeOptions } from '../../utils'
 import { centerService } from '@/api'
 import req from '@cip/request'
 
@@ -192,7 +192,7 @@ export default {
 }
 
 export const cssConfigure = {
-  __collapse: {
+  __collapse1: {
     type: 'collapse',
     options: [
       {
@@ -400,7 +400,23 @@ export const cssConfigure = {
             }
           }
         ))
-      },
+      }
+    ]
+  },
+  __collapse2: {
+    type: 'staticInfo',
+    staticInfo: '测试',
+    fontSize: 13,
+    fontWeight: 'bold',
+    inputStyle: {
+      paddingLeft: '12px',
+      height: '20px',
+      lineHeight: '36px'
+    }
+  },
+  __collapse3: {
+    type: 'collapse',
+    options: [
       {
         title: '标签',
         children: generateFieldList(addConfigPrefix(

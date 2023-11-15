@@ -206,6 +206,36 @@ export const componentsGroupList = [
     label: '图形',
     components: [
       {
+        type: 'barChart',
+        icon: 'el-icon-s-operation',
+        label: '柱状图',
+        hideLabel: true
+      },
+      {
+        type: 'lineChart',
+        icon: 'el-icon-s-operation',
+        label: '折线图',
+        hideLabel: true
+      },
+      {
+        type: 'scatterChart',
+        icon: 'el-icon-s-operation',
+        label: '散点图',
+        hideLabel: true
+      },
+      {
+        type: 'pieChart',
+        icon: 'el-icon-s-operation',
+        label: '饼图',
+        hideLabel: true
+      },
+      {
+        type: 'sankeyChart',
+        icon: 'el-icon-s-operation',
+        label: '桑基图',
+        hideLabel: true
+      },
+      {
         type: 'blockViewChart',
         icon: 'el-icon-s-operation',
         label: '图形配置',
