@@ -26,6 +26,7 @@ export default {
   setFx: () => () => import('./set-fx'),
   selectVar: () => () => import('./select-var'),
   pageVar: () => () => import('./page-var'),
+  pageFx: () => () => import('./page-fx'),
   tabsLayout: {
     component: () => () => import('./tabs-layout'),
     layout: true
@@ -34,6 +35,7 @@ export default {
   'field-table': () => () => import('./field-table'),
   curdConfig: () => () => import('./curdConfig'),
   'select-api': () => () => import('./select-api'),
+  'select-api-tree': () => () => import('./select-api-tree'),
   chartMargin: () => () => import('./block-view-chart/chart-margin/index'),
   xAxis: () => () => import('./block-view-chart/x-axis/index'),
   yAxis: () => () => import('./block-view-chart/y-axis/index'),

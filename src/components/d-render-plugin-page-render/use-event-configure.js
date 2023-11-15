@@ -54,25 +54,20 @@ const eventHandleMap = {
     const _value = getVarValue(event.value, drPageRender.variables, drPageRender.model)
     // 给组件赋值
     if (event.type === 'module') {
-      // 值来自api接口返回结果
-      if (event.source === 'api') {
-        const item = getListConfigByKey(drPageRender.fieldList, event.target)
-        if (item.config.type === 'curd') {
-          const pageTable = getListConfigByType([item], 'pageTable')
-          drPageRender.dataBus(pageTable.key, _value.list)
-          const pagination = getListConfigByType([item], 'pagination')
-          drPageRender.dataBus(pagination.config.otherKey[0], _value.page.pageNum)
-          drPageRender.dataBus(pagination.config.otherKey[1], _value.page.total)
-        } else if (item.config.type === 'pageTable') {
-          drPageRender.dataBus(event.target, _value.list)
-        } else if (item.config.type === 'pagination') {
-          drPageRender.dataBus(item.config.otherKey[0], _value.page.pageNum)
-          drPageRender.dataBus(item.config.otherKey[1], _value.page.total)
-        } else if (item.config.type === 'blockViewChart') {
-          drPageRender.dataBus(event.target, _value.list)
-        } else {
-          drPageRender.dataBus(event.target, _value)
-        }
+      const item = getListConfigByKey(drPageRender.fieldList, event.target)
+      if (item.config.type === 'curd') {
+        const pageTable = getListConfigByType([item], 'pageTable')
+        drPageRender.dataBus(pageTable.key, _value.list)
+        const pagination = getListConfigByType([item], 'pagination')
+        drPageRender.dataBus(pagination.config.otherKey[0], _value.page.pageNum)
+        drPageRender.dataBus(pagination.config.otherKey[1], _value.page.total)
+      } else if (item.config.type === 'pageTable') {
+        drPageRender.dataBus(event.target, _value.list)
+      } else if (item.config.type === 'pagination') {
+        drPageRender.dataBus(item.config.otherKey[0], _value.page.pageNum)
+        drPageRender.dataBus(item.config.otherKey[1], _value.page.total)
+      } else if (item.config.type === 'blockViewChart') {
+        drPageRender.dataBus(event.target, _value.list)
       } else {
         drPageRender.dataBus(event.target, _value)
       }
@@ -232,3 +227,91 @@ export function getListConfigByKey (list, key) {
 export function getListConfigByType (list, type) {
   return getListConfig(list, type, 'type')
 }
+
+export function downloadFile (res) {
+  // filename放到相应头里，因为返回的数据是二进制流
+  const filename = res.headers.filename
+  const stream = res.data
+  const blob = new Blob([stream])
+  const eLink = document.createElement('a')
+  eLink.download = filename
+  eLink.style.display = 'none'
+  eLink.href = URL.createObjectURL(blob)
+  document.body.appendChild(eLink)
+  eLink.click()
+  URL.revokeObjectURL(eLink.href)
+  document.body.removeChild(eLink)
+}
+
+const fxVal = [
+  {
+    type: 'operate',
+    value: 'lb',
+    desc: '('
+  },
+  {
+    desc: '7',
+    value: '7',
+    type: 'constant'
+  },
+  {
+    type: 'operate',
+    value: 'multi',
+    desc: '×'
+  },
+  {
+    type: 'operate',
+    value: 'lb',
+    desc: '('
+  },
+  {
+    desc: '5',
+    value: '5',
+    type: 'constant'
+  },
+  {
+    type: 'operate',
+    value: 'plus',
+    desc: '+'
+  },
+  {
+    desc: '3',
+    value: '3',
+    type: 'constant'
+  },
+  {
+    type: 'operate',
+    value: 'rb',
+    desc: ')'
+  },
+  {
+    type: 'operate',
+    value: 'rb',
+    desc: ')'
+  },
+  {
+    type: 'operate',
+    value: 'plus',
+    desc: '+'
+  },
+  {
+    desc: '2',
+    value: '2',
+    type: 'constant'
+  }
+]
+
+export function getFxValue (list) {
+  let _value
+  function deepComputed (list) {
+    list.forEach(item => {
+      if (item.type === 'operate' && item.value === 'lb') {
+        console.log(item)
+      }
+    })
+  }
+
+  deepComputed(list)
+  return _value
+}
+getFxValue(fxVal)

@@ -1,4 +1,4 @@
-import { defineComponent, reactive, watch } from 'vue'
+import { defineComponent, reactive, watch, inject } from 'vue'
 import { ElInput, ElIcon, ElTooltip } from 'element-plus'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import CipSvgIcon from '@cip/components/cip-svg-icon'
@@ -18,11 +18,12 @@ export default defineComponent({
   setup (props, ctx) {
     const { proxyValue, proxyOtherValue, securityConfig } = useFormInput(props, ctx)
     if (!proxyValue.value) proxyValue.value = []
+    const drDesign = inject('drDesign', {})
     const state = reactive({
       readonly: false,
       str: ''
     })
-    const { state: fxState, render } = useFxDialog(proxyValue, securityConfig.value, state)
+    const { state: fxState, render } = useFxDialog(proxyValue, proxyOtherValue, securityConfig.value, drDesign, state)
 
     function onClear () {
       proxyValue.value = []
@@ -46,7 +47,6 @@ export default defineComponent({
     }, { immediate: true })
 
     function updateModelValue (v) {
-      console.log(v)
       if (state.readonly) return false
       proxyValue.value = [{ desc: v, value: v, type: 'constant' }]
       fxState.list = [{ desc: v, value: v, type: 'constant' }]
@@ -58,7 +58,6 @@ export default defineComponent({
         suffix: () => <ElIcon style="cursor: pointer" onClick={() => { fxState.isShow = true }}><CipSvgIcon name="function" /></ElIcon>
       }}</ElInput>
     }
-
     return () => <>
       {state.readonly ? <ElTooltip content={state.str} placement="top">{genContent()}</ElTooltip> : genContent()}
       {render()}

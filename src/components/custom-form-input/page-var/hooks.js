@@ -53,7 +53,7 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign) {
   }
 
   function getApiResults () {
-    return (drDesign.schema?.apiList || []).map(api => ({
+    return (drDesign.schema?.apiList || []).filter(api => !api.isFileDown).map(api => ({
       title: api.name,
       name: api.objId,
       source: 'api'

@@ -7,7 +7,7 @@ import CipMessage from '@cip/components/cip-message'
 import CipMessageBox from '@cip/components/cip-message-box'
 import DrPage from './component.jsx'
 import axiosInstance from '@/views/app/pages/api'
-import { getVarValue, handleEvent } from '@/components/d-render-plugin-page-render/use-event-configure'
+import { getVarValue, handleEvent, downloadFile } from '@/components/d-render-plugin-page-render/use-event-configure'
 const utils = sharedUtils
 utils.$message = CipMessage
 utils.$messageBox = CipMessageBox
@@ -85,7 +85,7 @@ export default {
     const apiList = computed(() => {
       const _apiList = securityScheme.value.apiList.reduce((total, current) => {
         total[current.name] = async function (options) {
-          const params = current.inputParams.reduce((total, current) => {
+          const params = current.inputParams?.reduce((total, current) => {
             if (current.name === '&') {
               const _obj = getVarValue(current.value, variables.value, props.model) || {}
               Object.assign(total, _obj)
@@ -105,16 +105,23 @@ export default {
             return total
           }, {})
 
-          await axiosInstance({
+          const axiosArg = {
             url: current.fullPath,
             method: current.httpMethod,
             headers,
             params
-          }).then(({ data }) => {
-            if (current.objId) {
-              variables.value[current.objId] = data.data
-            }
-          })
+          }
+
+          if (current.isFileDown) {
+            axiosArg.responseType = 'blob'
+            await axiosInstance(axiosArg).then(res => downloadFile(res))
+          } else {
+            await axiosInstance(axiosArg).then(({ data }) => {
+              if (current.objId) {
+                variables.value[current.objId] = data.data
+              }
+            })
+          }
         }
         return total
       }, {})

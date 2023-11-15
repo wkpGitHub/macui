@@ -45,6 +45,7 @@ export default {
     label: '查询接口',
     dependOn: ['options', 'key'],
     onChange ({ row, api, updateDataModel, dependOn, getListConfigByType }) {
+      debugger
       const children = []
       dependOn.options?.forEach(o => o.children && children.push(...o.children))
       const searchForm = getListConfigByType(children, 'searchForm')

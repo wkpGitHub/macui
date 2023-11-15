@@ -1,8 +1,9 @@
 import { reactive, computed, withModifiers } from 'vue'
 import CipDialog from '@cip/components/cip-dialog'
-import { ElTag, ElCard } from 'element-plus'
+import { ElCard } from 'element-plus'
 import CipTree from '@cip/components/cip-tree'
-import cipStore from '@cip/components/store'
+// import cipStore from '@cip/components/store'
+import { getModuleTree } from '@/components/d-render-plugin-page-render/use-event-configure'
 
 const operateTreeOpts = [
   {
@@ -14,14 +15,13 @@ const operateTreeOpts = [
   }
 ]
 
-export function useFxDialog (proxyValue, config, inputState) {
-  const { parentState } = config
-  const dateTypeMap = computed(() => {
-    return cipStore.state.dataType.reduce((total, current) => {
-      total[current.id] = current
-      return total
-    }, {})
-  })
+export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inputState) {
+  // const dateTypeMap = computed(() => {
+  //   return cipStore.state.dataType.reduce((total, current) => {
+  //     total[current.id] = current
+  //     return total
+  //   }, {})
+  // })
 
   function onConfirm (resolve) {
     // const { selectNode } = parentState
@@ -77,40 +77,6 @@ export function useFxDialog (proxyValue, config, inputState) {
       return item.desc
     }
   }
-
-  const canSelectTarget = computed(() => {
-    const targets = []
-    console.log(parentState.selectNode)
-    const { parent, index } = parentState.selectNode
-    parent.children.forEach((n, i) => {
-      const children = (n.config?.selectFields || n.config?.initFields || n.config?.dataFields || []).map(sel => ({
-        label: sel.title,
-        value: n.config.targetName + '.' + sel.name,
-        dataType: sel.dataType
-      }))
-      if (n.config?.targetName && i < index) {
-        targets.push({
-          label: n.config.targetName,
-          value: n.config.targetName,
-          dataType: n.config.dataType || 'ENTITY',
-          children
-        })
-      }
-    })
-    function deepAdd (parent) {
-      if (parent.config?.targetName) {
-        const children = (parent.config?.selectFields || []).map(sel => ({
-          label: sel.title,
-          value: sel.targetName,
-          dataType: sel.dataType
-        }))
-        targets.push({ label: parent.config.title, value: parent.config.targetName, dataType: parent.config.dataType || 'ENTITY', children })
-      }
-      if (parent.parent) deepAdd(parent.parent)
-    }
-    deepAdd(parent)
-    return targets
-  })
 
   const operateList = [
     [
@@ -295,36 +261,68 @@ export function useFxDialog (proxyValue, config, inputState) {
     state.current.index++
   }
 
+  function getEventVars () {
+    const children = []
+    function getModules (list) {
+      // eslint-disable-next-line array-callback-return
+      list.forEach((item) => {
+        if (item.config?.events) {
+          Object.values(item.config.events).forEach(e => {
+            children.push({
+              name: `${item.key}_${e.type}`,
+              title: `${item.key}_${e.label}`,
+              source: 'event'
+            })
+          })
+        }
+        if (item.config?.options) {
+          const _children = []
+          item.config.options?.forEach(o => o.children && _children.push(...o.children))
+          getModules(_children)
+        }
+      })
+    }
+    getModules(drDesign.schema?.list)
+    return children
+  }
+
+  function getApiResults () {
+    return (drDesign.schema?.apiList || []).filter(api => !api.isFileDown).map(api => ({
+      title: api.name,
+      name: api.objId,
+      source: 'api'
+    }))
+  }
+
   const varTreeOpts = computed(() => {
-    const { globalValue, inputParams } = parentState.rootNode
     return [
       {
-        label: '全局变量',
-        children: globalValue.map(item => ({ label: item.title, value: `global.${item.name}`, dataType: item.dataType }))
+        title: '页面变量',
+        disabled: true,
+        children: drDesign.schema.variables
       },
       {
-        label: '服务入参',
-        children: inputParams.map(item => ({ label: item.title, value: `inputParams.${item.name}`, dataType: item.dataType }))
-      },
-      // {
-      //   label: '服务出参',
-      //   children: outParams.map(item => ({ label: item.title, value: `outParams.${item.name}`, dataType: item.dataType }))
-      // },
-      {
-        label: '上下文',
-        children: canSelectTarget.value
+        title: '事件动作',
+        disabled: true,
+        children: getEventVars()
       },
       {
-        label: '系统变量',
-        children: []
+        title: '接口返回数据',
+        disabled: true,
+        children: getApiResults()
+      },
+      {
+        title: '组件',
+        disabled: true,
+        children: getModuleTree(true, drDesign)
       }
     ]
   })
 
   function renderTreeItem ({ node, data }) {
-    return <div style='display: flex;align-items: center;justify-content: space-between;' onClick={() => data.value && selectVar(data.label, data.value)}>
-      <span>{data.label}</span>
-      {dateTypeMap.value[data.dataType] && <ElTag>{dateTypeMap.value[data.dataType]?.name}</ElTag>}
+    return <div style='display: flex;align-items: center;justify-content: space-between;' onClick={() => data.name && selectVar(data.title, data.name)}>
+      <span>{data.title}</span>
+      {/* {dateTypeMap.value[data.dataType] && <ElTag>{dateTypeMap.value[data.dataType]?.name}</ElTag>} */}
     </div>
   }
 

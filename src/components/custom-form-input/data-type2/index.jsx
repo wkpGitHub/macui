@@ -10,7 +10,7 @@ export default defineComponent({
   emits: fromInputEmits,
   setup (props, ctx) {
     const { proxyValue, proxyOtherValue, securityConfig } = useFormInput(props, ctx, { maxOtherKey: 1 })
-    const complexType = ['ENTITY', 'POJO']
+    const complexType = ['ENTITY', 'POJO', 'DIC']
     const showAllLevels = computed(() => {
       return securityConfig.value.showAllLevels
     })
@@ -33,6 +33,8 @@ export default defineComponent({
         return tempOps?.datasources || []
       } else if (proxyValue.value === 'POJO') {
         return tempOps?.pojos || []
+      } else if (proxyValue.value === 'DIC') {
+        return tempOps?.dics || []
       } else {
         return []
       }
