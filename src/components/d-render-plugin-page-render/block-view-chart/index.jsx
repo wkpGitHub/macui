@@ -13,8 +13,8 @@ export default {
 
     const option = computed(() => {
       console.log('~~~~~~securityConfig.value~~~~', securityConfig.value)
-      const { chartType, yAxis } = securityConfig.value
-      const dataList = { source: proxyValue.value ? proxyValue.value : yAxis.data || [] }
+      const { chartType, yAxis = {} } = securityConfig.value
+      const dataList = { source: proxyValue.value ? proxyValue.value : yAxis?.data || [] }
       const chartTypeToFunction = {
         barline: useChartBarLine,
         scatter: useChartBarLine,

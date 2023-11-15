@@ -8,9 +8,9 @@ export default {
   setup (props, context) {
     const { componentSlots } = useComponentSlots(props, context)
     return () => {
-      const { options, type, ...attr } = props.config
+      const { options, type, hideItem, ...attr } = props.config
       const { dialog, ...layoutSlots } = componentSlots.value
-      return <div>
+      return !hideItem && <div>
         <CipPageLayoutList {...attr} v-slots={layoutSlots} />
         {dialog?.()}
       </div>

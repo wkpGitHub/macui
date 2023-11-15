@@ -113,10 +113,8 @@ export default {
                   return <div className="event-handle--content__item">
                     <div className="event-handle--content__item--text">{element.eventName}</div>
                     <div className="event-handle--content__item--icon">
-                      <CipButtonText size="small" icon={Edit} type="text"
-                                     onClick={() => handleEdit(element, index)}></CipButtonText>
-                      <CipButtonText size="small" icon={Delete} type="text"
-                                     onClick={() => handleDelete(element, index)}></CipButtonText>
+                      <CipButtonText size="small" icon={Edit} type="text" onClick={() => handleEdit(element, index)}></CipButtonText>
+                      <CipButtonText size="small" icon={Delete} type="text" onClick={() => handleDelete(element, index)}></CipButtonText>
                     </div>
                   </div>
                 }

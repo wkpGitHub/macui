@@ -1,4 +1,5 @@
 export default {
+  input: () => import('./input'),
   grid: () => import('./grid'),
   tree: () => import('./tree'),
   pageLayoutList: () => import('./page-layout/list'),

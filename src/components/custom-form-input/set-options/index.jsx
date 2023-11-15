@@ -1,4 +1,4 @@
-import { defineComponent, ref, watch } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import { CipForm } from 'd-render'
 import { HTTP, formFieldList } from './config'
@@ -8,22 +8,31 @@ export default defineComponent({
   props: formInputProps,
   emits: fromInputEmits,
   setup (props, ctx) {
-    const { proxyValue, proxyOtherValue, securityConfig, width } = useFormInput(props, ctx, { maxOtherKey: 2 })
-    console.log(proxyValue.value, 'kkkk')
+    const { proxyValue, proxyOtherValue, securityConfig, width } = useFormInput(props, ctx, { maxOtherKey: 3 })
     // asyncOptions
     // proxyOtherValue[0]
     // optionProps
     // proxyOtherValue[1]
-    const form = ref({})
-    watch(() => securityConfig.value.isTree, (n) => {
-      form.value.isTree = securityConfig.value.isTree
-    }, {
-      immediate: true
+    // optApiConfig
+    // proxyOtherValue[2]
+    const form = computed(() => {
+      return {
+        options: props.modelValue || [],
+        optionProps: props.otherValue.optionProps,
+        ...(props.otherValue.optApiConfig || {}),
+        isTree: securityConfig.value.isTree
+      }
     })
 
     function emitValue (val) {
       proxyOtherValue[1].value = val.optionProps
       proxyValue.value = val.options
+
+      proxyOtherValue[2].value = {
+        optType: val.optType,
+        optHttp: val.optHttp
+      }
+
       if (val.optType === HTTP) {
         proxyOtherValue[0].value = async function as () {
           const res = await fetch(val.optHttp)
@@ -32,16 +41,15 @@ export default defineComponent({
       } else {
         proxyOtherValue[0].value = undefined
       }
-      console.log(proxyOtherValue, 'proxyOtherValue')
     }
-
     return () => <CipForm
       style={{ width: width.value }}
       model={form.value}
-      onUpdate:model={(val) => { emitValue(val) }}
+      onUpdate:model={(val) => {
+        emitValue(val)
+      }}
       fieldList={formFieldList}
     >
-
     </CipForm>
   }
 })

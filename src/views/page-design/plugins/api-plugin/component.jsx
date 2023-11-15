@@ -1,4 +1,5 @@
 import { CipForm, generateFieldList } from 'd-render'
+import { fieldList } from '@/components/custom-form-input/select-api/config'
 
 const methodsConfigFieldList = generateFieldList({
   apiList: {
@@ -12,51 +13,9 @@ const methodsConfigFieldList = generateFieldList({
       size: 'small'
     },
     formProps: {
-      fieldList: generateFieldList({
-        name: { label: '接口名称' },
-        fullPath: { label: '接口地址' },
-        httpMethod: {
-          label: '请求方式',
-          type: 'select',
-          defaultValue: 'GET',
-          options: [
-            'GET', 'POST'
-          ]
-        },
-        apiId: {
-          hideItem: true,
-          dependOn: ['fullPath'],
-          changeValue () {
-            return { value: Math.random().toString(16).substring(2, 10) }
-          }
-        },
-        objId: {
-          hideItem: true,
-          dependOn: ['apiId'],
-          changeValue ({ apiId }) {
-            return { value: apiId }
-          }
-        },
-        headers: {
-          label: '请求头【key为&，将解构整个对象】',
-          type: 'table',
-          options: generateFieldList({
-            name: { label: 'key', writable: true },
-            value: { label: 'value', writable: true, type: 'pageVar' }
-          })
-        },
-        inputParams: {
-          label: '发送数据【key为&，将解构整个对象】',
-          type: 'table',
-          options: generateFieldList({
-            name: { label: 'key', writable: true },
-            value: { label: 'value', writable: true, type: 'pageVar' }
-          })
-        }
-      })
+      fieldList
     }
   }
-
 })
 
 export default {

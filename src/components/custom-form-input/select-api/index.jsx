@@ -1,130 +1,32 @@
-import { ElCascader } from 'element-plus'
-import { apiConfigService, centerService } from '@/api'
-import { reactive, inject, ref } from 'vue'
+import { ElSelect, ElOption } from 'element-plus'
+import { Plus } from '@element-plus/icons-vue'
+import { centerService } from '@/api'
+import { reactive, inject, computed } from 'vue'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
+import { CipButton } from '@xdp/button'
+import { fieldList } from './config'
+import { CipForm } from 'd-render'
+import CipDialog from '@cip/components/cip-dialog'
+import { getListConfigByKey, getListConfigByType } from '@/components/d-render-plugin-page-render/use-event-configure'
 
 export default {
   name: 'curd-config',
   props: formInputProps,
   emits: fromInputEmits,
   setup (props, ctx) {
-    const optionProps = {
-      label: 'name',
-      value: 'id',
-      emitPath: false
-    }
-
-    const casaderRef = ref()
-
     const state = reactive({
-      apiOptions: [],
-      formVal: {}
+      isShow: false,
+      current: {}
     })
     const { proxyValue } = useFormInput(props, ctx)
 
     const drDesign = inject('drDesign', {})
-    apiConfigService.tree({ }).then(({ data }) => {
-      state.data = data
+    const apiMap = computed(() => {
+      return (drDesign.schema?.apiList || []).reduce((total, current) => {
+        total[current.apiId] = current
+        return total
+      }, {})
     })
-
-    function updateApis (row, key) {
-      if (!drDesign.schema) return
-      const inputParams = [{
-        value: 1,
-        name: 'pageNum'
-      },
-      {
-        name: 'pageSize',
-        value: 20
-      }]
-      if (drDesign.schema.apiList) {
-        const pageMethod = drDesign.schema.apiList.find(m => m.name === key)
-        if (pageMethod) {
-          Object.assign(pageMethod, {
-            httpMethod: row.apiType === 'query' ? 'GET' : 'POST',
-            objId: row.id,
-            apiId: row.id,
-            fullPath: row.fullPath,
-            inputParams
-          })
-        } else {
-          drDesign.schema.apiList.push({
-            name: key,
-            httpMethod: row.apiType === 'query' ? 'GET' : 'POST',
-            objId: row.id,
-            apiId: row.id,
-            fullPath: row.fullPath,
-            // index: drDesign.schema.apiList.length - 1,
-            inputParams
-          })
-        }
-      } else {
-        drDesign.schema.apiList = [{
-          name: key,
-          httpMethod: row.apiType === 'query' ? 'GET' : 'POST',
-          objId: row.id,
-          apiId: row.id,
-          fullPath: row.fullPath,
-          inputParams
-          // index: 0,
-        }]
-      }
-    }
-
-    function updateMethod (key, body, initRun = false) {
-      const { options } = props.dependOnValues
-      if (!drDesign.schema || !options) return
-      let fnBody = ''
-      if (body) {
-        fnBody = body
-      } else {
-        // 根据不同的key，生成不同的代码
-        if (key === 'page') {
-          const filterChildren = options.find(opt => opt.key === 'filter')?.children || []
-          const defaultChildren = options.find(opt => opt.key === 'default')?.children || []
-          const paginationChildren = options.find(opt => opt.key === 'pagination')?.children || []
-          const filterKey = filterChildren[0].key
-          const dataKey = defaultChildren[0].key
-          const pageSize = paginationChildren[0].key
-          const [pageNum, total] = paginationChildren[0]?.config?.otherKey || {}
-          fnBody = `const page = {pageNum: model.${pageNum} || 1, pageSize: model.${pageSize} || 10}
-options && (model.options = options)
-service.page({params:{...model.${filterKey}, ...page, ...model.routerQuery, ...model.options}}).then((res)=>{
-    const {list, page} = res.data.data
-    dataBus('${dataKey}', list)
-    dataBus('${pageSize}', page.pageSize)
-    dataBus('${pageNum}', page.pageNum)
-    dataBus('${total}', page.total)
-})
-      `
-        }
-      }
-
-      if (drDesign.schema.methods) {
-        const pageMethod = drDesign.schema.methods.find(m => m.name === key)
-        if (pageMethod) {
-          pageMethod.body = fnBody
-        } else {
-          drDesign.schema.methods.push({
-            methodName: key,
-            initRun,
-            // 根据不同的key，生成不同的代码
-            body: fnBody,
-            index: drDesign.schema.methods.length - 1,
-            name: key
-          })
-        }
-      } else {
-        drDesign.schema.methods = [{
-          methodName: key,
-          // 根据不同的key，生成不同的代码
-          body: fnBody,
-          initRun,
-          index: 0,
-          name: key
-        }]
-      }
-    }
 
     function updateDataModel (value, label) {
       centerService.getContent(value).then(({ data }) => {
@@ -151,17 +53,62 @@ service.page({params:{...model.${filterKey}, ...page, ...model.routerQuery, ...m
       })
     }
 
-    function onChange (v) {
-      const { data } = casaderRef.value.getCheckedNodes(true)[0] || {}
-      props.config?.onChange({
-        row: data,
-        schema: drDesign.schema,
-        dependOn: props.dependOnValues,
-        updateApis: updateApis.bind(null, data),
-        updateDataModel: updateDataModel.bind(null, v),
-        updateMethod
+    function onChange (value) {
+      centerService.getContent(value).then(({ data }) => {
+        props.config?.onChange({
+          row: data,
+          api: apiMap.value[value],
+          schema: drDesign.schema,
+          dependOn: props.dependOnValues,
+          updateDataModel: updateDataModel.bind(null, value),
+          getListConfigByKey,
+          getListConfigByType
+        })
+      }).catch(() => {
+        props.config?.onChange({
+          row: {},
+          api: apiMap.value[value],
+          schema: drDesign.schema,
+          dependOn: props.dependOnValues,
+          updateDataModel: updateDataModel.bind(null, value),
+          getListConfigByKey,
+          getListConfigByType
+        })
       })
     }
-    return () => <ElCascader style="width: 100%" ref={casaderRef} v-model={proxyValue.value} options={state.data} props={optionProps} onChange={onChange} />
+
+    function saveItem (resolve) {
+      const { current } = state
+      if (drDesign.schema?.apiList) {
+        drDesign.schema.apiList.push(current)
+      } else {
+        drDesign.schema.apiList = [current]
+      }
+      if (current.objId) {
+        const varObj = { name: current.objId, title: `接口${current.name}返回的数据` }
+        if (drDesign.schema.variables) {
+          drDesign.schema.variables.push(varObj)
+        } else {
+          drDesign.schema.variables = [varObj]
+        }
+      }
+      state.isShow = false
+      resolve()
+    }
+
+    function addApi () {
+      state.current = {}
+      state.isShow = true
+    }
+
+    return () => <div style="width: 100%" class="flex">
+      <ElSelect style="flex:auto" v-model={proxyValue.value} onChange={onChange}>
+        {drDesign.schema?.apiList?.map(api => <ElOption label={api.name} value={api.apiId} key={api.apiId} />)}
+      </ElSelect>
+      <CipButton class="ml-1" square icon={Plus} onClick={addApi}></CipButton>
+      <CipDialog title="新增接口" v-model={state.isShow} onConfirm={saveItem} >
+        <CipForm v-model:model={state.current} fieldList={fieldList}></CipForm>
+      </CipDialog>
+    </div>
   }
 }

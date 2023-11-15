@@ -39,6 +39,12 @@ export const handleEvent = async (e, drPageRender, options) => {
       await drPageRender.apiList[event.api](options)
     } else if (eventType === 'setVal') {
       eventHandleMap.setVal(event, drPageRender)
+    } else if (eventType === 'visible') {
+      const item = getListConfigByKey(drPageRender.fieldList, event.target)
+      item.config.hideItem = getVarValue(event.value, drPageRender.variables, drPageRender.model)
+    } else if (eventType === 'disabled') {
+      const item = getListConfigByKey(drPageRender.fieldList, event.target)
+      item.config.disabled = getVarValue(event.value, drPageRender.variables, drPageRender.model)
     }
   }
 }
@@ -116,6 +122,12 @@ export const useEventConfigure = () => {
   return handleEventBridge
 }
 
+export function bindEvent (fn, type, props, e) {
+  const { events, id } = props.config
+  const value = events?.[type]?.value
+  value && fn(value, `${id}_${type}`, e)
+}
+
 // function getModules (list) {
 //   return list.map(item => {
 //     const _item = {}
@@ -154,14 +166,14 @@ export function getModules (list, c, pKey = '', disabledLayout) {
         _item.name = pKey ? `${pKey}.${item.key}` : item.key
         _item.title = item.config.label
         // 是layout继承当前父亲key，否则继承父亲key+当前key
-        _pKey = _item.disabled ? pKey : _item.name
+        _pKey = isLayoutType(item.config.type) ? pKey : _item.name
         c.push(_item)
       }
     } else {
       _item.name = pKey ? `${pKey}.${item.key}` : item.key
       _item.title = item.config.label
       // 是layout继承当前父亲key，否则继承父亲key+当前key
-      _pKey = _item.disabled ? pKey : _item.name
+      _pKey = isLayoutType(item.config.type) ? pKey : _item.name
       c.push(_item)
     }
     if (item.config.options) {
@@ -203,7 +215,7 @@ function getListConfig (list, key, findType = 'key') {
   return _item
 }
 
-function getListConfigByKey (list, key) {
+export function getListConfigByKey (list, key) {
   const keys = key.split('.')
   let _item = { config: {} }
   keys.forEach(k => {
@@ -217,6 +229,6 @@ function getListConfigByKey (list, key) {
   return _item
 }
 
-function getListConfigByType (list, type) {
+export function getListConfigByType (list, type) {
   return getListConfig(list, type, 'type')
 }

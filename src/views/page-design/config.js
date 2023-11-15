@@ -198,7 +198,13 @@ export const componentsGroupList = [
           { key: 'default', children: [] },
           { key: 'handle', children: [] }
         ]
-      },
+      }
+    ]
+  },
+  {
+    groupName: 'charts',
+    label: '图形',
+    components: [
       {
         type: 'blockViewChart',
         icon: 'el-icon-s-operation',

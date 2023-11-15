@@ -7,7 +7,9 @@ export const TYPE_KEY = {
   script: 'script',
   router: 'router',
   api: 'api',
-  setVal: 'setVal'
+  setVal: 'setVal',
+  visible: 'visible',
+  disabled: 'disabled'
 }
 export const EVENT_TYPE = [
   { value: 'method', label: '函数' },
@@ -15,7 +17,9 @@ export const EVENT_TYPE = [
   { value: 'router', label: '页面' },
   { value: 'script', label: '脚本' },
   { value: 'api', label: '接口请求' },
-  { value: 'setVal', label: '赋值' }
+  { value: 'setVal', label: '赋值' },
+  { value: 'visible', label: '隐藏组件' },
+  { value: 'disabled', label: '禁用组件' }
 ]
 
 const getDialogKeyList = (list, result = []) => {
@@ -98,7 +102,7 @@ export function getConfig (drDesign) {
     },
     target: {
       label: '赋值目标',
-      type: 'cascader',
+      type: 'selectTree',
       optionProps: {
         label: 'title',
         value: 'name',
@@ -122,12 +126,33 @@ export function getConfig (drDesign) {
     }
   })
 
+  const visibleFieldList = generateFieldList({
+    target: {
+      label: '目标组件',
+      type: 'selectTree',
+      optionProps: {
+        label: 'title',
+        value: 'name',
+        emitPath: false,
+        checkStrictly: true
+      },
+      options: getModuleTree(false, drDesign)
+    },
+    value: {
+      label: '值',
+      type: 'pageVar',
+      otherKey: 'source'
+    }
+  })
+
   return {
     [TYPE_KEY.method]: methodFieldList,
     [TYPE_KEY.script]: scriptFieldList,
     [TYPE_KEY.openDialog]: openDialogFieldList,
     [TYPE_KEY.router]: routerFieldList,
     [TYPE_KEY.api]: apiFieldList,
-    [TYPE_KEY.setVal]: setValFieldList
+    [TYPE_KEY.setVal]: setValFieldList,
+    [TYPE_KEY.visible]: visibleFieldList,
+    [TYPE_KEY.disabled]: visibleFieldList
   }
 }

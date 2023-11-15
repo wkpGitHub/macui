@@ -43,24 +43,38 @@ export default {
   searchApi: {
     type: 'select-api',
     label: '查询接口',
-    dependOn: ['options'],
-    onChange ({ row, updateApis, updateDataModel, dependOn, updateMethod }) {
-      updateApis('page')
-      // updateMethod('page', null, true)
+    dependOn: ['options', 'key'],
+    onChange ({ row, api, updateDataModel, dependOn, getListConfigByType }) {
+      const children = []
+      dependOn.options?.forEach(o => o.children && children.push(...o.children))
+      const searchForm = getListConfigByType(children, 'searchForm')
+      const pageTable = getListConfigByType(children, 'pageTable')
+      searchForm.config.options[0].children = (row.flow?.inputParams || []).map(opt => getItemConfig(opt))
+      pageTable.config.options[0].children = (row.flow?.outParams || []).map(opt => getItemConfig(opt))
+
+      searchForm.config.events = {
+        search: {
+          label: '查询件',
+          type: 'search',
+          value: [
+            {
+              api: api.name,
+              eventType: 'api',
+              eventName: '接口请求'
+            },
+            {
+              type: 'module',
+              source: 'api',
+              target: dependOn.key,
+              value: '${' + api.objId + '}',
+              eventType: 'setVal',
+              eventName: '赋值'
+            }
+          ]
+        }
+      }
+
       updateDataModel('查询接口')
-      const filterChildren = dependOn.options.find(opt => opt.key === 'filter')?.children || []
-      const defaultChildren = dependOn.options.find(opt => opt.key === 'default')?.children || []
-      centerService.getContent(row.id).then(({ data }) => {
-        const { outParams = [], inputParams = [] } = data.flow || {}
-        if (filterChildren?.length && inputParams.length) {
-          const filterOpts = filterChildren[0].config.options
-          filterOpts[0].children = inputParams.map(opt => getItemConfig(opt))
-        }
-        if (defaultChildren?.length && outParams.length) {
-          const defaultOpts = defaultChildren[0].config.options
-          defaultOpts[0].children = outParams.map(opt => getItemConfig(opt))
-        }
-      })
     }
   }
   // dependOn: {
