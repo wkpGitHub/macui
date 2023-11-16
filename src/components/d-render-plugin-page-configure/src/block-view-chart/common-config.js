@@ -399,6 +399,7 @@ export const yAxisConfig = {
     type: 'colorPicker',
     label: '名称颜色',
     defaultValue: '#333',
+    description: '名称的内容，在数据栏-y轴别名-处编写',
     dependOn: ['config.isShowYAxis'],
     changeConfig: (config, { config: chartConfig }) => {
       if (!chartConfig.isShowYAxis) config.readable = false
@@ -409,6 +410,7 @@ export const yAxisConfig = {
     type: 'select',
     label: '名称字体',
     defaultValue: 12,
+    description: '名称的内容，在数据栏-y轴别名-处编写',
     options: handelLabelSizeOptions(10, 40),
     dependOn: ['config.isShowYAxis'],
     changeConfig: (config, { config: chartConfig }) => {
@@ -420,6 +422,7 @@ export const yAxisConfig = {
     type: 'singleCheckbox',
     label: '轴值',
     defaultValue: true,
+    description: '最小值、最大值、间隔均为数值类型；若不填，则该项视为自动。请确保填写数值能正确计算，否则将无法正常显示轴值。',
     option: {
       value: true,
       inactiveValue: false,
@@ -452,6 +455,7 @@ export const yAxisConfig = {
   yAxisSplitNumber: {
     type: 'number',
     label: '刻度数',
+    description: '期望的坐标轴刻度数量，非最终结果',
     dependOn: ['config.yAxisValue', 'config.isShowYAxis'],
     changeConfig: (config, { config: chartConfig }) => {
       if (chartConfig.yAxisValue || !chartConfig.isShowYAxis) config.readable = false
