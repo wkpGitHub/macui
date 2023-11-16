@@ -22,7 +22,6 @@ export default {
   },
   form: () => () => import('./form'),
   selectTreePanel: () => () => import('./select-tree-panel'),
-  blockViewChart: () => () => import('./block-view-chart'),
   lineChart: () => () => import('./block-view-chart/line-chart'),
   barChart: () => () => import('./block-view-chart/bar-chart'),
   pieChart: () => () => import('./block-view-chart/pie-chart'),

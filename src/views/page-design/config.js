@@ -234,12 +234,6 @@ export const componentsGroupList = [
         icon: 'el-icon-s-operation',
         label: '桑基图',
         hideLabel: true
-      },
-      {
-        type: 'blockViewChart',
-        icon: 'el-icon-s-operation',
-        label: '图形配置',
-        hideLabel: true
       }
     ]
   },

@@ -13,7 +13,6 @@ export default {
   form: () => import('./form-design'),
   entity: () => import('./entity-design'),
   pageHandle: () => import('./page-handle'),
-  blockViewChart: () => import('./block-view-chart/block-view-chart.js'),
   lineChart: () => import('./block-view-chart/line-chart'),
   barChart: () => import('./block-view-chart/bar-chart'),
   pieChart: () => import('./block-view-chart/pie-chart'),

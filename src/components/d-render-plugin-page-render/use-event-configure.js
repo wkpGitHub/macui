@@ -68,8 +68,6 @@ const eventHandleMap = {
         } else if (item.config.type === 'pagination') {
           drPageRender.dataBus(item.config.otherKey[0], _value.page.pageNum)
           drPageRender.dataBus(item.config.otherKey[1], _value.page.total)
-        } else if (item.config.type === 'blockViewChart') {
-          drPageRender.dataBus(event.target, _value.list)
         } else if (item.config.type === 'lineChart') {
           drPageRender.dataBus(event.target, _value.list)
         } else if (item.config.type === 'barChart') {
