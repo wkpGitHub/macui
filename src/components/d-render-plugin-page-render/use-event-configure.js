@@ -302,6 +302,14 @@ export function getFxValue (list, variables, model) {
     return arr[index]
   }
 
+  function length(value) {
+    return value.length
+  }
+
+  function date(value) {
+    return new Date(value)
+  }
+
   return eval(str)
 }
 /* eslint-enable */
