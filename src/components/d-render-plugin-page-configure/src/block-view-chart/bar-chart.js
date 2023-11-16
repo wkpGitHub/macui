@@ -249,6 +249,25 @@ export const cssConfigure = {
         ))
       },
       {
+        title: '高级配置',
+        children: generateFieldList(addConfigPrefix(
+          {
+            advancedConfig: {
+              label: '',
+              type: 'checkbox',
+              options: [
+                { label: '是否翻转', value: 'isReversed' },
+                { label: 'x轴区域缩放', value: 'xDataZoom' },
+                // { label: '是否多y轴', value: 'multiY' },
+                { label: '标注最小最大', value: 'minMax' },
+                { label: '标注平均值', value: 'average' }
+              // { label: '堆叠显示', value: 'stack' }
+              ]
+            }
+          })
+        )
+      },
+      {
         title: '组件样式',
         children: generateFieldList(addConfigPrefix(
           {
@@ -261,33 +280,6 @@ export const cssConfigure = {
                 left: '',
                 bottom: ''
               }
-            }
-          })
-        )
-      }
-    ]
-  }
-}
-
-export const advancedConfigure = {
-  __collapse: {
-    type: 'collapse',
-    options: [
-      {
-        title: '功能设置',
-        children: generateFieldList(addConfigPrefix(
-          {
-            advancedConfig: {
-              label: '高级配置',
-              type: 'checkbox',
-              options: [
-                { label: '是否翻转', value: 'isReversed' },
-                { label: 'x轴区域缩放', value: 'xDataZoom' },
-                // { label: '是否多y轴', value: 'multiY' },
-                { label: '标注最小最大', value: 'minMax' },
-                { label: '标注平均值', value: 'average' }
-              // { label: '堆叠显示', value: 'stack' }
-              ]
             }
           })
         )
