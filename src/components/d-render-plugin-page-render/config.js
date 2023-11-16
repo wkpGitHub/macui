@@ -28,5 +28,6 @@ export default {
   scatterChart: () => () => import('./block-view-chart/scatter-chart'),
   sankeyChart: () => () => import('./block-view-chart/sankey-chart'),
   tree: () => () => import('./tree'),
-  input: () => () => import('./input')
+  input: () => () => import('./input'),
+  select: () => () => import('./select')
 }
