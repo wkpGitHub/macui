@@ -4,6 +4,6 @@ export class FieldConfigurePlugin extends ConfigurePlugin {
   constructor (options) {
     super(options)
     this.Component = FieldConfigure
-    this.config = { name: 'field', title: '字段配置' }
+    this.config = { name: 'field', title: '数据' }
   }
 }

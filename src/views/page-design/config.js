@@ -198,11 +198,41 @@ export const componentsGroupList = [
           { key: 'default', children: [] },
           { key: 'handle', children: [] }
         ]
+      }
+    ]
+  },
+  {
+    groupName: 'charts',
+    label: '图形',
+    components: [
+      {
+        type: 'barChart',
+        icon: 'el-icon-s-operation',
+        label: '柱状图',
+        hideLabel: true
       },
       {
-        type: 'blockViewChart',
+        type: 'lineChart',
         icon: 'el-icon-s-operation',
-        label: '图形配置',
+        label: '折线图',
+        hideLabel: true
+      },
+      {
+        type: 'scatterChart',
+        icon: 'el-icon-s-operation',
+        label: '散点图',
+        hideLabel: true
+      },
+      {
+        type: 'pieChart',
+        icon: 'el-icon-s-operation',
+        label: '饼图',
+        hideLabel: true
+      },
+      {
+        type: 'sankeyChart',
+        icon: 'el-icon-s-operation',
+        label: '桑基图',
         hideLabel: true
       }
     ]

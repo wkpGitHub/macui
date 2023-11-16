@@ -1,10 +1,11 @@
 
-export default function useChartBarLine (securityConfig, dataset) {
+export default function useChartBarLine (securityConfig, dataset, configChartType) {
   const {
-    chartType: configChartType, grid, xAxis, yType, yAxis, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap, isShowLabel, labelSize, labelColor, labelPosition, isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, isShowXAxis = true, xAxisPosition = 'bottom', xAxisNameColor, xAxisNameSize, isShowAxisTick = true, isShowSplitLine = false, isShowAxisLabel = true, axisLabelColor, axisLabelRotate = 0, axisLabelSize,
+    grid, xAxis, yType, yAxis, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap, isShowLabel, labelSize, labelColor, labelPosition, isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, isShowXAxis = true, xAxisPosition = 'bottom', xAxisNameColor, xAxisNameSize, isShowAxisTick = true, isShowSplitLine = false, isShowAxisLabel = true, axisLabelColor, axisLabelRotate = 0, axisLabelSize,
     isShowYAxis = true, yAxisPosition, yAxisNameColor, yAxisNameSize, yAxisValue = true, yAxisMinValue, yAxisMaxValue, yAxisSplitNumber, isShowYAxisTick = false, isShowYSplitLine = true, ySplitLineColor, ySplitLineWidth, isShowYAxisLabel = true, yAxisLabelColor, yAxisLabelRotate = 0, yAxisLabelSize, yAxisLabelFormatType = 'auto', yAxisLabelDecimalNum = 0, yAxisLabelNumUnit = '', yAxisLabelUnitSuffix = '', isShowYAxisLabelMillage = false,
     isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false,
-    isShowLegend = true, legendIcon, legendOrient, legendTextSize, legendTextColor, legendLeft, legendTop
+    isShowLegend = true, legendIcon, legendOrient, legendTextSize, legendTextColor, legendLeft, legendTop,
+    lineStyle = 2, lineSymbol = 'circle', lineSymbolSize = 8, lineSmooth = true, scatterSymbol = 'circle', scatterSymbolSize = 20
   } = securityConfig
 
   const yAxisArr = []
@@ -62,7 +63,7 @@ export default function useChartBarLine (securityConfig, dataset) {
   }
 
   yAxis.columns.forEach((column, index) => {
-    const { name, alias, chartType, field = 'value' } = column
+    const { name, alias, field = 'value' } = column
     yAxisArr.push({
       name: alias,
       type: advancedConfig.includes('isReversed') ? xAxis.xType || 'category' : yType || 'value',
@@ -104,7 +105,7 @@ export default function useChartBarLine (securityConfig, dataset) {
     })
     seriesArr.push({
       name: alias || name,
-      type: configChartType === 'scatter' ? 'scatter' : chartType,
+      type: configChartType,
       itemStyle: colorScheme ? { color: handleColor(colorScheme[index]) } : {},
       markLine: {
         data: markLineDataArr
@@ -122,8 +123,14 @@ export default function useChartBarLine (securityConfig, dataset) {
         show: !!isShowLabel,
         fontSize: labelSize,
         color: labelColor,
-        position: labelPosition
-      }
+        position: configChartType === 'line' ? 'top' : labelPosition
+      },
+      lineStyle: {
+        width: lineStyle
+      },
+      symbol: configChartType === 'scatter' ? scatterSymbol : lineSymbol,
+      symbolSize: configChartType === 'scatter' ? scatterSymbolSize : lineSymbolSize,
+      smooth: lineSmooth
     })
   })
 

@@ -18,7 +18,6 @@ import { FieldConfigurePlugin } from './plugins/field-configure'
 import { PageDrawPlugin } from './plugins/page-draw'
 import { DataModelPlugin } from './plugins/data-model'
 import { CssConfigurePlugin } from './plugins/css'
-import { AdvancedConfigurePlugin } from './plugins/advanced'
 import { VariablesPlugin } from './plugins/variables'
 import { EventsPlugin } from './plugins/events'
 
@@ -80,7 +79,6 @@ export default {
       new ApiPlugin(),
       new DataModelPlugin(),
       new CssConfigurePlugin(),
-      new AdvancedConfigurePlugin(),
       new VariablesPlugin()
     ]
 
