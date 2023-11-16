@@ -77,7 +77,7 @@ export default {
     const variables = computed(() => {
       const _variables = {}
       _variables.routerQuery = route.query
-      securityScheme.value.variables.forEach((current) => {
+      ;(securityScheme.value.variables || []).forEach((current) => {
         _variables[current.name] = getFxValue(current.value || [], _variables, props.model)
       })
       return _variables
