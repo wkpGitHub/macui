@@ -4,15 +4,17 @@ export default {
   category: '网关节点',
   type: 'inclusive-gateway',
   title: '包容网关',
+  labelWidth: '170px',
   formField: generateFieldList(defineFormFieldConfig({
     label: { label: '节点名称', defaultValue: '包容网关' },
-    gatewayType: {
-      label: '节点类型',
-      hideItem: true,
-      defaultValue: 'inclusive'
-    },
     defaultBranch: {
-      label: '不满足时进入'
+      label: '默认优先级',
+      dependOn: ['children'],
+      type: 'select',
+      changeConfig (config, { children }) {
+        config.options = children
+        return config
+      }
     }
   })),
   initData: {

@@ -6,16 +6,20 @@ export default {
   title: '排他网关',
   formField: generateFieldList(defineFormFieldConfig({
     label: { label: '节点名称', defaultValue: '排他网关' },
+    branches: { type: 'custom-priority', label: '调整优先级', otherKey: 'children' },
     gatewayType: {
       label: '节点类型',
       hideItem: true,
       defaultValue: 'xor'
     },
-    branches: {
-      label: '分支优先级'
-    },
     defaultBranch: {
-      label: '默认优先级'
+      label: '默认优先级',
+      dependOn: ['children'],
+      type: 'select',
+      changeConfig (config, { children }) {
+        config.options = children
+        return config
+      }
     }
   })),
   initData: {
