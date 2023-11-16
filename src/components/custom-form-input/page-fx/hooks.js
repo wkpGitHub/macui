@@ -79,14 +79,26 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inpu
     {
       label: '数据处理函数',
       children: [
-        { label: '根据key获取对象值', value: 'Reflect.get' },
-        { label: '获取数组的第n项值', value: 'arrayAt' }
+        { label: '根据key获取对象值', value: 'Reflect.get', info: '根据key获取对象值( 对象 , key )，返回对象中key项的值' },
+        { label: '根据index获取数组值', value: 'arrayAt', info: '根据index获取数组值( 数组 , index )，返回数组中第index项的值' },
+        { label: '计算长度', value: 'length', info: '计算长度( 数组 或 字符串 )，返回数组或字符串的长度' }
+      ]
+    },
+    {
+      label: '文本函数',
+      children: [
+        { label: '去前后空格', value: 'String.prototype.trim.call', info: '去前后空格( 字符串 )' },
+        { label: '去前空格', value: 'String.prototype.trimLeft.call', info: '去前空格( 字符串 )' },
+        { label: '去后空格', value: 'String.prototype.trimRight.call', info: '去后空格( 字符串 )' },
+        { label: '转大写', value: 'String.prototype.toUpperCase.call', info: '转大写( 字符串 )' },
+        { label: '转小写', value: 'String.prototype.toLowerCase.call', info: '转小写( 字符串 )' },
+        { label: '分割字符串', value: 'String.prototype.split.call', info: '分割字符串(字符串, 分隔符)。将文本根据指定片段分割成数组。 示例：`分割字符串("a,b,c", ",")`， 返回 `["a", "b", "c"]`。' }
       ]
     },
     {
       label: '日期函数',
       children: [
-        { label: 'DATE', value: 'Date' }
+        { label: 'DATE', value: 'DATE', info: 'DATE(\'2021-12-06 08:20:00\') 创建日期对象，可以通过特定格式的字符串，或者数值。 需要注意的是，其中月份的数值是从0开始的， 即如果是12月份，你应该传入数值11。' }
       ]
     }
   ]
@@ -128,7 +140,8 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inpu
     ]
   ]
   const state = reactive({
-    list: []
+    list: [],
+    currentFxInfo: ''
   })
 
   function init () {
@@ -258,7 +271,15 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inpu
         value: 'contains'
       },
       'Reflect.get': { type: 'fx', value: 'Reflect.get', desc: '根据key获取对象值', arguments: [[], []] },
-      arrayAt: { type: 'fx', value: 'arrayAt', desc: '获取数组的第n项值', arguments: [[], []] }
+      arrayAt: { type: 'fx', value: 'arrayAt', desc: '根据index获取数组值', arguments: [[], []] },
+      length: { type: 'fx', value: 'length', desc: '计算长度', arguments: [[]] },
+      'String.prototype.trim.call': { type: 'fx', value: 'String.prototype.trim.call', desc: '去前后空格', arguments: [[]] },
+      'String.prototype.trimLeft.call': { type: 'fx', value: 'String.prototype.trimLeft.call', desc: '去前空格', arguments: [[]] },
+      'String.prototype.trimRight.call': { type: 'fx', value: 'String.prototype.trimRight.call', desc: '去后空格', arguments: [[]] },
+      'String.prototype.toUpperCase.call': { type: 'fx', value: 'String.prototype.toUpperCase.call', desc: '转大写', arguments: [[]] },
+      'String.prototype.toLowerCase.call': { type: 'fx', value: 'String.prototype.toLowerCase.call', desc: '转小写', arguments: [[]] },
+      'String.prototype.split.call': { type: 'fx', value: 'String.prototype.split.call', desc: '分割字符串', arguments: [[], [{ type: 'constant', value: ',', desc: ',' }]] },
+      DATE: { type: 'fx', value: 'DATE', desc: '创建日期对象', arguments: [[]] }
       // thereIn: {
       //   type: 'fx',
       //   desc: '属于',
@@ -338,10 +359,14 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inpu
   })
 
   function renderTreeItem ({ node, data }) {
-    return <div style='display: flex;align-items: center;justify-content: space-between;' onClick={() => data.name && selectVar(data.title, data.name)}>
+    return <div style='display: flex;align-items: center;justify-content: space-between;' onClick={() => data.disabled || selectVar(data.title, data.name)}>
       <span>{data.title}</span>
       {/* {dateTypeMap.value[data.dataType] && <ElTag>{dateTypeMap.value[data.dataType]?.name}</ElTag>} */}
     </div>
+  }
+
+  function renderFxItem ({ data }) {
+    return <span onMouseenter={() => { state.currentFxInfo = data.info || '' }}>{data.label}</span>
   }
 
   return {
@@ -377,13 +402,14 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inpu
                   options={operateTreeOpts}
                   showButton={false}
                   config={{
-                    defaultExpandAll: false
+                    defaultExpandAll: false,
+                    renderItem: renderFxItem
                   }}
                   onNodeClick={({ data }) => data.value && selectFx(data.value)}
                 >
                 </CipTree>
             </ElCard>
-            <ElCard shadow="never"></ElCard>
+            <ElCard shadow="never">{state.currentFxInfo}</ElCard>
         </div>
       </CipDialog>
     }
