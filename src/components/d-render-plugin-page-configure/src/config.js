@@ -17,5 +17,6 @@ export default {
   barChart: () => import('./block-view-chart/bar-chart'),
   pieChart: () => import('./block-view-chart/pie-chart'),
   sankeyChart: () => import('./block-view-chart/sankey-chart'),
-  scatterChart: () => import('./block-view-chart/scatter-chart')
+  scatterChart: () => import('./block-view-chart/scatter-chart'),
+  select: () => import('./select')
 }
