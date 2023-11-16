@@ -1,17 +1,18 @@
 // import * as service from '@/api'
 import { ref, reactive, computed, provide, watch } from 'vue'
 import { setFieldValue } from '@d-render/shared'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import * as sharedUtils from '@d-render/shared/utils/util'
 import CipMessage from '@cip/components/cip-message'
 import CipMessageBox from '@cip/components/cip-message-box'
 import DrPage from './component.jsx'
 import axiosInstance from '@/views/app/pages/api'
-import { getVarValue, handleEvent, downloadFile } from '@/components/d-render-plugin-page-render/use-event-configure'
+import { getVarValue, handleEvent, downloadFile, getFxValue } from '@/components/d-render-plugin-page-render/use-event-configure'
 const utils = sharedUtils
 utils.$message = CipMessage
 utils.$messageBox = CipMessageBox
 utils.getVarValue = getVarValue
+utils.getFxValue = getFxValue
 export default {
   name: 'PageRender',
   props: {
@@ -22,7 +23,7 @@ export default {
   },
   emits: ['update:model'],
   setup (props, { emit, expose }) {
-    // const route = useRoute()
+    const route = useRoute()
     const securityScheme = computed(() => {
       return props.scheme || {}
     })
@@ -74,11 +75,11 @@ export default {
     const router = useRouter()
 
     const variables = computed(() => {
-      const _variables = securityScheme.value.variables.reduce((total, current) => {
-        total[current.name] = current.value || ''
-        return total
-      }, {})
-
+      const _variables = {}
+      _variables.routerQuery = route.query
+      securityScheme.value.variables.forEach((current) => {
+        _variables[current.name] = getFxValue(current.value || [], _variables, props.model)
+      })
       return _variables
     })
 

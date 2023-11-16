@@ -1,4 +1,5 @@
 import { startsWith } from 'lodash-es'
+import { v4 as uuidv4 } from 'uuid'
 
 export const addConfigPrefix = (configObj = {}) => {
   const obj = {}
@@ -28,10 +29,6 @@ export const yField = (field) => {
   return false
 }
 
-export function getId () {
-  return Math.random().toString(16).substring(2, 10)
-}
-
 const configMap = {
   STRING (item) {
     return {
@@ -39,7 +36,7 @@ const configMap = {
         type: 'input',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -49,7 +46,7 @@ const configMap = {
         type: 'input',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -59,7 +56,7 @@ const configMap = {
         type: 'number',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -69,7 +66,7 @@ const configMap = {
         type: 'number',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -79,7 +76,7 @@ const configMap = {
         type: 'number',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -89,7 +86,7 @@ const configMap = {
         type: 'number',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -99,7 +96,7 @@ const configMap = {
         type: 'number',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -109,7 +106,7 @@ const configMap = {
         type: 'date',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -119,7 +116,7 @@ const configMap = {
         type: 'time',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -130,7 +127,7 @@ const configMap = {
         viewType: 'datetime',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -140,7 +137,7 @@ const configMap = {
         type: 'select',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -150,7 +147,7 @@ const configMap = {
         type: 'select',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -160,7 +157,7 @@ const configMap = {
         type: 'select',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   }
@@ -175,7 +172,7 @@ export function getItemConfig (item) {
         type: 'input',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   }

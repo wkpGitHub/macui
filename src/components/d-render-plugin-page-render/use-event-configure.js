@@ -41,17 +41,17 @@ export const handleEvent = async (e, drPageRender, options) => {
       eventHandleMap.setVal(event, drPageRender)
     } else if (eventType === 'visible') {
       const item = getListConfigByKey(drPageRender.fieldList, event.target)
-      item.config.hideItem = getVarValue(event.value, drPageRender.variables, drPageRender.model)
+      item.config.hideItem = getFxValue(event.value, drPageRender.variables, drPageRender.model)
     } else if (eventType === 'disabled') {
       const item = getListConfigByKey(drPageRender.fieldList, event.target)
-      item.config.disabled = getVarValue(event.value, drPageRender.variables, drPageRender.model)
+      item.config.disabled = getFxValue(event.value, drPageRender.variables, drPageRender.model)
     }
   }
 }
 
 const eventHandleMap = {
   setVal (event, drPageRender) {
-    const _value = getVarValue(event.value, drPageRender.variables, drPageRender.model)
+    const _value = getFxValue(event.value, drPageRender.variables, drPageRender.model)
     // 给组件赋值
     if (event.type === 'module') {
       const item = getListConfigByKey(drPageRender.fieldList, event.target)
@@ -243,75 +243,57 @@ export function downloadFile (res) {
   document.body.removeChild(eLink)
 }
 
-const fxVal = [
-  {
-    type: 'operate',
-    value: 'lb',
-    desc: '('
-  },
-  {
-    desc: '7',
-    value: '7',
-    type: 'constant'
-  },
-  {
-    type: 'operate',
-    value: 'multi',
-    desc: '×'
-  },
-  {
-    type: 'operate',
-    value: 'lb',
-    desc: '('
-  },
-  {
-    desc: '5',
-    value: '5',
-    type: 'constant'
-  },
-  {
-    type: 'operate',
-    value: 'plus',
-    desc: '+'
-  },
-  {
-    desc: '3',
-    value: '3',
-    type: 'constant'
-  },
-  {
-    type: 'operate',
-    value: 'rb',
-    desc: ')'
-  },
-  {
-    type: 'operate',
-    value: 'rb',
-    desc: ')'
-  },
-  {
-    type: 'operate',
-    value: 'plus',
-    desc: '+'
-  },
-  {
-    desc: '2',
-    value: '2',
-    type: 'constant'
-  }
-]
-
-export function getFxValue (list) {
-  let _value
-  function deepComputed (list) {
-    list.forEach(item => {
-      if (item.type === 'operate' && item.value === 'lb') {
-        console.log(item)
+const fxToValueMap = {
+  fx (item, variables, model) {
+    const startText = item.value + '('
+    const endText = ')'
+    let args = ''
+    item.arguments.forEach((argList, argIndex) => {
+      if (argIndex > 0) {
+        args += ','
       }
+      let varItemStr = ' '
+      argList.forEach((varItem, i) => {
+        varItemStr += fxToValueMap[varItem.type](varItem, variables, model)
+        if (i < argList.length - 1) {
+          varItemStr += ' '
+        }
+      })
+      args += varItemStr
     })
+    return startText + args + endText
+  },
+  var (item, variables, model) {
+    // eslint-disable-next-line quotes
+    // return `variables['${item.value}'] || model['${item.value}']`
+    return JSON.stringify(variables[item.value] || model[item.value])
+  },
+  constant (item) {
+    return (isNaN(Number(item.value))) ? `'${item.value}'` : item.value
+  },
+  operate (item) {
+    return item.value
+  }
+}
+/* eslint-disable */
+export function getFxValue (list, variables, model) {
+  let str = ''
+  list.forEach((item, index) => {
+    str += fxToValueMap[item.type](item, variables, model)
+  })
+
+  function isNull (value) {
+    return !value
   }
 
-  deepComputed(list)
-  return _value
+  function isNotNull (value) {
+    return !!value
+  }
+
+  function arrayAt(arr, index) {
+    return arr[index]
+  }
+
+  return eval(str)
 }
-getFxValue(fxVal)
+/* eslint-enable */

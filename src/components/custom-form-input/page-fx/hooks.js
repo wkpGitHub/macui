@@ -5,16 +5,6 @@ import CipTree from '@cip/components/cip-tree'
 // import cipStore from '@cip/components/store'
 import { getModuleTree } from '@/components/d-render-plugin-page-render/use-event-configure'
 
-const operateTreeOpts = [
-  {
-    label: '基础函数',
-    children: [
-      { label: '为空', value: 'isNull' },
-      { label: '不为空', value: 'isNotNull' }
-    ]
-  }
-]
-
 export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inputState) {
   // const dateTypeMap = computed(() => {
   //   return cipStore.state.dataType.reduce((total, current) => {
@@ -78,40 +68,63 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inpu
     }
   }
 
+  const operateTreeOpts = [
+    {
+      label: '基础函数',
+      children: [
+        { label: '为空', value: 'isNull' },
+        { label: '不为空', value: 'isNotNull' }
+      ]
+    },
+    {
+      label: '数据处理函数',
+      children: [
+        { label: '根据key获取对象值', value: 'Reflect.get' },
+        { label: '获取数组的第n项值', value: 'arrayAt' }
+      ]
+    },
+    {
+      label: '日期函数',
+      children: [
+        { label: 'DATE', value: 'Date' }
+      ]
+    }
+  ]
+
   const operateList = [
     [
-      { type: 'operate', value: 'plus', desc: '+' },
-      { type: 'operate', value: 'minus', desc: '-' },
-      { type: 'operate', value: 'multi', desc: '×' },
-      { type: 'operate', value: 'divi', desc: '÷' },
-      { type: 'operate', value: 'mod', desc: 'mod' }
+      { type: 'operate', value: '+', desc: '+' },
+      { type: 'operate', value: '-', desc: '-' },
+      { type: 'operate', value: '*', desc: '×' },
+      { type: 'operate', value: '/', desc: '÷' },
+      { type: 'operate', value: '%', desc: 'mod' }
     ],
     [
-      { type: 'operate', value: 'eq', desc: '=' },
-      { type: 'operate', value: 'ne', desc: '!=' },
-      { type: 'operate', value: 'gt', desc: '>' },
-      { type: 'operate', value: 'lt', desc: '<' },
-      { type: 'operate', value: 'ge', desc: '>=' },
-      { type: 'operate', value: 'le', desc: '<=' }
+      { type: 'operate', value: '=', desc: '=' },
+      { type: 'operate', value: '!=', desc: '!=' },
+      { type: 'operate', value: '>', desc: '>' },
+      { type: 'operate', value: '<', desc: '<' },
+      { type: 'operate', value: '>=', desc: '>=' },
+      { type: 'operate', value: '<=', desc: '<=' }
     ],
     [
-      { type: 'operate', value: 'and', desc: 'and' },
-      { type: 'operate', value: 'or', desc: 'or' },
-      { type: 'operate', value: 'not', desc: 'not' }
+      { type: 'operate', value: '&&', desc: 'and' },
+      { type: 'operate', value: '||', desc: 'or' },
+      { type: 'operate', value: '!', desc: 'not' }
     ],
     [
-      { type: 'operate', value: 'tr', desc: 'true' },
-      { type: 'operate', value: 'fa', desc: 'false' }
+      { type: 'operate', value: 'true', desc: 'true' },
+      { type: 'operate', value: 'false', desc: 'false' }
     ],
     [
-      { type: 'operate', value: 'lb', desc: '(' },
-      { type: 'operate', value: 'rb', desc: ')' }
+      { type: 'operate', value: '(', desc: '(' },
+      { type: 'operate', value: ')', desc: ')' }
     ],
     [
       { type: 'fx', value: 'isNull', desc: '为空', arguments: [[]] },
-      { type: 'fx', value: 'isNotNull', desc: '不为空', arguments: [[]] },
-      { type: 'fx', value: 'contains', desc: '包含', arguments: [[], []] },
-      { type: 'fx', value: 'thereIn', desc: '属于', arguments: [[], []] }
+      { type: 'fx', value: 'isNotNull', desc: '不为空', arguments: [[]] }
+      // { type: 'fx', value: 'contains', desc: '包含', arguments: [[], []] },
+      // { type: 'fx', value: 'thereIn', desc: '属于', arguments: [[], []] }
     ]
   ]
   const state = reactive({
@@ -244,18 +257,20 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inpu
         arguments: [[], []],
         value: 'contains'
       },
-      thereIn: {
-        type: 'fx',
-        desc: '属于',
-        arguments: [[], []],
-        value: 'thereIn'
-      },
-      unitBelongsTo: {
-        type: 'fx',
-        desc: '人员隶属',
-        arguments: [[], []],
-        value: 'unitBelongsTo'
-      }
+      'Reflect.get': { type: 'fx', value: 'Reflect.get', desc: '根据key获取对象值', arguments: [[], []] },
+      arrayAt: { type: 'fx', value: 'arrayAt', desc: '获取数组的第n项值', arguments: [[], []] }
+      // thereIn: {
+      //   type: 'fx',
+      //   desc: '属于',
+      //   arguments: [[], []],
+      //   value: 'thereIn'
+      // },
+      // unitBelongsTo: {
+      //   type: 'fx',
+      //   desc: '人员隶属',
+      //   arguments: [[], []],
+      //   value: 'unitBelongsTo'
+      // }
     }
     state.current.list.splice(state.current.index, 0, fxMap[type])
     state.current.index++
@@ -289,13 +304,16 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inpu
   function getApiResults () {
     return (drDesign.schema?.apiList || []).filter(api => !api.isFileDown).map(api => ({
       title: api.name,
-      name: api.objId,
-      source: 'api'
+      name: api.objId
     }))
   }
 
   const varTreeOpts = computed(() => {
     return [
+      {
+        title: '路由参数',
+        name: 'routerQuery'
+      },
       {
         title: '页面变量',
         disabled: true,

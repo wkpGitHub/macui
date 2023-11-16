@@ -1,4 +1,5 @@
 import { generateFieldList } from 'd-render'
+import { v4 as uuidv4 } from 'uuid'
 
 export const fieldList = generateFieldList({
   name: { label: '接口名称', type: 'select-api-tree', otherKey: '_apiMap' },
@@ -28,7 +29,7 @@ export const fieldList = generateFieldList({
     dependOn: ['_apiMap', 'fullPath'],
     changeValue ({ _apiMap, fullPath }) {
       return {
-        value: _apiMap?.fullPath === fullPath ? _apiMap.id : Math.random().toString(16).substring(2, 10)
+        value: _apiMap?.fullPath === fullPath ? _apiMap.id : uuidv4()
       }
     }
   },

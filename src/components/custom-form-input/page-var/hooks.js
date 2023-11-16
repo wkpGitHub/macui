@@ -36,8 +36,7 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign) {
           Object.values(item.config.events).forEach(e => {
             children.push({
               name: `${item.key}_${e.type}`,
-              title: `${item.key}_${e.label}`,
-              source: 'event'
+              title: `${item.key}_${e.label}`
             })
           })
         }
@@ -55,13 +54,16 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign) {
   function getApiResults () {
     return (drDesign.schema?.apiList || []).filter(api => !api.isFileDown).map(api => ({
       title: api.name,
-      name: api.objId,
-      source: 'api'
+      name: api.objId
     }))
   }
 
   const varTreeOpts = computed(() => {
     return [
+      {
+        title: '路由参数',
+        name: 'routerQuery'
+      },
       {
         title: '页面变量',
         disabled: true,
