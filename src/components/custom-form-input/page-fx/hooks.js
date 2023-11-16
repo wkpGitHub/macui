@@ -112,7 +112,7 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inpu
       { type: 'operate', value: '%', desc: 'mod' }
     ],
     [
-      { type: 'operate', value: '=', desc: '=' },
+      { type: 'operate', value: '==', desc: '=' },
       { type: 'operate', value: '!=', desc: '!=' },
       { type: 'operate', value: '>', desc: '>' },
       { type: 'operate', value: '<', desc: '<' },
@@ -185,7 +185,10 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inpu
       return <div class="variableElem" onClick={withModifiers(() => {}, ['stop'])}>{item.desc}</div>
     },
     constant (item) {
-      return <div class="constantElem" contenteditable onBlur={({ target }) => { item.value = target.textContent }} onClick={withModifiers(() => {}, ['stop'])}>{item.desc}</div>
+      return <div class="constantElem" contenteditable onBlur={({ target }) => {
+        item.value = target.textContent
+        item.desc = target.textContent
+      }} onClick={withModifiers(() => {}, ['stop'])}>{item.desc}</div>
     },
     operate (item) {
       return <div class="operatorElem" onClick={withModifiers(() => {}, ['stop'])}>{item.desc}</div>
