@@ -6,7 +6,7 @@ import './index.less'
 import '../../service-design/ausyda.css'
 import { Ausyda, initFlow } from './ausyda.js'
 import { onMounted, reactive, ref } from 'vue'
-import { useNodes, useNodeSetDialog, useNodeMenu } from './hooks'
+import { useNodeSetDialog, useNodeMenu } from './hooks'
 import { v4 as uuid } from 'uuid'
 
 export default {
@@ -17,7 +17,6 @@ export default {
       rootNode: {},
       selectNode: {}
     })
-    const { render: renderNodes } = useNodes()
     const { state: nodeSetState, render: renderNodeConfig } = useNodeSetDialog()
     const { state: nodeMenuState, render: renderNodeMenu } = useNodeMenu()
     let au = {}
@@ -44,7 +43,7 @@ export default {
         au.on('updateNode', (d) => {
           // 更新节点
           state.selectNode = {}
-          d.isBranch = false
+          d.isBranch = 0
           state.selectNode = d
           state.showRightDraw = true
           nodeSetState.isShow = true
@@ -60,11 +59,11 @@ export default {
         //   au.addBranch(tempNode, node.parent)
         // })
         // 点击分支文字或者线段，修改分支
-        au.on('updateBranch', (branch) => {
+        au.on('updateBranch', (branch, source) => {
           // 更新分支
           // au.updateBranch({ ...branch, expression: '分支新名称' })
           state.selectNode = {}
-          branch.isBranch = true
+          branch.isBranch = source.type === 'parallel-gateway' ? 1 : 2// 0代表没有分支 1代表并行分支 2代表其他分支
           state.selectNode = branch
           nodeSetState.isShow = true
           state.showRightDraw = true
@@ -103,20 +102,13 @@ export default {
 
     return () => <PageLayoutInfo class="flow-design-page">
       <div class="flow-design">
-        <div class="slider-bar" style={{ left: state.showLeftDraw ? '-20px' : '-290px' }}>
-          <div class="expand-icon" onClick={() => switchShowDraw('showLeftDraw')}>
-            <ElIcon>{state.showLeftDraw ? <CaretLeft /> : <CaretRight />}</ElIcon>
-          </div>
-          <header>节点</header>
-          <main>{renderNodes()}</main>
-        </div>
         <main id="api-editor"></main>
         {renderNodeMenu({ nodeClick })}
         <div class="slider-bar" style={{ right: state.showRightDraw ? '-20px' : '-520px', width: '500px' }}>
           <div class="expand-icon expand-right" onClick={() => switchShowDraw('showRightDraw')}>
             <ElIcon>{state.showRightDraw ? <CaretRight /> : <CaretLeft />}</ElIcon>
           </div>
-          <header>{state.selectNode.title}</header>
+          <header>{state.selectNode.isBranch === 0 ? state.selectNode.title : state.selectNode.expression}</header>
           <main>{renderNodeConfig({ node: state.selectNode, updateConfig })}</main>
         </div>
       </div>

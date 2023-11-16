@@ -3,24 +3,15 @@ import { ElCollapse, ElCollapseItem } from 'element-plus'
 import CipButton from '@cip/components/cip-button'
 import { iconHtmlMap } from './ausyda'
 import { CipForm } from 'd-render'
-import createDataRecordsConfig from '../../service-design/comps/auto-entity-add-records'
-import deleteDataRecordsConfig from '../../service-design/comps/auto-entity-delete-records'
-import updateDataRecordsConfig from '../../service-design/comps/auto-entity-update-records'
-import queryDataRecordsConfig from '../../service-design/comps/auto-entity-search-records'
 import examineAndApproveTaskConfig from '../../service-design/comps/examine-and-approve-task'
-import webApiConfig from '../../service-design/comps/web-api'
-import captureTimeConfig from '../../service-design/comps/capture-time'
 import flowConfig from '../../service-design/comps/flow'
 import writeConfig from '../../service-design/comps/write'
 import inclusiveGateWayConfig from '../../service-design/flow-path/inclusive-gateway'
 import exclusiveGateWayConfig from '../../service-design/flow-path/exclusive-gateway'
 import parallelGateWayConfig from '../../service-design/flow-path/parallel-gateway'
-import notifyNodeConfig from '../../service-design/flow-path/notify-node'
-import submitNodeConfig from '../../service-design/flow-path/submit-node'
 import startConfig from '../../service-design/comps/start'
 import endConfig from '../../service-design/comps/end'
 import { allComps } from '../../service-design/comps'
-import { gatewayBranchConfig } from '../../service-design/flow-path/gateway-branch'
 // import { gatewayBranch } from '../../service-design/flow-path/gateway-branch'
 
 const iconClassMap = {
@@ -66,76 +57,34 @@ const iconClassMap = {
   'gateway-branch': 'node-logic'
 }
 
-export function useNodes () {
-  const nodeList = [
-    {
-      title: '人工节点',
-      name: 'rg',
-      children: [examineAndApproveTaskConfig, notifyNodeConfig, writeConfig]
-    },
-    {
-      title: '网关节点',
-      name: 'branch',
-      children: [inclusiveGateWayConfig, exclusiveGateWayConfig, parallelGateWayConfig, gatewayBranchConfig]
-    },
-    {
-      title: '自动节点',
-      name: 'auto',
-      children: [webApiConfig, flowConfig, captureTimeConfig, submitNodeConfig, createDataRecordsConfig, updateDataRecordsConfig, queryDataRecordsConfig, deleteDataRecordsConfig]
-    },
-    {
-      title: '开始结束',
-      name: 'start',
-      children: [startConfig, endConfig]
-    },
-    {
-      title: '高级',
-      name: 'senior',
-      children: []
-    }
-  ]
-  const state = reactive({
-    activeNames: ['rg', 'branch', 'auto', 'start', 'senior']
-  })
-
-  function nodeDragStart ({ title, type }, e) {
-    e.dataTransfer.setData('node', JSON.stringify({ title, type }))
-  }
-
-  return {
-    state,
-    render () {
-      return <ElCollapse v-model={state.activeNames}>
-          {nodeList.map(group => <ElCollapseItem title={group.title} name={group.name}>
-            {group.children.map(item => <CipButton draggable onDragstart={(e) => nodeDragStart(item, e)}><div class={`${iconClassMap[item.type]} mr-2`} v-html={iconHtmlMap[item.type]}></div>{item.title}</CipButton>)}
-          </ElCollapseItem>)}
-        </ElCollapse>
-    }
-  }
-}
-
 export function useNodeSetDialog (props, parentState = {}) {
   const state = reactive({ isShow: false })
   let nodeConfig = {}
   const model = ref({})
   function setNode (node, updateConfig) {
     if (!node.type) return
-    model.value = node.config || {}
-    console.log(allComps)
-    nodeConfig = allComps.find(comp => comp.type === node.type || (comp.type === 'gateway-branch-line' && node.isBranch))
-    if (nodeConfig.formField instanceof Function) {
-      nodeConfig.formField = nodeConfig.formField({ parentState })
+    const children = node.children?.filter(item => (item.type !== 'branch-close')).map(item => ({ label: item.expression, id: item.id, value: item.id }))
+    model.value = { ...node.config, children }
+    if (node.isBranch === 1) {
+      nodeConfig = allComps.find(comp => comp.type === 'gateway-parallel-line')
+    } else if (node.isBranch === 2) {
+      nodeConfig = allComps.find(comp => comp.type === 'gateway-branch-line')
+    } else {
+      nodeConfig = allComps.find(comp => comp.type === node.type)
     }
-    // eslint-disable-next-line array-callback-return
-    nodeConfig.formField.map(v => {
-      v.config.parentState = parentState
-      v.config.changeEffect = async (value, key, data) => {
-        if (key === 'title') node.title = value
-        const _data = data ? { ...data } : {}
-        _data[key] = value
-        updateConfig(_data)
-      }
-    })
+    // if (nodeConfig.formField instanceof Function) {
+    //   nodeConfig.formField = nodeConfig.formField({ parentState })
+    // }
+    // // eslint-disable-next-line array-callback-return
+    // nodeConfig.formField.map(v => {
+    //   v.config.parentState = parentState
+    //   v.config.changeEffect = async (value, key, data) => {
+    //     if (key === 'title') node.title = value
+    //     const _data = data ? { ...data } : {}
+    //     _data[key] = value
+    //     updateConfig(_data)
+    //   }
+    // })
   }
 
   return {
@@ -152,18 +101,18 @@ export function useNodeMenu () {
     {
       title: '人工节点',
       name: 'rg',
-      children: [examineAndApproveTaskConfig, writeConfig, flowConfig, notifyNodeConfig]
+      children: [examineAndApproveTaskConfig, writeConfig, flowConfig]
     },
     {
       title: '网关节点',
       name: 'branch',
-      children: [exclusiveGateWayConfig, inclusiveGateWayConfig, parallelGateWayConfig, gatewayBranchConfig]
+      children: [exclusiveGateWayConfig, inclusiveGateWayConfig, parallelGateWayConfig]
     },
-    {
-      title: '自动节点',
-      name: 'auto',
-      children: [webApiConfig, captureTimeConfig, createDataRecordsConfig, submitNodeConfig, updateDataRecordsConfig, queryDataRecordsConfig, deleteDataRecordsConfig]
-    },
+    // {
+    //   title: '自动节点',
+    //   name: 'auto',
+    //   children: [webApiConfig, captureTimeConfig, createDataRecordsConfig, submitNodeConfig, updateDataRecordsConfig, queryDataRecordsConfig, deleteDataRecordsConfig]
+    // },
     {
       title: '开始结束',
       name: 'start',

@@ -242,6 +242,10 @@ const nodeConfig = {
         d.folded = false
         this.emit('addBranch', d)
       })
+    },
+    update (selection) {
+      selection.select('.icon-expand').attr('title', d => d.folded ? '展开子节点' : '收起子节点').html(d => d.folded ? iconHtmlMap.folded : iconHtmlMap.expand)
+      selection.select('.node-logic').html(d => d.folded ? `<span class="rotate-45 node-children-count">${this.getChildrenSize(d, true)}</span>` : iconHtmlMap.branch)
     }
   },
   'exclusive-gateway': {
@@ -250,14 +254,44 @@ const nodeConfig = {
     enter (selection) {
       selection.append('div').attr('class', 'icon-outer no-background').html(iconHtmlMap['exclusive-gateway'])
       selection.append('span').classed('node-label', true)
+      const toorBar = selection.select('.node-toolbar')
+      toorBar.insert('div', '.trash').attr('class', 'node-tool-outer icon-expand').on('click', d => {
+        d3.event.stopPropagation()
+        d.folded = !d.folded
+        this.update()
+      })
+      toorBar.insert('div', '.icon-expand').attr('class', 'node-tool-outer icon-add').attr('title', '添加分支').html('<div class="line-1"></div><div class="line-2"></div>').on('click', d => {
+        d3.event.stopPropagation()
+        d.folded = false
+        this.emit('addBranch', d)
+      })
+    },
+    update (selection) {
+      selection.select('.icon-expand').attr('title', d => d.folded ? '展开子节点' : '收起子节点').html(d => d.folded ? iconHtmlMap.folded : iconHtmlMap.expand)
+      selection.select('.node-logic').html(d => d.folded ? `<span class="rotate-45 node-children-count">${this.getChildrenSize(d, true)}</span>` : iconHtmlMap.branch)
     }
   },
   'parallel-gateway': {
     x: 140,
     y: 64,
     enter (selection) {
-      selection.append('div').attr('class', 'icon-outer no-background').html(iconHtmlMap['parallel-gateway'])
+      selection.append('div').attr('class', 'icon-outer no-background').html(iconHtmlMap['exclusive-gateway'])
       selection.append('span').classed('node-label', true)
+      const toorBar = selection.select('.node-toolbar')
+      toorBar.insert('div', '.trash').attr('class', 'node-tool-outer icon-expand').on('click', d => {
+        d3.event.stopPropagation()
+        d.folded = !d.folded
+        this.update()
+      })
+      toorBar.insert('div', '.icon-expand').attr('class', 'node-tool-outer icon-add').attr('title', '添加分支').html('<div class="line-1"></div><div class="line-2"></div>').on('click', d => {
+        d3.event.stopPropagation()
+        d.folded = false
+        this.emit('addBranch', d)
+      })
+    },
+    update (selection) {
+      selection.select('.icon-expand').attr('title', d => d.folded ? '展开子节点' : '收起子节点').html(d => d.folded ? iconHtmlMap.folded : iconHtmlMap.expand)
+      selection.select('.node-logic').html(d => d.folded ? `<span class="rotate-45 node-children-count">${this.getChildrenSize(d, true)}</span>` : iconHtmlMap.branch)
     }
   },
   'query-data-records': {
@@ -524,7 +558,7 @@ export class Ausyda {
         if (['path', 'text'].includes(d3.event.target.tagName)) {
           this.links.forEach(link => { link.active = link.id === d.id })
           this.updateLinks()
-          GATEWAY_TYPE.indexOf(d.source?.type) > -1 && this.emit('updateBranch', d.target)
+          GATEWAY_TYPE.indexOf(d.source?.type) > -1 && this.emit('updateBranch', d.target, d.source)
         }
       })
 
@@ -698,17 +732,17 @@ export class Ausyda {
           branchWidth: 140,
           conditionType: 'formula',
           condtions: '1===1',
-          expression: '分支',
+          expression: '分支1',
           id: getId(),
           index: 0,
           left: 0,
-          title: '审核人',
+          title: '审批人',
           top: 276,
           type: 'examine-and-approve-task'
         }, {
           conditionType: 'formula',
           conditions: '1===1',
-          expression: '分支',
+          expression: '分支2',
           id: getId(),
           title: '审批人',
           type: 'examine-and-approve-task'
@@ -1054,7 +1088,7 @@ export class Ausyda {
   addBranch (node, parent) {
     const index = parent.children.length - 1
     parent.children.splice(index, 0, {
-      expression: '分支',
+      expression: '分支' + (index + 1),
       conditionType: 'formula',
       conditions: '1 === 1',
       ...node
