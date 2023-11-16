@@ -15,8 +15,8 @@ export function useEvents (props, securityConfig) {
     const events = securityConfig.value.events || {}
     const eventKeys = Reflect.ownKeys(events)
     return eventKeys.reduce((pre, curr) => {
-      pre[`on${toUpperFirstCase(curr)}`] = function (...arg) {
-        bindEvent(handleEvent, curr, props, arg)
+      pre[`on${toUpperFirstCase(curr)}`] = function (val) {
+        bindEvent(handleEvent, curr, props, val)
       }
       return pre
     }, {})
