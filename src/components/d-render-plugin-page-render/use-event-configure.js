@@ -41,38 +41,41 @@ export const handleEvent = async (e, drPageRender, options) => {
       eventHandleMap.setVal(event, drPageRender)
     } else if (eventType === 'visible') {
       const item = getListConfigByKey(drPageRender.fieldList, event.target)
-      item.config.hideItem = getVarValue(event.value, drPageRender.variables, drPageRender.model)
+      item.config.hideItem = getFxValue(event.value, drPageRender.variables, drPageRender.model)
     } else if (eventType === 'disabled') {
       const item = getListConfigByKey(drPageRender.fieldList, event.target)
-      item.config.disabled = getVarValue(event.value, drPageRender.variables, drPageRender.model)
+      item.config.disabled = getFxValue(event.value, drPageRender.variables, drPageRender.model)
     }
   }
 }
 
 const eventHandleMap = {
   setVal (event, drPageRender) {
-    const _value = getVarValue(event.value, drPageRender.variables, drPageRender.model)
+    const _value = getFxValue(event.value, drPageRender.variables, drPageRender.model)
     // 给组件赋值
     if (event.type === 'module') {
-      // 值来自api接口返回结果
-      if (event.source === 'api') {
-        const item = getListConfigByKey(drPageRender.fieldList, event.target)
-        if (item.config.type === 'curd') {
-          const pageTable = getListConfigByType([item], 'pageTable')
-          drPageRender.dataBus(pageTable.key, _value.list)
-          const pagination = getListConfigByType([item], 'pagination')
-          drPageRender.dataBus(pagination.config.otherKey[0], _value.page.pageNum)
-          drPageRender.dataBus(pagination.config.otherKey[1], _value.page.total)
-        } else if (item.config.type === 'pageTable') {
-          drPageRender.dataBus(event.target, _value.list)
-        } else if (item.config.type === 'pagination') {
-          drPageRender.dataBus(item.config.otherKey[0], _value.page.pageNum)
-          drPageRender.dataBus(item.config.otherKey[1], _value.page.total)
-        } else if (item.config.type === 'blockViewChart') {
-          drPageRender.dataBus(event.target, _value.list)
-        } else {
-          drPageRender.dataBus(event.target, _value)
-        }
+      const item = getListConfigByKey(drPageRender.fieldList, event.target)
+      if (item.config.type === 'curd') {
+        const pageTable = getListConfigByType([item], 'pageTable')
+        drPageRender.dataBus(pageTable.key, _value.list)
+        const pagination = getListConfigByType([item], 'pagination')
+        drPageRender.dataBus(pagination.config.otherKey[0], _value.page.pageNum)
+        drPageRender.dataBus(pagination.config.otherKey[1], _value.page.total)
+      } else if (item.config.type === 'pageTable') {
+        drPageRender.dataBus(event.target, _value.list)
+      } else if (item.config.type === 'pagination') {
+        drPageRender.dataBus(item.config.otherKey[0], _value.page.pageNum)
+        drPageRender.dataBus(item.config.otherKey[1], _value.page.total)
+      } else if (item.config.type === 'lineChart') {
+        drPageRender.dataBus(event.target, _value.list)
+      } else if (item.config.type === 'barChart') {
+        drPageRender.dataBus(event.target, _value.list)
+      } else if (item.config.type === 'pieChart') {
+        drPageRender.dataBus(event.target, _value.list)
+      } else if (item.config.type === 'scatterChart') {
+        drPageRender.dataBus(event.target, _value.list)
+      } else if (item.config.type === 'sankeyChart') {
+        drPageRender.dataBus(event.target, _value.list)
       } else {
         drPageRender.dataBus(event.target, _value)
       }
@@ -232,3 +235,81 @@ export function getListConfigByKey (list, key) {
 export function getListConfigByType (list, type) {
   return getListConfig(list, type, 'type')
 }
+
+export function downloadFile (res) {
+  // filename放到相应头里，因为返回的数据是二进制流
+  const filename = res.headers.filename
+  const stream = res.data
+  const blob = new Blob([stream])
+  const eLink = document.createElement('a')
+  eLink.download = filename
+  eLink.style.display = 'none'
+  eLink.href = URL.createObjectURL(blob)
+  document.body.appendChild(eLink)
+  eLink.click()
+  URL.revokeObjectURL(eLink.href)
+  document.body.removeChild(eLink)
+}
+
+const fxToValueMap = {
+  fx (item, variables, model) {
+    const startText = item.value + '('
+    const endText = ')'
+    let args = ''
+    item.arguments.forEach((argList, argIndex) => {
+      if (argIndex > 0) {
+        args += ','
+      }
+      let varItemStr = ' '
+      argList.forEach((varItem, i) => {
+        varItemStr += fxToValueMap[varItem.type](varItem, variables, model)
+        if (i < argList.length - 1) {
+          varItemStr += ' '
+        }
+      })
+      args += varItemStr
+    })
+    return startText + args + endText
+  },
+  var (item, variables, model) {
+    // eslint-disable-next-line quotes
+    // return `variables['${item.value}'] || model['${item.value}']`
+    return JSON.stringify(variables[item.value] || model[item.value])
+  },
+  constant (item) {
+    return (isNaN(Number(item.value))) ? `'${item.value}'` : item.value
+  },
+  operate (item) {
+    return item.value
+  }
+}
+/* eslint-disable */
+export function getFxValue (list, variables, model) {
+  let str = ''
+  list.forEach((item, index) => {
+    str += fxToValueMap[item.type](item, variables, model)
+  })
+
+  function isNull (value) {
+    return !value
+  }
+
+  function isNotNull (value) {
+    return !!value
+  }
+
+  function arrayAt(arr, index) {
+    return arr[index]
+  }
+
+  function length(value) {
+    return value.length
+  }
+
+  function date(value) {
+    return new Date(value)
+  }
+
+  return new Function(`return ${str}`)()
+}
+/* eslint-enable */

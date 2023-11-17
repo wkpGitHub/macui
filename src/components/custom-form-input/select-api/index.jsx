@@ -84,14 +84,6 @@ export default {
       } else {
         drDesign.schema.apiList = [current]
       }
-      if (current.objId) {
-        const varObj = { name: current.objId, title: `接口${current.name}返回的数据` }
-        if (drDesign.schema.variables) {
-          drDesign.schema.variables.push(varObj)
-        } else {
-          drDesign.schema.variables = [varObj]
-        }
-      }
       state.isShow = false
       resolve()
     }

@@ -45,6 +45,7 @@ export default {
     label: '查询接口',
     dependOn: ['options', 'key'],
     onChange ({ row, api, updateDataModel, dependOn, getListConfigByType }) {
+      debugger
       const children = []
       dependOn.options?.forEach(o => o.children && children.push(...o.children))
       const searchForm = getListConfigByType(children, 'searchForm')
@@ -64,9 +65,10 @@ export default {
             },
             {
               type: 'module',
-              source: 'api',
               target: dependOn.key,
-              value: '${' + api.objId + '}',
+              value: [
+                { type: 'var', value: api.objId, desc: api.name }
+              ],
               eventType: 'setVal',
               eventName: '赋值'
             }

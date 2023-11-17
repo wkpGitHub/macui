@@ -1,4 +1,6 @@
 import { startsWith } from 'lodash-es'
+import { v4 as uuidv4 } from 'uuid'
+import { centerService } from '@/api'
 
 export const addConfigPrefix = (configObj = {}) => {
   const obj = {}
@@ -28,8 +30,20 @@ export const yField = (field) => {
   return false
 }
 
-export function getId () {
-  return Math.random().toString(16).substring(2, 10)
+export const getOutParams = async (searchApi, type) => {
+  let fields = []
+  if (searchApi) {
+    const { data } = await centerService.getContent(searchApi)
+    const { outParams = [] } = data.flow || {}
+    fields = outParams.filter(column => {
+      if (type === 'value') {
+        return yField(column)
+      } else {
+        return xField(column)
+      }
+    })
+  }
+  return fields
 }
 
 const configMap = {
@@ -39,7 +53,7 @@ const configMap = {
         type: 'input',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -49,7 +63,7 @@ const configMap = {
         type: 'input',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -59,7 +73,7 @@ const configMap = {
         type: 'number',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -69,7 +83,7 @@ const configMap = {
         type: 'number',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -79,7 +93,7 @@ const configMap = {
         type: 'number',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -89,7 +103,7 @@ const configMap = {
         type: 'number',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -99,7 +113,7 @@ const configMap = {
         type: 'number',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -109,7 +123,7 @@ const configMap = {
         type: 'date',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -119,7 +133,7 @@ const configMap = {
         type: 'time',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -130,7 +144,7 @@ const configMap = {
         viewType: 'datetime',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -140,7 +154,7 @@ const configMap = {
         type: 'select',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -150,7 +164,7 @@ const configMap = {
         type: 'select',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   },
@@ -160,7 +174,7 @@ const configMap = {
         type: 'select',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   }
@@ -175,7 +189,7 @@ export function getItemConfig (item) {
         type: 'input',
         label: item.title
       },
-      id: getId(),
+      id: uuidv4(),
       key: item.name
     }
   }

@@ -121,8 +121,7 @@ export function getConfig (drDesign) {
     },
     value: {
       label: '值',
-      type: 'pageVar',
-      otherKey: 'source'
+      type: 'pageFx'
     }
   })
 
@@ -140,8 +139,7 @@ export function getConfig (drDesign) {
     },
     value: {
       label: '值',
-      type: 'pageVar',
-      otherKey: 'source'
+      type: 'pageFx'
     }
   })
 

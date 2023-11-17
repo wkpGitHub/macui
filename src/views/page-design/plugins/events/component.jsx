@@ -59,7 +59,7 @@ export default {
 
     const eventTypes = ref([])
     let eventTypeMap = {}
-    watch(() => props.selectItem.config.type, (v) => {
+    watch(() => props.selectItem.config?.type, (v) => {
       getFieldComponentConfigureFieldConfigList(v).then(res => {
         eventTypes.value = res
         eventTypeMap = res.reduce((total, current) => {

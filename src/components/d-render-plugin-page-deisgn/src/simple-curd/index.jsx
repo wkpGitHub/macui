@@ -1,5 +1,5 @@
 import styles from './index.modules.less'
-import { ref, computed, h, inject } from 'vue'
+import { ref, computed, h } from 'vue'
 import { CipForm, CipFormInputTransform } from 'd-render'
 import CipDialog from '@cip/components/cip-dialog'
 import CipButton from '@cip/components/cip-button'
@@ -21,7 +21,6 @@ export const SimpleCurd = {
   setup (props, { emit }) {
     const item = ref({})
     const dialog = ref(false)
-    const drDesign = inject('drDesign', {})
 
     const fromFieldList = computed(() => {
       return props.formProps?.fieldList ?? []
@@ -45,19 +44,7 @@ export const SimpleCurd = {
       } else {
         modelValue = [item.value]
       }
-      if (item.value.objId) {
-        const varObj = { name: item.value.objId, title: `接口${item.value.name}返回的数据` }
-        if (drDesign.schema.variables) {
-          const index = drDesign.schema.variables.findIndex(v => v.name === item.value.objId)
-          if (index > -1) {
-            drDesign.schema.variables.splice(index, 1, varObj)
-          } else {
-            drDesign.schema.variables.push(varObj)
-          }
-        } else {
-          drDesign.schema.variables = [varObj]
-        }
-      }
+
       emitModelValue(modelValue)
       resolve()
     }

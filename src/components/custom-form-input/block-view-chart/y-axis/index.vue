@@ -31,21 +31,6 @@
         </el-input>
       </el-tooltip>
 
-      <el-select
-        v-show="isShow"
-        v-model="item.chartType"
-        filterable
-        style="margin-right: 12px;"
-      >
-        <el-option
-          value="bar"
-          label="柱状图"
-        />
-        <el-option
-          value="line"
-          label="折线图"
-        />
-      </el-select>
       <el-icon style='color: #D9D9D9; cursor: pointer;' @click="deleteYField(index)"><Remove /></el-icon>
     </div>
     <div>
@@ -91,7 +76,7 @@ export default {
       if (!proxyValue.value.columns) {
         proxyValue.value.columns = []
       }
-      proxyValue.value.columns.push({ name: '', field: '', chartType: 'bar', alias: '' })
+      proxyValue.value.columns.push({ name: '', field: '', alias: '' })
       emitModelValue(proxyValue.value)
     }
 
@@ -101,17 +86,12 @@ export default {
       emitModelValue(proxyValue.value)
     }
 
-    const isShow = computed(() => {
-      return !securityConfig.value.chartTypeDisabled
-    })
-
     onMounted(() => {
-      proxyValue.value = proxyValue.value ? proxyValue.value : { columns: [{ name: '', field: '', chartType: 'bar', alias: '' }] }
+      proxyValue.value = proxyValue.value ? proxyValue.value : { columns: [{ name: '', field: '', alias: '' }] }
     })
 
     return {
       proxyValue,
-      isShow,
       yFields,
       addYField,
       deleteYField,

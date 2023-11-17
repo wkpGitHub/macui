@@ -1,40 +1,36 @@
 import { generateFieldList } from 'd-render'
-import { apiConfigService } from '@/api'
-const apiMap = {}
+import { v4 as uuidv4 } from 'uuid'
+
 export const fieldList = generateFieldList({
-  name: { label: '接口名称' },
-  apiId: {
+  name: { label: '接口名称', type: 'select-api-tree', otherKey: '_apiMap' },
+  fullPath: {
     label: '接口地址',
-    type: 'selectTree',
-    checkStrictly: false,
-    optionProps: {
-      label: 'fullPath',
-      value: 'id'
-    },
-    async asyncOptions () {
-      const { data } = await apiConfigService.tree({ })
-      data.forEach(item => {
-        item.fullPath = item.name
-        item.children?.reduce((total, current) => {
-          total[current.id] = current.fullPath
-          return total
-        }, apiMap)
-      })
-      return data
+    dependOn: ['_apiMap'],
+    changeValue ({ _apiMap }) {
+      if (_apiMap) {
+        return { value: _apiMap.fullPath }
+      }
     }
   },
-
   httpMethod: {
     label: '请求方式',
     type: 'select',
     defaultValue: 'GET',
-    options: ['GET', 'POST']
+    dependOn: ['_apiMap'],
+    options: ['GET', 'POST'],
+    changeValue ({ _apiMap }) {
+      if (_apiMap) {
+        return { value: _apiMap.httpMethod }
+      }
+    }
   },
-  fullPath: {
+  apiId: {
     hideItem: true,
-    dependOn: ['apiId'],
-    changeValue ({ apiId }) {
-      return { value: apiMap[apiId] }
+    dependOn: ['_apiMap', 'fullPath'],
+    changeValue ({ _apiMap, fullPath }) {
+      return {
+        value: _apiMap?.fullPath === fullPath ? _apiMap.id : uuidv4()
+      }
     }
   },
   objId: {
@@ -43,6 +39,10 @@ export const fieldList = generateFieldList({
     changeValue ({ apiId }) {
       return { value: apiId }
     }
+  },
+  isFileDown: {
+    type: 'switch',
+    label: '文件下载'
   },
   headers: {
     label: '请求头【key为&，将解构整个对象】',

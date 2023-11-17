@@ -13,5 +13,11 @@ export default {
   form: () => import('./form-design'),
   entity: () => import('./entity-design'),
   pageHandle: () => import('./page-handle'),
-  blockViewChart: () => import('./block-view-chart')
+  lineChart: () => import('./block-view-chart/line-chart'),
+  barChart: () => import('./block-view-chart/bar-chart'),
+  pieChart: () => import('./block-view-chart/pie-chart'),
+  sankeyChart: () => import('./block-view-chart/sankey-chart'),
+  scatterChart: () => import('./block-view-chart/scatter-chart'),
+  select: () => import('./select'),
+  date: () => import('./date-picker')
 }

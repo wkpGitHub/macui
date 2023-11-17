@@ -1,7 +1,7 @@
-import CipInput from '@cip/d-render-plugin-cci/esm/input/basic/input'
+import { ElInput } from 'element-plus'
 // import { CipFormInputTransform } from 'd-render'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
-import { useEventConfigure, bindEvent } from '../use-event-configure'
+import { useEvents } from '../use-event'
 
 export default {
   name: 'input',
@@ -12,11 +12,19 @@ export default {
       proxyValue,
       securityConfig
     } = useFormInput(props, ctx)
-    const handleEvent = useEventConfigure()
+
+    const { eventMap } = useEvents(props, securityConfig)
 
     return () => {
       const { hideItem, ...otherConfig } = securityConfig.value
-      return !hideItem && <CipInput v-model={proxyValue.value} config={otherConfig} onUpdate:modelValue={(e) => bindEvent(handleEvent, 'input', props, e)} />
+
+      return !hideItem && <ElInput
+        modelValue={proxyValue.value}
+        // config={otherConfig}
+        {...otherConfig}
+        onUpdate:modelValue={(e) => { proxyValue.value = e }}
+        {...eventMap.value}
+      />
     }
   }
 }
