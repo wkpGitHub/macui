@@ -7,7 +7,7 @@ export default {
   searchApi: {
     type: 'select-api',
     label: '查询接口',
-    dependOn: ['yAxisColumns'],
+    dependOn: ['yAxis'],
     async onChange ({ api, dependOn }) {
       const { data } = await req({
         method: 'get',
@@ -15,8 +15,13 @@ export default {
         url: `/${api.fullPath}`,
         params: { offset: 0, limit: 10 }
       })
-      dependOn.yAxisColumns.data = data?.list || []
+      dependOn.yAxis.data = data?.list || []
     }
+  },
+  yAxis: {
+    label: 'y轴(度量)',
+    required: true,
+    type: 'yAxis'
   },
   xAxisField: {
     label: '源',
@@ -78,7 +83,7 @@ export const cssConfigure = {
             isShowLabel: {
               type: 'singleCheckbox',
               label: '显示',
-              defaultValue: false,
+              defaultValue: true,
               option: {
                 value: true,
                 inactiveValue: false,
@@ -136,23 +141,6 @@ export const cssConfigure = {
         children: generateFieldList(addConfigPrefix(
           titleConfig
         ))
-      },
-      {
-        title: '组件样式',
-        children: generateFieldList(addConfigPrefix(
-          {
-            grid: {
-              type: 'chartMargin',
-              label: '边距',
-              defaultValue: {
-                top: '',
-                right: '',
-                left: '',
-                bottom: ''
-              }
-            }
-          })
-        )
       }
     ]
   }
