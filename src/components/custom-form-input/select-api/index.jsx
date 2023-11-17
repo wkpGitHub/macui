@@ -8,6 +8,7 @@ import { fieldList } from './config'
 import { CipForm } from 'd-render'
 import CipDialog from '@cip/components/cip-dialog'
 import { getListConfigByKey, getListConfigByType } from '@/components/d-render-plugin-page-render/use-event-configure'
+import axiosInstance from '@/views/app/pages/api'
 
 export default {
   name: 'curd-config',
@@ -50,6 +51,17 @@ export default {
       return { inputModel, outModel }
     }
 
+    function fetchData (api, axiosArg = {}) {
+      debugger
+      return axiosInstance({
+        url: api.fullPath,
+        method: api.httpMethod,
+        ...axiosArg
+      }).then(({ data }) => {
+        return data.data
+      })
+    }
+
     function onChange (value) {
       if (!value) return
       centerService.getContent(value).then(({ data }) => {
@@ -59,6 +71,7 @@ export default {
           schema: drDesign.schema,
           dependOn: props.dependOnValues,
           updateDataModel: updateDataModel.bind(null, data),
+          fetchData: fetchData.bind(null, apiMap.value[value]),
           getListConfigByKey,
           getListConfigByType
         })
@@ -68,7 +81,8 @@ export default {
           api: apiMap.value[value],
           schema: drDesign.schema,
           dependOn: props.dependOnValues,
-          updateDataModel: updateDataModel.bind(null, value),
+          updateDataModel: updateDataModel.bind(null, {}),
+          fetchData: fetchData.bind(null, {}),
           getListConfigByKey,
           getListConfigByType
         })
