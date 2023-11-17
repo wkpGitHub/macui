@@ -23,5 +23,8 @@ export default {
   textarea: () => import('./input'),
   radio: () => import('./radio'),
   checkbox: () => import('./checkbox'),
-  number: () => import('./number')
+  number: () => import('./number'),
+  switch: () => import('./switch'),
+  rate: () => import('./rate'),
+  slider: () => import('./slider')
 }
