@@ -45,14 +45,17 @@ export default {
     label: '查询接口',
     dependOn: ['options', 'key'],
     onChange ({ row, api, updateDataModel, dependOn, getListConfigByType }) {
-      debugger
+      const modelKey = { inputKey: `${dependOn.key}查询接口_入参`, outKey: `${dependOn.key}查询接口_出参` }
+      const { inputModel, outModel } = updateDataModel(modelKey)
       const children = []
       dependOn.options?.forEach(o => o.children && children.push(...o.children))
       const searchForm = getListConfigByType(children, 'searchForm')
       const pageTable = getListConfigByType(children, 'pageTable')
-      searchForm.config.options[0].children = (row.flow?.inputParams || []).map(opt => getItemConfig(opt))
-      pageTable.config.options[0].children = (row.flow?.outParams || []).map(opt => getItemConfig(opt))
-
+      searchForm.config.model = inputModel
+      searchForm.config.options = [{
+        key: 'default',
+        children: (inputModel.children || []).map(opt => getItemConfig(opt))
+      }]
       searchForm.config.events = {
         search: {
           label: '查询件',
@@ -75,8 +78,11 @@ export default {
           ]
         }
       }
-
-      updateDataModel('查询接口')
+      pageTable.config.model = outModel
+      pageTable.config.options = [{
+        key: 'default',
+        children: (outModel.children || []).map(opt => getItemConfig(opt))
+      }]
     }
   }
   // dependOn: {

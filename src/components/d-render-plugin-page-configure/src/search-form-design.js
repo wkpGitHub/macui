@@ -1,3 +1,5 @@
+import { getItemConfig } from '../utils'
+
 export default {
   key: { readable: true },
   label: {},
@@ -5,6 +7,21 @@ export default {
     label: '栅格数',
     defaultValue: 6,
     type: 'number'
+  },
+  model: {
+    label: '数据模型',
+    type: 'selectModule'
+  },
+  options: {
+    dependOn: ['model'],
+    changeValue ({ model }) {
+      return {
+        value: [{
+          key: 'default',
+          children: (model?.children || []).map(opt => getItemConfig(opt))
+        }]
+      }
+    }
   },
   hideSearch: {
     label: '是否隐藏操作按钮',

@@ -1,4 +1,4 @@
-import { nextTick, ref, watch, provide, inject } from 'vue'
+import { nextTick, ref, watch, provide } from 'vue'
 import { CipForm } from 'd-render'
 import { getComponentConfigure } from './config'
 import {
@@ -18,7 +18,7 @@ export default {
   setup (props, { emit }) {
     Reflect.deleteProperty(configureOptionsFieldConfigMap.width, 'defaultValue')
     provide('getSchema', () => props.schema)
-    const drDesign = inject('drDesign', {})
+    // const drDesign = inject('drDesign', {})
     // TODO: 通过源代码修改，修改的值无法正常的回显，因为检测不到selectItem的变化
     const configBridge = ref({})
     watch(() => props.selectItem, (val) => {
@@ -37,39 +37,7 @@ export default {
         console.warn(`form-design: 获取${val}组件配置文件发生错误,使用默认配置进行替换`)
         configure = defaultConfigureOptions()
       }
-      const curdConfig = drDesign.path.find(item => item?.config?.type === 'curd')
-      if (curdConfig && !['curd', 'searchForm', 'pageTable'].includes(configBridge.value.type)) {
-        configure.type = { hideItem: true }
-        return generateFieldList(configure, configureOptionsFieldConfigMap, {
-          key: {
-            type: 'cascader',
-            withObject: true,
-            otherKey: 'keyObj',
-            optionProps: {
-              emitPath: false,
-              checkStrictly: true,
-              disabled (data, node) {
-                return node.level === 1
-              }
-            },
-            asyncOptions: () => drDesign.schema.dataModel
-          },
-          label: {
-            dependOn: ['keyObj'],
-            changeValue ({ keyObj }) {
-              return { value: keyObj.title }
-            }
-          },
-          type: {
-            dependOn: ['keyObj'],
-            changeValue ({ keyObj }) {
-              return { value: keyObj.type }
-            }
-          }
-        })
-      } else {
-        return generateFieldList(configure, configureOptionsFieldConfigMap)
-      }
+      return generateFieldList(configure, configureOptionsFieldConfigMap)
     }
     const fieldComponentConfigureFieldConfigList = ref([])
 
