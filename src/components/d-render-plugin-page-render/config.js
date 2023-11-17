@@ -51,5 +51,11 @@ export default {
       return () => import('@cip/d-render-plugin-cci/esm/input/basic/textarea/view.js')
     }
     return () => import('./textarea')
+  },
+  radio: (mode) => {
+    if (mode === '/view') {
+      return () => import('@cip/d-render-plugin-cci/esm/input/basic/radio/view.js')
+    }
+    return () => import('./radio')
   }
 }

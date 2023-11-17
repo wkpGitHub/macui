@@ -20,5 +20,6 @@ export default {
   scatterChart: () => import('./block-view-chart/scatter-chart'),
   select: () => import('./select'),
   date: () => import('./date-picker'),
-  textarea: () => import('./input')
+  textarea: () => import('./input'),
+  radio: () => import('./radio')
 }
