@@ -310,6 +310,6 @@ export function getFxValue (list, variables, model) {
     return new Date(value)
   }
 
-  return eval(str)
+  return new Function(`return ${str}`)()
 }
 /* eslint-enable */

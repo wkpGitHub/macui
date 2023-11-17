@@ -18,12 +18,7 @@ const curdConfig = {
                 key: 'default',
                 children: []
               }
-            ],
-            search: [{
-              eventType: 'method',
-              eventName: '函数',
-              methods: 'page'
-            }]
+            ]
           }
         }
       ]
@@ -37,8 +32,7 @@ const curdConfig = {
             label: '按钮',
             text: '新增',
             icon: 'el-icon-plus',
-            inputType: 'primary',
-            click: []
+            inputType: 'primary'
           }
         },
         {
@@ -46,8 +40,7 @@ const curdConfig = {
             type: 'button',
             label: '按钮',
             text: '删除',
-            icon: 'el-icon-delete',
-            click: []
+            icon: 'el-icon-delete'
           }
         }
       ]
@@ -83,14 +76,7 @@ const curdConfig = {
             offset: 1,
             otherKey: ['page_num', 'total'],
             layout: 'total,sizes,prev,pager,next,jumper',
-            pageSizes: [5, 10, 15, 20],
-            onRefresh: [
-              {
-                eventType: 'method',
-                eventName: '函数',
-                methods: 'page'
-              }
-            ]
+            pageSizes: [5, 10, 15, 20]
           }
         }
       ]

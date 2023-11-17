@@ -65,9 +65,10 @@ export default {
             },
             {
               type: 'module',
-              source: 'api',
               target: dependOn.key,
-              value: '${' + api.objId + '}',
+              value: [
+                { type: 'var', value: api.objId, desc: api.name }
+              ],
               eventType: 'setVal',
               eventName: '赋值'
             }
