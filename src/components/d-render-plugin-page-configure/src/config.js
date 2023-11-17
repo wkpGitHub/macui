@@ -24,5 +24,6 @@ export default {
   radio: () => import('./radio'),
   checkbox: () => import('./checkbox'),
   number: () => import('./number'),
-  switch: () => import('./switch')
+  switch: () => import('./switch'),
+  rate: () => import('./rate')
 }

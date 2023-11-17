@@ -75,5 +75,11 @@ export default {
       return () => import('@cip/d-render-plugin-cci/esm/input/basic/switch/view.js')
     }
     return () => import('./switch')
+  },
+  rate: (mode) => {
+    if (mode === '/view') {
+      return () => import('@cip/d-render-plugin-cci/esm/input/basic/rate/view.js')
+    }
+    return () => import('./rate')
   }
 }
