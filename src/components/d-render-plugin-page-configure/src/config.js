@@ -25,5 +25,6 @@ export default {
   checkbox: () => import('./checkbox'),
   number: () => import('./number'),
   switch: () => import('./switch'),
-  rate: () => import('./rate')
+  rate: () => import('./rate'),
+  slider: () => import('./slider')
 }
