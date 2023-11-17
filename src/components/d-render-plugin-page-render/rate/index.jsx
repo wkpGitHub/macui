@@ -1,6 +1,6 @@
 import { ElRate } from 'element-plus'
 import { useFormInput, formInputProps, fromInputEmits } from '@d-render/shared'
-import { useRateConfig } from '@cip/cd-render-plugin-cci/esm/input/basic/rate/use-rate-config.js'
+import { useRateConfig } from '@cip/d-render-plugin-cci/esm/input/basic/rate/use-rate-config.js'
 export default {
   props: formInputProps,
   emits: [...fromInputEmits],
