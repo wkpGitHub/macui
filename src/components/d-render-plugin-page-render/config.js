@@ -63,5 +63,11 @@ export default {
       return () => import('@cip/d-render-plugin-cci/esm/input/basic/checkbox/view.js')
     }
     return () => import('./checkbox')
+  },
+  number: (mode) => {
+    if (mode === '/view') {
+      return () => import('@cip/d-render-plugin-cci/esm/input/basic/number/view.js')
+    }
+    return () => import('./number')
   }
 }
