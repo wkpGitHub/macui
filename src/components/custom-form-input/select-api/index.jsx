@@ -1,7 +1,7 @@
 import { ElSelect, ElOption } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { centerService } from '@/api'
-import { reactive, inject, computed } from 'vue'
+import { reactive, inject } from 'vue'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import { CipButton } from '@xdp/button'
 import { fieldList } from './config'
@@ -22,12 +22,6 @@ export default {
     const { proxyValue } = useFormInput(props, ctx)
 
     const drDesign = inject('drDesign', {})
-    const apiMap = computed(() => {
-      return (drDesign.schema?.apiList || []).reduce((total, current) => {
-        total[current.apiId] = current
-        return total
-      }, {})
-    })
 
     function updateDataModel (data, { inputKey, outKey }) {
       const { outParams = [], inputParams = [] } = data.flow || {}
@@ -52,7 +46,6 @@ export default {
     }
 
     function fetchData (api, axiosArg = {}) {
-      debugger
       return axiosInstance({
         url: api.fullPath,
         method: api.httpMethod,
@@ -62,23 +55,23 @@ export default {
       })
     }
 
-    function onChange (value) {
-      if (!value) return
-      centerService.getContent(value).then(({ data }) => {
+    function onChange (api) {
+      if (!api?.apiId) return
+      centerService.getContent(api.apiId).then(({ data }) => {
         props.config?.onChange({
           row: data,
-          api: apiMap.value[value],
+          api,
           schema: drDesign.schema,
           dependOn: props.dependOnValues,
           updateDataModel: updateDataModel.bind(null, data),
-          fetchData: fetchData.bind(null, apiMap.value[value]),
+          fetchData: fetchData.bind(null, api),
           getListConfigByKey,
           getListConfigByType
         })
       }).catch(() => {
         props.config?.onChange({
           row: {},
-          api: apiMap.value[value],
+          api,
           schema: drDesign.schema,
           dependOn: props.dependOnValues,
           updateDataModel: updateDataModel.bind(null, {}),
@@ -106,8 +99,8 @@ export default {
     }
 
     return () => <div style="width: 100%" class="flex">
-      <ElSelect style="flex:auto" v-model={proxyValue.value} onChange={onChange} clearable>
-        {drDesign.schema?.apiList?.map(api => <ElOption label={api.name} value={api.apiId} key={api.apiId} />)}
+      <ElSelect style="flex:auto" v-model={proxyValue.value} onChange={onChange} clearable value-key="apiId">
+        {drDesign.schema?.apiList?.map(api => <ElOption label={api.name} value={api} key={api.apiId} />)}
       </ElSelect>
       <CipButton class="ml-1" square icon={Plus} onClick={addApi}></CipButton>
       <CipDialog title="新增接口" v-model={state.isShow} onConfirm={saveItem} >
