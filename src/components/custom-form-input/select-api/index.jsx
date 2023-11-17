@@ -28,39 +28,37 @@ export default {
       }, {})
     })
 
-    function updateDataModel (value, label) {
-      centerService.getContent(value).then(({ data }) => {
-        const fieldMap = {}
-        const { outParams = [], inputParams = [] } = data.flow || {}
-        inputParams.reduce((total, { name, title }) => {
-          total[name] = { label: `${title}【${name}】`, value: name }
-          return total
-        }, fieldMap)
-        outParams.reduce((total, { name, title }) => {
-          total[name] = { label: `${title}【${name}】`, value: name }
-          return total
-        }, fieldMap)
-        const oldItem = drDesign.schema.dataModel.find(item => item.label === label)
-        if (oldItem) {
-          oldItem.children = Object.values(fieldMap)
-        } else {
-          drDesign.schema.dataModel.push({
-            label,
-            value: Math.random().toString(16).substring(2, 10),
-            children: Object.values(fieldMap)
-          })
+    function updateDataModel (data, { inputKey, outKey }) {
+      const { outParams = [], inputParams = [] } = data.flow || {}
+      let inputModel, outModel
+      if (inputParams.length) {
+        inputModel = {
+          title: inputKey,
+          name: inputKey,
+          children: inputParams
         }
-      })
+        drDesign.schema.dataModel.push(inputModel)
+      }
+      if (outParams.length) {
+        outModel = {
+          title: outKey,
+          name: outKey,
+          children: outParams
+        }
+        drDesign.schema.dataModel.push(outModel)
+      }
+      return { inputModel, outModel }
     }
 
     function onChange (value) {
+      if (!value) return
       centerService.getContent(value).then(({ data }) => {
         props.config?.onChange({
           row: data,
           api: apiMap.value[value],
           schema: drDesign.schema,
           dependOn: props.dependOnValues,
-          updateDataModel: updateDataModel.bind(null, value),
+          updateDataModel: updateDataModel.bind(null, data),
           getListConfigByKey,
           getListConfigByType
         })
@@ -94,7 +92,7 @@ export default {
     }
 
     return () => <div style="width: 100%" class="flex">
-      <ElSelect style="flex:auto" v-model={proxyValue.value} onChange={onChange}>
+      <ElSelect style="flex:auto" v-model={proxyValue.value} onChange={onChange} clearable>
         {drDesign.schema?.apiList?.map(api => <ElOption label={api.name} value={api.apiId} key={api.apiId} />)}
       </ElSelect>
       <CipButton class="ml-1" square icon={Plus} onClick={addApi}></CipButton>

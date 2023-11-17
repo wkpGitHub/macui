@@ -1,6 +1,10 @@
 import { defaultConfigureOptions } from '@d-render/shared'
 export default {
   ...defaultConfigureOptions(),
+  key: {
+    type: 'selectModuleField',
+    otherKey: 'label'
+  },
   events: {
     hideItem: true,
     options: [
