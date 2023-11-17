@@ -45,5 +45,11 @@ export default {
       return () => import('@cip/d-render-plugin-cci/esm/input/basic/date-picker/view.js')
     }
     return () => import('./date-picker')
+  },
+  textarea: (mode) => {
+    if (mode === '/view') {
+      return () => import('@cip/d-render-plugin-cci/esm/input/basic/textarea/view.js')
+    }
+    return () => import('./textarea')
   }
 }

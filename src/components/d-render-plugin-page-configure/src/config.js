@@ -19,5 +19,6 @@ export default {
   sankeyChart: () => import('./block-view-chart/sankey-chart'),
   scatterChart: () => import('./block-view-chart/scatter-chart'),
   select: () => import('./select'),
-  date: () => import('./date-picker')
+  date: () => import('./date-picker'),
+  textarea: () => import('./input')
 }
