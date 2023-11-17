@@ -21,5 +21,6 @@ export default {
   select: () => import('./select'),
   date: () => import('./date-picker'),
   textarea: () => import('./input'),
-  radio: () => import('./radio')
+  radio: () => import('./radio'),
+  checkbox: () => import('./checkbox')
 }

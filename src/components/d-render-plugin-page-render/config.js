@@ -57,5 +57,11 @@ export default {
       return () => import('@cip/d-render-plugin-cci/esm/input/basic/radio/view.js')
     }
     return () => import('./radio')
+  },
+  checkbox: (mode) => {
+    if (mode === '/view') {
+      return () => import('@cip/d-render-plugin-cci/esm/input/basic/checkbox/view.js')
+    }
+    return () => import('./checkbox')
   }
 }
