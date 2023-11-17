@@ -28,7 +28,12 @@ export default {
   scatterChart: () => () => import('./block-view-chart/scatter-chart'),
   sankeyChart: () => () => import('./block-view-chart/sankey-chart'),
   tree: () => () => import('./tree'),
-  input: () => () => import('./input'),
+  input: (mode) => {
+    if (mode === '/view') {
+      return () => import('@cip/d-render-plugin-cci/esm/input/basic/input/view.js')
+    }
+    return () => import('./input')
+  },
   select: (mode) => {
     if (mode === '/view') {
       return () => import('@cip/d-render-plugin-cci/esm/input/basic/select/view.js')
