@@ -29,5 +29,16 @@ export default {
   sankeyChart: () => () => import('./block-view-chart/sankey-chart'),
   tree: () => () => import('./tree'),
   input: () => () => import('./input'),
-  select: () => () => import('./select')
+  select: (mode) => {
+    if (mode === '/view') {
+      return () => import('@cip/d-render-plugin-cci/esm/input/basic/select/view.js')
+    }
+    return () => import('./select')
+  },
+  date: (mode) => {
+    if (mode === '/view') {
+      return () => import('@cip/d-render-plugin-cci/esm/input/basic/date-picker/view.js')
+    }
+    return () => import('./date-picker')
+  }
 }
