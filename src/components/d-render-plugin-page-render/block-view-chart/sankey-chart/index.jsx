@@ -13,8 +13,8 @@ export default {
 
     const option = computed(() => {
       console.log('~~~~~~securityConfig.value~~~~', securityConfig.value)
-      const { yAxisColumns = {} } = securityConfig.value
-      const dataList = { source: proxyValue.value ? proxyValue.value : yAxisColumns?.data || [] }
+      const { yAxis = {} } = securityConfig.value
+      const dataList = { source: proxyValue.value ? proxyValue.value : yAxis?.data || [] }
       return useChartSankey(securityConfig.value, dataList)
     })
 
