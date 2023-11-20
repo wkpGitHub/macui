@@ -109,6 +109,13 @@ export const cssConfigure = {
               showInput: true,
               defaultValue: 2
             },
+            lineType: {
+              type: 'radio',
+              label: '线型',
+              isButton: true,
+              defaultValue: 'solid',
+              options: [{ label: '实线', value: 'solid' }, { label: '虚线', value: 'dashed' }]
+            },
             lineSymbol: {
               type: 'select',
               label: '折点',
