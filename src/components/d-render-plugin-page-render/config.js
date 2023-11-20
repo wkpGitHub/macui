@@ -27,6 +27,7 @@ export default {
   pieChart: () => () => import('./block-view-chart/pie-chart'),
   scatterChart: () => () => import('./block-view-chart/scatter-chart'),
   sankeyChart: () => () => import('./block-view-chart/sankey-chart'),
+  stackAreaChart: () => () => import('./block-view-chart/stack-area-chart'),
   tree: () => () => import('./tree'),
   input: (mode) => {
     if (mode === '/view') {
