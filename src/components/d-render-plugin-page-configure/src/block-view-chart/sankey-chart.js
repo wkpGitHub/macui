@@ -1,57 +1,41 @@
 import { generateFieldList } from 'd-render'
 import { addConfigPrefix, handelLabelSizeOptions, getOutParams } from '../../utils'
 import { tooltipConfig, titleConfig } from './common-config'
-import req from '@cip/request'
 
 export default {
   searchApi: {
     type: 'select-api',
-    label: '查询接口',
-    dependOn: ['yAxis'],
-    async onChange ({ api, dependOn }) {
-      const { data } = await req({
-        method: 'get',
-        apiName: 'apiChr',
-        url: `/${api.fullPath}`,
-        params: { offset: 0, limit: 10 }
-      })
-      dependOn.yAxis.data = data?.list || []
-    }
-  },
-  yAxis: {
-    label: 'y轴(度量)',
-    required: true,
-    type: 'yAxis'
+    label: '查询接口'
   },
   xAxisField: {
     label: '源',
-    dependOn: ['chartType', 'searchApi'],
+    dependOn: ['searchApi'],
     type: 'select',
     required: true,
     optionProps: { label: 'title', value: 'name' },
     asyncOptions: async ({ searchApi }) => {
-      const option = await getOutParams(searchApi)
+      const option = await getOutParams(searchApi?.apiId)
       return option
     }
   },
   yAxisColumns: {
     label: '目标',
-    dependOn: ['chartType', 'searchApi'],
+    dependOn: ['searchApi'],
     type: 'select',
     required: true,
     optionProps: { label: 'title', value: 'name' },
     asyncOptions: async ({ searchApi }) => {
-      const option = await getOutParams(searchApi)
+      const option = await getOutParams(searchApi?.apiId)
       return option
     }
   },
   zAxisField: {
     label: '值',
-    dependOn: ['chartType', 'searchApi'],
+    dependOn: ['searchApi'],
     type: 'select',
     optionProps: { label: 'title', value: 'name' },
     asyncOptions: async ({ searchApi }) => {
-      const option = await getOutParams(searchApi, 'value')
+      const option = await getOutParams(searchApi?.apiId, 'value')
       return option
     }
   },

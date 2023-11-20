@@ -1,21 +1,32 @@
-import { computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useFormInput, formInputProps } from '@d-render/shared'
 import { useEventConfigure, bindEvent } from '../../use-event-configure'
 import useChartBarLine from '../hooks/use-chart-bar-line'
 import Charts from '@/components/charts'
+import req from '@cip/request'
 
 export default {
   name: 'ScatterChart',
   props: formInputProps,
   setup (props, context) {
     const { proxyValue, securityConfig } = useFormInput(props, context)
+    const dataList = ref([])
     const handleEvent = useEventConfigure()
 
     const option = computed(() => {
-      console.log('~~~~~~securityConfig.value~~~~', securityConfig.value)
-      const { yAxis = {} } = securityConfig.value
-      const dataList = { source: proxyValue.value ? proxyValue.value : yAxis?.data || [] }
-      return useChartBarLine(securityConfig.value, dataList, 'scatter')
+      const dataset = { source: proxyValue.value ? proxyValue.value : dataList.value }
+      return useChartBarLine(securityConfig.value, dataset, 'scatter')
+    })
+
+    watch(() => securityConfig.value.searchApi, async (newVal) => {
+      const { fullPath } = newVal
+      const { data } = await req({
+        method: 'get',
+        apiName: 'apiChr',
+        url: `/${fullPath}`,
+        params: { offset: 0, limit: 10 }
+      })
+      dataList.value = data?.list || []
     })
 
     return () => <div style="width: 100%; height: 250px" >
