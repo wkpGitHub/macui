@@ -6,7 +6,7 @@ import Charts from '@/components/charts'
 import req from '@cip/request'
 
 export default {
-  name: 'LineChart',
+  name: 'StackAreaChart',
   props: formInputProps,
   setup (props, context) {
     const { proxyValue, securityConfig } = useFormInput(props, context)
@@ -15,7 +15,7 @@ export default {
 
     const option = computed(() => {
       const dataset = { source: proxyValue.value ? proxyValue.value : dataList.value }
-      return useChartBarLine(securityConfig.value, dataset, 'line')
+      return useChartBarLine(securityConfig.value, dataset, 'stackArea')
     })
 
     watch(() => securityConfig.value.searchApi, async (newVal) => {

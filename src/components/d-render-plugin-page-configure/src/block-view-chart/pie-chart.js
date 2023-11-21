@@ -1,35 +1,19 @@
 import { generateFieldList } from 'd-render'
 import { addConfigPrefix, handelLabelSizeOptions, getOutParams } from '../../utils'
 import { tooltipConfig, titleConfig, legendConfig } from './common-config'
-import req from '@cip/request'
 
 export default {
   searchApi: {
     type: 'select-api',
-    label: '查询接口',
-    dependOn: ['yField'],
-    async onChange ({ api, dependOn }) {
-      const { data } = await req({
-        method: 'get',
-        apiName: 'apiChr',
-        url: `/${api.fullPath}`,
-        params: { offset: 0, limit: 10 }
-      })
-      dependOn.yField.data = data?.list || []
-    }
+    label: '查询接口'
   },
-  // apiData: {
-  //   label: '接口返回的数据',
-  //   type: 'storeData',
-  //   defaultValue: { data: [] }
-  // },
   xField: {
     label: '键字段',
     dependOn: ['searchApi'],
     type: 'select',
     optionProps: { label: 'title', value: 'name' },
     asyncOptions: async ({ searchApi }) => {
-      const option = await getOutParams(searchApi)
+      const option = await getOutParams(searchApi?.apiId)
       return option
     }
   },
@@ -38,7 +22,7 @@ export default {
     type: 'yAxisField',
     dependOn: ['searchApi'],
     changeConfig: async (config, { searchApi }) => {
-      config.yFields = await getOutParams(searchApi, 'value')
+      config.yFields = await getOutParams(searchApi?.apiId, 'value')
       return config
     }
   },

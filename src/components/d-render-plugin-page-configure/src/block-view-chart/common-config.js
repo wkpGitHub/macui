@@ -318,6 +318,41 @@ export const xAxisConfig = {
       return config
     }
   },
+  xSplitLineColor: {
+    type: 'colorPicker',
+    label: '网格线颜色',
+    defaultValue: '#ccc',
+    dependOn: ['config.isShowXAxis', 'config.isShowSplitLine'],
+    changeConfig: (config, { config: chartConfig }) => {
+      if (!chartConfig.isShowSplitLine || !chartConfig.isShowXAxis) config.readable = false
+      return config
+    }
+  },
+  xSplitLineWidth: {
+    type: 'slider',
+    label: '网格线宽度',
+    min: 1,
+    max: 10,
+    showInput: true,
+    defaultValue: 1,
+    dependOn: ['config.isShowXAxis', 'config.isShowSplitLine'],
+    changeConfig: (config, { config: chartConfig }) => {
+      if (!chartConfig.isShowSplitLine || !chartConfig.isShowXAxis) config.readable = false
+      return config
+    }
+  },
+  xSplitLineType: {
+    type: 'radio',
+    label: '网格线类型',
+    isButton: true,
+    defaultValue: 'solid',
+    options: [{ label: '实线', value: 'solid' }, { label: '虚线', value: 'dashed' }, { label: '点', value: 'dotted' }],
+    dependOn: ['config.isShowXAxis', 'config.isShowSplitLine'],
+    changeConfig: (config, { config: chartConfig }) => {
+      if (!chartConfig.isShowSplitLine || !chartConfig.isShowXAxis) config.readable = false
+      return config
+    }
+  },
   isShowAxisLabel: {
     type: 'singleCheckbox',
     label: '标签显示',
@@ -509,6 +544,18 @@ export const yAxisConfig = {
     max: 10,
     showInput: true,
     defaultValue: 1,
+    dependOn: ['config.isShowYAxis', 'config.isShowYSplitLine'],
+    changeConfig: (config, { config: chartConfig }) => {
+      if (!chartConfig.isShowYSplitLine || !chartConfig.isShowYAxis) config.readable = false
+      return config
+    }
+  },
+  ySplitLineType: {
+    type: 'radio',
+    label: '网格线类型',
+    isButton: true,
+    defaultValue: 'solid',
+    options: [{ label: '实线', value: 'solid' }, { label: '虚线', value: 'dashed' }, { label: '点', value: 'dotted' }],
     dependOn: ['config.isShowYAxis', 'config.isShowYSplitLine'],
     changeConfig: (config, { config: chartConfig }) => {
       if (!chartConfig.isShowYSplitLine || !chartConfig.isShowYAxis) config.readable = false

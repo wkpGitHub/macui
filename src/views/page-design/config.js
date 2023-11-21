@@ -220,6 +220,12 @@ export const componentsGroupList = [
         icon: 'el-icon-s-operation',
         label: '桑基图',
         hideLabel: true
+      },
+      {
+        type: 'stackAreaChart',
+        icon: 'el-icon-s-operation',
+        label: '堆叠折线图',
+        hideLabel: true
       }
     ]
   },

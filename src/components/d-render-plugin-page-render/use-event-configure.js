@@ -76,6 +76,8 @@ const eventHandleMap = {
         drPageRender.dataBus(event.target, _value.list)
       } else if (item.config.type === 'sankeyChart') {
         drPageRender.dataBus(event.target, _value.list)
+      } else if (item.config.type === 'stackAreaChart') {
+        drPageRender.dataBus(event.target, _value.list)
       } else {
         drPageRender.dataBus(event.target, _value)
       }
