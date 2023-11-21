@@ -46,5 +46,9 @@ export default {
   'condition-group': () => () => import('./condition-group'),
   colorScheme: () => () => import('./block-view-chart/color-scheme/index'),
   colorPicker: () => () => import('./block-view-chart/color-picker/index'),
-  setOptions: () => () => import('./set-options')
+  setOptions: () => () => import('./set-options'),
+  selectModule: () => () => import('./select-module'),
+  selectModuleField: () => () => import('./select-module-field'),
+  'select-dependOn': () => () => import('./select-dependOn'),
+  'out-dependOn': () => () => import('./out-dependOn')
 }

@@ -103,7 +103,7 @@ export function useFxDialog (proxyValue, config) {
   return {
     state,
     render () {
-      return state.isShow && <CipDialog title={'选择变量'} model-value={true} onUpdate:modelValue={() => { state.isShow = false }} onConfirm={onConfirm} width="400px">
+      return state.isShow && <CipDialog title={'选择变量'} model-value={true} onUpdate:modelValue={() => { state.isShow = false }} onConfirm={onConfirm} width="500px">
         <ElCard shadow="never">
           <CipTree
             options={varTreeOpts.value}

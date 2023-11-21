@@ -58,6 +58,14 @@ export const fieldList = generateFieldList({
     options: generateFieldList({
       name: { label: 'key', writable: true },
       value: { label: 'value', writable: true, type: 'pageVar' }
-    })
+    }),
+    dependOn: ['_apiMap'],
+    changeValue ({ _apiMap }) {
+      console.log('_apiMap', _apiMap)
+      debugger
+      if (_apiMap) {
+        return { value: _apiMap.httpMethod }
+      }
+    }
   }
 })

@@ -1,35 +1,19 @@
 import { generateFieldList } from 'd-render'
 import { addConfigPrefix, handelLabelSizeOptions, getOutParams } from '../../utils'
 import { tooltipConfig, titleConfig, legendConfig } from './common-config'
-import req from '@cip/request'
 
 export default {
   searchApi: {
     type: 'select-api',
-    label: '查询接口',
-    dependOn: ['yField'],
-    async onChange ({ api, dependOn }) {
-      const { data } = await req({
-        method: 'get',
-        apiName: 'apiChr',
-        url: `/${api.fullPath}`,
-        params: { offset: 0, limit: 10 }
-      })
-      dependOn.yField.data = data?.list || []
-    }
+    label: '查询接口'
   },
-  // apiData: {
-  //   label: '接口返回的数据',
-  //   type: 'storeData',
-  //   defaultValue: { data: [] }
-  // },
   xField: {
     label: '键字段',
     dependOn: ['searchApi'],
     type: 'select',
     optionProps: { label: 'title', value: 'name' },
     asyncOptions: async ({ searchApi }) => {
-      const option = await getOutParams(searchApi)
+      const option = await getOutParams(searchApi?.apiId)
       return option
     }
   },
@@ -38,7 +22,7 @@ export default {
     type: 'yAxisField',
     dependOn: ['searchApi'],
     changeConfig: async (config, { searchApi }) => {
-      config.yFields = await getOutParams(searchApi, 'value')
+      config.yFields = await getOutParams(searchApi?.apiId, 'value')
       return config
     }
   },
@@ -67,13 +51,6 @@ export const cssConfigure = {
         title: '颜色',
         children: generateFieldList(addConfigPrefix(
           {
-            colorScheme: {
-              type: 'colorScheme',
-              defaultValue: ['rgb(84, 112, 198)', 'rgb(145, 204, 117)', 'rgb(250, 200, 88)', 'rgb(238, 102, 102)', 'rgb(115, 192, 222)', 'rgb(59, 162, 114)', 'rgb(252, 132, 82)', 'rgb(154, 96, 180)', 'rgb(234, 124, 204)'],
-              label: '配色方案',
-              otherKey: ['config.yField', 'config.xField'],
-              chartType: 'pie'
-            },
             opacity: {
               type: 'slider',
               label: '不透明度',

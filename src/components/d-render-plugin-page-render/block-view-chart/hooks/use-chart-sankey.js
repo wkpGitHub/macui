@@ -1,65 +1,37 @@
 
 export default function useChartSankey (securityConfig, dataset) {
-  const { grid, isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false } = securityConfig
+  const {
+    xAxisField, yAxisColumns, zAxisField,
+    isShowLabel = true, labelSize, labelColor, // 标签配置
+    isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false, // 标题配置
+    isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg // 提示配置
+  } = securityConfig
+
   let seriesArr = []
+  const dataArr = []
+  const linkArr = []
+  dataset.source.forEach(data => {
+    dataArr.push({ name: data[xAxisField] })
+    dataArr.push({ name: data[yAxisColumns] })
+    linkArr.push({
+      source: data[xAxisField],
+      target: data[yAxisColumns],
+      value: data[zAxisField]
+    })
+  })
 
   seriesArr = [{
     type: 'sankey',
+    label: {
+      show: isShowLabel,
+      fontSize: labelSize || 14,
+      color: labelColor || '#333'
+    },
     emphasis: {
       focus: 'adjacency'
     },
-    data: [
-      {
-        name: 'a'
-      },
-      {
-        name: 'b'
-      },
-      {
-        name: 'a1'
-      },
-      {
-        name: 'a2'
-      },
-      {
-        name: 'b1'
-      },
-      {
-        name: 'c'
-      }
-    ],
-    links: [
-      {
-        source: 'a',
-        target: 'a1',
-        value: 5
-      },
-      {
-        source: 'a',
-        target: 'a2',
-        value: 3
-      },
-      {
-        source: 'b',
-        target: 'b1',
-        value: 8
-      },
-      {
-        source: 'a',
-        target: 'b1',
-        value: 3
-      },
-      {
-        source: 'b1',
-        target: 'a1',
-        value: 1
-      },
-      {
-        source: 'b1',
-        target: 'c',
-        value: 2
-      }
-    ]
+    data: dataArr,
+    links: linkArr
   }]
 
   return {
@@ -80,16 +52,13 @@ export default function useChartSankey (securityConfig, dataset) {
       textAlign
     },
     tooltip: {
-      trigger: 'item',
-      triggerOn: 'mousemove'
-    },
-    legend: {},
-    grid: {
-      left: grid?.left || '3%',
-      right: grid?.right || '10%',
-      bottom: grid?.bottom || '3%',
-      top: grid?.top || 60,
-      containLabel: true
+      trigger: isShowTooltip ? 'item' : 'none',
+      triggerOn: 'mousemove',
+      textStyle: {
+        color: tooltipColor || '#333',
+        fontSize: tooltipSize || 14
+      },
+      backgroundColor: tooltipBg || '#fff'
     },
     series: seriesArr
   }

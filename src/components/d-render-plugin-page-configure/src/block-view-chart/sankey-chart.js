@@ -1,52 +1,41 @@
 import { generateFieldList } from 'd-render'
 import { addConfigPrefix, handelLabelSizeOptions, getOutParams } from '../../utils'
 import { tooltipConfig, titleConfig } from './common-config'
-import req from '@cip/request'
 
 export default {
   searchApi: {
     type: 'select-api',
-    label: '查询接口',
-    dependOn: ['yAxisColumns'],
-    async onChange ({ api, dependOn }) {
-      const { data } = await req({
-        method: 'get',
-        apiName: 'apiChr',
-        url: `/${api.fullPath}`,
-        params: { offset: 0, limit: 10 }
-      })
-      dependOn.yAxisColumns.data = data?.list || []
-    }
+    label: '查询接口'
   },
   xAxisField: {
     label: '源',
-    dependOn: ['chartType', 'searchApi'],
+    dependOn: ['searchApi'],
     type: 'select',
     required: true,
     optionProps: { label: 'title', value: 'name' },
     asyncOptions: async ({ searchApi }) => {
-      const option = await getOutParams(searchApi)
+      const option = await getOutParams(searchApi?.apiId)
       return option
     }
   },
   yAxisColumns: {
     label: '目标',
-    dependOn: ['chartType', 'searchApi'],
+    dependOn: ['searchApi'],
     type: 'select',
     required: true,
     optionProps: { label: 'title', value: 'name' },
     asyncOptions: async ({ searchApi }) => {
-      const option = await getOutParams(searchApi)
+      const option = await getOutParams(searchApi?.apiId)
       return option
     }
   },
   zAxisField: {
     label: '值',
-    dependOn: ['chartType', 'searchApi'],
+    dependOn: ['searchApi'],
     type: 'select',
     optionProps: { label: 'title', value: 'name' },
     asyncOptions: async ({ searchApi }) => {
-      const option = await getOutParams(searchApi, 'value')
+      const option = await getOutParams(searchApi?.apiId, 'value')
       return option
     }
   },
@@ -78,7 +67,7 @@ export const cssConfigure = {
             isShowLabel: {
               type: 'singleCheckbox',
               label: '显示',
-              defaultValue: false,
+              defaultValue: true,
               option: {
                 value: true,
                 inactiveValue: false,
@@ -136,23 +125,6 @@ export const cssConfigure = {
         children: generateFieldList(addConfigPrefix(
           titleConfig
         ))
-      },
-      {
-        title: '组件样式',
-        children: generateFieldList(addConfigPrefix(
-          {
-            grid: {
-              type: 'chartMargin',
-              label: '边距',
-              defaultValue: {
-                top: '',
-                right: '',
-                left: '',
-                bottom: ''
-              }
-            }
-          })
-        )
       }
     ]
   }

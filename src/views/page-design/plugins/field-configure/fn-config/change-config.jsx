@@ -9,26 +9,27 @@ export default {
     isCurrentInTable: Boolean // 当前字段是否为子表单内的字段
   },
   emits: ['updateConfig'],
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     const renderValues = (item) => {
-      return <div style={{ flex: 1 }}>
-        <br />
-        <ElFormItem label='字段禁用'>
-          <ElSwitch v-model={item.config.disabled} />
-        </ElFormItem>
-        <ElFormItem label='隐藏标题'>
-          <ElSwitch v-model={item.config.hideLabel} />
-        </ElFormItem>
-        <ElFormItem label='隐藏此项'>
-          <ElSwitch v-model={item.config.hideItem} />
-        </ElFormItem>
-        {
-          ['select', 'role'].includes(props.itemConfig.type) &&
-            <ElFormItem label='多选'>
+      return (
+        <div style={{ flex: 1 }}>
+          <br />
+          <ElFormItem label="字段禁用">
+            <ElSwitch v-model={item.config.disabled} />
+          </ElFormItem>
+          <ElFormItem label="隐藏标题">
+            <ElSwitch v-model={item.config.hideLabel} />
+          </ElFormItem>
+          <ElFormItem label="隐藏此项">
+            <ElSwitch v-model={item.config.hideItem} />
+          </ElFormItem>
+          {['select', 'role'].includes(props.itemConfig.type) && (
+            <ElFormItem label="多选">
               <ElSwitch v-model={item.config.multiple} />
             </ElFormItem>
-        }
-      </div>
+          )}
+        </div>
+      )
     }
 
     return () => (
@@ -38,8 +39,7 @@ export default {
         itemConfig={props.itemConfig}
         dependOnList={props.dependOnList}
         isCurrentInTable={props.isCurrentInTable}
-        onUpdateConfig={(val) => emit('updateConfig', val)}
-      >
+        onUpdateConfig={(val) => emit('updateConfig', val)}>
         {{ renderValues }}
       </BaseConfig>
     )

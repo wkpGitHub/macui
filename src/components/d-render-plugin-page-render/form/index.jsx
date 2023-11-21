@@ -12,8 +12,12 @@ import { CipForm, CipFormInputTransform } from 'd-render'
 // }
 
 const Comp = (props) => {
-  const { modelValue = {}, dataBus, search, options, dependOnValues, ...componentProps } = props
+  let { modelValue, dataBus, search, options, dependOnValues, ...componentProps } = props
   const fieldList = options[0] ? options[0].children : []
+  if (!modelValue) {
+    modelValue = {}
+    componentProps['onUpdate:modelValue'](modelValue)
+  }
   return <CipForm
     {...componentProps}
     model={modelValue}

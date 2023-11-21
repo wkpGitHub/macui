@@ -1,5 +1,22 @@
+import { getItemConfig } from '../utils'
+
 export default {
-  key: {},
+  key: { readable: true },
+  model: {
+    label: '数据模型',
+    type: 'selectModule'
+  },
+  options: {
+    dependOn: ['model'],
+    changeValue ({ model }) {
+      return {
+        value: [{
+          key: 'default',
+          children: (model?.children || []).map(opt => getItemConfig(opt))
+        }]
+      }
+    }
+  },
   showOnly: {
     label: '是否只读',
     type: 'switch'

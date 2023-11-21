@@ -3,13 +3,11 @@ export default function useChartPie (securityConfig, dataset) {
   const {
     grid, radius = [0, 100], xField = 'name', yField = { columns: [] },
     isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false, // 标题配置
-    colorScheme = [], opacity, // 颜色配置
+    opacity, // 颜色配置
     isShowLabel = false, labelFormat = 'dimension', labelSize, labelColor, pieLabelPosition, keepDecimal, // 标签配置
     isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, // 提示配置
     isShowLegend = true, legendIcon, legendOrient, legendTextSize, legendTextColor, legendLeft, legendTop // 图例配置
   } = securityConfig
-
-  const colorArr = colorScheme.map(color => color.replace('rgb', 'rgba').replace(')', `, ${opacity / 100})`))
 
   const handleLabelFormat = ({ name, data, percent }, column) => {
     let labelStr = ''
@@ -30,6 +28,9 @@ export default function useChartPie (securityConfig, dataset) {
         fontSize: labelSize || 14,
         color: labelColor || '#333',
         position: pieLabelPosition || 'outside'
+      },
+      itemStyle: {
+        opacity: opacity / 100
       },
       emphasis: {
         label: {
@@ -65,7 +66,6 @@ export default function useChartPie (securityConfig, dataset) {
       },
       textAlign
     },
-    color: colorArr,
     tooltip: {
       trigger: isShowTooltip ? 'item' : 'none',
       textStyle: {

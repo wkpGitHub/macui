@@ -9,6 +9,7 @@ export default defineComponent({
   emits: fromInputEmits,
   setup (props, ctx) {
     const {
+      proxyValue,
       securityConfig
     } = useFormInput(props, ctx)
     // const drDesign = inject('drDesign')
@@ -61,6 +62,7 @@ export default defineComponent({
 
     const handleEvent = useEventConfigure()
     function onNodeClick (data) {
+      proxyValue.value = data[securityConfig.value.nodeKey]
       handleEvent(securityConfig.value.events?.click?.value || [], `${securityConfig.value.key}_click`, data[securityConfig.value.nodeKey])
     }
 

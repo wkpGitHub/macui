@@ -1,8 +1,7 @@
-import { centerService } from '@/api'
 import { getItemConfig } from '../utils'
 
 export default {
-  key: {},
+  key: { readable: true },
   usingSlots: {
     label: '插槽选则',
     type: 'select',
@@ -24,35 +23,37 @@ export default {
   saveApi: {
     type: 'select-api',
     label: '保存接口',
-    dependOn: ['options'],
-    onChange ({ row, updateApis, updateDataModel, dependOn }) {
-      updateApis('save')
-      // updateDataModel('保存接口')
-      centerService.getContent(row.id).then(({ data }) => {
-        const { inputParams = [] } = data.flow || {}
-        const dialogChildren = dependOn.options.find(opt => opt.key === 'dialog')?.children
-        if (dialogChildren?.length && inputParams.length) {
-          const dialogOpts = dialogChildren[0].config.options
-          const formSlots = dialogOpts.find(opt => opt.key === 'default')?.children
-          if (!formSlots?.length) return
-          formSlots[0].config.options[0].children = inputParams.map(opt => getItemConfig(opt))
-        }
-      })
+    dependOn: ['options', 'key'],
+    onChange ({ row, updateDataModel, dependOn, getListConfigByType }) {
+      const modelKey = { inputKey: `${dependOn.key}保存接口_入参` }
+      const { inputModel } = updateDataModel(modelKey)
+      const children = []
+      dependOn.options?.forEach(o => o.children && children.push(...o.children))
+      const dialog = getListConfigByType(children, 'dialog')
+      const form = getListConfigByType([dialog], 'form')
+      form.config.model = inputModel
+      form.config.options = [{
+        key: 'default',
+        children: (inputModel.children || []).map(opt => getItemConfig(opt))
+      }]
     }
   },
   searchApi: {
     type: 'select-api',
     label: '查询接口',
     dependOn: ['options', 'key'],
-    onChange ({ row, api, updateDataModel, dependOn, getListConfigByType }) {
-      debugger
+    onChange ({ row, api, updateDataModel, dependOn, getListConfigByType, fetchData }) {
+      const modelKey = { inputKey: `${dependOn.key}查询接口_入参`, outKey: `${dependOn.key}查询接口_出参` }
+      const { inputModel, outModel } = updateDataModel(modelKey)
       const children = []
       dependOn.options?.forEach(o => o.children && children.push(...o.children))
       const searchForm = getListConfigByType(children, 'searchForm')
       const pageTable = getListConfigByType(children, 'pageTable')
-      searchForm.config.options[0].children = (row.flow?.inputParams || []).map(opt => getItemConfig(opt))
-      pageTable.config.options[0].children = (row.flow?.outParams || []).map(opt => getItemConfig(opt))
-
+      searchForm.config.model = inputModel
+      searchForm.config.options = [{
+        key: 'default',
+        children: (inputModel.children || []).map(opt => getItemConfig(opt))
+      }]
       searchForm.config.events = {
         search: {
           label: '查询件',
@@ -66,17 +67,18 @@ export default {
             {
               type: 'module',
               target: dependOn.key,
-              value: [
-                { type: 'var', value: api.objId, desc: api.name }
-              ],
+              value: [{ type: 'var', value: api.objId, desc: api.name }],
               eventType: 'setVal',
               eventName: '赋值'
             }
           ]
         }
       }
-
-      updateDataModel('查询接口')
+      pageTable.config.model = outModel
+      pageTable.config.options = [{
+        key: 'default',
+        children: (outModel.children || []).map(opt => getItemConfig(opt))
+      }]
     }
   }
   // dependOn: {
