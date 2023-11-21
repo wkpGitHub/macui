@@ -37,24 +37,18 @@ export default {
         }
       ]
     }
-    const dependOnListOptions = computed(() =>
-      props.dependOnList
-        ?.filter?.((dep) => {
-          return props.itemConfig.dependOn?.includes?.(dep?.key)
-        })
-        ?.map?.(({ key, config = {} }) => ({
-          value: key,
-          label: `${config?.label}(${key})`,
-          ...config
-        }))
-    )
+    const dependOnListOptions = computed(() => props.dependOnList?.filter?.(dep => {
+      return props.itemConfig.dependOn?.includes?.(dep?.key)
+    })?.map?.(({ key, config = {} }) => ({
+      value: key,
+      label: `${config?.label}(${key})`,
+      ...config
+    })))
     const getInitConfig = () => {
       if (props.fnType === 'value') {
         return props.itemConfig?.valueChangeConfig ?? [cloneDeep(defaultConfig)]
       } else {
-        return (
-          props.itemConfig?.configChangeConfig ?? [cloneDeep(defaultConfig)]
-        )
+        return props.itemConfig?.configChangeConfig ?? [cloneDeep(defaultConfig)]
       }
     }
     const config = ref(cloneDeep(getInitConfig()))
@@ -70,10 +64,10 @@ export default {
     const componentDictionary = dRender.componentDictionary
     const components = {}
     const getComponents = () => {
+      // eslint-disable-next-line no-unused-vars
       for (const key of Object.keys(componentDictionary)) {
         components[key] = defineAsyncComponent(() => {
-          const component =
-            componentDictionary[key] ?? componentDictionary.input
+          const component = componentDictionary[key] ?? componentDictionary.input
           return component('/index')()
         })
       }
@@ -81,7 +75,14 @@ export default {
     getComponents()
 
     const renderLogic = (condition) => (
-      <LSelect v-model={condition.logic} config={{ options: logicSign, clearable: false }} />
+      <LSelect
+        v-model={condition.logic}
+        config={{
+          options: logicSign,
+          clearable: false
+        }}
+      />
+
     )
 
     const renderSign = ({ type, sign, multiple }) => {
@@ -93,25 +94,18 @@ export default {
       } else {
         signOptions = signs.slice(0, 2)
       }
-      return (
-        <LSelect
-          v-model={sign}
-          config={{
-            options: signOptions,
-            clearable: false
-          }}
-        />
-      )
+      return <LSelect
+        v-model={sign}
+        config={{
+          options: signOptions,
+          clearable: false
+        }}
+      />
     }
 
     const onSourceChange = (val, condition) => {
-      const selectItem = dependOnListOptions.value.find((i) => i.value === val)
-      const {
-        type = 'input',
-        isInTable = false,
-        otherKey,
-        multiple
-      } = selectItem
+      const selectItem = dependOnListOptions.value.find(i => i.value === val)
+      const { type = 'input', isInTable = false, otherKey, multiple } = selectItem
       condition.type = type
       condition.isInTable = isInTable
       condition.sourceOtherKey = otherKey
@@ -128,14 +122,13 @@ export default {
     const renderSource = (condition) => (
       <LSelect
         v-model={condition.source}
-        onChange={(val) => {
-          onSourceChange(val, condition)
-        }}
+        onChange={(val) => { onSourceChange(val, condition) }}
         config={{
           options: dependOnListOptions.value,
           clearable: false,
           placeholder: '请选择数据依赖'
-        }}></LSelect>
+        }}
+      ></LSelect>
     )
 
     const renderTarget = (condition) => {
@@ -143,19 +136,16 @@ export default {
       if (!source) {
         return <ElInput v-model={condition.target}></ElInput>
       }
-      const sourceItem = props.dependOnList?.filter?.(
-        (dep) => dep.key === source
-      )[0]
+      const sourceItem = props.dependOnList?.filter?.(dep => dep.key === source)[0]
       const { config } = sourceItem
       const TargetComponent = components[config.type]
 
-      return (
-        <RenderComponent
-          config={config}
-          Component={TargetComponent}
-          v-model:value={condition.target}
-          v-model:otherValue={condition.targetOtherValue}></RenderComponent>
-      )
+      return <RenderComponent
+        config={config}
+        Component={TargetComponent}
+        v-model:value={condition.target}
+        v-model:otherValue={condition.targetOtherValue}
+      ></RenderComponent>
     }
 
     const addCondition = (item) => {
@@ -171,43 +161,21 @@ export default {
       item.conditions.splice(index, 1)
     }
     const renderConditions = (item) => {
-      return item.conditions.map((condition, index) => (
-        <div class="change-value-box__row" key={index}>
-          {item.conditions.length > 1 && index > 0 && (
-            <div class="cvb-logic">{renderLogic(condition)}</div>
-          )}
-          <div class={{ 'cvb-source': true, 'no-logic': index === 0 }}>
-            {renderSource(condition)}
-          </div>
-          <div class="cvb-sign">{renderSign(condition)}</div>
-          <div class="cvb-target">
-            {!condition.hide && renderTarget(condition)}
-          </div>
-          <div class="cvb-opt">
-            {
-              <CipButtonText onClick={() => addCondition(item)}>
-                <ElIcon>
-                  <Plus />
-                </ElIcon>
-              </CipButtonText>
-            }
-            {item.conditions.length > 1 && (
-              <CipButtonText onClick={() => removeCondition(item, index)}>
-                <ElIcon>
-                  <Minus />
-                </ElIcon>
-              </CipButtonText>
-            )}
-          </div>
+      return item.conditions.map((condition, index) => <div class="change-value-box__row" key={index}>
+        {item.conditions.length > 1 && index > 0 && <div class="cvb-logic">{renderLogic(condition)}</div>}
+        <div class={{ 'cvb-source': true, 'no-logic': index === 0 }}>{renderSource(condition)}</div>
+        <div class="cvb-sign">{renderSign(condition)}</div>
+        <div class="cvb-target">{!condition.hide && renderTarget(condition)}</div>
+        <div class="cvb-opt">
+          { <CipButtonText onClick={() => addCondition(item)}><ElIcon><Plus/></ElIcon></CipButtonText> }
+          { item.conditions.length > 1 && <CipButtonText onClick={() => removeCondition(item, index)}><ElIcon><Minus/></ElIcon></CipButtonText>}
         </div>
-      ))
+      </div>)
     }
 
     const renderSelect = (item) => {
-      const _options = Object.entries(
-        item.conditions[0]?.targetOtherValue || {}
-      ).map((item) => {
-        const [key, value] = item
+      const _options = Object.entries(item.conditions[0]?.targetOtherValue || {}).map(item => {
+        const [key] = item
         return {
           label: key,
           value: key
@@ -218,13 +186,12 @@ export default {
         options: _options
       }
       const TargetComponent = components[_config.type]
-      return (
-        <RenderComponent
-          config={_config}
-          Component={TargetComponent}
-          v-model:value={item.value}
-          v-model:otherValue={item.otherValue}></RenderComponent>
-      )
+      return <RenderComponent
+        config={_config}
+        Component={TargetComponent}
+        v-model:value={item.value}
+        v-model:otherValue={item.otherValue}
+      ></RenderComponent>
     }
     const renderValues = (item) => {
       if (autoSelect.value) {
@@ -235,31 +202,29 @@ export default {
       }
       const _config = cloneDeep(props.itemConfig)
       const TargetComponent = components[_config.type]
-      return (
-        <RenderComponent
-          config={_config}
-          Component={TargetComponent}
-          v-model:value={item.value}
-          v-model:otherValue={item.otherValue}></RenderComponent>
-      )
+      return <RenderComponent
+        config={_config}
+        Component={TargetComponent}
+        v-model:value={item.value}
+        v-model:otherValue={item.otherValue}
+      ></RenderComponent>
     }
 
     const renderer = slots.renderValues ?? renderValues
 
     const onConfirm = (resolve, reject) => {
       props.updateModel(config.value)
-      const fnStr =
-        props.fnType === 'value'
-          ? parseValueFn({
-            config: config.value,
-            isCurrentInTable: props.isCurrentInTable,
-            currOtherKey: props.itemConfig.otherKey
-          })
-          : parseConfigFn({
-            config: config.value,
-            isCurrentInTable: props.isCurrentInTable,
-            currOtherKey: props.itemConfig.otherKey
-          })
+      const fnStr = props.fnType === 'value'
+        ? parseValueFn({
+          config: config.value,
+          isCurrentInTable: props.isCurrentInTable,
+          currOtherKey: props.itemConfig.otherKey
+        })
+        : parseConfigFn({
+          config: config.value,
+          isCurrentInTable: props.isCurrentInTable,
+          currOtherKey: props.itemConfig.otherKey
+        })
       emit('updateConfig', fnStr)
       resolve()
     }
@@ -277,44 +242,28 @@ export default {
       }, false)
       return isAutoSelect
     })
-    return () => (
-      <>
-        <CipButtonText
-          onClick={() => {
-            visible.value = true
-          }}>
-          配置
-        </CipButtonText>
-        <CipDialog
-          title="依赖数据值变动修改值"
-          class="change-value"
-          v-model={visible.value}
-          onConfirm={onConfirm}
-          onCancel={onCancel}>
-          <ElForm
-            labelWidth={90}
-            labelPosition="left"
-            style={'margin-top: 10px'}>
-            {config.value.map((item, index) => (
+    return () => <>
+      <CipButtonText onClick={() => { visible.value = true }}>配置</CipButtonText>
+      <CipDialog
+        title="依赖数据值变动修改值"
+        class="change-value"
+        v-model={visible.value}
+        onConfirm={onConfirm}
+        onCancel={onCancel}
+      >
+        <ElForm labelWidth={90} labelPosition="left">
+          {
+            config.value.map((item, index) => (
               <div class="change-value-box" key={index}>
-                {
-                  <ElIcon class="cvb-rm" onClick={() => removeConfig(index)}>
-                    <RemoveFilled />
-                  </ElIcon>
-                }
-                <ElFormItem label="如果">{renderConditions(item)}</ElFormItem>
-                <ElFormItem
-                  label={
-                    props.fnType === 'value' ? '则修改值为' : '则修改配置'
-                  }>
-                  {renderer(item)}
-                </ElFormItem>
+                {<ElIcon class="cvb-rm" onClick={() => removeConfig(index)}><RemoveFilled/></ElIcon> }
+                <ElFormItem label='如果'>{renderConditions(item)}</ElFormItem>
+                <ElFormItem label={props.fnType === 'value' ? '则修改值为' : '则修改配置'}>{renderer(item)}</ElFormItem>
               </div>
-            ))}
-            <CipButtonText onClick={addConfig}>添加条件</CipButtonText>
-          </ElForm>
-        </CipDialog>
-      </>
-    )
+            ))
+          }
+          <CipButtonText onClick={addConfig}>添加条件</CipButtonText>
+        </ElForm>
+      </CipDialog>
+    </>
   }
 }

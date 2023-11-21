@@ -8,7 +8,7 @@ export default {
     isCurrentInTable: Boolean // 当前字段是否为子表单内的字段
   },
   emits: ['updateConfig'],
-  setup(props, { emit }) {
+  setup (props, { emit }) {
     return () => (
       <BaseConfig
         fnType="value"
@@ -16,7 +16,8 @@ export default {
         itemConfig={props.itemConfig}
         dependOnList={props.dependOnList}
         isCurrentInTable={props.isCurrentInTable}
-        onUpdateConfig={(val) => emit('updateConfig', val)}></BaseConfig>
+        onUpdateConfig={(val) => emit('updateConfig', val)}
+      ></BaseConfig>
     )
   }
 }

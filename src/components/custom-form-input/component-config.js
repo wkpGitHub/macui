@@ -48,5 +48,7 @@ export default {
   colorPicker: () => () => import('./block-view-chart/color-picker/index'),
   setOptions: () => () => import('./set-options'),
   selectModule: () => () => import('./select-module'),
-  selectModuleField: () => () => import('./select-module-field')
+  selectModuleField: () => () => import('./select-module-field'),
+  'select-dependOn': () => () => import('./select-dependOn'),
+  'out-dependOn': () => () => import('./out-dependOn')
 }

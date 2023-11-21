@@ -218,6 +218,25 @@ function getListConfig (list, key, findType = 'key') {
   return _item
 }
 
+function getList (list, key, findType = 'key') {
+  let _list = []
+  function findConfig (list) {
+    list.forEach(item => {
+      if (item.config[findType] === key) {
+        _list = list
+        return
+      }
+      if (item.config?.options) {
+        const _children = []
+        item.config?.options.forEach(o => o.children && _children.push(...o.children))
+        findConfig(_children)
+      }
+    })
+  }
+  findConfig(list)
+  return _list
+}
+
 export function getListConfigByKey (list, key) {
   const keys = key.split('.')
   let _item = { config: {} }
@@ -234,6 +253,14 @@ export function getListConfigByKey (list, key) {
 
 export function getListConfigByType (list, type) {
   return getListConfig(list, type, 'type')
+}
+
+export function getListConfigById (list, type) {
+  return getListConfig(list, type, 'id')
+}
+
+export function getListById (list, type) {
+  return getList(list, type, 'id')
 }
 
 export function downloadFile (res) {

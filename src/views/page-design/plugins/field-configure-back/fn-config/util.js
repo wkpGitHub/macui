@@ -24,24 +24,13 @@ const handleOtherValue = (key, value) => {
   return handleValue(value)
 }
 
-export const parseConfig = ({
-  config,
-  isCurrentInTable,
-  currOtherKey,
-  fnType = 'value'
-}) => {
+export const parseConfig = ({config, isCurrentInTable, currOtherKey, fnType = 'value' }) => {
   if (!config?.length) return ''
   let str = ''
   let dependVars = []
   let outDependVars = []
-  config.forEach((item) => {
-    const {
-      value,
-      otherValue,
-      config: configOption,
-      conditions,
-      autoSelect
-    } = item
+  config.forEach(item => {
+    const { value, otherValue, config: configOption, conditions, autoSelect } = item
     let ifStatement = ''
     conditions.forEach((condition, index) => {
       const {
@@ -55,8 +44,7 @@ export const parseConfig = ({
         type,
         multiple
       } = condition
-      if (isCurrentInTable && !isInTable) {
-        // 当前字段在子表单内且依赖主表单字段时用 outDependOnValues
+      if (isCurrentInTable && !isInTable) { // 当前字段在子表单内且依赖主表单字段时用 outDependOnValues
         outDependVars.push(source)
         if (sourceOtherKey) outDependVars.push(sourceOtherKey)
       } else {
@@ -65,18 +53,13 @@ export const parseConfig = ({
       }
       let currState = `${source} ${sign} ${handleValue(target)}`
       if (sourceOtherKey) {
-        currState = autoSelect
-          ? `${currState}`
-          : `(${currState} && ${sourceOtherKey} ${sign} ${handleValue(
-              targetOtherValue
-            )})`
+        currState = autoSelect ? `${currState}` : `(${currState} && ${sourceOtherKey} ${sign} ${handleValue(targetOtherValue)})`
       }
       // 多个值用逗号拼接时的判断
       if (type === 'checkbox' || multiple) {
-        currState =
-          sign === '==='
-            ? `${source}?.length === '${target}'?.length && ${source}?.split?.(',').every?.(item => '${target}'.indexOf(item) > -1)`
-            : `!${source}?.split?.(',').some?.(item => '${target}'.indexOf(item) > -1)`
+        currState = sign === '==='
+         ? `${source}?.length === '${target}'?.length && ${source}?.split?.(',').every?.(item => '${target}'.indexOf(item) > -1)`
+         : `!${source}?.split?.(',').some?.(item => '${target}'.indexOf(item) > -1)`
       }
       currState = ` ${index === 0 ? '' : logic} ${currState}`
       ifStatement += currState
@@ -90,25 +73,22 @@ export const parseConfig = ({
         }
       `
     }
-    const _autoSelect = config.some((item) => item.autoSelect === true)
-    const body =
-      fnType === 'value'
-        ? _autoSelect
-          ? autoSelectStatement()
-          : `
+    const _autoSelect = config.some(item => item.autoSelect === true)
+    const body = fnType === 'value'
+      ? (_autoSelect ? autoSelectStatement() : `
       if(${ifStatement}){
         return {
           value: ${handleValue(value)},
           otherValue: ${handleOtherValue(currOtherKey, otherValue)},
         }
-      };`
-        : `
+      };`)
+      : `
       if(${ifStatement}){
-        ${Object.keys(configOption)
-          .map((key) => {
+        ${
+          Object.keys(configOption).map(key => {
             return `config.${key} = ${handleValue(configOption[key])}`
-          })
-          .join('; ')}
+          }).join('; ')
+        }
         return config
       };
       `
@@ -117,7 +97,8 @@ export const parseConfig = ({
   // 去重
   dependVars = Array.from(new Set(dependVars))
   outDependVars = Array.from(new Set(outDependVars))
-  const declareStatement = `const { ${dependVars.join(',')} } = dependOnValues;
+  const declareStatement =
+    `const { ${dependVars.join(',')} } = dependOnValues;
     const { ${outDependVars.join(',')} } = outDependOnValues;`
   str = `
     ${declareStatement}
@@ -126,8 +107,8 @@ export const parseConfig = ({
   return str
 }
 
-export const parseValueFn = ({ config, isCurrentInTable, currOtherKey }) =>
-  parseConfig({ config, isCurrentInTable, currOtherKey })
+export const parseValueFn = ({config, isCurrentInTable, currOtherKey }) =>
+  parseConfig({config, isCurrentInTable, currOtherKey })
 
-export const parseConfigFn = ({ config, isCurrentInTable, currOtherKey }) =>
-  parseConfig({ config, isCurrentInTable, currOtherKey, fnType: 'config' })
+export const parseConfigFn = ({config, isCurrentInTable, currOtherKey }) =>
+  parseConfig({config, isCurrentInTable, currOtherKey, fnType: 'config' })

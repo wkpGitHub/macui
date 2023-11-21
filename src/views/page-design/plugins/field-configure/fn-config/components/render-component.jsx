@@ -8,9 +8,13 @@ export default {
     otherValue: {}
   },
   emits: ['update:value', 'update:otherValue'],
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     const config = computed(() => {
-      if (['radio', 'checkbox', 'select', 'dataDictionary'].includes(props.config.type)) {
+      if (
+        ['radio', 'checkbox', 'select', 'dataDictionary'].includes(
+          props.config.type
+        )
+      ) {
         return { ...props.config, dependOn: [] } // dependOn有值无法正常渲染
       }
       return props.config
@@ -18,16 +22,18 @@ export default {
     // 组件差异处理
     if (['roleDictionary'].includes(config.value.type)) {
       const onUpdate = (val) => {
-        const values = val.map(v => typeof v === 'symbol' ? '' : v)
+        const values = val.map((v) => (typeof v === 'symbol' ? '' : v))
         emit('update:value', values[0])
         emit('update:otherValue', values.slice(1))
       }
-      return () => <props.Component
-        config={config.value}
-        values={[props.value, ...props.otherValue]}
-        // values={props.value}
-        onStreamUpdate:model={onUpdate}
-      />
+      return () => (
+        <props.Component
+          config={config.value}
+          values={[props.value, ...props.otherValue]}
+          // values={props.value}
+          onStreamUpdate:model={onUpdate}
+        />
+      )
     }
     if (['dateRange', 'timeRange', 'numberRange'].includes(config.value.type)) {
       const onUpdate = (val) => {
@@ -37,19 +43,22 @@ export default {
       const onUpdateValue = (val) => {
         emit('update:value', val)
       }
-      return () => <props.Component
-        config={config.value}
-        modelValue={props.value}
-        onUpdate:modelValue={onUpdateValue}
-        otherValue={props.otherValue}
-        values={[props.value, props.otherValue]}
-        onStreamUpdate:model={onUpdate}
-      />
+      return () => (
+        <props.Component
+          config={config.value}
+          modelValue={props.value}
+          onUpdate:modelValue={onUpdateValue}
+          otherValue={props.otherValue}
+          values={[props.value, props.otherValue]}
+          onStreamUpdate:model={onUpdate}
+        />
+      )
     }
 
     const onUpdate = (val) => {
       // can not revert a Symbol(empty) to string
-      if (typeof val[0] === 'symbol' || typeof val[1] === 'symbol') { // 清空操作时会有symbol对象导致不能转为字符串用于输入框
+      if (typeof val[0] === 'symbol' || typeof val[1] === 'symbol') {
+        // 清空操作时会有symbol对象导致不能转为字符串用于输入框
         emit('update:value', '')
         emit('update:otherValue', '')
         return
@@ -58,12 +67,14 @@ export default {
       emit('update:otherValue', val[1])
     }
 
-    return () => <props.Component
-      config={config.value}
-      modelValue={props.value}
-      otherValue={props.otherValue}
-      values={[props.value, props.otherValue]}
-      onStreamUpdate:model={onUpdate}
-    />
+    return () => (
+      <props.Component
+        config={config.value}
+        modelValue={props.value}
+        otherValue={props.otherValue}
+        values={[props.value, props.otherValue]}
+        onStreamUpdate:model={onUpdate}
+      />
+    )
   }
 }

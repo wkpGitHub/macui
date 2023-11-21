@@ -7,7 +7,7 @@ export default {
     config: Object
   },
   emits: ['update:modelValue'],
-  setup(props, { emit }) {
+  setup (props, { emit }) {
     return () => (
       <ElSelect
         style="width: 100%"
@@ -17,6 +17,7 @@ export default {
         {props.config.options.map((option) => (
           <ElOption
             key={option.value}
+            disabled={option.disabled}
             value={option.value}
             label={option.label}
           />

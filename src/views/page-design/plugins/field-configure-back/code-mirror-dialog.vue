@@ -1,9 +1,6 @@
 <template>
   <div class="code-mirror-item">
-    <div
-      class="code-mirror-item_title"
-      :closable="false"
-      @click="visible = true">
+    <div class="code-mirror-item_title" :closable="false" @click="visible = true">
       点击编辑{{ fnName }}函数
     </div>
     <cip-code-mirror
@@ -41,7 +38,7 @@ export default defineComponent({
     itemConfig: {},
     fieldKey: {}
   },
-  setup(props) {
+  setup (props) {
     const visible = ref(false)
     const paramsStr = computed(() => {
       const paramsStrMap = {
@@ -57,21 +54,15 @@ ${funcBody ?? ''}
     }
 
     const dependOnKeyList = computed(() => props.itemConfig?.dependOn ?? [])
-    function customHint(CodeMirror, cm, options) {
+    function customHint (CodeMirror, cm, options) {
       const javascriptHint = CodeMirror.hint.javascript
       const result = javascriptHint(cm, options)
-      result.list = [
-        'config',
-        'dependOnValues',
-        'outDependOnValues',
-        ...dependOnKeyList.value,
-        ...result.list
-      ]
+      result.list = ['config', 'dependOnValues', 'outDependOnValues', ...dependOnKeyList.value, ...result.list]
       return result
     }
-    function customHintOption(CodeMirror) {
+    function customHintOption (CodeMirror) {
       return {
-        hint: function hint(...args) {
+        hint: function hint (...args) {
           return customHint(CodeMirror, ...args)
         },
         completeSingle: false
