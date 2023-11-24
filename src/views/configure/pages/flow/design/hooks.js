@@ -4,13 +4,11 @@ import CipButton from '@cip/components/cip-button'
 import { iconHtmlMap } from './ausyda'
 import { CipForm } from 'd-render'
 import examineAndApproveTaskConfig from '../../service-design/comps/examine-and-approve-task'
-import flowConfig from '../../service-design/comps/flow'
 import writeConfig from '../../service-design/comps/write'
 import inclusiveGateWayConfig from '../../service-design/flow-path/inclusive-gateway'
 import exclusiveGateWayConfig from '../../service-design/flow-path/exclusive-gateway'
 import parallelGateWayConfig from '../../service-design/flow-path/parallel-gateway'
-import startConfig from '../../service-design/comps/start'
-import endConfig from '../../service-design/comps/end'
+import notifyNodeConfig from '../../service-design/flow-path/notify-node'
 import { allComps } from '../../service-design/comps'
 // import { gatewayBranch } from '../../service-design/flow-path/gateway-branch'
 
@@ -72,6 +70,9 @@ export function useNodeSetDialog (props, parentState = {}) {
     } else {
       nodeConfig = allComps.find(comp => comp.type === node.type)
     }
+    if (node.type === 'examine-and-approve-task' || node.type === 'write') {
+      model.value.type = 'TRANSTACTOR'
+    }
     // if (nodeConfig.formField instanceof Function) {
     //   nodeConfig.formField = nodeConfig.formField({ parentState })
     // }
@@ -101,28 +102,18 @@ export function useNodeMenu () {
     {
       title: '人工节点',
       name: 'rg',
-      children: [examineAndApproveTaskConfig, writeConfig, flowConfig]
+      children: [examineAndApproveTaskConfig, writeConfig, notifyNodeConfig]
     },
     {
       title: '网关节点',
       name: 'branch',
       children: [exclusiveGateWayConfig, inclusiveGateWayConfig, parallelGateWayConfig]
-    },
+    }
     // {
     //   title: '自动节点',
     //   name: 'auto',
     //   children: [webApiConfig, captureTimeConfig, createDataRecordsConfig, submitNodeConfig, updateDataRecordsConfig, queryDataRecordsConfig, deleteDataRecordsConfig]
     // },
-    {
-      title: '开始结束',
-      name: 'start',
-      children: [startConfig, endConfig]
-    },
-    {
-      title: '高级',
-      name: 'senior',
-      children: []
-    }
   ]
 
   const state = reactive({
