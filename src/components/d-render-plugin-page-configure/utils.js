@@ -51,7 +51,8 @@ const configMap = {
     return {
       config: {
         type: 'input',
-        label: item.title
+        label: item.title,
+        immediateChangeValue: true
       },
       id: uuidv4(),
       key: item.name
@@ -61,7 +62,8 @@ const configMap = {
     return {
       config: {
         type: 'input',
-        label: item.title
+        label: item.title,
+        immediateChangeValue: true
       },
       id: uuidv4(),
       key: item.name
@@ -71,7 +73,8 @@ const configMap = {
     return {
       config: {
         type: 'number',
-        label: item.title
+        label: item.title,
+        immediateChangeValue: true
       },
       id: uuidv4(),
       key: item.name
@@ -81,7 +84,8 @@ const configMap = {
     return {
       config: {
         type: 'number',
-        label: item.title
+        label: item.title,
+        immediateChangeValue: true
       },
       id: uuidv4(),
       key: item.name
@@ -91,7 +95,8 @@ const configMap = {
     return {
       config: {
         type: 'number',
-        label: item.title
+        label: item.title,
+        immediateChangeValue: true
       },
       id: uuidv4(),
       key: item.name
@@ -101,7 +106,8 @@ const configMap = {
     return {
       config: {
         type: 'number',
-        label: item.title
+        label: item.title,
+        immediateChangeValue: true
       },
       id: uuidv4(),
       key: item.name
@@ -111,7 +117,8 @@ const configMap = {
     return {
       config: {
         type: 'number',
-        label: item.title
+        label: item.title,
+        immediateChangeValue: true
       },
       id: uuidv4(),
       key: item.name
@@ -121,7 +128,8 @@ const configMap = {
     return {
       config: {
         type: 'date',
-        label: item.title
+        label: item.title,
+        immediateChangeValue: true
       },
       id: uuidv4(),
       key: item.name
@@ -131,7 +139,8 @@ const configMap = {
     return {
       config: {
         type: 'time',
-        label: item.title
+        label: item.title,
+        immediateChangeValue: true
       },
       id: uuidv4(),
       key: item.name
@@ -142,7 +151,8 @@ const configMap = {
       config: {
         type: 'date',
         viewType: 'datetime',
-        label: item.title
+        label: item.title,
+        immediateChangeValue: true
       },
       id: uuidv4(),
       key: item.name
@@ -152,7 +162,8 @@ const configMap = {
     return {
       config: {
         type: 'select',
-        label: item.title
+        label: item.title,
+        immediateChangeValue: true
       },
       id: uuidv4(),
       key: item.name
@@ -162,7 +173,8 @@ const configMap = {
     return {
       config: {
         type: 'select',
-        label: item.title
+        label: item.title,
+        immediateChangeValue: true
       },
       id: uuidv4(),
       key: item.name
@@ -172,7 +184,8 @@ const configMap = {
     return {
       config: {
         type: 'select',
-        label: item.title
+        label: item.title,
+        immediateChangeValue: true
       },
       id: uuidv4(),
       key: item.name
@@ -187,7 +200,8 @@ export function getItemConfig (item) {
     return {
       config: {
         type: 'input',
-        label: item.title
+        label: item.title,
+        immediateChangeValue: true
       },
       id: uuidv4(),
       key: item.name

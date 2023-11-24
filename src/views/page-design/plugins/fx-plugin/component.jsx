@@ -13,9 +13,6 @@ const methodsConfigFieldList = generateFieldList({
     infoRender: (h, { item }) => {
       return h('div', null, [item.name])
     },
-    dialogProps: {
-      size: 'default'
-    },
     formProps: {
       fieldList: generateFieldList({
         name: { label: '方法名称' },

@@ -335,13 +335,9 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inpu
   const varTreeOpts = computed(() => {
     return [
       {
-        title: '路由参数',
-        name: 'routerQuery'
-      },
-      {
-        title: '页面变量',
+        title: '外部变量',
         disabled: true,
-        children: drDesign.schema.variables
+        children: (drDesign.schema.variables || []).map(({ name }) => ({ name, title: name }))
       },
       {
         title: '事件动作',

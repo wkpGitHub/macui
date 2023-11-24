@@ -1,6 +1,5 @@
 import { ElSelect, ElOption } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import { centerService } from '@/api'
 import { reactive, inject } from 'vue'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import { CipButton } from '@xdp/button'
@@ -9,6 +8,7 @@ import { CipForm } from 'd-render'
 import CipDialog from '@cip/components/cip-dialog'
 import { getListConfigByKey, getListConfigByType } from '@/components/d-render-plugin-page-render/use-event-configure'
 import axiosInstance from '@/views/app/pages/api'
+import { cloneDeep } from '@cip/utils/util'
 
 export default {
   name: 'curd-config',
@@ -23,27 +23,27 @@ export default {
 
     const drDesign = inject('drDesign', {})
 
-    function updateDataModel (data, { inputKey, outKey }) {
-      const { outParams = [], inputParams = [] } = data.flow || {}
-      let inputModel, outModel
-      if (inputParams.length) {
-        inputModel = {
-          title: inputKey,
-          name: inputKey,
-          children: inputParams
-        }
-        drDesign.schema.dataModel.push(inputModel)
-      }
-      if (outParams.length) {
-        outModel = {
-          title: outKey,
-          name: outKey,
-          children: outParams
-        }
-        drDesign.schema.dataModel.push(outModel)
-      }
-      return { inputModel, outModel }
-    }
+    // function updateDataModel (data, { inputKey, outKey }) {
+    //   const { outParams = [], inputParams = [] } = data.flow || {}
+    //   let inputModel, outModel
+    //   if (inputParams.length) {
+    //     inputModel = {
+    //       title: inputKey,
+    //       name: inputKey,
+    //       children: inputParams
+    //     }
+    //     drDesign.schema.dataModel.push(inputModel)
+    //   }
+    //   if (outParams.length) {
+    //     outModel = {
+    //       title: outKey,
+    //       name: outKey,
+    //       children: outParams
+    //     }
+    //     drDesign.schema.dataModel.push(outModel)
+    //   }
+    //   return { inputModel, outModel }
+    // }
 
     function fetchData (api, axiosArg = {}) {
       return axiosInstance({
@@ -56,30 +56,17 @@ export default {
     }
 
     function onChange (api) {
-      if (!api?.apiId) return
-      centerService.getContent(api.apiId).then(({ data }) => {
+      proxyValue.value = cloneDeep(api)
+      if (props.config?.onChange) {
         props.config?.onChange({
-          row: data,
           api,
           schema: drDesign.schema,
           dependOn: props.dependOnValues,
-          updateDataModel: updateDataModel.bind(null, data),
           fetchData: fetchData.bind(null, api),
           getListConfigByKey,
           getListConfigByType
         })
-      }).catch(() => {
-        props.config?.onChange({
-          row: {},
-          api,
-          schema: drDesign.schema,
-          dependOn: props.dependOnValues,
-          updateDataModel: updateDataModel.bind(null, {}),
-          fetchData: fetchData.bind(null, {}),
-          getListConfigByKey,
-          getListConfigByType
-        })
-      })
+      }
     }
 
     function saveItem (resolve) {
@@ -99,7 +86,7 @@ export default {
     }
 
     return () => <div style="width: 100%" class="flex">
-      <ElSelect style="flex:auto" v-model={proxyValue.value} onChange={onChange} clearable value-key="apiId">
+      <ElSelect style="flex:auto" modelValue={proxyValue.value} onChange={onChange} clearable value-key="apiId">
         {drDesign.schema?.apiList?.map(api => <ElOption label={api.name} value={api} key={api.apiId} />)}
       </ElSelect>
       <CipButton class="ml-1" square icon={Plus} onClick={addApi}></CipButton>

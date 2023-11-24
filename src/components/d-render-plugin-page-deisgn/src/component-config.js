@@ -7,8 +7,8 @@ export default {
     component: () => () => import('./page-table-design'),
     layout: true
   },
-  curd: {
-    component: () => () => import('./curd/'),
+  curdDesign: {
+    component: () => () => import('./curd-design'),
     layout: true
   },
   pageInfo: {

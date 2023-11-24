@@ -1,7 +1,16 @@
 import { getItemConfig } from '../utils'
 
 export default {
-  key: { readable: true },
+  // key: { readable: true },
+  api: {
+    label: '接口',
+    type: 'select-api',
+    dependOn: ['options', 'key'],
+    onChange ({ api, dependOn }) {
+      const pageTable = dependOn.options?.find(o => o.key === 'default')
+      pageTable.children = (api.outParams || []).map(opt => getItemConfig(opt))
+    }
+  },
   otherKey: {
     type: 'select',
     allowCreate: true,
@@ -61,21 +70,21 @@ export default {
   //     })`
 
   // },
-  model: {
-    label: '数据模型',
-    type: 'selectModule'
-  },
-  options: {
-    dependOn: ['model'],
-    changeValue ({ model }) {
-      return {
-        value: [{
-          key: 'default',
-          children: (model?.children || []).map(opt => getItemConfig(opt))
-        }]
-      }
-    }
-  },
+  // model: {
+  //   label: '数据模型',
+  //   type: 'selectModule'
+  // },
+  // options: {
+  //   dependOn: ['model'],
+  //   changeValue ({ model }) {
+  //     return {
+  //       value: [{
+  //         key: 'default',
+  //         children: (model?.children || []).map(opt => getItemConfig(opt))
+  //       }]
+  //     }
+  //   }
+  // },
   hideLabel: {},
   hideAdd: { type: 'switch' },
   hideDelete: { type: 'switch' },

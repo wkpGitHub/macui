@@ -9,9 +9,6 @@ const methodsConfigFieldList = generateFieldList({
     infoRender: (h, { item }) => {
       return h('div', null, [item.name])
     },
-    dialogProps: {
-      size: 'small'
-    },
     formProps: {
       fieldList
     }

@@ -21,6 +21,10 @@ export default {
     layout: true
   },
   form: () => () => import('./form'),
+  curd: {
+    component: () => () => import('./curd'),
+    layout: true
+  },
   selectTreePanel: () => () => import('./select-tree-panel'),
   lineChart: () => () => import('./block-view-chart/line-chart'),
   barChart: () => () => import('./block-view-chart/bar-chart'),

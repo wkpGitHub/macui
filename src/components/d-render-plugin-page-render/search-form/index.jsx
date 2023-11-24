@@ -20,15 +20,20 @@ export default {
     ]
 
     const TransformModelSearchForm = (props, { emit }) => {
-      const { modelValue = {}, dataBus, events, options, ...componentProps } = props
+      const { modelValue, dataBus, events, options, ...componentProps } = props
       const fieldList = options[0] ? options[0].children : []
       const handleEvent = useEventConfigure()
+      if (!modelValue) componentProps['onUpdate:modelValue']({})
+
       return <CipSearchForm
         {...componentProps}
         model={modelValue}
+        inForm
+        dependOnValues={props.dependOnValues}
         onUpdate:model={componentProps['onUpdate:modelValue']}
         fieldList={fieldList}
         onSearch={(isReset) => {
+          props.config.getData?.({ params: modelValue })
           if (isReset) handleEvent(events?.reset?.value || [], `${props.config.id}_reset`, modelValue)
           else handleEvent(events?.search?.value || [], `${props.config.id}_search`, modelValue)
           // cipFormRenderMethod.page()

@@ -36,8 +36,20 @@ export default {
     const schema = ref({
       dataModel: initDataModel
     })
+    function appendKeyAndId (list) {
+      list.forEach(item => {
+        item.config.id = item.id
+        item.config.key = item.key
+        if (item.config?.options) {
+          const _children = []
+          item.config.options.forEach(o => o.children && _children.push(...o.children))
+          appendKeyAndId(_children)
+        }
+      })
+    }
     const handleSave = (item) => {
-      const { apiList, ...schemaOther } = schema.value;
+      const { apiList, ...schemaOther } = schema.value
+      appendKeyAndId(schemaOther.list);
       (apiList || []).forEach(item => Reflect.deleteProperty(item, 'index'))
       const data = { ...pageInfo.value, schema: schemaOther, apiList }
       pageInfoService.save(data).then(res => {
@@ -63,7 +75,8 @@ export default {
       pageTable: 'pageTableDesign',
       dialog: 'dialogDesign',
       form: 'formDesign',
-      entity: 'entityDesign'
+      entity: 'entityDesign',
+      curd: 'curdDesign'
     }
     setPageInfo()
     const plugins = [

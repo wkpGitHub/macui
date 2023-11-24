@@ -1,20 +1,13 @@
 import { getItemConfig } from '../utils'
 
 export default {
-  key: { readable: true },
-  model: {
-    label: '数据模型',
-    type: 'selectModule'
-  },
-  options: {
-    dependOn: ['model'],
-    changeValue ({ model }) {
-      return {
-        value: [{
-          key: 'default',
-          children: (model?.children || []).map(opt => getItemConfig(opt))
-        }]
-      }
+  api: {
+    label: '接口',
+    type: 'select-api',
+    dependOn: ['options', 'key'],
+    onChange ({ api, dependOn }) {
+      const form = dependOn.options?.find(o => o.key === 'default')
+      form.children = (api.inputParams || []).map(opt => getItemConfig(opt))
     }
   },
   showOnly: {

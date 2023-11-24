@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 import CipDialog from '@cip/components/cip-dialog'
 import CipTree from '@cip/components/cip-tree'
-import { apiConfigService } from '@/api'
+import { apiConfigService, centerService } from '@/api'
 
 export function useFxDialog (proxyValue, proxyOtherValue) {
   const state = reactive({ isShow: false, item: {}, data: [] })
@@ -11,12 +11,21 @@ export function useFxDialog (proxyValue, proxyOtherValue) {
     state.item = item
   }
 
-  function onConfirm (resolve) {
-    if (state.item.name) {
-      proxyValue.value = state.item.name
-      proxyOtherValue[0].value = state.item
+  function onConfirm (resolve, reject) {
+    if (state.item.id) {
+      centerService.getContent(state.item.id).then(({ data }) => {
+        const { inputParams, outParams } = data.flow || { inputParams: [], outParams: [] }
+        proxyValue.value = state.item.name
+        proxyOtherValue[0].value = {
+          ...state.item,
+          inputParams,
+          outParams
+        }
+        resolve()
+      }).catch(() => reject())
+    } else {
+      reject()
     }
-    resolve()
   }
 
   function renderTreeItem ({ node, data }) {

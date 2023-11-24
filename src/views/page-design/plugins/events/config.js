@@ -1,7 +1,10 @@
 import { generateFieldList } from 'd-render'
 import { getModuleTree } from '@/components/d-render-plugin-page-render/use-event-configure'
+import { cloneDeep } from '@cip/utils/util.js'
+// import { cloneDeep } from '@cip/utils/util'
 
 export const TYPE_KEY = {
+  updateView: 'updateView',
   method: 'method',
   openDialog: 'openDialog',
   script: 'script',
@@ -12,6 +15,7 @@ export const TYPE_KEY = {
   disabled: 'disabled'
 }
 export const EVENT_TYPE = [
+  { value: 'updateView', label: '更新展示块' },
   { value: 'method', label: '函数' },
   { value: 'openDialog', label: '打开弹窗' },
   { value: 'router', label: '页面' },
@@ -53,6 +57,45 @@ export function getConfig (drDesign) {
       type: 'switch'
     }
   })
+  const updateViewFieldList = generateFieldList({
+    target: {
+      label: '选择展示块',
+      type: 'select',
+      withObject: true,
+      hideIndex: true,
+      hideAdd: true,
+      hideDelete: true,
+      otherKey: '_viewData',
+      asyncOptions: () => {
+        const _list = []
+        function getApis (list = []) {
+          list.forEach(item => {
+            if (item.config?.api) {
+              _list.push({ ...item, label: item.config.label, value: item.key })
+            }
+            if (item.config?.options) {
+              const _children = []
+              item.config.options?.forEach(o => o.children && _children.push(...o.children))
+              getApis(_children)
+            }
+          })
+        }
+        getApis(drDesign.schema?.list)
+        return _list
+      }
+    },
+    inputParams: {
+      type: 'table',
+      options: generateFieldList({
+        name: { label: '字段', writable: true },
+        value: { label: '值', writable: true, type: 'pageFx' }
+      }),
+      dependOn: ['_viewData'],
+      changeValue ({ _viewData: { config } }) {
+        return { value: cloneDeep(config.api.inputParams || []) }
+      }
+    }
+  })
   // 弹窗配置
   const openDialogFieldList = generateFieldList({
     dialogKey: {
@@ -87,8 +130,54 @@ export function getConfig (drDesign) {
     api: {
       label: '接口请求',
       type: 'select',
+      withObject: true,
+      otherKey: '_apiData',
+      optionProps: {
+        label: 'name',
+        value: 'name'
+      },
       asyncOptions: () => {
-        return drDesign.schema.apiList.map(item => item.name)
+        return drDesign.schema?.apiList || []
+      }
+    },
+    inputParams: {
+      label: '请求参数',
+      dependOn: ['_apiData'],
+      type: 'table',
+      options: generateFieldList({
+        name: { label: '字段', writable: true },
+        value: { label: '值', writable: true, type: 'pageFx' }
+      }),
+      hideIndex: true,
+      hideAdd: true,
+      hideDelete: true,
+      changeValue ({ _apiData }) {
+        return { value: (_apiData.inputParams || []).map(item => ({ ...item })) }
+      }
+    },
+    type: {
+      label: '返回结果赋值于',
+      type: 'radio',
+      options: [{ value: 'module', label: '组件' }, { value: 'variable', label: '外部变量' }],
+      defaultValue: 'module'
+    },
+    target: {
+      label: '目标',
+      type: 'selectTree',
+      optionProps: {
+        label: 'title',
+        value: 'name',
+        emitPath: false,
+        checkStrictly: true
+      },
+      dependOn: ['type'],
+      resetValue: true,
+      asyncOptions ({ type }) {
+        if (type === 'module') {
+          return getModuleTree(false, drDesign)
+        } else if (type === 'variable') {
+          return drDesign.schema.variables
+        }
       }
     }
   })
@@ -97,7 +186,7 @@ export function getConfig (drDesign) {
     type: {
       label: '类型',
       type: 'radio',
-      options: [{ value: 'module', label: '组件' }, { value: 'variable', label: '页面变量' }],
+      options: [{ value: 'module', label: '组件' }, { value: 'variable', label: '外部变量' }],
       defaultValue: 'module'
     },
     target: {
@@ -144,6 +233,7 @@ export function getConfig (drDesign) {
   })
 
   return {
+    [TYPE_KEY.updateView]: updateViewFieldList,
     [TYPE_KEY.method]: methodFieldList,
     [TYPE_KEY.script]: scriptFieldList,
     [TYPE_KEY.openDialog]: openDialogFieldList,

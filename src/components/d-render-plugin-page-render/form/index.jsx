@@ -18,11 +18,19 @@ const Comp = (props) => {
     modelValue = {}
     componentProps['onUpdate:modelValue'](modelValue)
   }
+
+  if (!modelValue) {
+    modelValue = {}
+    componentProps['onUpdate:modelValue'](modelValue)
+  }
+
   return <CipForm
     {...componentProps}
     model={modelValue}
     onUpdate:model={componentProps['onUpdate:modelValue']}
     fieldList={fieldList}
+    inForm
+    dependOnValues={dependOnValues}
   />
 }
 

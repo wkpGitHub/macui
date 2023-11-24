@@ -1,6 +1,7 @@
-import { inject } from 'vue'
+import { inject, watch } from 'vue'
 import { formatPath, formatQuery } from '@/lib/utils'
 import { isLayoutType } from 'd-render'
+import { setFieldValue, getFieldValue } from '@d-render/shared'
 
 // 处理页面跳转
 const handleRouter = (event, { router }, options) => {
@@ -36,22 +37,34 @@ export const handleEvent = async (e, drPageRender, options) => {
     } else if (eventType === 'router') {
       handleRouter(event, drPageRender, options)
     } else if (eventType === 'api') {
-      await drPageRender.apiList[event.api](options)
+      const params = event.inputParams.reduce((total, current) => {
+        total[current.name] = getFxValue(current.value || [], drPageRender.variables, drPageRender.model)
+        return total
+      }, {})
+      const data = await drPageRender.apiList[event.api]?.({ params })
+      eventHandleMap.setVal(event, data, drPageRender)
     } else if (eventType === 'setVal') {
-      eventHandleMap.setVal(event, drPageRender)
+      eventHandleMap.setVal(event, null, drPageRender)
     } else if (eventType === 'visible') {
       const item = getListConfigByKey(drPageRender.fieldList, event.target)
       item.config.hideItem = getFxValue(event.value, drPageRender.variables, drPageRender.model)
     } else if (eventType === 'disabled') {
       const item = getListConfigByKey(drPageRender.fieldList, event.target)
       item.config.disabled = getFxValue(event.value, drPageRender.variables, drPageRender.model)
+    } else if (eventType === 'updateView') {
+      const item = getListConfigByKey(drPageRender.fieldList, event.target)
+      const params = event.inputParams.reduce((total, current) => {
+        total[current.name] = getFxValue(current.value || [], drPageRender.variables, drPageRender.model)
+        return total
+      }, {})
+      await item.config.getData?.({ params })
     }
   }
 }
 
 const eventHandleMap = {
-  setVal (event, drPageRender) {
-    const _value = getFxValue(event.value, drPageRender.variables, drPageRender.model)
+  setVal (event, value, drPageRender) {
+    const _value = value || getFxValue(event.value, drPageRender.variables, drPageRender.model)
     // 给组件赋值
     if (event.type === 'module') {
       const item = getListConfigByKey(drPageRender.fieldList, event.target)
@@ -156,12 +169,14 @@ export function getModules (list, c, pKey = '', disabledLayout) {
           if (i === 0) {
             c.push({
               name: k,
+              type: item.config.type,
               title: '当前页',
               source: 'module'
             })
           } else if (i === 1) {
             c.push({
               name: k,
+              type: item.config.type,
               title: '总条数',
               source: 'module'
             })
@@ -170,6 +185,7 @@ export function getModules (list, c, pKey = '', disabledLayout) {
       } else {
         _item.name = pKey ? `${pKey}.${item.key}` : item.key
         _item.title = item.config.label
+        _item.type = item.config.type
         // 是layout继承当前父亲key，否则继承父亲key+当前key
         _pKey = isLayoutType(item.config.type) ? pKey : _item.name
         c.push(_item)
@@ -177,6 +193,7 @@ export function getModules (list, c, pKey = '', disabledLayout) {
     } else {
       _item.name = pKey ? `${pKey}.${item.key}` : item.key
       _item.title = item.config.label
+      _item.type = item.config.type
       // 是layout继承当前父亲key，否则继承父亲key+当前key
       _pKey = isLayoutType(item.config.type) ? pKey : _item.name
       c.push(_item)
@@ -281,7 +298,7 @@ export function downloadFile (res) {
 }
 
 const fxToValueMap = {
-  fx (item, variables, model) {
+  fx (item, variables) {
     const startText = item.value + '('
     const endText = ')'
     let args = ''
@@ -291,7 +308,7 @@ const fxToValueMap = {
       }
       let varItemStr = ' '
       argList.forEach((varItem, i) => {
-        varItemStr += fxToValueMap[varItem.type](varItem, variables, model)
+        varItemStr += fxToValueMap[varItem.type](varItem, variables)
         if (i < argList.length - 1) {
           varItemStr += ' '
         }
@@ -300,10 +317,10 @@ const fxToValueMap = {
     })
     return startText + args + endText
   },
-  var (item, variables, model) {
+  var (item, variables) {
     // eslint-disable-next-line quotes
     // return `variables['${item.value}'] || model['${item.value}']`
-    return JSON.stringify(variables[item.value] || model[item.value])
+    return JSON.stringify(getFieldValue(variables, item.value))
   },
   constant (item) {
     return (isNaN(Number(item.value))) ? `'${item.value}'` : item.value
@@ -316,7 +333,7 @@ const fxToValueMap = {
 export function getFxValue (list, variables, model) {
   let str = ''
   list.forEach((item, index) => {
-    str += fxToValueMap[item.type](item, variables, model)
+    str += fxToValueMap[item.type](item, { ...variables, ...model })
   })
 
   function isNull (value) {
@@ -342,3 +359,12 @@ export function getFxValue (list, variables, model) {
   return new Function(`return ${str}`)()
 }
 /* eslint-enable */
+
+export function useWatch (proxyValue, securityConfig) {
+  const drPageRender = inject('drPageRender', {})
+  if (securityConfig.value.watch && drPageRender) {
+    watch(proxyValue, (v) => {
+      setFieldValue(drPageRender.model, securityConfig.value.watch, v)
+    })
+  }
+}

@@ -2,6 +2,8 @@ import { ElInput } from 'element-plus'
 // import { CipFormInputTransform } from 'd-render'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import { useEvents } from '../use-event'
+import { getFxValue, useWatch } from '@/components/d-render-plugin-page-render/use-event-configure'
+import { inject } from 'vue'
 
 export default {
   name: 'input',
@@ -12,8 +14,12 @@ export default {
       proxyValue,
       securityConfig
     } = useFormInput(props, ctx)
-
+    const drPageRender = inject('drPageRender', {})
+    if (securityConfig.value.defaultValue) {
+      proxyValue.value = getFxValue(securityConfig.value.defaultValue || [], drPageRender.variables, drPageRender.model)
+    }
     const { eventMap } = useEvents(props, securityConfig)
+    useWatch(proxyValue, securityConfig)
 
     return () => {
       const { hideItem, ...otherConfig } = securityConfig.value

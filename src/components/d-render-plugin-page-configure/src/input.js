@@ -1,9 +1,10 @@
 import { defaultConfigureOptions } from '@d-render/shared'
 const { label } = defaultConfigureOptions
 export default {
-  key: {
+  id: {
+    label: '字段',
     type: 'selectModuleField',
-    otherKey: 'label'
+    otherKey: ['key', 'label']
   },
   label,
   events: {
@@ -26,8 +27,9 @@ export default {
     ]
   },
   changeValueStr: {
-    type: 'select-dependOn',
-    otherKey: ['dependOn', 'valueChangeConfig'],
+    type: 'out-dependOn',
+    canOutDependOn: true,
+    otherKey: ['dependOn', 'outDependOn'],
     readable: false,
     dependOn: ['defaultValueType', 'id', 'label'],
     changeConfig (config, { defaultValueType }) {
@@ -40,6 +42,7 @@ export default {
   },
   defaultValue: {
     placeholder: '请输入默认值',
+    type: 'pageFx',
     hideLabel: true,
     readable: false,
     dependOn: ['defaultValueType'],
@@ -50,6 +53,10 @@ export default {
       }
       return config
     }
+  },
+  watch: {
+    label: '文本内容作用于展示块',
+    type: 'select-watch'
   }
 
 }

@@ -44,27 +44,43 @@ export const fieldList = generateFieldList({
     type: 'switch',
     label: '文件下载'
   },
-  headers: {
-    label: '请求头【key为&，将解构整个对象】',
-    type: 'table',
-    options: generateFieldList({
-      name: { label: 'key', writable: true },
-      value: { label: 'value', writable: true, type: 'pageVar' }
-    })
-  },
+  // headers: {
+  //   label: '请求头【key为&，将解构整个对象】',
+  //   type: 'table',
+  //   options: generateFieldList({
+  //     name: { label: 'key', writable: true },
+  //     value: { label: 'value', writable: true, type: 'pageVar' }
+  //   })
+  // },
   inputParams: {
-    label: '发送数据【key为&，将解构整个对象】',
+    label: '入参',
     type: 'table',
+    hideIndex: true,
     options: generateFieldList({
-      name: { label: 'key', writable: true },
-      value: { label: 'value', writable: true, type: 'pageVar' }
+      name: { label: '字段', writable: true },
+      title: { label: '描述', writable: true },
+      dataType: { label: '数据类型', writable: true, type: 'dataType2', otherKey: 'refDataId', defaultValue: 'STRING' }
     }),
     dependOn: ['_apiMap'],
     changeValue ({ _apiMap }) {
-      console.log('_apiMap', _apiMap)
-      debugger
       if (_apiMap) {
-        return { value: _apiMap.httpMethod }
+        return { value: _apiMap.inputParams || [] }
+      }
+    }
+  },
+  outParams: {
+    label: '出参',
+    type: 'table',
+    hideIndex: true,
+    options: generateFieldList({
+      name: { label: '字段', writable: true },
+      title: { label: '描述', writable: true },
+      dataType: { label: '描述', writable: true, type: 'dataType2', otherKey: 'refDataId', defaultValue: 'STRING' }
+    }),
+    dependOn: ['_apiMap'],
+    changeValue ({ _apiMap }) {
+      if (_apiMap) {
+        return { value: _apiMap.outParams || [] }
       }
     }
   }

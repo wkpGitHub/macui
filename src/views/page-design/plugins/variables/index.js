@@ -6,6 +6,6 @@ export class VariablesPlugin extends ModulePlugin {
   constructor (options) {
     super(options)
     this.Component = RouterQueryComponent
-    this.config = { name: 'variables', title: '页面变量', icon: h(routerQuery) }
+    this.config = { name: 'variables', title: '外部变量', icon: h(routerQuery) }
   }
 }

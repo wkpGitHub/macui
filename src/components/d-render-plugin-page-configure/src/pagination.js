@@ -6,7 +6,8 @@ export default {
     allowCreate: true,
     realArray: true,
     multiple: true,
-    limit: 2
+    limit: 2,
+    defaultValue: ['page_num', 'total']
   },
   pageSizes: {
     type: 'select',

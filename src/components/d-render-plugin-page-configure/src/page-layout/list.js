@@ -1,6 +1,29 @@
 import { slotsCommonConfig } from '../slots-common-config'
+import { getItemConfig } from '../../utils'
 export default {
-  key: {},
+  api: {
+    type: 'select-api',
+    label: '查询接口',
+    dependOn: ['options', 'key', 'searchParams'],
+    onChange ({ row, api, updateDataModel, dependOn, getListConfigByType, fetchData }) {
+      const children = []
+      dependOn.options?.forEach(o => o.children && children.push(...o.children))
+      const searchForm = getListConfigByType(children, 'searchForm')
+      const pageTable = getListConfigByType(children, 'pageTable')
+      if (searchForm) {
+        searchForm.config.options = [{
+          key: 'default',
+          children: (row.flow?.inputParams || []).map(opt => getItemConfig(opt))
+        }]
+      }
+      if (pageTable) {
+        pageTable.config.options = [{
+          key: 'default',
+          children: (row.flow?.outParams || []).map(opt => getItemConfig(opt))
+        }]
+      }
+    }
+  },
   title: {
     label: '页面标题'
   },

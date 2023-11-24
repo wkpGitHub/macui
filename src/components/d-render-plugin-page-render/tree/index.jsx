@@ -1,7 +1,7 @@
 import { defineComponent, reactive, ref, watch } from 'vue'
 import { ElTree, ElInput } from 'element-plus'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
-import { useEventConfigure } from '../use-event-configure'
+import { useEventConfigure, useWatch } from '../use-event-configure'
 
 export default defineComponent({
   name: 'tree',
@@ -13,6 +13,8 @@ export default defineComponent({
       securityConfig
     } = useFormInput(props, ctx)
     // const drDesign = inject('drDesign')
+
+    useWatch(proxyValue, securityConfig)
 
     const treeRef = ref()
 
@@ -62,7 +64,7 @@ export default defineComponent({
 
     const handleEvent = useEventConfigure()
     function onNodeClick (data) {
-      proxyValue.value = data[securityConfig.value.nodeKey]
+      proxyValue.value = data[securityConfig.value.nodeKey || 'id']
       handleEvent(securityConfig.value.events?.click?.value || [], `${securityConfig.value.key}_click`, data[securityConfig.value.nodeKey])
     }
 

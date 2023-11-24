@@ -73,54 +73,52 @@ export default {
       // setRouterQuery(v)
     }, { immediate: true })
     const router = useRouter()
-
     const variables = computed(() => {
-      const _variables = {}
-      _variables.routerQuery = route.query
+      const _variables = { ...route.query }
       ;(securityScheme.value.variables || []).forEach((current) => {
-        _variables[current.name] = getFxValue(current.value || [], _variables, props.model)
+        _variables[current.name] = _variables[current.name] || current.value
       })
       return _variables
     })
 
     const apiList = computed(() => {
       const _apiList = securityScheme.value.apiList.reduce((total, current) => {
-        total[current.name] = async function (options) {
-          const params = current.inputParams?.reduce((total, current) => {
-            if (current.name === '&') {
-              const _obj = getVarValue(current.value, variables.value, props.model) || {}
-              Object.assign(total, _obj)
-            } else {
-              total[current.name] = getVarValue(current.value, variables.value, props.model)
-            }
-            return total
-          }, {})
+        total[current.name] = function (options) {
+          // const params = current.inputParams?.reduce((total, current) => {
+          //   if (current.name === '&') {
+          //     const _obj = getVarValue(current.value, variables.value, props.model) || {}
+          //     Object.assign(total, _obj)
+          //   } else {
+          //     total[current.name] = getVarValue(current.value, variables.value, props.model)
+          //   }
+          //   return total
+          // }, {})
 
-          const headers = current.headers?.reduce((total, current) => {
-            if (current.name === '&') {
-              const _obj = getVarValue(current.value, variables.value, props.model) || {}
-              Object.assign(total, _obj)
-            } else {
-              total[current.name] = getVarValue(current.value, variables.value, props.model)
-            }
-            return total
-          }, {})
+          // const headers = current.headers?.reduce((total, current) => {
+          //   if (current.name === '&') {
+          //     const _obj = getVarValue(current.value, variables.value, props.model) || {}
+          //     Object.assign(total, _obj)
+          //   } else {
+          //     total[current.name] = getVarValue(current.value, variables.value, props.model)
+          //   }
+          //   return total
+          // }, {})
 
           const axiosArg = {
             url: current.fullPath,
             method: current.httpMethod,
-            headers,
-            params
+            ...options
           }
 
           if (current.isFileDown) {
             axiosArg.responseType = 'blob'
-            await axiosInstance(axiosArg).then(res => downloadFile(res))
+            return axiosInstance(axiosArg).then(res => downloadFile(res))
           } else {
-            await axiosInstance(axiosArg).then(({ data }) => {
+            return axiosInstance(axiosArg).then(({ data }) => {
               if (current.objId) {
                 variables.value[current.objId] = data.data
               }
+              return data.data || {}
             })
           }
         }
@@ -147,10 +145,11 @@ export default {
     expose({
       drPageRef
     })
+
     return () => <DrPage
       ref={drPageRef}
       model={props.model}
-      onUpdate:model={(val) => emit('update:model', val)}
+      onUpdate:model={val => emit('update:model', val)}
       fieldList={fieldList.value}
       equipment={props.equipment}
       grid={grid.value}
