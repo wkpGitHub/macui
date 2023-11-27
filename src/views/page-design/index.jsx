@@ -16,7 +16,7 @@ import { StructurePlugin } from './plugins/structure'
 import { PalettePlugin } from './plugins/palette'
 import { FieldConfigurePlugin } from './plugins/field-configure'
 import { PageDrawPlugin } from './plugins/page-draw'
-import { DataModelPlugin } from './plugins/data-model'
+// import { DataModelPlugin } from './plugins/data-model'
 import { CssConfigurePlugin } from './plugins/css'
 import { VariablesPlugin } from './plugins/variables'
 import { EventsPlugin } from './plugins/events'
@@ -90,7 +90,7 @@ export default {
       new PageDrawPlugin(),
       new FxPlugin(),
       new ApiPlugin(),
-      new DataModelPlugin(),
+      // new DataModelPlugin(),
       new CssConfigurePlugin(),
       new VariablesPlugin()
     ]

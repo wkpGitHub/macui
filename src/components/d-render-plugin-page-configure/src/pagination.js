@@ -1,14 +1,13 @@
 const defaultLayout = 'total,sizes,prev,pager,next,jumper'
 export default {
   key: { readable: true },
-  otherKey: {
-    type: 'select',
-    allowCreate: true,
-    realArray: true,
-    multiple: true,
-    limit: 2,
-    defaultValue: ['page_num', 'total']
-  },
+  // otherKey: {
+  //   type: 'select',
+  //   allowCreate: true,
+  //   realArray: true,
+  //   multiple: true,
+  //   limit: 2
+  // },
   pageSizes: {
     type: 'select',
     label: 'size选项',

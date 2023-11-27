@@ -53,10 +53,10 @@ export default {
       }
       return config
     }
-  },
-  watch: {
-    label: '文本内容作用于展示块',
-    type: 'select-watch'
   }
+  // watch: {
+  //   label: '文本内容作用于展示块',
+  //   type: 'select-watch'
+  // }
 
 }

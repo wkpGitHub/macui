@@ -2,6 +2,7 @@ import CipPagination from '@cip/components/cip-pagination'
 import { formInputProps, fromInputEmits, useFormInput, useInputProps } from '@d-render/shared'
 import { computed } from 'vue'
 import { useEventConfigure } from '../use-event-configure'
+import { v4 as uuidv4 } from 'uuid'
 export default {
   props: formInputProps,
   emits: fromInputEmits,
@@ -28,6 +29,10 @@ export default {
       }
     })
     const handleEvent = useEventConfigure()
+    if (!props.config.otherKey?.length) {
+      // eslint-disable-next-line vue/no-mutating-props
+      props.config.otherKey = [`pageNum_${uuidv4()}`, `total_${uuidv4()}`]
+    }
     return () => <CipPagination
       { ...inputProps.value }
       v-model:limit={proxyValue.value}

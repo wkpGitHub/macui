@@ -21,7 +21,6 @@ export function useEvents (props, securityConfig) {
       return pre
     }, {})
   })
-
   return {
     eventMap
   }

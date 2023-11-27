@@ -1,4 +1,5 @@
 import { getItemConfig } from '../utils'
+import { generateFieldList } from 'd-render'
 
 export default {
   // key: { readable: true },
@@ -10,6 +11,17 @@ export default {
       const pageTable = dependOn.options?.find(o => o.key === 'default')
       pageTable.children = (api.outParams || []).map(opt => getItemConfig(opt))
     }
+  },
+  'api.inputParams': {
+    label: '参数',
+    type: 'table',
+    hideIndex: true,
+    hideAdd: true,
+    hideDelete: true,
+    options: generateFieldList({
+      name: { label: '变量名', writable: true },
+      value: { label: '默认值', writable: true, type: 'pageFx' }
+    })
   },
   otherKey: {
     type: 'select',

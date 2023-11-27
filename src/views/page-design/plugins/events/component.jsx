@@ -2,7 +2,7 @@ import { ref, watch, provide, computed, nextTick, withModifiers, inject } from '
 import { ElDropdown, ElDropdownMenu, ElDropdownItem, ElButton, ElCollapse, ElCollapseItem, ElIcon } from 'element-plus'
 import { Plus, Delete, Edit } from '@element-plus/icons-vue'
 import { filterList } from '@/lib/utils'
-import { EVENT_TYPE, getConfig } from './config'
+import { EVENT_TYPE, getConfig, useUpdateView } from './config'
 import CipMessageBox from '@cip/components/cip-message-box'
 import LayoutBox from '@/components/d-render-plugin-page-render/layout-box'
 import CipDialog from '@cip/components/cip-dialog'
@@ -31,6 +31,7 @@ export default {
     const currentDialog = ref({
       isShow: false
     })
+
     // TODO: 通过源代码修改，修改的值无法正常的回显，因为检测不到selectItem的变化
     const eventsBridge = ref({})
     watch(() => props.selectItem, (val) => {
@@ -101,6 +102,8 @@ export default {
 
     function saveItem (resolve) {
       const { parent, item, index } = currentDialog.value
+      Reflect.deleteProperty(item, '_viewData')
+      Reflect.deleteProperty(item, '_apiData')
       if (index > -1) {
         eventsBridge.value[parent.type].value.splice(index, 1, { ...item, ...treeModel.value })
       } else {
@@ -129,15 +132,40 @@ export default {
     }
 
     function addEvent (parent) {
+      handleNodeClick({ data: { value: 'updateView', label: '更新展示块' } })
       currentDialog.value = {
         parent,
-        item: {},
+        item: { eventType: 'updateView' },
         index: -1,
         isShow: true
       }
     }
 
+    function saveUpdateView (item, resolve) {
+      const { type, target, inputParams } = item
+      const _item = {
+        target,
+        inputParams,
+        eventType: 'updateView',
+        eventName: '更新展示块'
+      }
+      if (Object.prototype.hasOwnProperty.call(eventsBridge.value, type)) {
+        eventsBridge.value[type].value.push(_item)
+      } else {
+        eventsBridge.value[type] = {
+          label: eventTypeMap[type],
+          type,
+          value: [_item]
+        }
+      }
+      collaseExpends.value = [...new Set([...collaseExpends.value, type])]
+      updateSelectItem()
+      resolve()
+    }
+    const { state, render } = useUpdateView(drDesign, eventTypes, saveUpdateView)
+
     return () => eventTypes.value.length > 0 && <>
+      <ElButton style="width: 100%" class="mt-2" onClick={() => { state.isShow = true; state.item = {} }}>更新展示块</ElButton>
       <ElDropdown style="width: 100%" class="my-2" onCommand={onCommand}>{{
         default: () => <ElButton style="width: 100%">添加事件</ElButton>,
         dropdown: () => <ElDropdownMenu>
@@ -177,6 +205,7 @@ export default {
           content: () => <CipForm v-model:model={currentDialog.value.item} fieldList={formFieldList.value} key={treeModel.value.eventType} />
         }}</LayoutBox>
       </CipDialog>
+      {render()}
     </>
   }
 }

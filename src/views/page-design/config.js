@@ -74,66 +74,13 @@ const curdConfig = {
             label: '分页器',
             limit: 10,
             offset: 1,
-            otherKey: ['page_num', 'total'],
             layout: 'total,sizes,prev,pager,next,jumper',
             pageSizes: [5, 10, 15, 20]
           }
         }
       ]
-    },
-    {
-      key: 'dialog',
-      children: [
-        {
-          config: {
-            type: 'dialog',
-            class: 'disabled-table',
-            label: '弹窗',
-            hideLabel: true,
-            usingSlots: [
-              'default'
-            ],
-            options: [
-              {
-                key: 'default',
-                children: [
-                  {
-                    config: {
-                      type: 'form',
-                      class: 'disabled-table',
-                      label: '表单',
-                      hideLabel: true,
-                      usingSlots: [
-                        'default'
-                      ],
-                      options: [
-                        {
-                          key: 'default',
-                          children: []
-                        }
-                      ],
-                      labelPosition: 'right'
-                    }
-                  }
-                ]
-              }
-            ],
-            size: 'default',
-            width: '100%',
-            top: '15vh',
-            buttonSize: 'default',
-            dialogType: 'dialog',
-            defaultValue: true,
-            closeOnClickModal: false,
-            showOnly: false,
-            showCancel: true,
-            title: '新增'
-          }
-        }
-      ]
     }
-  ],
-  apiList: { save: '', del: '', search: '' }
+  ]
 }
 
 export const componentsGroupList = [

@@ -24,11 +24,18 @@ export default {
       const pagination = getListConfigByType(children, 'pagination')
       
       if (!props.config.getData) {
-        function getData (axisOptions) {
+        function getData (axisOptions={}) {
+          const _params = (api.inputParams || []).reduce((total, current) => {
+            total[current.name] = getFxValue(current.value || [], drPageRender.variables, drPageRender.model)
+            return total
+          }, {})
+
+          const {params, ...otherOptions} = axisOptions
           axiosInstance({
             url: api.fullPath,
             method: api.httpMethod,
-            ...axisOptions
+            ...otherOptions,
+            params: {..._params, ...params},
           }).then(({ data }) => {
             const { page, list } = data.data
             setFieldValue(drPageRender.model, pageTable.key, list)
@@ -39,13 +46,8 @@ export default {
         }
         props.config.getData = getData
         searchForm.config.getData = getData
-
         // 初次自执行
-        const params = (api.inputParams || []).reduce((total, current) => {
-          total[current.name] = getFxValue(current.value || [], drPageRender.variables, drPageRender.model)
-          return total
-        }, {})
-        getData({ params })
+        getData()
       }
 
       return !hideItem && <div>

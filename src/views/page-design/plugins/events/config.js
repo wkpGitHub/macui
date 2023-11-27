@@ -1,6 +1,8 @@
-import { generateFieldList } from 'd-render'
+import { generateFieldList, CipForm } from 'd-render'
 import { getModuleTree } from '@/components/d-render-plugin-page-render/use-event-configure'
 import { cloneDeep } from '@cip/utils/util.js'
+import { reactive } from 'vue'
+import CipDialog from '@cip/components/cip-dialog'
 // import { cloneDeep } from '@cip/utils/util'
 
 export const TYPE_KEY = {
@@ -41,7 +43,47 @@ const getDialogKeyList = (list, result = []) => {
   })
   return result
 }
-
+const updateViewFieldList = (drDesign, params) => generateFieldList({
+  ...params,
+  target: {
+    label: '选择展示块',
+    type: 'select',
+    required: true,
+    withObject: true,
+    hideIndex: true,
+    hideAdd: true,
+    hideDelete: true,
+    otherKey: '_viewData',
+    asyncOptions: () => {
+      const _list = []
+      function getApis (list = []) {
+        list.forEach(item => {
+          if (item.config?.api) {
+            _list.push({ ...item, label: item.config.label, value: item.key })
+          }
+          if (item.config?.options) {
+            const _children = []
+            item.config.options?.forEach(o => o.children && _children.push(...o.children))
+            getApis(_children)
+          }
+        })
+      }
+      getApis(drDesign.schema?.list)
+      return _list
+    }
+  },
+  inputParams: {
+    type: 'table',
+    options: generateFieldList({
+      name: { label: '字段', writable: true },
+      value: { label: '值', writable: true, type: 'pageFx' }
+    }),
+    dependOn: ['_viewData'],
+    changeValue ({ _viewData: { config } }) {
+      return { value: cloneDeep(config.api.inputParams || []) }
+    }
+  }
+})
 export function getConfig (drDesign) {
   // 页面配置
   const routerFieldList = generateFieldList({
@@ -55,45 +97,6 @@ export function getConfig (drDesign) {
     isNewTab: {
       label: '新窗口打开',
       type: 'switch'
-    }
-  })
-  const updateViewFieldList = generateFieldList({
-    target: {
-      label: '选择展示块',
-      type: 'select',
-      withObject: true,
-      hideIndex: true,
-      hideAdd: true,
-      hideDelete: true,
-      otherKey: '_viewData',
-      asyncOptions: () => {
-        const _list = []
-        function getApis (list = []) {
-          list.forEach(item => {
-            if (item.config?.api) {
-              _list.push({ ...item, label: item.config.label, value: item.key })
-            }
-            if (item.config?.options) {
-              const _children = []
-              item.config.options?.forEach(o => o.children && _children.push(...o.children))
-              getApis(_children)
-            }
-          })
-        }
-        getApis(drDesign.schema?.list)
-        return _list
-      }
-    },
-    inputParams: {
-      type: 'table',
-      options: generateFieldList({
-        name: { label: '字段', writable: true },
-        value: { label: '值', writable: true, type: 'pageFx' }
-      }),
-      dependOn: ['_viewData'],
-      changeValue ({ _viewData: { config } }) {
-        return { value: cloneDeep(config.api.inputParams || []) }
-      }
     }
   })
   // 弹窗配置
@@ -130,6 +133,7 @@ export function getConfig (drDesign) {
     api: {
       label: '接口请求',
       type: 'select',
+      required: true,
       withObject: true,
       otherKey: '_apiData',
       optionProps: {
@@ -163,6 +167,7 @@ export function getConfig (drDesign) {
     },
     target: {
       label: '目标',
+      required: true,
       type: 'selectTree',
       optionProps: {
         label: 'title',
@@ -191,6 +196,7 @@ export function getConfig (drDesign) {
     },
     target: {
       label: '赋值目标',
+      required: true,
       type: 'selectTree',
       optionProps: {
         label: 'title',
@@ -209,6 +215,7 @@ export function getConfig (drDesign) {
       }
     },
     value: {
+      required: true,
       label: '值',
       type: 'pageFx'
     }
@@ -218,6 +225,7 @@ export function getConfig (drDesign) {
     target: {
       label: '目标组件',
       type: 'selectTree',
+      required: true,
       optionProps: {
         label: 'title',
         value: 'name',
@@ -227,13 +235,14 @@ export function getConfig (drDesign) {
       options: getModuleTree(false, drDesign)
     },
     value: {
+      required: true,
       label: '值',
       type: 'pageFx'
     }
   })
 
   return {
-    [TYPE_KEY.updateView]: updateViewFieldList,
+    [TYPE_KEY.updateView]: updateViewFieldList(drDesign, {}),
     [TYPE_KEY.method]: methodFieldList,
     [TYPE_KEY.script]: scriptFieldList,
     [TYPE_KEY.openDialog]: openDialogFieldList,
@@ -242,5 +251,28 @@ export function getConfig (drDesign) {
     [TYPE_KEY.setVal]: setValFieldList,
     [TYPE_KEY.visible]: visibleFieldList,
     [TYPE_KEY.disabled]: visibleFieldList
+  }
+}
+
+export function useUpdateView (drDesign, eventTypes, saveUpdateView) {
+  const state = reactive({
+    isShow: false,
+    item: {}
+  })
+  return {
+    state,
+    render () {
+      const formFieldList = updateViewFieldList(drDesign, {
+        type: {
+          label: '触发方式',
+          type: 'select',
+          options: eventTypes.value,
+          required: true
+        }
+      })
+      return <CipDialog title={'更新展示块'} v-model={state.isShow} onConfirm={(resolve) => saveUpdateView(state.item, resolve)}>
+        <CipForm v-model:model={state.item} fieldList={formFieldList} />
+      </CipDialog>
+    }
   }
 }

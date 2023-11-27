@@ -1,12 +1,64 @@
-import { slotsCommonConfig } from './slots-common-config'
+import { getItemConfig } from '../utils'
+import { generateFieldList } from 'd-render'
 
 export default {
-  key: { readable: true },
+  api: {
+    label: '接口',
+    type: 'select-api',
+    dependOn: ['options', 'key'],
+    onChange ({ api, dependOn, getListConfigByType }) {
+      const children = []
+      dependOn.options?.forEach(o => o.children && children.push(...o.children))
+      const form = getListConfigByType(children, 'form')
+      if (form.config?.options[0]) {
+        form.config.options[0].children = (api.inputParams || []).map(opt => getItemConfig(opt))
+      }
+    }
+  },
+  'api.inputParams': {
+    label: '参数',
+    type: 'table',
+    hideIndex: true,
+    hideAdd: true,
+    hideDelete: true,
+    options: generateFieldList({
+      name: { label: '变量名', writable: true },
+      value: { label: '默认值', writable: true, type: 'pageFx' }
+    })
+  },
   title: {
     label: '标题'
   },
-  subTitle: {
-    label: '副标题'
+  // subTitle: {
+  //   label: '副标题'
+  // },
+  useDefaultHandle: {
+    label: '使用默认底部操作栏',
+    type: 'switch',
+    defaultValue: true
+  },
+  usingSlots: {
+    hideItem: true,
+    immediateChangeValue: true,
+    dependOn: ['useDefaultHandle'],
+    changeValue ({ useDefaultHandle }) {
+      return {
+        value: useDefaultHandle ? ['default'] : ['default', 'footer']
+      }
+    }
+  },
+  options: {
+    hideItem: 'true',
+    type: 'arrayObject',
+    dependOn: ['usingSlots', 'options'],
+    changeValue: ({ usingSlots, options }) => {
+      const value = options.concat(usingSlots.filter(name => {
+        return !options.find(option => option.key === name)
+      }).map(name => ({ key: name, children: [] })))
+      return {
+        value
+      }
+    }
   },
   dialogType: {
     label: '弹窗类型',
@@ -18,9 +70,9 @@ export default {
     ]
   },
   defaultValue: {
-    label: '默认开启状态',
+    label: '默认显示',
     type: 'switch',
-    defaultValue: true,
+    defaultValue: false,
     activateValue: true,
     inactivateValue: false
   },
@@ -95,15 +147,11 @@ export default {
     activateValue: true,
     inactivateValue: false
   },
-  confirm: {
-    label: '确认函数',
-    type: 'eventConfig'
-  },
-  beforeConfirm: {
-    label: '确认前回调函数'
-  },
-  ...slotsCommonConfig([
-    { value: 'default', label: '默认' },
-    { value: 'footer', label: '底栏' }
-  ])
+  events: {
+    hideItem: true,
+    options: [
+      { label: '确认前回调事件', value: 'beforeConfirm' },
+      { label: '确认事件', value: 'confirm' }
+    ]
+  }
 }
