@@ -42,9 +42,9 @@ export const handleEvent = async (e, drPageRender, options) => {
         return total
       }, {})
       const data = await drPageRender.apiList[event.api]?.({ params })
-      eventHandleMap.setVal(event, data, drPageRender)
-    } else if (eventType === 'setVal') {
-      eventHandleMap.setVal(event, null, drPageRender)
+      eventHandleMap.setResult(event, data, drPageRender)
+    } else if (eventType === 'componentMethod') {
+      eventHandleMap.componentMethod(event, drPageRender)
     } else if (eventType === 'visible') {
       const item = getListConfigByKey(drPageRender.fieldList, event.target)
       item.config.hideItem = getFxValue(event.value, drPageRender.variables, drPageRender.model)
@@ -63,8 +63,7 @@ export const handleEvent = async (e, drPageRender, options) => {
 }
 
 const eventHandleMap = {
-  setVal (event, value, drPageRender) {
-    const _value = value || getFxValue(event.value, drPageRender.variables, drPageRender.model)
+  setResult (event, _value, drPageRender) {
     // 给组件赋值
     if (event.type === 'module') {
       const item = getListConfigByKey(drPageRender.fieldList, event.target)
@@ -96,6 +95,17 @@ const eventHandleMap = {
       }
     } else if (event.type === 'variable') {
       drPageRender.variables[event.target] = _value
+    }
+  },
+
+  componentMethod (event, drPageRender) {
+    const { methodName, args, target } = event
+    const _args = (args || []).map(v => getFxValue(v, drPageRender.variables, drPageRender.model))
+    if (methodName === 'setData') {
+      drPageRender.dataBus(target, _args[0])
+    } else {
+      const item = getListConfigByKey(drPageRender.fieldList, target)
+      item.config[methodName](..._args)
     }
   }
 }
@@ -135,6 +145,8 @@ export const useEventConfigure = () => {
   const drPageRender = inject('drPageRender', {})
   const handleEventBridge = (e, varKey, options) => {
     if (varKey) drPageRender.variables[varKey] = options
+    // 给当前点击事件回调参数赋值
+    drPageRender.variables.CURRENT_EVENT = options
     return handleEvent(e, drPageRender, options)
   }
   return handleEventBridge
@@ -170,15 +182,13 @@ export function getModules (list, c, pKey = '', disabledLayout) {
             c.push({
               name: k,
               type: item.config.type,
-              title: '当前页',
-              source: 'module'
+              title: item.config.label + '_当前页'
             })
           } else if (i === 1) {
             c.push({
               name: k,
               type: item.config.type,
-              title: '总条数',
-              source: 'module'
+              title: item.config.label + '_总条数'
             })
           }
         })
@@ -190,6 +200,24 @@ export function getModules (list, c, pKey = '', disabledLayout) {
         _pKey = isLayoutType(item.config.type) ? pKey : _item.name
         c.push(_item)
       }
+    } else if (item.config.type === 'pageTable') {
+      if (disabledLayout) {
+        (item.config.otherKey || []).forEach((k, i) => {
+          if (i === 0) {
+            c.push({
+              name: k,
+              type: item.config.type,
+              title: item.config.label + '_勾选的数据'
+            })
+          }
+        })
+      }
+      _item.name = pKey ? `${pKey}.${item.key}` : item.key
+      _item.title = item.config.label
+      _item.type = item.config.type
+      // 是layout继承当前父亲key，否则继承父亲key+当前key
+      _pKey = isLayoutType(item.config.type) ? pKey : _item.name
+      c.push(_item)
     } else {
       _item.name = pKey ? `${pKey}.${item.key}` : item.key
       _item.title = item.config.label

@@ -1,7 +1,8 @@
 import { getItemConfig } from '../utils'
-import { generateFieldList } from 'd-render'
+import { v4 as uuidv4 } from 'uuid'
 
 export default {
+  title: { label: '标题', defaultValue: '弹窗' },
   api: {
     label: '接口',
     type: 'select-api',
@@ -10,24 +11,31 @@ export default {
       const children = []
       dependOn.options?.forEach(o => o.children && children.push(...o.children))
       const form = getListConfigByType(children, 'form')
-      if (form.config?.options[0]) {
-        form.config.options[0].children = (api.inputParams || []).map(opt => getItemConfig(opt))
+      if (form.key) {
+        form.config.options = [{
+          key: 'default',
+          children: (api.inputParams || []).map(opt => getItemConfig(opt))
+        }]
+      } else {
+        const _key = uuidv4()
+        dependOn.options[0].children = [{
+          key: _key,
+          id: _key,
+          config: {
+            type: 'form',
+            class: 'disabled-table',
+            key: _key,
+            id: _key,
+            label: '表单',
+            usingSlots: ['default'],
+            options: [{
+              key: 'default',
+              children: (api.inputParams || []).map(opt => getItemConfig(opt))
+            }]
+          }
+        }]
       }
     }
-  },
-  'api.inputParams': {
-    label: '参数',
-    type: 'table',
-    hideIndex: true,
-    hideAdd: true,
-    hideDelete: true,
-    options: generateFieldList({
-      name: { label: '变量名', writable: true },
-      value: { label: '默认值', writable: true, type: 'pageFx' }
-    })
-  },
-  title: {
-    label: '标题'
   },
   // subTitle: {
   //   label: '副标题'
@@ -152,6 +160,13 @@ export default {
     options: [
       { label: '确认前回调事件', value: 'beforeConfirm' },
       { label: '确认事件', value: 'confirm' }
+    ]
+  },
+  methods: {
+    hideItem: true,
+    options: [
+      { label: '关闭弹窗', value: 'close' },
+      { label: '打开弹窗', value: 'open', args: ['参数1', '参数2'] }
     ]
   }
 }

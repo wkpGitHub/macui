@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import Framework from './framework/index.vue'
 import ToolBar from './widgets/tool-bar'
 // import ApiConfig from './widgets/api-config'
@@ -47,9 +47,10 @@ export default {
         }
       })
     }
+    watch(() => schema.value.list, appendKeyAndId)
+
     const handleSave = (item) => {
-      const { apiList, ...schemaOther } = schema.value
-      appendKeyAndId(schemaOther.list);
+      const { apiList, ...schemaOther } = schema.value;
       (apiList || []).forEach(item => Reflect.deleteProperty(item, 'index'))
       const data = { ...pageInfo.value, schema: schemaOther, apiList }
       pageInfoService.save(data).then(res => {
@@ -80,19 +81,19 @@ export default {
     }
     setPageInfo()
     const plugins = [
+      new VariablesPlugin(),
       new PalettePlugin({
         data: componentsGroupList
       }),
       new StructurePlugin(),
-      new CodeSourcePlugin(),
+      new ApiPlugin(),
       new FieldConfigurePlugin(),
       new EventsPlugin(),
       new PageDrawPlugin(),
       new FxPlugin(),
-      new ApiPlugin(),
       // new DataModelPlugin(),
-      new CssConfigurePlugin(),
-      new VariablesPlugin()
+      new CodeSourcePlugin(),
+      new CssConfigurePlugin()
     ]
 
     return () => <Framework appPath={props.appPath} >

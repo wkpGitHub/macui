@@ -1,6 +1,6 @@
 const defaultLayout = 'total,sizes,prev,pager,next,jumper'
 export default {
-  key: { readable: true },
+  label: { },
   // otherKey: {
   //   type: 'select',
   //   allowCreate: true,
@@ -29,10 +29,5 @@ export default {
     multiple: true,
     defaultValue: defaultLayout,
     options: defaultLayout.split(',')
-  },
-  onRefresh: {
-    label: '刷新事件',
-    type: 'eventConfig',
-    include: ['methods', 'script']
   }
 }

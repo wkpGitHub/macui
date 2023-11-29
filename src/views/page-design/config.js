@@ -25,25 +25,7 @@ const curdConfig = {
     },
     {
       key: 'handle',
-      children: [
-        {
-          config: {
-            type: 'button',
-            label: '按钮',
-            text: '新增',
-            icon: 'el-icon-plus',
-            inputType: 'primary'
-          }
-        },
-        {
-          config: {
-            type: 'button',
-            label: '按钮',
-            text: '删除',
-            icon: 'el-icon-delete'
-          }
-        }
-      ]
+      children: []
     },
     {
       key: 'default',
@@ -53,14 +35,14 @@ const curdConfig = {
             type: 'pageTable',
             class: 'disabled-table',
             label: '表格',
-            hideLabel: true,
+            withTableHandle: true,
+            selectType: 'checkbox',
             options: [
               {
                 key: 'default',
                 children: []
               }
-            ],
-            hideItem: false
+            ]
           }
         }
       ]
@@ -76,6 +58,34 @@ const curdConfig = {
             offset: 1,
             layout: 'total,sizes,prev,pager,next,jumper',
             pageSizes: [5, 10, 15, 20]
+          }
+        }
+      ]
+    },
+    {
+      key: 'dialog',
+      children: [
+        {
+          config: {
+            type: 'dialog',
+            label: '弹窗',
+            title: '新增',
+            options: [
+              {
+                key: 'default',
+                children: [
+                  {
+                    config: {
+                      type: 'form',
+                      class: 'disabled-table',
+                      label: '表单',
+                      usingSlots: ['default'],
+                      options: [{ key: 'default', children: [] }]
+                    }
+                  }
+                ]
+              }
+            ]
           }
         }
       ]
@@ -231,7 +241,20 @@ export const componentsGroupList = [
       { type: 'text', icon: 'el-icon-tickets', label: '文字', hideLabel: true, defaultValue: '这里是文字', fontWeight: 'normal', fontSize: 14, textAlign: 'left' },
       { type: 'text', icon: 'el-icon-edit', label: '展示值' },
       { type: 'pagination', icon: 'el-icon-edit', label: '分页器', limit: 10, offset: 1, pageSizes: [5, 8, 10, 15, 20] },
-      { type: 'tree', icon: 'el-icon-menu', label: '树' }
+      { type: 'tree', icon: 'el-icon-menu', label: '树' },
+      { type: 'button', icon: 'el-icon-edit', label: '按钮', text: '按钮' },
+      {
+        type: 'tableButton',
+        icon: 'el-icon-edit',
+        _label: '操作栏',
+        label: '操作',
+        dependOn: ['id'],
+        dynamic: true,
+        options: [
+          { key: '', text: '详情', click: [] },
+          { key: '', text: '删除', click: [] }
+        ]
+      }
     ]
   },
   {
@@ -294,27 +317,6 @@ export const componentsGroupList = [
         ]
       },
       { type: 'pagination', icon: 'el-icon-menu', label: '分页器', limit: 10, offset: 1 }
-    ]
-  },
-  {
-    groupName: 'button',
-    label: '表格按钮',
-    components: [
-      {
-        type: 'tableButton',
-        icon: 'el-icon-edit',
-        label: '表格按钮',
-        options: [
-          { key: '', text: '详情', click: 'info' },
-          { key: '', text: '删除', click: 'delete' }
-        ]
-      },
-      {
-        type: 'button',
-        icon: 'el-icon-edit',
-        label: '按钮',
-        text: '按钮'
-      }
     ]
   }
 ]

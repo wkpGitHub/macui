@@ -1,8 +1,7 @@
 import { getItemConfig } from '../utils'
 
 export default {
-  key: { readable: true },
-  label: {},
+  label: { },
   grid: {
     label: '栅格数',
     defaultValue: 6,

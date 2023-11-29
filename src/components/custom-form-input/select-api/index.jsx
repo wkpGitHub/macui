@@ -1,14 +1,15 @@
-import { ElSelect, ElOption } from 'element-plus'
+import { ElSelect, ElOption, ElSwitch } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { reactive, inject } from 'vue'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import { CipButton } from '@xdp/button'
 import { fieldList } from './config'
-import { CipForm } from 'd-render'
+import { CipForm, generateFieldList } from 'd-render'
 import CipDialog from '@cip/components/cip-dialog'
 import { getListConfigByKey, getListConfigByType } from '@/components/d-render-plugin-page-render/use-event-configure'
 import axiosInstance from '@/views/app/pages/api'
 import { cloneDeep } from '@cip/utils/util'
+import FormTable from '@cip/d-render-plugin-cci/esm/input/basic/table'
 
 export default {
   name: 'curd-config',
@@ -85,14 +86,40 @@ export default {
       state.isShow = true
     }
 
-    return () => <div style="width: 100%" class="flex">
-      <ElSelect style="flex:auto" modelValue={proxyValue.value} onChange={onChange} clearable value-key="apiId">
-        {drDesign.schema?.apiList?.map(api => <ElOption label={api.name} value={api} key={api.apiId} />)}
-      </ElSelect>
-      <CipButton class="ml-1" square icon={Plus} onClick={addApi}></CipButton>
+    const tableConfig = {
+      label: '参数',
+      type: 'table',
+      hideIndex: true,
+      hideAdd: true,
+      hideDelete: true,
+      options: generateFieldList({
+        name: { label: '变量名', writable: true },
+        value: { label: '默认值', writable: true, type: 'pageFx' }
+      })
+    }
+
+    function updateModelValue (key, v) {
+      proxyValue.value[key] = v
+    }
+
+    return () => <>
+      <div style="width: 100%" class="flex">
+        <ElSelect style="flex:auto" modelValue={proxyValue.value} onChange={onChange} clearable value-key="apiId">
+          {drDesign.schema?.apiList?.map(api => <ElOption label={api.name} value={api} key={api.apiId} />)}
+        </ElSelect>
+        <CipButton class="ml-1" square icon={Plus} onClick={addApi}></CipButton>
+      </div>
+      {!props.config.hideInputParams && <>
+        <div class="mt-1">入参</div>
+        <FormTable modelValue={proxyValue.value?.inputParams || []} onUpdate:modelValue={v => updateModelValue('inputParams', v)} config={tableConfig} />
+      </>}
+      {!props.config.hideInitSearch && <>
+        <div class="mt-1" style="width: 100%">是否初始拉取</div>
+        <ElSwitch modelValue={proxyValue.value?.initSearch} onUpdate:modelValue={v => updateModelValue('initSearch', v)} />
+      </>}
       <CipDialog title="新增接口" v-model={state.isShow} onConfirm={saveItem} >
         <CipForm v-model:model={state.current} fieldList={fieldList}></CipForm>
       </CipDialog>
-    </div>
+    </>
   }
 }

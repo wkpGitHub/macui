@@ -1,8 +1,9 @@
 import { generateFieldList, CipForm } from 'd-render'
-import { getModuleTree } from '@/components/d-render-plugin-page-render/use-event-configure'
+import { getModuleTree, getListConfigByKey } from '@/components/d-render-plugin-page-render/use-event-configure'
 import { cloneDeep } from '@cip/utils/util.js'
 import { reactive } from 'vue'
 import CipDialog from '@cip/components/cip-dialog'
+import { getComponentConfigure } from '../field-configure/config'
 // import { cloneDeep } from '@cip/utils/util'
 
 export const TYPE_KEY = {
@@ -12,18 +13,18 @@ export const TYPE_KEY = {
   script: 'script',
   router: 'router',
   api: 'api',
-  setVal: 'setVal',
+  componentMethod: 'componentMethod',
   visible: 'visible',
   disabled: 'disabled'
 }
 export const EVENT_TYPE = [
-  { value: 'updateView', label: '更新展示块' },
-  { value: 'method', label: '函数' },
-  { value: 'openDialog', label: '打开弹窗' },
-  { value: 'router', label: '页面' },
-  { value: 'script', label: '脚本' },
+  { value: 'updateView', label: '联动' },
+  { value: 'componentMethod', label: '调用组件方法' },
   { value: 'api', label: '接口请求' },
-  { value: 'setVal', label: '赋值' },
+  { value: 'openDialog', label: '打开弹窗' },
+  { value: 'router', label: '打开页面' },
+  { value: 'method', label: '函数' },
+  { value: 'script', label: '脚本' },
   { value: 'visible', label: '隐藏组件' },
   { value: 'disabled', label: '禁用组件' }
 ]
@@ -187,15 +188,9 @@ export function getConfig (drDesign) {
     }
   })
 
-  const setValFieldList = generateFieldList({
-    type: {
-      label: '类型',
-      type: 'radio',
-      options: [{ value: 'module', label: '组件' }, { value: 'variable', label: '外部变量' }],
-      defaultValue: 'module'
-    },
+  const componentMethodFieldList = generateFieldList({
     target: {
-      label: '赋值目标',
+      label: '目标组件',
       required: true,
       type: 'selectTree',
       optionProps: {
@@ -204,20 +199,33 @@ export function getConfig (drDesign) {
         emitPath: false,
         checkStrictly: true
       },
-      dependOn: ['type'],
-      resetValue: true,
-      asyncOptions ({ type }) {
-        if (type === 'module') {
-          return getModuleTree(false, drDesign)
-        } else if (type === 'variable') {
-          return drDesign.schema.variables
-        }
+      asyncOptions () {
+        return getModuleTree(false, drDesign)
       }
     },
-    value: {
+    methodName: {
+      label: '组件内部方法',
+      type: 'select',
+      withObject: true,
       required: true,
-      label: '值',
-      type: 'pageFx'
+      otherKey: '_method',
+      dependOn: ['target'],
+      async asyncOptions ({ target }) {
+        const _options = [{ label: '设置值', value: 'setData' }]
+        if (target) {
+          const item = getListConfigByKey(drDesign.schema?.list, target)
+          const configure = await getComponentConfigure(item.config.type)
+          configure.methods?.options?.forEach(m => _options.push(m))
+        }
+
+        return _options
+      }
+    },
+    args: {
+      required: true,
+      hideLabel: true,
+      type: 'event-args',
+      dependOn: ['_method']
     }
   })
 
@@ -243,12 +251,12 @@ export function getConfig (drDesign) {
 
   return {
     [TYPE_KEY.updateView]: updateViewFieldList(drDesign, {}),
+    [TYPE_KEY.componentMethod]: componentMethodFieldList,
+    [TYPE_KEY.api]: apiFieldList,
+    [TYPE_KEY.openDialog]: openDialogFieldList,
     [TYPE_KEY.method]: methodFieldList,
     [TYPE_KEY.script]: scriptFieldList,
-    [TYPE_KEY.openDialog]: openDialogFieldList,
     [TYPE_KEY.router]: routerFieldList,
-    [TYPE_KEY.api]: apiFieldList,
-    [TYPE_KEY.setVal]: setValFieldList,
     [TYPE_KEY.visible]: visibleFieldList,
     [TYPE_KEY.disabled]: visibleFieldList
   }
@@ -270,7 +278,7 @@ export function useUpdateView (drDesign, eventTypes, saveUpdateView) {
           required: true
         }
       })
-      return <CipDialog title={'更新展示块'} v-model={state.isShow} onConfirm={(resolve) => saveUpdateView(state.item, resolve)}>
+      return <CipDialog title={'联动'} v-model={state.isShow} onConfirm={(resolve) => saveUpdateView(state.item, resolve)}>
         <CipForm v-model:model={state.item} fieldList={formFieldList} />
       </CipDialog>
     }

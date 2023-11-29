@@ -4,16 +4,17 @@ import { useEventConfigure } from '../use-event-configure'
 export default {
   setup () {
     const buttonProps = [
-      'options'
+      'options',
+      'dependOn'
     ]
     const handleEvent = useEventConfigure()
     const TransformComp = (props, { attrs }) => {
-      const { options, dependOnValues, outDependOnValues } = props
+      const { options, dependOnValues } = props
       return options.map((option, i) => {
         const { text, click, ...otherConfig } = option
         return <CipButtonText {...otherConfig} key={i} onClick={() => {
           const { click } = option
-          handleEvent(click, { dependOnValues, outDependOnValues })
+          handleEvent(click, null, dependOnValues)
           // const method = cipFormRender.methods[click]
           // if (method) method()
         }

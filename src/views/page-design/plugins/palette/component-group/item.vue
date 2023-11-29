@@ -2,7 +2,7 @@
   <li :class="[ns.b(), item.class]">
     <a>
       <i :class="[ns.e('icon'), item.icon]" />
-      {{item.label}}
+      {{item._label || item.label}}
     </a>
   </li>
 </template>

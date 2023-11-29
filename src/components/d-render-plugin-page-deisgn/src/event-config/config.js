@@ -128,7 +128,7 @@ export const config = {
   [TYPE_KEY.router]: routerFieldList,
   [TYPE_KEY.var]: varFieldList,
   [TYPE_KEY.api]: apiFieldList,
-  [TYPE_KEY.setVal]: setValFieldList
+  [TYPE_KEY.componentMethod]: setValFieldList
 }
 
 export const getDialogKeyList = (list, result = []) => {

@@ -6,11 +6,13 @@ import { useEventConfigure, bindEvent, getFxValue } from '../use-event-configure
 import { ElButton } from 'element-plus'
 import {inject} from 'vue'
 import axiosInstance from '@/views/app/pages/api'
+import {useMethods} from './methods'
 
 export default {
   props: { ...layoutProps, modelValue: {} },
   setup (props, context) {
     const { componentSlots, proxyValue } = useComponentSlots(props, context)
+    useMethods(proxyValue, props)
     const drPageRender = inject('drPageRender', {})
     const handleEvent = useEventConfigure()
     function onConfirm (resolve, reject) {

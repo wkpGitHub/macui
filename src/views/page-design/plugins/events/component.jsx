@@ -64,7 +64,7 @@ export default {
       getFieldComponentConfigureFieldConfigList(v).then(res => {
         eventTypes.value = res
         eventTypeMap = res.reduce((total, current) => {
-          total[current.value] = current.label
+          total[current.value] = current
           return total
         }, {})
       })
@@ -72,8 +72,9 @@ export default {
 
     function onCommand (type) {
       eventsBridge.value[type] = {
-        label: eventTypeMap[type],
+        label: eventTypeMap[type].label,
         type,
+        args: eventTypeMap[type].args,
         value: []
       }
       updateSelectItem()
@@ -132,7 +133,7 @@ export default {
     }
 
     function addEvent (parent) {
-      handleNodeClick({ data: { value: 'updateView', label: '更新展示块' } })
+      handleNodeClick({ data: { value: 'updateView', label: '联动' } })
       currentDialog.value = {
         parent,
         item: { eventType: 'updateView' },
@@ -147,7 +148,7 @@ export default {
         target,
         inputParams,
         eventType: 'updateView',
-        eventName: '更新展示块'
+        eventName: '联动'
       }
       if (Object.prototype.hasOwnProperty.call(eventsBridge.value, type)) {
         eventsBridge.value[type].value.push(_item)
@@ -165,7 +166,7 @@ export default {
     const { state, render } = useUpdateView(drDesign, eventTypes, saveUpdateView)
 
     return () => eventTypes.value.length > 0 && <>
-      <ElButton style="width: 100%" class="mt-2" onClick={() => { state.isShow = true; state.item = {} }}>更新展示块</ElButton>
+      <ElButton style="width: 100%" class="mt-2" onClick={() => { state.isShow = true; state.item = {} }}>联动</ElButton>
       <ElDropdown style="width: 100%" class="my-2" onCommand={onCommand}>{{
         default: () => <ElButton style="width: 100%">添加事件</ElButton>,
         dropdown: () => <ElDropdownMenu>

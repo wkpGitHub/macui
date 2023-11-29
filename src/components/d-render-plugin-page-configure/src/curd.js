@@ -1,7 +1,7 @@
 import { getItemConfig } from '../utils'
-import { generateFieldList } from 'd-render'
 
 export default {
+  label: { },
   api: {
     type: 'select-api',
     label: '查询接口',
@@ -41,15 +41,37 @@ export default {
       // }
     }
   },
-  'api.inputParams': {
-    label: '查询参数',
-    type: 'table',
-    hideIndex: true,
-    hideAdd: true,
-    hideDelete: true,
-    options: generateFieldList({
-      name: { label: '变量名', writable: true },
-      value: { label: '默认值', writable: true, type: 'pageFx' }
-    })
+  useDefaultHandle: {
+    label: '使用默认操作栏',
+    type: 'switch',
+    defaultValue: true
+  },
+  usingSlots: {
+    hideItem: true,
+    immediateChangeValue: true,
+    dependOn: ['useDefaultHandle'],
+    changeValue ({ useDefaultHandle }) {
+      return {
+        value: useDefaultHandle ? ['filter', 'title', 'default', 'pagination', 'dialog'] : ['filter', 'title', 'default', 'pagination', 'dialog', 'handle']
+      }
+    }
+  },
+  options: {
+    hideItem: 'true',
+    type: 'arrayObject',
+    dependOn: ['usingSlots', 'options'],
+    changeValue: ({ usingSlots, options }) => {
+      const value = options.concat(usingSlots.filter(name => {
+        return !options.find(option => option.key === name)
+      }).map(name => ({ key: name, children: [] })))
+      return {
+        value
+      }
+    }
+  },
+  deleteApi: {
+    type: 'select-api',
+    label: '删除接口',
+    hideInitSearch: true
   }
 }

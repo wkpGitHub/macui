@@ -301,7 +301,7 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inpu
   }
 
   function getEventVars () {
-    const children = []
+    const children = [{ name: 'CURRENT_EVENT', title: '当前事件回调参数' }]
     function getModules (list) {
       // eslint-disable-next-line array-callback-return
       list.forEach((item) => {
@@ -309,8 +309,12 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inpu
           Object.values(item.config.events).forEach(e => {
             children.push({
               name: `${item.key}_${e.type}`,
-              title: `${item.key}_${e.label}`,
-              source: 'event'
+              title: `${item.config.label}_${e.label}回调参数`,
+              disabled: e.args?.length,
+              children: e.args?.map((arg, i) => ({
+                name: `${item.key}_${e.type}.${i}`,
+                title: arg
+              }))
             })
           })
         }

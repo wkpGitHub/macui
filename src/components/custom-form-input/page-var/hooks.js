@@ -28,7 +28,7 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign) {
   }
 
   function getEventVars () {
-    const children = []
+    const children = [{ name: 'CURRENT_EVENT', title: '当前事件' }]
     function getModules (list) {
       // eslint-disable-next-line array-callback-return
       list.forEach((item) => {
@@ -36,7 +36,12 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign) {
           Object.values(item.config.events).forEach(e => {
             children.push({
               name: `${item.key}_${e.type}`,
-              title: `${item.key}_${e.label}`
+              title: `${item.config.label}_${e.label}`,
+              disabled: e.args?.length,
+              children: e.args?.map((arg, i) => ({
+                name: `${item.key}_${e.type}.${i}`,
+                title: arg
+              }))
             })
           })
         }
