@@ -35,7 +35,7 @@ const curdConfig = {
             type: 'pageTable',
             class: 'disabled-table',
             label: '表格',
-            withTableHandle: true,
+            withDefaultHandle: true,
             selectType: 'checkbox',
             options: [
               {
@@ -253,7 +253,14 @@ export const componentsGroupList = [
         options: [
           { key: '', text: '详情', click: [] },
           { key: '', text: '删除', click: [] }
-        ]
+        ],
+        events: {
+          click: {
+            label: '点击事件',
+            type: 'click',
+            args: ['当前行数据', '当前行索引']
+          }
+        }
       }
     ]
   },

@@ -1,40 +1,14 @@
-import { reactive, computed, withModifiers } from 'vue'
+import { reactive, computed, withModifiers, watch } from 'vue'
 import CipDialog from '@cip/components/cip-dialog'
 import { ElCard } from 'element-plus'
 import CipTree from '@cip/components/cip-tree'
 // import cipStore from '@cip/components/store'
 import { getModuleTree } from '@/components/d-render-plugin-page-render/use-event-configure'
 
-export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inputState) {
-  // const dateTypeMap = computed(() => {
-  //   return cipStore.state.dataType.reduce((total, current) => {
-  //     total[current.id] = current
-  //     return total
-  //   }, {})
-  // })
-
+export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign) {
   function onConfirm (resolve) {
-    // const { selectNode } = parentState
-    // if (selectNode.type === 'set') {
-    //   selectNode.dataType = state.item.dataType
-    //   selectNode.source = state.item.value
-    // }
-    // proxyValue.value = state.varType + state.item.name
-    console.log('展示数据格式：', state.list)
     proxyValue.value = [...state.list]
-    inputState.str = toString()
     resolve()
-  }
-
-  function toString () {
-    let str = ''
-    state.list.forEach((item, index) => {
-      str += stringMap[item.type](item)
-      if (index < state.list.length - 1) {
-        str += ' '
-      }
-    })
-    return str
   }
 
   const stringMap = {
@@ -68,20 +42,45 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inpu
     }
   }
 
+  function listToString (list) {
+    let str = ''
+    list.forEach((item, index) => {
+      str += stringMap[item.type](item)
+      if (index < list.length - 1) {
+        str += ' '
+      }
+    })
+    return str
+  }
+
   const operateTreeOpts = [
     {
       label: '基础函数',
       children: [
         { label: '为空', value: 'isNull' },
-        { label: '不为空', value: 'isNotNull' }
+        { label: '不为空', value: 'isNotNull' },
+        { label: '对象转JSON字符串', value: 'JSON.stringify', info: '对象转JSON字符串( 对象 )' },
+        { label: 'JSON字符串转对象', value: 'JSON.parse', info: 'JSON字符串转对象( JSON字符 )' },
+        { label: '计算长度', value: 'length', info: '计算长度( 数组 或 字符串 )，返回数组或字符串的长度' }
       ]
     },
     {
-      label: '数据处理函数',
+      label: '对象函数',
       children: [
-        { label: '根据key获取对象值', value: 'Reflect.get', info: '根据key获取对象值( 对象 , key )，返回对象中key项的值' },
-        { label: '根据index获取数组值', value: 'arrayAt', info: '根据index获取数组值( 数组 , index )，返回数组中第index项的值' },
-        { label: '计算长度', value: 'length', info: '计算长度( 数组 或 字符串 )，返回数组或字符串的长度' }
+        { label: '创建一个对象', value: 'newObject', info: '创建一个对象()，返回这个对象' },
+        { label: '读取对象key值', value: 'Reflect.get', info: '读取对象key值( 对象, key )，返回对象中key项的值' },
+        { label: '设置对象key值', value: 'reflectSet', info: '设置对象key值( 对象, key, 值 )，返回这个对象' },
+        { label: '移除对象key', value: 'Reflect.deleteProperty', info: '移除对象key( 对象, key )，返回Boolean值表明该属性是否被成功删除' }
+      ]
+    },
+    {
+      label: '数组函数',
+      children: [
+        { label: '创建一个数组', value: 'newArray', info: '创建一个数组()，返回这个数组' },
+        { label: '根据index获取数组值', value: 'Reflect.get', info: '根据index获取数组值( 数组, index )，返回数组中第index项的值' },
+        { label: '向数组末尾增加一个成员', value: 'arrPush', info: '向数组末尾增加一个成员( 数组, 值 )，返回这个数组' },
+        { label: '移除数组最后一个成员', value: 'arrPop', info: '移除数组最后一个成员( 数组 )，返回这个数组' },
+        { label: '向数组中插入或移除一个成员', value: 'arrSplice', info: '向数组中插入或移除一个成员( 数组, 开始位置, 移除几个元素, 新插入的值 )，返回这个数组' }
       ]
     },
     {
@@ -144,11 +143,10 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inpu
     currentFxInfo: ''
   })
 
-  function init () {
-    state.list = [...(proxyValue.value || [])]
-    inputState.str = toString()
-  }
-  init()
+  watch(proxyValue, v => {
+    state.list = [...(v || [])]
+    containerClick()
+  }, { immediate: true })
 
   function containerClick () {
     state.current = {
@@ -273,7 +271,9 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inpu
         arguments: [[], []],
         value: 'contains'
       },
-      'Reflect.get': { type: 'fx', value: 'Reflect.get', desc: '根据key获取对象值', arguments: [[], []] },
+      'Reflect.get': { type: 'fx', value: 'Reflect.get', desc: '读取对象key值', arguments: [[], []] },
+      'Reflect.deleteProperty': { type: 'fx', value: 'Reflect.deleteProperty', desc: '移除对象key', arguments: [[], []] },
+      reflectSet: { type: 'fx', value: 'reflectSet', desc: '设置对象key值', arguments: [[], [], []] },
       arrayAt: { type: 'fx', value: 'arrayAt', desc: '根据index获取数组值', arguments: [[], []] },
       length: { type: 'fx', value: 'length', desc: '计算长度', arguments: [[]] },
       'String.prototype.trim.call': { type: 'fx', value: 'String.prototype.trim.call', desc: '去前后空格', arguments: [[]] },
@@ -282,7 +282,14 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inpu
       'String.prototype.toUpperCase.call': { type: 'fx', value: 'String.prototype.toUpperCase.call', desc: '转大写', arguments: [[]] },
       'String.prototype.toLowerCase.call': { type: 'fx', value: 'String.prototype.toLowerCase.call', desc: '转小写', arguments: [[]] },
       'String.prototype.split.call': { type: 'fx', value: 'String.prototype.split.call', desc: '分割字符串', arguments: [[], [{ type: 'constant', value: ',', desc: ',' }]] },
-      DATE: { type: 'fx', value: 'DATE', desc: '创建日期对象', arguments: [[]] }
+      DATE: { type: 'fx', value: 'DATE', desc: '创建日期对象', arguments: [[]] },
+      'JSON.stringify': { type: 'fx', value: 'JSON.stringify', desc: '对象转JSON字符串', arguments: [[]] },
+      'JSON.parse': { type: 'fx', value: 'JSON.parse', desc: 'JSON字符串转对象', arguments: [[]] },
+      newObject: { type: 'fx', value: 'new Object', desc: '创建一个对象', arguments: [] },
+      newArray: { type: 'fx', value: 'new Array', desc: '创建一个数组', arguments: [] },
+      arrPush: { type: 'fx', value: 'arrPush', desc: '向数组末尾增加一个成员', arguments: [[], []] },
+      arrPop: { type: 'fx', value: 'arrPop', desc: '移除数组最后一个成员', arguments: [[]] },
+      arrSplice: { type: 'fx', value: 'arrSplice', desc: '向数组中插入或移除一个成员', arguments: [[], [], [], []] }
       // thereIn: {
       //   type: 'fx',
       //   desc: '属于',
@@ -296,6 +303,7 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inpu
       //   value: 'unitBelongsTo'
       // }
     }
+    debugger
     state.current.list.splice(state.current.index, 0, fxMap[type])
     state.current.index++
   }
@@ -374,6 +382,7 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign, inpu
 
   return {
     state,
+    listToString,
     render () {
       return state.isShow && <CipDialog title="表达式设置" model-value={true} onUpdate:modelValue={() => { state.isShow = false }} onConfirm={onConfirm} width="900px">
         <div class="fx-editor" onClick={withModifiers(containerClick, ['stop'])}>

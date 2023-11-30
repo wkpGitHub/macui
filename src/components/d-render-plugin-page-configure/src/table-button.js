@@ -18,5 +18,9 @@ export default {
         }
       })
     }
+  },
+  events: {
+    hideItem: true,
+    options: [{ label: '点击事件', value: 'click', args: ['当前行数据', '当前行索引'] }]
   }
 }

@@ -364,27 +364,41 @@ export function getFxValue (list, variables, model) {
     str += fxToValueMap[item.type](item, { ...variables, ...model })
   })
 
-  function isNull (value) {
-    return !value
+  const globalFn = {
+    isNull (value) {
+      return !value
+    },
+    isNotNull (value) {
+      return !!value
+    },
+    length(value) {
+      return value.length
+    },
+    date(value) {
+      return new Date(value)
+    },
+    reflectSet(target, key, value) {
+      Reflect.set(target, key, value)
+      return target
+    },
+    arrPush(arr, value) {
+      arr.push(value)
+      return arr
+    },
+    arrPop(arr) {
+      arr.pop()
+      return arr
+    },
+    arrSplice(arr, start, deleteCount, value) {
+      arr.splice(start, deleteCount, value)
+      return arr
+    }
   }
 
-  function isNotNull (value) {
-    return !!value
-  }
-
-  function arrayAt(arr, index) {
-    return arr[index]
-  }
-
-  function length(value) {
-    return value.length
-  }
-
-  function date(value) {
-    return new Date(value)
-  }
-
-  return new Function(`return ${str}`)()
+  return new Function('globalFn', `
+    const { ${Object.keys(globalFn).join(',')} } = globalFn
+    return ${str}
+  `)(globalFn)
 }
 /* eslint-enable */
 

@@ -19,8 +19,16 @@ export default {
       const tableConfig = computed(() => {
         return props.schema || props.config
       })
-      const columns = options[0] ? options[0].children : []
-      const { api, withTableHandle } = props.config
+      const columns = []
+      let tableButton;
+      (options[0]?.children || []).forEach(item => {
+        if (item.config.type === 'tableButton') {
+          tableButton = item
+        } else {
+          columns.push(item)
+        }
+      })
+      const { api, withDefaultHandle } = props.config
       if (api && !props.config.getData) {
         const params = (api.inputParams || []).reduce((total, current) => {
           total[current.name] = getFxValue(current.value || [], drPageRender.variables, drPageRender.model)
@@ -48,6 +56,22 @@ export default {
         props.config.deleteItem?.(row, $index)
       }
 
+      function renderHandle (withDefaultHandle, tableButton, { row, $index }) {
+        if (withDefaultHandle) {
+          return <>
+            <CipButtonText onClick={() => editItem(row, $index)}>编辑</CipButtonText>
+            <CipButtonText onClick={() => deleteItem(row, $index)}>删除</CipButtonText>
+          </>
+        } else if (tableButton) {
+          return tableButton.config.options.map(item => <CipButtonText onClick={() => {
+            const events = {
+              click: { value: item.click }
+            }
+            bindEvent(handleEvent, 'click', { config: { id: tableButton.id, events } }, [row, $index])
+          }}>{item.text}</CipButtonText>)
+        }
+      }
+
       return <CipTable
         {...tableConfig.value}
         data={modelValue}
@@ -58,12 +82,9 @@ export default {
           bindEvent(handleEvent, 'check', props, v)
         }}
         columns={columns}
-        withTableHandle={withTableHandle}
+        withTableHandle={withDefaultHandle || tableButton}
       >{{
-        $handler: ({ row, $index }) => <>
-          <CipButtonText onClick={() => editItem(row, $index)}>编辑</CipButtonText>
-          <CipButtonText onClick={() => deleteItem(row, $index)}>删除</CipButtonText>
-        </>
+        $handler: ({ row, $index }) => renderHandle(withDefaultHandle, tableButton, { row, $index })
       }}</CipTable>
     }
 

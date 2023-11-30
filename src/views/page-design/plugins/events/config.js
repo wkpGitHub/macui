@@ -211,7 +211,7 @@ export function getConfig (drDesign) {
       otherKey: '_method',
       dependOn: ['target'],
       async asyncOptions ({ target }) {
-        const _options = [{ label: '设置值', value: 'setData' }]
+        const _options = [{ label: '设置值', value: 'setData', args: ['设置值'] }]
         if (target) {
           const item = getListConfigByKey(drDesign.schema?.list, target)
           const configure = await getComponentConfigure(item.config.type)

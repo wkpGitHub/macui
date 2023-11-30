@@ -63,7 +63,7 @@ export default {
       // { label: '单选框', value: 'radio' }
     ]
   },
-  withTableHandle: {
+  withDefaultHandle: {
     label: '使用默认操作按钮',
     type: 'switch'
   },
