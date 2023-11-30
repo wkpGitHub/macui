@@ -251,8 +251,8 @@ export const componentsGroupList = [
         dependOn: ['id'],
         dynamic: true,
         options: [
-          { key: '', text: '详情', click: [] },
-          { key: '', text: '删除', click: [] }
+          { text: '编辑', click: [] },
+          { text: '删除', click: [] }
         ],
         events: {
           click: {

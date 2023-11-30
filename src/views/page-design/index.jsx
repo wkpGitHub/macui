@@ -77,7 +77,8 @@ export default {
       dialog: 'dialogDesign',
       form: 'formDesign',
       entity: 'entityDesign',
-      curd: 'curdDesign'
+      curd: 'curdDesign',
+      pageHandle: 'pageHandleDesign'
     }
     setPageInfo()
     const plugins = [

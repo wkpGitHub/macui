@@ -49,8 +49,8 @@ export default {
   //   }
   // },
   hideIndex: {
-    label: '是否显示序号',
-    defaultValue: true,
+    label: '隐藏序号',
+    defaultValue: false,
     type: 'switch'
   },
   selectType: {

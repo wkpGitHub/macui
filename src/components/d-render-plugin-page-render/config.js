@@ -12,6 +12,10 @@ export default {
     component: () => () => import('./page-layout-list/index'),
     layout: true
   },
+  pageHandle: {
+    component: () => () => import('./page-handle'),
+    layout: true
+  },
   layoutBox: {
     component: () => () => import('./layout-box'),
     layout: true

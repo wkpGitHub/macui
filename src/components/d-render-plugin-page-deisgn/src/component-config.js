@@ -15,8 +15,8 @@ export default {
     component: () => () => import('./page-info'),
     layout: true
   },
-  pageHandle: {
-    component: () => () => import('./page-handle'),
+  pageHandleDesign: {
+    component: () => () => import('./page-handle-design'),
     layout: true
   },
   pageLeftRight: {

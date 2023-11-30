@@ -2,7 +2,7 @@
 import { PlList as CipPageLayoutList } from '@cip/page-layout'
 import { layoutProps, setFieldValue, getFieldValue } from '@d-render/shared'
 import { useComponentSlots } from '@/components/d-render-plugin-page-render/use-component-slots'
-import { getListConfigByType, getFxValue } from '../use-event-configure'
+import { getListConfigByType, getInputParams, isInitSearch } from '../use-event-configure'
 import './index.less'
 import axiosInstance from '@/views/app/pages/api'
 import { inject } from 'vue'
@@ -28,17 +28,12 @@ export default {
       
       if (!props.config.getData) {
         function getData (axisOptions={}) {
-          const _params = (api.inputParams || []).reduce((total, current) => {
-            total[current.name] = getFxValue(current.value || [], drPageRender.variables, drPageRender.model)
-            return total
-          }, {})
-
           const {params, ...otherOptions} = axisOptions
           axiosInstance({
             url: api.fullPath,
             method: api.httpMethod,
             ...otherOptions,
-            params: {..._params, ...params},
+            params: {...getInputParams(api, drPageRender), ...params},
           }).then(({ data }) => {
             const { page, list } = data.data
             setFieldValue(drPageRender.model, pageTable.key, list)
@@ -50,7 +45,7 @@ export default {
         props.config.getData = getData
         searchForm.config.getData = getData
         // 初始拉取
-        api.initSearch && getData()
+        isInitSearch(api, drPageRender) && getData()
       }
 
       function createItem(title='新增', row={}) {

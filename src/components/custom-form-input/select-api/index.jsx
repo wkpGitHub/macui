@@ -1,4 +1,4 @@
-import { ElSelect, ElOption, ElSwitch } from 'element-plus'
+import { ElSelect, ElOption, ElRadioGroup, ElRadio } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { reactive, inject } from 'vue'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
@@ -10,6 +10,7 @@ import { getListConfigByKey, getListConfigByType } from '@/components/d-render-p
 import axiosInstance from '@/views/app/pages/api'
 import { cloneDeep } from '@cip/utils/util'
 import FormTable from '@cip/d-render-plugin-cci/esm/input/basic/table'
+import PageFx from '../page-fx'
 
 export default {
   name: 'curd-config',
@@ -115,7 +116,12 @@ export default {
       </>}
       {!props.config.hideInitSearch && <>
         <div class="mt-1" style="width: 100%">是否初始拉取</div>
-        <ElSwitch modelValue={proxyValue.value?.initSearch} onUpdate:modelValue={v => updateModelValue('initSearch', v)} />
+        <ElRadioGroup modelValue={proxyValue.value?.initSearch} onUpdate:modelValue={v => updateModelValue('initSearch', v)}>
+          <ElRadio label="yes">是</ElRadio>
+          <ElRadio label="no">否</ElRadio>
+          <ElRadio label="fx">表达式</ElRadio>
+        </ElRadioGroup>
+        {proxyValue.value?.initSearch === 'fx' && <PageFx modelValue={proxyValue.value?.initSearchFx} onUpdate:modelValue={v => updateModelValue('initSearchFx', v)} />}
       </>}
       <CipDialog title="新增接口" v-model={state.isShow} onConfirm={saveItem} >
         <CipForm v-model:model={state.current} fieldList={fieldList}></CipForm>

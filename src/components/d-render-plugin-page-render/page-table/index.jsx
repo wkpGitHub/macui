@@ -1,7 +1,7 @@
 import { CipTable, CipFormInputTransform } from 'd-render'
 import { computed, inject } from 'vue'
 import axiosInstance from '@/views/app/pages/api'
-import { getFxValue, useEventConfigure, bindEvent } from '../use-event-configure'
+import { getInputParams, useEventConfigure, bindEvent, isInitSearch } from '../use-event-configure'
 import { setFieldValue } from '@d-render/shared'
 import { CipButtonText } from '@xdp/button'
 
@@ -30,21 +30,17 @@ export default {
       })
       const { api, withDefaultHandle } = props.config
       if (api && !props.config.getData) {
-        const params = (api.inputParams || []).reduce((total, current) => {
-          total[current.name] = getFxValue(current.value || [], drPageRender.variables, drPageRender.model)
-          return total
-        }, {})
         props.config.getData = function () {
           return axiosInstance({
             url: api.fullPath,
             method: api.httpMethod,
-            params
+            params: getInputParams(api, drPageRender)
           }).then(({ data }) => {
             componentProps['onUpdate:modelValue'](data.data?.list || [])
             return data.data
           })
         }
-        api.initSearch && props.config.getData()
+        isInitSearch(api, drPageRender) && props.config.getData()
       }
 
       const handleEvent = useEventConfigure()

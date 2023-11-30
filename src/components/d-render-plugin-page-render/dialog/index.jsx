@@ -2,7 +2,7 @@
 import CipDialog from '@cip/components/cip-dialog'
 import { layoutProps } from '@d-render/shared'
 import { useComponentSlots } from '../use-component-slots'
-import { useEventConfigure, bindEvent, getFxValue } from '../use-event-configure'
+import { useEventConfigure, bindEvent, getInputParams } from '../use-event-configure'
 import { ElButton } from 'element-plus'
 import {inject} from 'vue'
 import axiosInstance from '@/views/app/pages/api'
@@ -19,14 +19,10 @@ export default {
       const {api, options} = props.config
       const defaultItem = options.find(item => item.key === 'default')
       const { key } = defaultItem.children[0] || {}
-      const _params = (api.inputParams || []).reduce((total, current) => {
-        total[current.name] = getFxValue(current.value || [], drPageRender.variables, drPageRender.model)
-        return total
-      }, {})
       axiosInstance({
         url: api.fullPath,
         method: api.httpMethod,
-        body: {..._params, ...drPageRender.model[key]}
+        body: {...getInputParams(api, drPageRender), ...drPageRender.model[key]}
       }).then(({data}) => {
         bindEvent(handleEvent, 'confirm', props, data?.data)
         resolve()

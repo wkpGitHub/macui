@@ -38,7 +38,7 @@ export const handleEvent = async (e, drPageRender, options) => {
       handleRouter(event, drPageRender, options)
     } else if (eventType === 'api') {
       const params = event.inputParams.reduce((total, current) => {
-        total[current.name] = getFxValue(current.value || [], drPageRender.variables, drPageRender.model)
+        total[current.name] = getFxValue(current.value || [], drPageRender)
         return total
       }, {})
       const data = await drPageRender.apiList[event.api]?.({ params })
@@ -47,14 +47,14 @@ export const handleEvent = async (e, drPageRender, options) => {
       eventHandleMap.componentMethod(event, drPageRender)
     } else if (eventType === 'visible') {
       const item = getListConfigByKey(drPageRender.fieldList, event.target)
-      item.config.hideItem = getFxValue(event.value, drPageRender.variables, drPageRender.model)
+      item.config.hideItem = getFxValue(event.value, drPageRender)
     } else if (eventType === 'disabled') {
       const item = getListConfigByKey(drPageRender.fieldList, event.target)
-      item.config.disabled = getFxValue(event.value, drPageRender.variables, drPageRender.model)
+      item.config.disabled = getFxValue(event.value, drPageRender)
     } else if (eventType === 'updateView') {
       const item = getListConfigByKey(drPageRender.fieldList, event.target)
       const params = event.inputParams.reduce((total, current) => {
-        total[current.name] = getFxValue(current.value || [], drPageRender.variables, drPageRender.model)
+        total[current.name] = getFxValue(current.value || [], drPageRender)
         return total
       }, {})
       await item.config.getData?.({ params })
@@ -100,7 +100,7 @@ const eventHandleMap = {
 
   componentMethod (event, drPageRender) {
     const { methodName, args, target } = event
-    const _args = (args || []).map(v => getFxValue(v, drPageRender.variables, drPageRender.model))
+    const _args = (args || []).map(v => getFxValue(v, drPageRender))
     if (methodName === 'setData') {
       drPageRender.dataBus(target, _args[0])
     } else {
@@ -358,10 +358,11 @@ const fxToValueMap = {
   }
 }
 /* eslint-disable */
-export function getFxValue (list, variables, model) {
+export function getFxValue (list, drPageRender) {
+  const values = {...drPageRender.variables, ...drPageRender.model}
   let str = ''
   list.forEach((item, index) => {
-    str += fxToValueMap[item.type](item, { ...variables, ...model })
+    str += fxToValueMap[item.type](item, values)
   })
 
   const globalFn = {
@@ -409,4 +410,19 @@ export function useWatch (proxyValue, securityConfig) {
       setFieldValue(drPageRender.model, securityConfig.value.watch, v)
     })
   }
+}
+
+export function isInitSearch (api, drPageRender) {
+  if (api.initSearch === 'fx') {
+    return getFxValue(api.initSearchFx, drPageRender)
+  } else {
+    return api.initSearch === 'yes'
+  }
+}
+
+export function getInputParams (api, drPageRender) {
+  return (api.inputParams || []).reduce((total, current) => {
+    total[current.name] = getFxValue(current.value || [], drPageRender)
+    return total
+  }, {})
 }
