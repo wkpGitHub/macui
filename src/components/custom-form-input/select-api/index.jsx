@@ -13,7 +13,6 @@ import FormTable from '@cip/d-render-plugin-cci/esm/input/basic/table'
 import PageFx from '../page-fx'
 
 export default {
-  name: 'curd-config',
   props: formInputProps,
   emits: fromInputEmits,
   setup (props, ctx) {
@@ -94,7 +93,7 @@ export default {
       hideAdd: true,
       hideDelete: true,
       options: generateFieldList({
-        name: { label: '变量名', writable: true },
+        name: { label: '参数名', writable: true },
         value: { label: '默认值', writable: true, type: 'pageFx' }
       })
     }
@@ -103,8 +102,10 @@ export default {
       proxyValue.value[key] = v
     }
 
-    return () => <>
-      <div style="width: 100%" class="flex">
+    const wrapStyle = !(props.config.hideInitSearch && props.config.hideInputParams) ? { width: '100%', padding: '4px', border: '1px solid #ddd' } : { width: '100%' }
+
+    return () => <div style={wrapStyle}>
+      <div class="flex">
         <ElSelect style="flex:auto" modelValue={proxyValue.value} onChange={onChange} clearable value-key="apiId">
           {drDesign.schema?.apiList?.map(api => <ElOption label={api.name} value={api} key={api.apiId} />)}
         </ElSelect>
@@ -115,7 +116,7 @@ export default {
         <FormTable modelValue={proxyValue.value?.inputParams || []} onUpdate:modelValue={v => updateModelValue('inputParams', v)} config={tableConfig} />
       </>}
       {!props.config.hideInitSearch && <>
-        <div class="mt-1" style="width: 100%">是否初始拉取</div>
+        <div class="mt-1">是否初始拉取</div>
         <ElRadioGroup modelValue={proxyValue.value?.initSearch} onUpdate:modelValue={v => updateModelValue('initSearch', v)}>
           <ElRadio label="yes">是</ElRadio>
           <ElRadio label="no">否</ElRadio>
@@ -126,6 +127,6 @@ export default {
       <CipDialog title="新增接口" v-model={state.isShow} onConfirm={saveItem} >
         <CipForm v-model:model={state.current} fieldList={fieldList}></CipForm>
       </CipDialog>
-    </>
+    </div>
   }
 }

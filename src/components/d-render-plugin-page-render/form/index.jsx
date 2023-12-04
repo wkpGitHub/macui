@@ -25,7 +25,7 @@ const Comp = (props) => {
   }
 
   return <CipForm
-    {...componentProps}
+    {...componentProps.config}
     model={modelValue}
     onUpdate:model={componentProps['onUpdate:modelValue']}
     fieldList={fieldList}

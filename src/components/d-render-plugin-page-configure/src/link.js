@@ -5,18 +5,8 @@ export default {
     otherKey: 'label'
   },
   label: {},
-  events: {
-    hideItem: true,
-    options: [
-      { label: '输入事件', value: 'input' },
-      { label: '失焦事件', value: 'blur' },
-      { label: '聚焦事件', value: 'focus' },
-      { label: 'change事件', value: 'change' },
-      { label: '清空事件', value: 'clear' }
-    ]
-  },
   defaultValueType: {
-    label: '默认值',
+    label: '链接文本',
     type: 'select',
     defaultValue: 'custom',
     options: [
@@ -51,10 +41,55 @@ export default {
       }
       return config
     }
+  },
+  href: {
+    label: '链接地址',
+    type: 'pageFx'
+  },
+  params: {
+    type: 'link-params'
+  },
+  dependOn: {
+    hideItem: true,
+    dependOn: ['params'],
+    changeValue ({ params }) {
+      return {
+        value: params?.map(item => item.field)
+      }
+    }
+  },
+  dynamic: {
+    hideItem: true,
+    defaultValue: true
+  },
+  newTarget: {
+    label: '是否在新窗口中打开',
+    type: 'switch'
+  },
+  underline: {
+    label: '是否下划线',
+    type: 'switch',
+    defaultValue: true
+  },
+  disabled: {
+    label: '是否禁用超链接',
+    type: 'radio',
+    options: [
+      { label: '是', value: 'yes' },
+      { label: '否', value: 'no' },
+      { label: '表达式', value: 'fx' }
+    ]
+  },
+  disabledFx: {
+    type: 'fx',
+    dependOn: ['disabled'],
+    readable: false,
+    changeConfig (config, { disabled }) {
+      if (disabled === 'fx') {
+        config.readable = true
+        config.writable = true
+      }
+      return config
+    }
   }
-  // watch: {
-  //   label: '文本内容作用于展示块',
-  //   type: 'select-watch'
-  // }
-
 }

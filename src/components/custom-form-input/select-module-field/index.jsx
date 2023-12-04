@@ -4,38 +4,26 @@ import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import { MoreFilled } from '@element-plus/icons-vue'
 import CipDialog from '@cip/components/cip-dialog'
 import CipTree from '@cip/components/cip-tree'
+import { cloneDeep } from '@cip/utils/util'
 
 export default defineComponent({
   props: formInputProps,
   emits: fromInputEmits,
   setup (props, ctx) {
-    const { proxyValue, proxyOtherValue } = useFormInput(props, ctx, { maxOtherKey: 2 })
+    const { proxyValue, proxyOtherValue } = useFormInput(props, ctx)
     const drDesign = inject('drDesign', {})
 
-    let isFind = false
     let api
-    function getParent (parent) {
-      const children = []
-      parent.config?.options?.forEach(o => o.children && children.push(...o.children))
-      if (children?.length) {
-        children.forEach(item => {
-          if (item.id === proxyValue.value) {
-            isFind = true
-          }
-          getParent(item)
-          if (isFind && parent.config.api) {
-            api = parent.config.api
-            isFind = false
-          }
-        })
+    for (let i = drDesign.path.length - 1; i >= 0; i--) {
+      if (drDesign.path[i].config?.api) {
+        api = cloneDeep(drDesign.path[i].config?.api)
       }
     }
-    getParent({ config: { options: [{ children: drDesign.schema?.list }] } })
 
     const options = [
       {
         title: '入参',
-        children: api.inputParams
+        children: api.inputParams || []
       },
       {
         title: '出参',
@@ -51,8 +39,8 @@ export default defineComponent({
 
     function onConfirm (resolve) {
       if (state.item.name) {
-        proxyOtherValue[0].value = state.item.name
-        proxyOtherValue[1].value = state.item.title
+        proxyValue.value = state.item.name
+        proxyOtherValue[0].value = state.item.title
       }
       resolve()
     }
@@ -64,7 +52,7 @@ export default defineComponent({
     }
 
     return () => <>
-      <ElInput v-model={proxyOtherValue[0].value}>{{
+      <ElInput v-model={proxyValue.value}>{{
         suffix: () => <ElIcon style="cursor: pointer" onClick={() => { state.isShow = true }}><MoreFilled /></ElIcon>
       }}</ElInput>
       <CipDialog title={'选择字段'} v-model={state.isShow} onConfirm={onConfirm} width="500px">

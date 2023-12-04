@@ -32,17 +32,23 @@ export default {
         throw new Error(err)
       })
     }
+
     // 请求接口
-    if (detailApi && isInitSearch(detailApi, drPageRender)) {
-      axiosInstance({
-        url: detailApi.fullPath,
-        method: detailApi.httpMethod,
-        params: getInputParams(detailApi, drPageRender)
-      }).then(({ data }) => {
-        drPageRender.dataBus(key, data.data)
-      }).catch((err) => {
-        throw new Error(err)
-      })
+    if (detailApi) {
+      function getData () {
+        axiosInstance({
+          url: detailApi.fullPath,
+          method: detailApi.httpMethod,
+          params: getInputParams(detailApi, drPageRender)
+        }).then(({ data }) => {
+          drPageRender.dataBus(key, data.data)
+        }).catch((err) => {
+          throw new Error(err)
+        })
+      }
+      // eslint-disable-next-line vue/no-mutating-props
+      props.config.getData = getData
+      isInitSearch(detailApi, drPageRender) && getData()
     }
 
     return () => {

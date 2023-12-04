@@ -4,10 +4,9 @@ import { v4 as uuidv4 } from 'uuid'
 export default {
   label: {},
   api: {
-    label: '保存接口',
+    label: '接口',
     type: 'select-api',
     dependOn: ['options', 'key'],
-    hideInitSearch: true,
     onChange ({ api, dependOn, getListConfigByType }) {
       const children = []
       dependOn.options?.forEach(o => o.children && children.push(...o.children))
@@ -19,10 +18,11 @@ export default {
         }]
       } else {
         const _key = uuidv4()
-        dependOn.options[0].children = [{
+        dependOn.options[0].children?.push({
           key: _key,
           id: _key,
           config: {
+            showOnly: true,
             type: 'form',
             class: 'disabled-table',
             key: _key,
@@ -34,26 +34,7 @@ export default {
               children: (api.inputParams || []).map(opt => getItemConfig(opt))
             }]
           }
-        }]
-      }
-    }
-  },
-  detailApi: {
-    label: '详情接口',
-    type: 'select-api'
-  },
-  useDefaultHandle: {
-    label: '使用默认底部操作栏',
-    type: 'switch',
-    defaultValue: true
-  },
-  usingSlots: {
-    hideItem: true,
-    immediateChangeValue: true,
-    dependOn: ['useDefaultHandle'],
-    changeValue ({ useDefaultHandle }) {
-      return {
-        value: useDefaultHandle ? ['default'] : ['default', 'handle']
+        })
       }
     }
   }

@@ -11,9 +11,9 @@ export default {
     type: 'setOptions',
     isTree: true,
     label: '设置数据'
-  },
-  watch: {
-    label: '文本内容作用于展示块',
-    type: 'select-watch'
   }
+  // watch: {
+  //   label: '文本内容作用于展示块',
+  //   type: 'select-watch'
+  // }
 }

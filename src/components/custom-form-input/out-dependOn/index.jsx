@@ -2,7 +2,7 @@ import { ElTreeSelect, ElInput, ElButton } from 'element-plus'
 import CipDialog from '@cip/components/cip-dialog'
 import { reactive, inject, computed } from 'vue'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
-import { getModuleTree, getListConfigByKey } from '@/components/d-render-plugin-page-render/use-event-configure'
+import { getModuleTree } from '@/components/d-render-plugin-page-render/use-event-configure'
 
 function getModules (list = [], pKey = '', id) {
   let _list = []
@@ -49,21 +49,21 @@ export default {
       }
     })
 
-    let _parent
-    function getParent (parent) {
-      const children = []
-      parent.config?.options?.forEach(o => o.children && children.push(...o.children))
-      if (children?.length) {
-        children.forEach(item => {
-          if (item.id === props.dependOnValues.id) {
-            _parent = parent
-          } else {
-            getParent(item)
-          }
-        })
-      }
-    }
-    getParent({ config: { options: [{ children: drDesign.schema?.list }] } })
+    const _parent = drDesign.path.at(-3)
+    // function getParent (parent) {
+    //   const children = []
+    //   parent.config?.options?.forEach(o => o.children && children.push(...o.children))
+    //   if (children?.length) {
+    //     children.forEach(item => {
+    //       if (item.id === props.dependOnValues.id) {
+    //         _parent = parent
+    //       } else {
+    //         getParent(item)
+    //       }
+    //     })
+    //   }
+    // }
+    // getParent({ config: { options: [{ children: drDesign.schema?.list }] } })
 
     const state = reactive({
       isShow: false,
@@ -83,7 +83,7 @@ export default {
       if (_parent) {
         if (['searchForm', 'pageTable', 'form'].includes(_parent.config.type)) {
           // 同一个父亲
-          const _name = node.parent.data.name.split('.').pop()
+          const _name = node.parent.data.name?.split('.')?.pop()
           if (_name === _parent.key) {
             const _key = data.name.split('.').pop()
             proxyOtherValue[0].value = [_key]

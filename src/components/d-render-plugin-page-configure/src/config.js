@@ -1,5 +1,7 @@
 export default {
   input: () => import('./input'),
+  img: () => import('./img'),
+  link: () => import('./link'),
   grid: () => import('./grid'),
   tree: () => import('./tree'),
   pageLayoutList: () => import('./page-layout/list'),
@@ -13,6 +15,7 @@ export default {
   form: () => import('./form-design'),
   entity: () => import('./entity-design'),
   pageHandle: () => import('./page-handle'),
+  pageInfo: () => import('./page-info'),
   lineChart: () => import('./block-view-chart/line-chart'),
   barChart: () => import('./block-view-chart/bar-chart'),
   pieChart: () => import('./block-view-chart/pie-chart'),

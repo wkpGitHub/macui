@@ -51,6 +51,7 @@ export default {
   selectModuleField: () => () => import('./select-module-field'),
   'select-dependOn': () => () => import('./select-dependOn'),
   'out-dependOn': () => () => import('./out-dependOn'),
-  'select-watch': () => () => import('./select-watch'),
-  'event-args': () => () => import('./event-args')
+  // 'select-watch': () => () => import('./select-watch'),
+  'event-args': () => () => import('./event-args'),
+  'link-params': () => () => import('./link-params')
 }

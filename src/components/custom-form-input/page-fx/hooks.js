@@ -1,14 +1,20 @@
 import { reactive, computed, withModifiers, watch } from 'vue'
 import CipDialog from '@cip/components/cip-dialog'
-import { ElCard } from 'element-plus'
+import { ElCard, ElMessage } from 'element-plus'
 import CipTree from '@cip/components/cip-tree'
 // import cipStore from '@cip/components/store'
-import { getModuleTree } from '@/components/d-render-plugin-page-render/use-event-configure'
+import { getModuleTree, getFxValue } from '@/components/d-render-plugin-page-render/use-event-configure'
 
 export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign) {
-  function onConfirm (resolve) {
-    proxyValue.value = [...state.list]
-    resolve()
+  function onConfirm (resolve, reject) {
+    try {
+      getFxValue(state.list, { model: {} })
+      proxyValue.value = [...state.list]
+      resolve()
+    } catch (err) {
+      ElMessage.error('表达式不正确！')
+      reject()
+    }
   }
 
   const stringMap = {

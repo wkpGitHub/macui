@@ -37,6 +37,7 @@ export default {
       }
     ]
   },
+  labelWidth: {},
   scrollToError: {
     type: 'switch',
     label: '是否滚动到错误位置'

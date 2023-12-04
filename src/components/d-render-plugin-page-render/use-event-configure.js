@@ -358,7 +358,7 @@ const fxToValueMap = {
   }
 }
 /* eslint-disable */
-export function getFxValue (list, drPageRender) {
+export function getFxValue (list=[], drPageRender) {
   const values = {...drPageRender.variables, ...drPageRender.model}
   let str = ''
   list.forEach((item, index) => {
