@@ -12,7 +12,7 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign) {
       proxyValue.value = [...state.list]
       resolve()
     } catch (err) {
-      ElMessage.error('表达式不正确！')
+      ElMessage.error('表达式不正确，请修改设置！')
       reject()
     }
   }
@@ -309,15 +309,28 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign) {
       //   value: 'unitBelongsTo'
       // }
     }
-    debugger
+
     state.current.list.splice(state.current.index, 0, fxMap[type])
     state.current.index++
   }
 
   function getEventVars () {
-    const children = [{ name: 'CURRENT_EVENT', title: '当前事件回调参数' }]
+    const children = []
+    const currentItem = drDesign.path.at(-1)
+    if (currentItem.config?.events) {
+      Object.values(currentItem.config.events).forEach(e => {
+        children.push({
+          name: `${currentItem.key}_${e.type}`,
+          title: '当前事件回调参数',
+          disabled: e.args?.length,
+          children: e.args?.map((arg, i) => ({
+            name: `${currentItem.key}_${e.type}.${i}`,
+            title: arg
+          }))
+        })
+      })
+    }
     function getModules (list) {
-      // eslint-disable-next-line array-callback-return
       list.forEach((item) => {
         if (item.config?.events) {
           Object.values(item.config.events).forEach(e => {

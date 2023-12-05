@@ -40,7 +40,7 @@ export default {
 
     return () => {
       const { hideItem, newTarget, underline, defaultValue } = securityConfig.value
-      if (defaultValue.length) {
+      if (defaultValue?.length) {
         proxyValue.value = getFxValue(securityConfig.value.defaultValue, drPageRender)
       }
       return !hideItem && <ElLink type="primary" href={_href.value} underline={underline} target={newTarget ? '_blank' : ''} disabled={getDisabled(props)}>{proxyValue.value}</ElLink>

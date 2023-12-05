@@ -4,7 +4,7 @@ export default {
   api: {
     label: '接口',
     type: 'select-api',
-    dependOn: ['options', 'key'],
+    dependOn: ['options'],
     onChange ({ api, dependOn }) {
       const form = dependOn.options?.find(o => o.key === 'default')
       form.children = (api.inputParams || []).map(opt => getItemConfig(opt))

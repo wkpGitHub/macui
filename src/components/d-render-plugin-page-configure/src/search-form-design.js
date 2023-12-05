@@ -2,25 +2,21 @@ import { getItemConfig } from '../utils'
 
 export default {
   label: { },
+  api: {
+    label: '接口',
+    type: 'select-api',
+    hideInputParams: true,
+    hideInitSearch: true,
+    dependOn: ['options'],
+    onChange ({ api, dependOn }) {
+      const form = dependOn.options?.find(o => o.key === 'default')
+      form.children = (api.inputParams || []).map(opt => getItemConfig(opt))
+    }
+  },
   grid: {
     label: '栅格数',
     defaultValue: 6,
     type: 'number'
-  },
-  model: {
-    label: '数据模型',
-    type: 'selectModule'
-  },
-  options: {
-    dependOn: ['model'],
-    changeValue ({ model }) {
-      return {
-        value: [{
-          key: 'default',
-          children: (model?.children || []).map(opt => getItemConfig(opt))
-        }]
-      }
-    }
   },
   hideSearch: {
     label: '是否隐藏操作按钮',

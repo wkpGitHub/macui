@@ -42,7 +42,7 @@ export const handleEvent = async (e, drPageRender, options) => {
         return total
       }, {})
       const data = await drPageRender.apiList[event.api]?.({ params })
-      eventHandleMap.setResult(event, data, drPageRender)
+      if (event.target) eventHandleMap.setResult(event, data, drPageRender)
     } else if (eventType === 'componentMethod') {
       eventHandleMap.componentMethod(event, drPageRender)
     } else if (eventType === 'visible') {
@@ -145,8 +145,6 @@ export const useEventConfigure = () => {
   const drPageRender = inject('drPageRender', {})
   const handleEventBridge = (e, varKey, options) => {
     if (varKey) drPageRender.variables[varKey] = options
-    // 给当前点击事件回调参数赋值
-    drPageRender.variables.CURRENT_EVENT = options
     return handleEvent(e, drPageRender, options)
   }
   return handleEventBridge

@@ -76,7 +76,6 @@ export function useNodeSetDialog (props, parentState = {}) {
     // if (nodeConfig.formField instanceof Function) {
     //   nodeConfig.formField = nodeConfig.formField({ parentState })
     // }
-    // // eslint-disable-next-line array-callback-return
     // nodeConfig.formField.map(v => {
     //   v.config.parentState = parentState
     //   v.config.changeEffect = async (value, key, data) => {

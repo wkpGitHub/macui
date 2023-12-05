@@ -168,7 +168,6 @@ export function getConfig (drDesign) {
     },
     target: {
       label: '目标',
-      required: true,
       type: 'selectTree',
       optionProps: {
         label: 'title',
