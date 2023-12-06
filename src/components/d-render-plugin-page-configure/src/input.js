@@ -1,9 +1,5 @@
 export default {
-  key: {
-    label: '字段',
-    type: 'selectModuleField',
-    otherKey: 'label'
-  },
+  key: {},
   label: {},
   events: {
     hideItem: true,

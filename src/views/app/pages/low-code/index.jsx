@@ -35,7 +35,7 @@ export default {
         onUpdate:model={(val) => {
           model.value = val
         }}
-        scheme={pageSchema.value}
+        schema={pageSchema.value}
         service={service.value}
       />
   }

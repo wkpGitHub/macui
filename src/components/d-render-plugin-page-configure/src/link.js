@@ -44,10 +44,8 @@ export default {
   },
   href: {
     label: '链接地址',
-    type: 'pageFx'
-  },
-  params: {
-    type: 'link-params'
+    type: 'link-params',
+    otherKey: 'params'
   },
   dependOn: {
     hideItem: true,

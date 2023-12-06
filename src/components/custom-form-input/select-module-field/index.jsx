@@ -13,7 +13,7 @@ export default defineComponent({
     const { proxyValue, proxyOtherValue } = useFormInput(props, ctx)
     const drDesign = inject('drDesign', {})
 
-    let api
+    let api = {}
     for (let i = drDesign.path.length - 1; i >= 0; i--) {
       if (drDesign.path[i].config?.api) {
         api = cloneDeep(drDesign.path[i].config?.api)

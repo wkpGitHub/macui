@@ -20,6 +20,7 @@ import { PageDrawPlugin } from './plugins/page-draw'
 import { CssConfigurePlugin } from './plugins/css'
 import { VariablesPlugin } from './plugins/variables'
 import { EventsPlugin } from './plugins/events'
+import { FormPreviewPlugin } from './plugins/form-preview'
 
 // import { ApiIcon } from './widgets/svg-icons'
 export default {
@@ -28,14 +29,7 @@ export default {
     id: {}
   },
   setup (props) {
-    const initDataModel = [{
-      label: '静态数据',
-      value: 'private',
-      children: []
-    }]
-    const schema = ref({
-      dataModel: initDataModel
-    })
+    const schema = ref({})
     function appendKeyAndId (list) {
       list.forEach(item => {
         item.config.id = item.id
@@ -62,9 +56,6 @@ export default {
     const setPageInfo = () => {
       pageInfoService.detail({ id: props.id }).then(res => {
         pageInfo.value = res.data
-        if (res.data.schema && !res.data.schema.dataModel) {
-          res.data.schema.dataModel = initDataModel
-        }
         Object.assign(schema.value, res.data.schema || {}, { apiList: res.data.apiList || [] })
       })
     }
@@ -94,7 +85,8 @@ export default {
       new FxPlugin(),
       // new DataModelPlugin(),
       new CodeSourcePlugin(),
-      new CssConfigurePlugin()
+      new CssConfigurePlugin(),
+      new FormPreviewPlugin()
     ]
 
     return () => <Framework appPath={props.appPath} >

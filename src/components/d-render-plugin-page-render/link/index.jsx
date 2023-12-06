@@ -24,9 +24,10 @@ export default {
     }
 
     const _href = computed(() => {
-      let _url = getFxValue(securityConfig.value.href, drPageRender)
+      let _url = securityConfig.value.href
       const query = securityConfig.value.params?.map(item => {
-        return `${item.name}=${props.dependOnValues[item.field]}`
+        if (item.field) return `${item.name}=${props.dependOnValues[item.field]}`
+        else return `${item.name}=${getFxValue(item.value, drPageRender)}`
       }).join('&')
       if (query) {
         if (_url.indexOf('?') > -1) {

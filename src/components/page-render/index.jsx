@@ -16,7 +16,7 @@ utils.getFxValue = getFxValue
 export default {
   name: 'PageRender',
   props: {
-    scheme: { type: Object, default: () => ({}) },
+    schema: { type: Object, default: () => ({}) },
     model: Object,
     service: Object,
     equipment: { type: String, default: 'pc' }
@@ -25,7 +25,7 @@ export default {
   setup (props, { emit, expose }) {
     const route = useRoute()
     const securityScheme = computed(() => {
-      return props.scheme || {}
+      return props.schema || {}
     })
     const fieldList = computed(() => securityScheme.value.list || [])
     const grid = computed(() => securityScheme.value.grid || 1)
@@ -50,7 +50,7 @@ export default {
       setFieldValue(props.model, 'methods', _methods)
       return _methods
     })
-    watch(() => props.scheme, (v) => {
+    watch(() => props.schema, (v) => {
       // 页面初始化自动执行的方法
       securityScheme.value.methods?.forEach(async v => {
         if (v.initRun) {

@@ -38,12 +38,28 @@ export default {
       }
     }, { immediate: true })
 
-    return () => <CipForm
-      class="css-configure"
-      model={props.selectItem}
-      labelPosition={'top'}
-      onUpdate:model={(val) => emit('update:selectItem', val)}
-      fieldList={fieldComponentConfigureFieldConfigList.value}
-    />
+    return () => {
+      if (props.selectItem?.config?.type.endsWith('Chart')) {
+        return <CipForm
+          class="css-configure"
+          model={props.selectItem}
+          labelPosition={'top'}
+          onUpdate:model={(val) => emit('update:selectItem', val)}
+          fieldList={fieldComponentConfigureFieldConfigList.value}
+        />
+      } else {
+        return <CipForm
+          class="css-configure"
+          model={props.selectItem.config.style}
+          labelPosition={'top'}
+          onUpdate:model={style => {
+            const _val = props.selectItem
+            _val.config.style = style
+            emit('update:selectItem', _val)
+          }}
+          fieldList={fieldComponentConfigureFieldConfigList.value}
+        />
+      }
+    }
   }
 }
