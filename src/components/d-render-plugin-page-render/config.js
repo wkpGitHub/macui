@@ -3,9 +3,14 @@ export default {
   tableButton: () => () => import('./table-button'),
   button: () => () => import('./button'),
   img: () => () => import('./img'),
+  color: () => () => import('./color'),
   link: () => () => import('./link'),
   pageTable: () => () => import('./page-table'),
   pagination: () => () => import('./pagination'),
+  div: {
+    component: () => () => import('./div'),
+    layout: true
+  },
   dialog: {
     component: () => () => import('./dialog'),
     layout: true

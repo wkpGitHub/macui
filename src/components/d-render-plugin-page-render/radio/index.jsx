@@ -24,7 +24,8 @@ export default {
       return h(getRadioComponent(isButton.value), {
         label: option[optionProps.value.value] ?? option,
         style: { display: display.value },
-        disabled: option.disabled
+        disabled: option.disabled,
+        size: props.config?.size
       }, {
         default: () => `${option[optionProps.value.label] ?? option}`
       })

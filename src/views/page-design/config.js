@@ -217,6 +217,14 @@ export const componentsGroupList = [
             children: []
           }
         ]
+      },
+      {
+        type: 'div',
+        icon: 'el-icon-box',
+        label: 'div容器',
+        options: [
+          { key: 'default', children: [] }
+        ]
       }
     ]
   },

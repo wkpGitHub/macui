@@ -54,6 +54,7 @@ export default {
       allow-create={allowCreate.value}
       disabled={props.disabled}
       multiple={multiple.value}
+      size={securityConfig.value.size}
       remote={securityConfig.value.remote}
       remoteMethod={securityConfig.value.remoteMethod && remoteMethod}
       collapse-tags={securityConfig.value.collapseTags}

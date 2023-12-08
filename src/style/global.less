@@ -89,6 +89,10 @@ textarea {
     display: flex;
     flex-direction: column;
   }
+  &-between{
+    display: flex;
+    justify-content: space-between;
+  }
   &-center{
     display: flex;
     justify-content: center;
@@ -328,4 +332,21 @@ textarea {
 .config-add:hover {
   color: #3786fd;
   border: 1px dashed #3786fd;
+}
+
+.column-grid-form {
+	display: grid;
+	grid-column-gap: 16px;
+  width: 100%;
+  .el-form-item{
+    flex-direction: column;
+  }
+  .el-form-item__content{
+    width: 100% !important;
+  }
+}
+.el-form-item__content{
+  .el-input__suffix-inner>:first-child{
+    margin-left: 4px;
+  }
 }

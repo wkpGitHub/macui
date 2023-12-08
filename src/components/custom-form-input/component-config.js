@@ -53,5 +53,10 @@ export default {
   'out-dependOn': () => () => import('./out-dependOn'),
   // 'select-watch': () => () => import('./select-watch'),
   'event-args': () => () => import('./event-args'),
-  'link-params': () => () => import('./link-params')
+  'link-params': () => () => import('./link-params'),
+  'css-position': () => () => import('./css-position'),
+  'css-border': () => () => import('./css-border'),
+  'css-background': () => () => import('./css-background'),
+  'background-props': () => () => import('./background-props'),
+  'set-css-value': () => () => import('./set-css-value')
 }

@@ -2,7 +2,6 @@ import { defineComponent, computed, watch } from 'vue'
 import { ElFormItem } from 'element-plus'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import PageFx from '../page-fx'
-import './index.less'
 
 export default defineComponent({
   props: formInputProps,
@@ -16,7 +15,7 @@ export default defineComponent({
       proxyValue.value = (v.args || []).map(() => [])
     })
 
-    return () => <div class="event-args" style={{ 'grid-template-columns': `repeat(${args.value.length}, 1fr)` }}>
+    return () => <div class="column-grid-form" style={{ 'grid-template-columns': `repeat(${args.value.length}, 1fr)` }}>
       {args.value.map((a, i) => <ElFormItem label={a} >
         <PageFx v-model={proxyValue.value[i]} />
       </ElFormItem>)}
