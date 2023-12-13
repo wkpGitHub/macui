@@ -57,6 +57,7 @@ export default {
   'css-position': () => () => import('./css-position'),
   'css-border': () => () => import('./css-border'),
   'css-background': () => () => import('./css-background'),
+  'css-display': () => () => import('./css-display'),
   'background-props': () => () => import('./background-props'),
   'set-css-value': () => () => import('./set-css-value')
 }

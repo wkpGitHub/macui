@@ -79,7 +79,9 @@ export const getComponentCssConfigure = async (val, type) => {
             title: '布局方式',
             children: generateFieldList({
               display: {
-                label: '展示方式'
+                label: '展示方式',
+                type: 'css-display',
+                otherKey: ['justify-content', 'align-items']
               }
             })
           }

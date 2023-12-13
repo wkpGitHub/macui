@@ -7,7 +7,7 @@ class BaseDicService extends Model {
   apiAuthMethod () {
     return req({
       method: 'get',
-      apiName: 'apiChr',
+      apiName: 'apiBasic',
       url: '/api/v1/base/dic/api-auth-method'
     })
   }
@@ -17,7 +17,7 @@ class BaseDicService extends Model {
   basicType () {
     return req({
       method: 'get',
-      apiName: 'apiChr',
+      apiName: 'apiBasic',
       url: '/api/v1/base/dic/basic-type'
     })
   }
@@ -27,7 +27,7 @@ class BaseDicService extends Model {
   collectionType () {
     return req({
       method: 'get',
-      apiName: 'apiChr',
+      apiName: 'apiBasic',
       url: '/api/v1/base/dic/collection-type'
     })
   }
@@ -37,7 +37,7 @@ class BaseDicService extends Model {
   dbType () {
     return req({
       method: 'get',
-      apiName: 'apiChr',
+      apiName: 'apiBasic',
       url: '/api/v1/base/dic/db-type'
     })
   }
@@ -47,7 +47,7 @@ class BaseDicService extends Model {
   idStrategy () {
     return req({
       method: 'get',
-      apiName: 'apiChr',
+      apiName: 'apiBasic',
       url: '/api/v1/base/dic/id-strategy'
     })
   }
@@ -57,7 +57,7 @@ class BaseDicService extends Model {
   validateRule () {
     return req({
       method: 'get',
-      apiName: 'apiChr',
+      apiName: 'apiBasic',
       url: '/api/v1/base/dic/validate-rule'
     })
   }
@@ -67,7 +67,7 @@ class BaseDicService extends Model {
   connectorType () {
     return req({
       method: 'get',
-      apiName: 'apiChr',
+      apiName: 'apiBasic',
       url: '/api/v1/base/dic/connector-type'
     })
   }

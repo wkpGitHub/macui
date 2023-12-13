@@ -3,11 +3,12 @@
  * target => 开发环境地址 及 测试环境地址
  * productionTarget => 生产环境地址
  */
+const CHR = '/chr'
 const proxyConfig = [
   {
     key: 'apiChr', // 基础后端服务
-    target: process.env.VUE_APP_API_CHR_TARGET,
-    productionTarget: process.env.VUE_APP_API_CHR_PRODUCTION_TARGET
+    target: process.env.VUE_APP_API_CHR_TARGET + CHR,
+    productionTarget: process.env.VUE_APP_API_CHR_PRODUCTION_TARGET + CHR
   },
   {
     key: 'apiBasic', // 基础后端服务
