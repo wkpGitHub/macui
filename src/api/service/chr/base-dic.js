@@ -17,7 +17,7 @@ class BaseDicService extends Model {
   basicType () {
     return req({
       method: 'get',
-      apiName: 'apiBasic',
+      apiName: 'apiChr',
       url: '/api/v1/base/dic/basic-type'
     })
   }
