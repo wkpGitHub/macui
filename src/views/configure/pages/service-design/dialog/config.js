@@ -2,7 +2,7 @@ import { generateFieldList, defineTableFieldConfig, defineFormFieldConfig } from
 
 // import { dataTypeOpts } from '@/lib/contants'
 
-export function getFieldList (key, formModal) {
+export function getFieldList (key, formModal, otherColumns = {}) {
   return generateFieldList(defineFormFieldConfig({
     [key]: {
       hideLabel: true,
@@ -18,7 +18,8 @@ export function getFieldList (key, formModal) {
         },
         title: { writable: true, label: '描述' },
         value: { writable: true, label: '默认值' },
-        dataType: { writable: true, label: '类型', defaultValue: 'STRING', type: 'dataType2', otherKey: 'refDataId', width: 200, clearable: false, tableData: formModal[key] }
+        dataType: { writable: true, label: '类型', defaultValue: 'STRING', type: 'dataType2', otherKey: 'refDataId', width: 200, clearable: false, tableData: formModal[key] },
+        ...otherColumns
       }))
     }
   }))

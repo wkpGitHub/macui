@@ -82,6 +82,45 @@ export const getComponentCssConfigure = async (val, type) => {
                 label: '展示方式',
                 type: 'css-display',
                 otherKey: ['justify-content', 'align-items']
+              },
+              'flex-direction': {
+                label: '排列方向',
+                size: 'small',
+                type: 'select',
+                dependOn: ['display'],
+                readable: false,
+                options: [
+                  { label: '横向', value: 'row' },
+                  { label: '纵向', value: 'column' },
+                  { label: '横向反向', value: 'row-reverse' },
+                  { label: '纵向反向', value: 'column-reverse' }
+                ],
+                changeConfig (config, { display }) {
+                  if (display === 'flex') {
+                    config.writable = true
+                    config.readable = true
+                  }
+                  return config
+                }
+              },
+              'flex-wrap': {
+                label: '换行',
+                size: 'small',
+                type: 'select',
+                dependOn: ['display'],
+                readable: false,
+                options: [
+                  { label: '横向', value: 'row' },
+                  { label: '换行', value: 'wrap' },
+                  { label: '换行反向', value: 'wrap-reverse' }
+                ],
+                changeConfig (config, { display }) {
+                  if (display === 'flex') {
+                    config.writable = true
+                    config.readable = true
+                  }
+                  return config
+                }
               }
             })
           }

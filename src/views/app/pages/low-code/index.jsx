@@ -20,7 +20,7 @@ export default {
     })
     const getPageScheme = (path, id) => {
       pageInfoService.detail({ fullPath: path, app: props.appPath, id }).then(res => {
-        pageSchema.value = res.data.schema
+        pageSchema.value = res.data.content || []
         apiList.value = res.data.apiList || []
         pageSchema.value.apiList = res.data.apiList || []
       })

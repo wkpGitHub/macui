@@ -31,6 +31,20 @@ export function useGlobalSet (props, parentState) {
     activeNames: ['global', 'input', 'output']
   })
 
+  const position = {
+    position: {
+      label: '参数位置',
+      type: 'select',
+      writable: true,
+      width: 100,
+      options: [
+        { label: '请求头', value: 'header' },
+        { label: '请求体', value: 'body' },
+        { label: '请求参数', value: 'query' }
+      ]
+    }
+  }
+
   return {
     state,
     render ({ dialogBaseProps }) {
@@ -40,7 +54,7 @@ export function useGlobalSet (props, parentState) {
             <CipForm v-model:model={parentState.rootNode} fieldList={getFieldList('globalValue', parentState.rootNode)}></CipForm>
           </ElCollapseItem>
           <ElCollapseItem title="服务入参" name="input">
-            <CipForm v-model:model={parentState.rootNode} fieldList={getFieldList('inputParams', parentState.rootNode)}></CipForm>
+            <CipForm v-model:model={parentState.rootNode} fieldList={getFieldList('inputParams', parentState.rootNode, position)}></CipForm>
           </ElCollapseItem>
           <ElCollapseItem title="服务出参" name="output">
             <CipTable data={parentState.rootNode?.outParams || []} columns={outParamsFormFields}></CipTable>

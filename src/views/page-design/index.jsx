@@ -46,7 +46,7 @@ export default {
     const handleSave = (item) => {
       const { apiList, ...schemaOther } = schema.value;
       (apiList || []).forEach(item => Reflect.deleteProperty(item, 'index'))
-      const data = { ...pageInfo.value, schema: schemaOther, apiList }
+      const data = { ...pageInfo.value, content: schemaOther, apiList }
       pageInfoService.save(data).then(res => {
         CipMessage.success(res.message)
       })
@@ -56,7 +56,7 @@ export default {
     const setPageInfo = () => {
       pageInfoService.detail({ id: props.id }).then(res => {
         pageInfo.value = res.data
-        Object.assign(schema.value, res.data.schema || {}, { apiList: res.data.apiList || [] })
+        Object.assign(schema.value, res.data.content || {}, { apiList: res.data.apiList || [] })
       })
     }
     const handleBack = () => {

@@ -13,7 +13,7 @@ export default {
       pageInfoService.detail({ id }).then(res => {
         currentPageInfo.value = res.data
         if (id === 1) {
-          currentPageInfo.value.id = 'app-manager'
+          currentPageInfo.value.appId = 'app-manager'
         }
       })
     }, {})
