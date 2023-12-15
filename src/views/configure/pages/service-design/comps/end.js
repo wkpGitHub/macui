@@ -32,7 +32,7 @@ export default {
     output: {
       dependOn: ['outputType'],
       resetValue: true,
-      type: 'setFx',
+      type: 'selectVar',
       otherKey: 'outputStr',
       changeConfig (config, { outputType }) {
         config.writable = outputType === 'global'

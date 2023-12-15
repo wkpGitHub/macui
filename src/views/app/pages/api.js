@@ -2,7 +2,7 @@ import axios from 'axios'
 import { store as requestStore } from '@cip/request'
 
 const instance = axios.create({
-  baseURL: requestStore.apiConfig.apiChr
+  baseURL: requestStore.apiConfig.apiBasic
 })
 
 export default instance

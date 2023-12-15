@@ -24,8 +24,16 @@ export const pageSimpleFieldList = generateFieldList({
           tree.splice(idx[0], 1)
         }
       }
-      // 需要过滤掉自己
-      return tree
+      // 需要过滤掉自己和页面类型的数据
+      function filterNotDir (list) {
+        const _list = []
+        list.forEach(item => {
+          if (item.isDir) _list.push(item)
+          if (item.children && item.children.length) item.children = filterNotDir(item.children)
+        })
+        return _list
+      }
+      return filterNotDir(tree)
     }
   },
   name: { required: true },

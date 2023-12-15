@@ -29,6 +29,7 @@ export function useFxDialog (proxyValue, config) {
         }
       }, 300)
     }
+    config.onConfirm && config.onConfirm(state.item)
     proxyValue.value = state.item.value
     resolve()
   }

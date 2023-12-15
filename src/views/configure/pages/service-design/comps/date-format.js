@@ -49,6 +49,28 @@ export default {
       type: 'select',
       options: formatOptions
     },
+    dataType: {
+      label: '数据类型',
+      type: 'radio',
+      defaultValue: 'simple',
+      options: [
+        { label: '简单', value: 'simple' },
+        { label: '列表', value: 'array' },
+        { label: '对象', value: 'object' }
+      ]
+    },
+    field: {
+      label: '字段名',
+      dependOn: ['dataType'],
+      readable: false,
+      changeConfig (config, { dataType }) {
+        if (['array', 'object'].includes(dataType)) {
+          config.readable = true
+          config.writable = true
+        }
+        return config
+      }
+    },
     targetFormat: {
       label: '目标格式',
       required: true,

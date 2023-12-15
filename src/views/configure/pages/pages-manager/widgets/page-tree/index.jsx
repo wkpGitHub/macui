@@ -28,7 +28,7 @@ export default {
     // }
     const getPages = () => {
       pageInfoService.tree({}).then(res => {
-        pages.value = [{ name: '根路径', isDir: true, id: 0, children: res.data }]
+        pages.value = [{ name: '根路径', isDir: true, id: '0', children: res.data }]
         // 获取firstLeaf
         // const firstLeaf = findFirstLeaf(res.data ?? [])
         // nextTick().then(() => {

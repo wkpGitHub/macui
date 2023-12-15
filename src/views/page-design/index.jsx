@@ -100,7 +100,7 @@ export default {
         {{
           title: () => <ToolBar pageInfo={pageInfo.value} onBack={() => handleBack()}/>,
           handle: () => <>
-            <CipButton type={'success'} onClick={handleSave}>发布</CipButton>
+            <CipButton type="primary" onClick={handleSave}>保存</CipButton>
           </>
         }}
       </DrBasicDesign>
