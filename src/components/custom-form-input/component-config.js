@@ -33,6 +33,7 @@ export default {
   },
   urlWithMethod: () => () => import('./url-with-method'),
   'field-table': () => () => import('./field-table'),
+  'inputParams-table': () => () => import('./inputParams-table'),
   curdConfig: () => () => import('./curdConfig'),
   'select-api': () => () => import('./select-api'),
   'select-api-tree': () => () => import('./select-api-tree'),

@@ -1,4 +1,4 @@
-import { defineComponent, ref, watch } from 'vue'
+import { defineComponent, watch } from 'vue'
 import { ElTable, ElTableColumn, ElInput } from 'element-plus'
 import CipTableButton from '@cip/components/cip-table-button'
 import CipButton from '@cip/components/cip-button'
@@ -10,29 +10,25 @@ export default defineComponent({
   props: formInputProps,
   emits: fromInputEmits,
   setup (props, ctx) {
-    const tableData = ref([])
-    tableData.value = props.modelValue || []
-    watch(tableData, () => {
-      proxyValue.value = tableData.value
-      // eslint-disable-next-line vue/no-mutating-props
-      props.config.parentState.rootNode.outParams = tableData.value
-    }, { deep: true })
-
     const {
       proxyValue,
       width,
       securityConfig
     } = useFormInput(props, ctx)
 
+    watch(proxyValue.value, (v) => {
+      // eslint-disable-next-line vue/no-mutating-props
+      props.config.parentState.rootNode.outParams = v
+    }, { deep: true })
     function handleDel ($index) {
-      tableData.value.splice($index, 1)
+      proxyValue.value.splice($index, 1)
     }
 
-    const { state, render } = useFxDialog(tableData, securityConfig.value)
+    const { state, render } = useFxDialog(proxyValue, securityConfig.value)
 
     return () => <>
       <ElTable
-        data={tableData.value || []}
+        data={proxyValue.value || []}
         styles={{ width: width.value }}
         maxHeight={'300px'}
         handlerWidth={'80px'}
@@ -45,7 +41,7 @@ export default defineComponent({
       </ElTable>
       <div class="flex">
         <CipButton onClick={() => { state.isShow = true }}>选择添加</CipButton>
-        <CipButton onClick={() => { tableData.value.push({ label: '', value: '' }) }}>手动添加</CipButton>
+        <CipButton onClick={() => { proxyValue.value.push({ label: '', value: '' }) }}>手动添加</CipButton>
       </div>
       {render()}
     </>

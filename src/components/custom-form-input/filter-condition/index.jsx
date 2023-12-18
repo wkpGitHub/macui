@@ -58,7 +58,10 @@ export default defineComponent({
           </>
         }}
       </CipTable>
-      <CipButton onClick={handleClick}>添加</CipButton>
+      <div class="flex mt-1" style={{ width: '100%' }}>
+        <CipButton onClick={handleClick} class="mr-2 flex-auto" buttonType='create'>添加</CipButton>
+        <CipButton onClick={() => { proxyValue.value.children = [] }} class="flex-auto" buttonType='batchDelete'>清空</CipButton>
+      </div>
     </>
   }
 })

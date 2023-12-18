@@ -2,12 +2,12 @@ import { generateFieldList, defineTableFieldConfig, defineFormFieldConfig } from
 
 // import { dataTypeOpts } from '@/lib/contants'
 
-export function getFieldList (key, formModal, otherColumns = {}) {
+export function getFieldList (key, formModal, type = 'table', otherColumns = {}) {
   return generateFieldList(defineFormFieldConfig({
     [key]: {
       hideLabel: true,
       hideIndex: true,
-      type: 'table',
+      type,
       options: generateFieldList(defineTableFieldConfig({
         name: {
           writable: true,

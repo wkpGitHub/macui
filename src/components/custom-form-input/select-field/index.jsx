@@ -1,4 +1,4 @@
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, inject } from 'vue'
 import { ElTable, ElTableColumn } from 'element-plus'
 import CipDialog from '@cip/components/cip-dialog'
 import CipTableButton from '@cip/components/cip-table-button'
@@ -18,6 +18,8 @@ export default defineComponent({
       securityConfig
     } = useFormInput(props, ctx)
     proxyValue.value = proxyValue.value || []
+
+    const parentState = inject('parentState', {})
 
     const proxyOptions = computed(() => {
       return [
@@ -42,6 +44,16 @@ export default defineComponent({
     const treeRef = ref()
     function handleConfirm (resolve) {
       const temp = treeRef.value.tree.getCheckedNodes(true)
+      temp.forEach(item => {
+        const _item = parentState.rootNode.inputParams.find(p => p.name === item.name)
+        if (_item) {
+          item.formula = [{
+            type: 'var',
+            desc: _item.title,
+            value: `inputParams.${_item.name}`
+          }]
+        }
+      })
       proxyValue.value ? proxyValue.value.push(...temp) : (proxyValue.value = temp)
       resolve()
     }
@@ -50,6 +62,7 @@ export default defineComponent({
         showHeader={false}
         data={proxyValue.value}
         styles={{ width: width.value }}
+        size="small"
         maxHeight={'300px'}
         handlerWidth={'80px'}
       >
@@ -59,7 +72,10 @@ export default defineComponent({
         }}</ElTableColumn>
         <ElTableColumn width="50px">{{ default: ({ $index }) => <CipTableButton onClick={() => { handleDel($index) }}>删除</CipTableButton> }}</ElTableColumn>
       </ElTable>
-      <CipButton onClick={handleClick}>添加</CipButton>
+      <div class="flex mt-1" style={{ width: '100%' }}>
+        <CipButton onClick={handleClick} class="mr-2 flex-auto" buttonType='create'>添加</CipButton>
+        <CipButton onClick={() => { proxyValue.value = [] }} class="flex-auto" buttonType='batchDelete'>清空</CipButton>
+      </div>
       <CipDialog
         title={'选择字段'}
         v-model={visible.value}

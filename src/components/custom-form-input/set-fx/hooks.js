@@ -1,4 +1,4 @@
-import { reactive, computed, withModifiers } from 'vue'
+import { reactive, computed, withModifiers, watch, inject } from 'vue'
 import CipDialog from '@cip/components/cip-dialog'
 import { ElTag, ElCard } from 'element-plus'
 import CipTree from '@cip/components/cip-tree'
@@ -14,8 +14,9 @@ const operateTreeOpts = [
   }
 ]
 
-export function useFxDialog (proxyValue, config, inputState) {
-  const { parentState } = config
+export function useFxDialog (proxyValue, config) {
+  let memoData = {}
+  const parentState = inject('parentState', {})
   const dateTypeMap = computed(() => {
     return cipStore.state.dataType.reduce((total, current) => {
       total[current.id] = current
@@ -24,19 +25,12 @@ export function useFxDialog (proxyValue, config, inputState) {
   })
 
   function onConfirm (resolve) {
-    // const { selectNode } = parentState
-    // if (selectNode.type === 'set') {
-    //   selectNode.dataType = state.item.dataType
-    //   selectNode.source = state.item.value
-    // }
-    // proxyValue.value = state.varType + state.item.name
-    console.log('展示数据格式：', state.list)
+    if (config.onConfirm) config.onConfirm(memoData, [...state.list])
     proxyValue.value = [...state.list]
-    inputState.str = toString()
     resolve()
   }
 
-  function toString () {
+  function listToString () {
     let str = ''
     state.list.forEach((item, index) => {
       str += stringMap[item.type](item)
@@ -152,11 +146,10 @@ export function useFxDialog (proxyValue, config, inputState) {
     list: []
   })
 
-  function init () {
-    state.list = [...(proxyValue.value || [])]
-    inputState.str = toString()
-  }
-  init()
+  watch(proxyValue, v => {
+    state.list = [...(v || [])]
+    containerClick()
+  }, { immediate: true })
 
   function containerClick () {
     state.current = {
@@ -252,7 +245,9 @@ export function useFxDialog (proxyValue, config, inputState) {
     state.current.index++
   }
 
-  function selectVar (desc, value) {
+  function selectVar (data) {
+    const { label: desc, value } = data
+    memoData = data
     state.current.list.splice(state.current.index, 0, {
       type: 'var',
       desc,
@@ -325,7 +320,7 @@ export function useFxDialog (proxyValue, config, inputState) {
   })
 
   function renderTreeItem ({ node, data }) {
-    return <div style='display: flex;align-items: center;justify-content: space-between;' onClick={() => data.value && selectVar(data.label, data.value)}>
+    return <div style='display: flex;align-items: center;justify-content: space-between;' onClick={() => data.value && selectVar(data)}>
       <span>{data.label}</span>
       {dateTypeMap.value[data.dataType] && <ElTag>{dateTypeMap.value[data.dataType]?.name}</ElTag>}
     </div>
@@ -333,6 +328,7 @@ export function useFxDialog (proxyValue, config, inputState) {
 
   return {
     state,
+    listToString,
     render () {
       return state.isShow && <CipDialog title="表达式设置" model-value={true} onUpdate:modelValue={() => { state.isShow = false }} onConfirm={onConfirm} width="900px">
         <div class="fx-editor" onClick={withModifiers(containerClick, ['stop'])}>

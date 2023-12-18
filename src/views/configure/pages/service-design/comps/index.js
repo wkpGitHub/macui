@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { branchConfig, branchLineConfig } from './branch'
 import breakConfig from './break'
 import continueConfig from './continue'
@@ -65,7 +66,7 @@ export const compList = [
   breakConfig,
   exitConfig,
   setConfig,
-  insertDataConfig,
+  // insertDataConfig,
   coderConfig,
   dateFormatConfig,
   mappingConfig,
@@ -74,27 +75,27 @@ export const compList = [
   updateDataRecordsConfig,
   queryDataRecordsConfig,
   httpConfig,
-  flowConfig,
-  apicenterConfig,
-  addRecordsConfig,
-  updateRecordsConfig,
-  notificationConfig,
-  webApiConfig,
-  examineAndApproveTaskConfig,
+  // flowConfig
+  // apicenterConfig,
+  // addRecordsConfig,
+  // updateRecordsConfig,
+  // notificationConfig,
+  // webApiConfig,
+  // examineAndApproveTaskConfig,
   datasourceSqlConfig,
-  scriptConfig,
-  connectorConfig,
-  emailConfig,
-  writeConfig,
-  captureTimeConfig,
-  autoEntitySearchRecordsConfig,
-  autoEntityUpdateRecordsConfig,
-  inclusiveConfig,
-  exclusiveConfig,
-  parallelConfig,
-  notifyNodeConfig,
-  submitNodeConfig,
-  deleteRecordsConfig
+  scriptConfig
+  // connectorConfig
+  // emailConfig,
+  // writeConfig,
+  // captureTimeConfig,
+  // autoEntitySearchRecordsConfig,
+  // autoEntityUpdateRecordsConfig,
+  // inclusiveConfig,
+  // exclusiveConfig,
+  // parallelConfig,
+  // notifyNodeConfig,
+  // submitNodeConfig
+  // deleteRecordsConfig
 ]
 
 // 全部组件

@@ -1,4 +1,4 @@
-import { defineComponent, ref, reactive, onMounted, nextTick } from 'vue'
+import { defineComponent, ref, reactive, onMounted, nextTick, provide } from 'vue'
 import { ElInputNumber, ElLink } from 'element-plus'
 import { Setting } from '@element-plus/icons-vue'
 import { PlHandle as CipPageLayoutHandle } from '@cip/page-layout'
@@ -30,8 +30,10 @@ export default defineComponent({
     const zoom = ref(100)
     const state = reactive({
       rootNode: {},
-      selectNode: {}
+      selectNode: {},
+      title: ''
     })
+    provide('parentState', state)
     let currentData = {}
     const pseudoCodeDialogVisible = ref(false)
     const compListDialogVisible = ref(false)
@@ -73,6 +75,7 @@ export default defineComponent({
       await sleep()
       centerService.getContent(props.id).then(({ data }) => {
         currentData = data
+        state.title = `${data.name}(${data.fullPath})`
         if (data.flow) {
           state.rootNode = data.flow
         } else {
@@ -140,7 +143,7 @@ export default defineComponent({
       })
     }
 
-    return () => <CipPageLayoutHandle top={true}>
+    return () => <CipPageLayoutHandle top={true} title={state.title}>
       {{
         handler: () => <>
           <CipButton onClick={() => { sourceCodeState.isShow = true }}>源码</CipButton>

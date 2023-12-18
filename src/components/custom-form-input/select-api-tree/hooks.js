@@ -30,14 +30,17 @@ export function useFxDialog (proxyValue, proxyOtherValue) {
   }
 
   function renderTreeItem ({ node, data }) {
-    return <div style='display: flex;align-items: center;justify-content: space-between;' onClick={() => selectVar(data)}>
-      <span>{data.fullPath}</span>
+    return <div style='display: flex;align-items: center;justify-content: space-between;' title={data.label} onClick={() => selectVar(data)}>
+      <span>{data.label}</span>
     </div>
   }
 
   apiConfigService.tree({ }).then(({ data }) => {
     data.forEach(item => {
-      item.fullPath = item.name
+      item.label = item.name
+      item.children?.forEach(c => {
+        c.label = `${c.name}(${c.fullPath})`
+      })
     })
     state.data = data
   })
@@ -48,6 +51,7 @@ export function useFxDialog (proxyValue, proxyOtherValue) {
       return state.isShow && <CipDialog title={'选择内部接口'} model-value={true} onUpdate:modelValue={() => { state.isShow = false }} onConfirm={onConfirm} width="400px">
         <ElCard shadow="never">
           <CipTree
+            style='width: 360px;'
             options={state.data}
             showButton={false}
             config={{

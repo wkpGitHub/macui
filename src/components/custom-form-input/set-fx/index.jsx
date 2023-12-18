@@ -22,18 +22,10 @@ export default defineComponent({
       readonly: false,
       str: ''
     })
-    const { state: fxState, render } = useFxDialog(proxyValue, securityConfig.value, state)
+    const { state: fxState, listToString, render } = useFxDialog(proxyValue, securityConfig.value)
 
     function onClear () {
       proxyValue.value = []
-      fxState.list = []
-      state.str = ''
-    }
-
-    if (props.config.otherKey) {
-      watch(() => state.str, v => {
-        proxyOtherValue[0].value = v
-      })
     }
 
     watch(proxyValue, v => {
@@ -43,14 +35,15 @@ export default defineComponent({
       } else {
         state.readonly = false
       }
+      state.str = listToString(v)
+      if (props.config.otherKey) {
+        proxyOtherValue[0].value = state.str
+      }
     }, { immediate: true })
 
     function updateModelValue (v) {
-      console.log(v)
       if (state.readonly) return false
       proxyValue.value = [{ desc: v, value: v, type: 'constant' }]
-      fxState.list = [{ desc: v, value: v, type: 'constant' }]
-      state.str = v
     }
 
     function genContent () {

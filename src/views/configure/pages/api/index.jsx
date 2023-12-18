@@ -54,7 +54,7 @@ export default {
             withCreate={false}
             dialogSize={'small'}
             itemType={itemType.value}
-            tableHandleWidth={'170px'}
+            tableHandleWidth={'140px'}
             formLabelWidth={'100px'}
           >
             {{
@@ -64,14 +64,14 @@ export default {
                     default: () => <CipButton buttonType={'create'}/>,
                     dropdown: () => <ElDropdownMenu>
                       <ElDropdownItem command='entity'>API</ElDropdownItem>
-                      <ElDropdownItem command='flow'>服务编排</ElDropdownItem>
+                      <ElDropdownItem command='flow'>编排</ElDropdownItem>
                     </ElDropdownMenu>
                   }}
                 </ElDropdown>
               </>,
               'table-handle': ({ row, deleteItem, editItem }) => <>
                 <CipButtonText onClick={() => editItem(row)}>编辑</CipButtonText>
-                {row.devMode === 'flow' && <CipButtonText onClick={() => createServe(row.id)}>服务编排</CipButtonText>}
+                {row.devMode === 'flow' && <CipButtonText onClick={() => createServe(row.id)}>编排</CipButtonText>}
                 <CipButtonText onClick={() => deleteItem(row)}>删除</CipButtonText>
               </>
             }}

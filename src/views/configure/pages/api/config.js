@@ -17,11 +17,14 @@ export const searchFieldList = generateFieldList(defineSearchFieldConfig({
 }), apiInfoEntityEntity)
 
 export const tableColumns = generateFieldList(defineTableFieldConfig({
-  path: {},
   name: {},
   fullPath: { minWidth: '110px' },
   devMode: {},
-  remark: {},
+  apiType: {
+    label: '接口类型',
+    type: 'select',
+    options: apiTypeOpts
+  },
   updateTime: {}
 }), apiInfoEntityEntity)
 

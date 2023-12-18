@@ -37,10 +37,11 @@ export function useGlobalSet (props, parentState) {
       type: 'select',
       writable: true,
       width: 100,
+      defaultValue: 'query',
       options: [
-        { label: '请求头', value: 'header' },
+        { label: '请求参数', value: 'query' },
         { label: '请求体', value: 'body' },
-        { label: '请求参数', value: 'query' }
+        { label: '请求头', value: 'header' }
       ]
     }
   }
@@ -48,13 +49,13 @@ export function useGlobalSet (props, parentState) {
   return {
     state,
     render ({ dialogBaseProps }) {
-      return state.isShow && <CipDialog {...dialogBaseProps} title={'全局设置'} model-value={true} onUpdate:modelValue={() => { state.isShow = false }}>
+      return state.isShow && <CipDialog {...dialogBaseProps} title={'全局设置'} customClass={[styles.globalDrawer, 'cip-drawer']} model-value={true} onUpdate:modelValue={() => { state.isShow = false }}>
         <ElCollapse v-model={state.activeNames}>
           <ElCollapseItem title="全局变量" name="global">
             <CipForm v-model:model={parentState.rootNode} fieldList={getFieldList('globalValue', parentState.rootNode)}></CipForm>
           </ElCollapseItem>
           <ElCollapseItem title="服务入参" name="input">
-            <CipForm v-model:model={parentState.rootNode} fieldList={getFieldList('inputParams', parentState.rootNode, position)}></CipForm>
+            <CipForm v-model:model={parentState.rootNode} fieldList={getFieldList('inputParams', parentState.rootNode, 'inputParams-table', position)}></CipForm>
           </ElCollapseItem>
           <ElCollapseItem title="服务出参" name="output">
             <CipTable data={parentState.rootNode?.outParams || []} columns={outParamsFormFields}></CipTable>

@@ -31,13 +31,21 @@ export default {
     },
     output: {
       dependOn: ['outputType'],
-      resetValue: true,
-      type: 'selectVar',
-      otherKey: 'outputStr',
+      type: 'setFx',
+      otherKey: ['outputStr'],
       changeConfig (config, { outputType }) {
         config.writable = outputType === 'global'
         config.readable = outputType === 'global'
         return config
+      },
+      onConfirm ({ children }) {
+        if (children?.length) {
+          parentState.selectNode.config.fields = children.map(item => ({
+            title: item.label,
+            name: item.value.split('.').at(-1),
+            dataType: item.dataType
+          }))
+        }
       }
     },
     outputParams: {

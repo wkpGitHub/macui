@@ -41,6 +41,7 @@ export function getTableColumn (props) {
         writable: true,
         dependOn: ['left'],
         type: 'select',
+        defaultValue: 'eq',
         asyncOptions ({ left }) {
           return opOptions.filter(v => v.usedFieldType.includes(left?.dataType))
         }
@@ -48,25 +49,19 @@ export function getTableColumn (props) {
       value: {
         writable: true,
         type: 'setFx',
-        parentState: props.config.parentState
-      // readable: false,
-      // dependOn: ['left', 'op']
-      // changeConfig (config, { left, op }) {
-      //   if (left.dataType) {
-      //     config.type = left.dataType
-      //     if (needHide.includes(op)) {
-      //       config.readable = false
-      //     } else {
-      //       config.writable = true
-      //     }
-      //     if (needRange.includes(op)) {
-      //       config.type = config.type + 'Range'
-      //     }
-      //   } else {
-      //     config.readable = false
-      //   }
-      //   return config
-      // }
+        dependOn: ['field'],
+        changeValue ({ field }) {
+          const _item = props.config.parentState.rootNode.inputParams.find(p => p.name === field)
+          if (_item) {
+            return {
+              value: [{
+                type: 'var',
+                desc: _item.title,
+                value: `inputParams.${_item.name}`
+              }]
+            }
+          }
+        }
       }
     }))
   })

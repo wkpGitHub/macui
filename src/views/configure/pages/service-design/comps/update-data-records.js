@@ -39,20 +39,20 @@ export default {
         return config
       }
     },
-    showCreateRelationRecord: {
-      hideItem: true,
-      defaultValue: true
-    },
-    createRelationRecord: {
-      dependOn: ['objectKey'],
-      readable: false,
-      changeConfig (config, { objectKey }) {
-        config.writable = !!objectKey
-        return config
-      },
-      label: '新增1:n、n:n关联表记录',
-      type: 'switch'
-    },
+    // showCreateRelationRecord: {
+    //   hideItem: true,
+    //   defaultValue: true
+    // },
+    // createRelationRecord: {
+    //   dependOn: ['objectKey'],
+    //   readable: false,
+    //   changeConfig (config, { objectKey }) {
+    //     config.writable = !!objectKey
+    //     return config
+    //   },
+    //   label: '新增1:n、n:n关联表记录',
+    //   type: 'switch'
+    // },
     updateFields: {
       type: 'selectField',
       label: '',
