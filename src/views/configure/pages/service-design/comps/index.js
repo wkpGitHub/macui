@@ -76,15 +76,15 @@ export const compList = [
   queryDataRecordsConfig,
   httpConfig,
   // flowConfig
-  // apicenterConfig,
+  apicenterConfig,
   // addRecordsConfig,
   // updateRecordsConfig,
   // notificationConfig,
   // webApiConfig,
   // examineAndApproveTaskConfig,
   datasourceSqlConfig,
-  scriptConfig
-  // connectorConfig
+  scriptConfig,
+  connectorConfig
   // emailConfig,
   // writeConfig,
   // captureTimeConfig,

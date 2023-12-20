@@ -39,7 +39,7 @@ export default {
     id: '',
     type: 'email',
     title: '发送邮件',
-    conditions: {},
+
     validateFailed: true,
     children: [],
     to: []

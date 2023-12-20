@@ -111,7 +111,7 @@ export default {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'update-entity-add-records',
     title: '更新记录',
-    conditions: {},
+
     children: []
   }
 }

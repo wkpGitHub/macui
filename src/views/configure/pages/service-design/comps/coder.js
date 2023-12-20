@@ -3,7 +3,7 @@ import { generateFieldList, defineFormFieldConfig } from 'd-render'
 //   id: '',
 //   type: 'coder',
 //   title: '编码转换',
-//   conditions: {},
+//
 //   validateFailed: Boolean,
 //   children: [],
 //   method: '' // 编码方式 base64-encode|base64-decode
@@ -38,7 +38,7 @@ export default {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'coder',
     title: '编码转换',
-    conditions: {},
+
     children: []
   }
 }

@@ -7,7 +7,7 @@ import { intervalOptions, minuteOptions, monthOptions, weekOptions, recordOpts }
 //   id: '',
 //   type: 'start',
 //   title: '开始',
-//   conditions: {},
+//
 //   validateFailed: Boolean,
 //   children: [],
 //   trigger: '', // emptyEvent|modelEntityEvent|timeStart
@@ -441,7 +441,7 @@ export default {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'start',
     title: '开始',
-    conditions: {},
+
     children: []
   }
 }

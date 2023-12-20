@@ -29,7 +29,7 @@ export default {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'loop',
     title: '循环',
-    conditions: {},
+
     validateFailed: true, // fornField是否通过验证
     children: []
   }

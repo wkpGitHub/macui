@@ -3,7 +3,7 @@ import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig } from
 //   id: '',
 //   type: 'mapping',
 //   title: '数据映射',
-//   conditions: {},
+//
 //   validateFailed: Boolean,
 //   children: [],
 //   source: '',
@@ -74,7 +74,7 @@ export default {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'mapping',
     title: '数据映射',
-    conditions: {},
+
     children: []
   }
 }

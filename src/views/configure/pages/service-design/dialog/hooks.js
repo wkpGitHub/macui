@@ -104,7 +104,7 @@ export function useNodeSetDialog (props, parentState) {
     render ({ dialogBaseProps, node, updateConfig }) {
       state.isShow && setNode(node, updateConfig)
       return state.isShow && <CipDialog {...dialogBaseProps} title={activeComp.value.title} model-value={true} onUpdate:modelValue={() => { state.isShow = false }}>
-      <CipForm labelWidth={activeComp.value.labelWidth || '90px'} v-model:model={model.value} fieldList={activeComp.value.formField}></CipForm>
+      <CipForm labelWidth={activeComp.value.labelWidth || '120px'} v-model:model={model.value} fieldList={activeComp.value.formField}></CipForm>
     </CipDialog>
     }
   }

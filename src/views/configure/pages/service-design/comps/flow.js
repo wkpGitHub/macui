@@ -101,7 +101,7 @@ export default {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'flow',
     title: '调用流程',
-    conditions: {},
+
     validateFailed: false,
     children: []
   }

@@ -350,6 +350,7 @@ export function useFxDialog (proxyValue, config) {
                 showButton={false}
                 config={{
                   defaultExpandAll: false,
+                  highlightCurrent: true,
                   renderItem: renderTreeItem
                 }}
               >

@@ -64,7 +64,7 @@ export default {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'connector',
     title: '连接器',
-    conditions: {},
+
     validateFailed: true,
     children: [],
     mobiles: []

@@ -1081,7 +1081,7 @@ export default {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'http',
     title: 'http请求',
-    conditions: {},
+
     children: [],
     method: 'get',
     authType: 'none'

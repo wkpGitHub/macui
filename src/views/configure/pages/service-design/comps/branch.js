@@ -15,7 +15,7 @@ export const branchConfig = {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'branch',
     title: '分支',
-    conditions: {},
+
     children: []
   }
 }
@@ -25,34 +25,10 @@ export const branchLineConfig = {
   title: '连线属性',
   labelWidth: '70px',
   formField: generateFieldList(defineFormFieldConfig({
-    expression: { label: '条件名称' },
-    conditionType: {
-      label: '条件规则',
-      type: 'radio',
-      options: [
-        { label: '条件规则', value: 'rules' },
-        { label: '公式', value: 'formula' }
-      ]
-    },
+    expression: { label: '条件名称', defaultValue: '分支' },
     conditions: {
       label: '条件',
-      type: 'filterCondition',
-      dependOn: ['conditionType'],
-      changeConfig (config, { conditionType }) {
-        if (conditionType === 'rules') {
-          config.type = 'filterCondition'
-        } else {
-          config.type = 'input'
-        }
-        return config
-      },
-      changeValue ({ conditionType }) {
-        if (conditionType === 'rules') {
-          return { value: [] }
-        } else {
-          return { value: '' }
-        }
-      }
+      type: 'setFx'
     }
   }))
 }

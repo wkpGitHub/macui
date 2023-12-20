@@ -55,7 +55,7 @@ export default {
     // },
     updateFields: {
       type: 'selectField',
-      label: '',
+      label: '字段赋值',
       readable: false,
       dependOn: ['fields'],
       resetValue: true,
@@ -83,7 +83,7 @@ export default {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'update-data-records',
     title: '更新记录',
-    conditions: {},
+
     children: [],
     validateFailed: false
   }

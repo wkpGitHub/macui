@@ -4,7 +4,7 @@ import { generateFieldList, defineFormFieldConfig } from 'd-render'
 //   id: '',
 //   type: 'set',
 //   title: '设置变量',
-//   conditions: {},
+//
 //   validateFailed: Boolean,
 //   children: [],
 //   source: '', // 变量值
@@ -47,7 +47,7 @@ export default {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'set',
     title: '设置变量',
-    conditions: {},
+
     children: []
   }
 }

@@ -31,7 +31,7 @@ export default {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'insert-data',
     title: '插入数据',
-    conditions: {},
+
     children: []
   }
 }

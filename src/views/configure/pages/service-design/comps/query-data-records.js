@@ -335,7 +335,7 @@ export default {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'query-data-records',
     title: '查询记录',
-    conditions: {},
+
     children: []
   }
 }

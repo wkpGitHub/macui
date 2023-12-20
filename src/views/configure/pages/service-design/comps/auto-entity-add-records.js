@@ -92,7 +92,7 @@ export default {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'auto-entity-add-records',
     title: '新增记录',
-    conditions: {},
+
     children: []
   }
 }

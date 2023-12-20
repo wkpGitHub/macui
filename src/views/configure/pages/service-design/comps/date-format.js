@@ -3,7 +3,7 @@ import { generateFieldList, defineFormFieldConfig } from 'd-render'
 //   id: '',
 //   type: 'date-format',
 //   title: '日期格式化',
-//   conditions: {},
+//
 //   validateFailed: Boolean,
 //   children: [],
 //   method: '' // 编码方式 base64-encode|base64-decode
@@ -49,27 +49,8 @@ export default {
       type: 'select',
       options: formatOptions
     },
-    dataType: {
-      label: '数据类型',
-      type: 'radio',
-      defaultValue: 'simple',
-      options: [
-        { label: '简单', value: 'simple' },
-        { label: '列表', value: 'array' },
-        { label: '对象', value: 'object' }
-      ]
-    },
     field: {
-      label: '字段名',
-      dependOn: ['dataType'],
-      readable: false,
-      changeConfig (config, { dataType }) {
-        if (['array', 'object'].includes(dataType)) {
-          config.readable = true
-          config.writable = true
-        }
-        return config
-      }
+      label: '字段名'
     },
     targetFormat: {
       label: '目标格式',
@@ -83,7 +64,7 @@ export default {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'date-format',
     title: '日期格式化',
-    conditions: {},
+
     children: []
   }
 }

@@ -11,7 +11,7 @@ export default {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'break',
     title: '跳出循环',
-    conditions: {},
+
     children: []
   }
 }

@@ -4,7 +4,7 @@ import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig } from
 //   id: '',
 //   type: '',
 //   title: '',
-//   conditions: {},
+//
 //   children: [],
 //   outputType: '', // global|numbers
 //   output: '', // outputType === global 显示
@@ -108,7 +108,7 @@ export default {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'end',
     title: '结束',
-    conditions: {},
+
     children: []
   }
 }

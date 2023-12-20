@@ -384,7 +384,8 @@ export class Ausyda {
           node.active = node.id === d.id
         })
         this.update()
-        this.emit('updateNode', d)
+
+        if (!['branch-close', 'branch'].includes(d.type)) this.emit('updateNode', d)
       })
       .on('dblclick', () => d3.event.stopPropagation())
     mergeSelections.each(function (data) {
@@ -482,7 +483,7 @@ export class Ausyda {
       return `translate(${x}, ${h})`
     })
     mergeSelections.select('text').text(({ source, target }) => {
-      return source.type === 'branch' ? target.expression : ''
+      return source.type === 'branch' ? target.config?.expression : ''
     }).attr('x', function ({ clientRect, source }) {
       const { width, vertical } = clientRect
       if (source.type === 'branch') {
@@ -848,9 +849,11 @@ export class Ausyda {
       // 如果这个分支是空的，追加第一个子节点
       if (parent.children.length === 1) {
         parent.children.unshift({
-          expression: '分支',
-          conditionType: 'formula',
-          conditions: '1 === 1',
+          expression: true,
+          config: {
+            expression: '分支',
+            conditions: [{ type: 'operate', value: 'tr', desc: 'true' }]
+          },
           ...node
         })
       } else {
@@ -896,9 +899,11 @@ export class Ausyda {
   addBranch (node, parent) {
     const index = parent.children.length - 1
     parent.children.splice(index, 0, {
-      expression: '分支',
-      conditionType: 'formula',
-      conditions: '1 === 1',
+      expression: true,
+      config: {
+        expression: '分支' + (index + 1),
+        conditions: [{ type: 'operate', value: 'tr', desc: 'true' }]
+      },
       ...node
     })
     this.update()
@@ -952,7 +957,6 @@ export const initFlow = {
   id: '0juy9hzpx2ge',
   type: 'start',
   title: '开始',
-  conditions: {},
   children: [
     {
       id: 'ef4ae388395b',
