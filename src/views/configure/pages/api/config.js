@@ -44,6 +44,7 @@ export const formFieldList = generateFieldList(defineFormFieldConfig({
   pid: {
     label: 'API分组',
     type: 'select',
+    required: true,
     optionProps: {
       label: 'name',
       value: 'id'

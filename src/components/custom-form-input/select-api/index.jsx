@@ -57,7 +57,7 @@ export default {
     }
 
     function onChange (api) {
-      proxyValue.value = cloneDeep(api)
+      proxyValue.value = cloneDeep({ ...api, initSearch: (!props.config.hideInitSearch && api) && 'yes' })
       if (props.config?.onChange) {
         props.config?.onChange({
           api,

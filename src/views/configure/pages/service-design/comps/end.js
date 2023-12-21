@@ -45,6 +45,7 @@ export default {
             name: item.value.split('.').at(-1),
             dataType: item.dataType
           }))
+          parentState.rootNode.outParams = [...parentState.selectNode.config.fields]
         }
       }
     },
