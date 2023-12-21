@@ -3,26 +3,26 @@ import { addConfigPrefix, handelLabelSizeOptions, getOutParams } from '../../uti
 import { tooltipConfig, titleConfig, legendConfig } from './common-config'
 
 export default {
-  searchApi: {
+  api: {
     type: 'select-api',
     label: '查询接口'
   },
   xField: {
     label: '键字段',
-    dependOn: ['searchApi'],
+    dependOn: ['api'],
     type: 'select',
     optionProps: { label: 'title', value: 'name' },
-    asyncOptions: async ({ searchApi }) => {
-      const option = await getOutParams(searchApi?.apiId)
+    asyncOptions: ({ api }) => {
+      const option = getOutParams(api.outParams)
       return option
     }
   },
   yField: {
     label: '值字段',
     type: 'yAxisField',
-    dependOn: ['searchApi'],
-    changeConfig: async (config, { searchApi }) => {
-      config.yFields = await getOutParams(searchApi?.apiId, 'value')
+    dependOn: ['api'],
+    changeConfig: (config, { api }) => {
+      config.yFields = getOutParams(api.outParams, 'value')
       return config
     }
   },

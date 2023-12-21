@@ -1,6 +1,5 @@
 import { startsWith } from 'lodash-es'
 import { v4 as uuidv4 } from 'uuid'
-import { centerService } from '@/api'
 
 export const addConfigPrefix = (configObj = {}) => {
   const obj = {}
@@ -30,20 +29,14 @@ export const yField = (field) => {
   return false
 }
 
-export const getOutParams = async (searchApi, type) => {
-  let fields = []
-  if (searchApi) {
-    const { data } = await centerService.getContent(searchApi)
-    const { outParams = [] } = data.flow || {}
-    fields = outParams.filter(column => {
-      if (type === 'value') {
-        return yField(column)
-      } else {
-        return xField(column)
-      }
-    })
-  }
-  return fields
+export const getOutParams = (outParams = [], type) => {
+  return outParams.filter(column => {
+    if (type === 'value') {
+      return yField(column)
+    } else {
+      return xField(column)
+    }
+  })
 }
 
 const configMap = {

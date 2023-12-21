@@ -1,9 +1,9 @@
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted, inject } from 'vue'
 import { useFormInput, formInputProps } from '@d-render/shared'
-import { useEventConfigure, bindEvent } from '../../use-event-configure'
+import { useEventConfigure, bindEvent, getInputParams, isInitSearch } from '../../use-event-configure'
 import useChartBarLine from '../hooks/use-chart-bar-line'
 import Charts from '@/components/charts'
-import req from '@cip/request'
+import axiosInstance from '@/views/app/pages/api'
 
 export default {
   name: 'ScatterChart',
@@ -12,21 +12,29 @@ export default {
     const { proxyValue, securityConfig } = useFormInput(props, context)
     const dataList = ref([])
     const handleEvent = useEventConfigure()
+    const drPageRender = inject('drPageRender', {})
 
     const option = computed(() => {
       const dataset = { source: proxyValue.value ? proxyValue.value : dataList.value }
       return useChartBarLine(securityConfig.value, dataset, 'scatter')
     })
 
-    watch(() => securityConfig.value.searchApi, async (newVal) => {
-      const { fullPath } = newVal
-      const { data } = await req({
-        method: 'get',
-        apiName: 'apiChr',
-        url: `/${fullPath}`,
-        params: { offset: 0, limit: 10 }
+    const getDataList = (api) => {
+      axiosInstance({
+        url: api.fullPath,
+        method: api.httpMethod,
+        params: getInputParams(api, drPageRender)
+      }).then(({ data }) => {
+        dataList.value = data.data?.list || []
       })
-      dataList.value = data?.list || []
+    }
+
+    watch(() => securityConfig.value.api, (newVal) => {
+      getDataList(newVal)
+    })
+
+    onMounted(() => {
+      isInitSearch(securityConfig.value.api, drPageRender) && getDataList(securityConfig.value.api)
     })
 
     return () => <div style="width: 100%; height: 250px" >
