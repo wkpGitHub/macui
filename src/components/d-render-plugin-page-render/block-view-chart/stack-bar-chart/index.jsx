@@ -1,12 +1,12 @@
 import { ref, computed, watch, onMounted, inject } from 'vue'
 import { useFormInput, formInputProps } from '@d-render/shared'
 import { useEventConfigure, bindEvent, getInputParams, isInitSearch } from '../../use-event-configure'
-import useChartSankey from '../hooks/use-chart-sankey'
-import Charts from '@/components/charts'
+import useChartBarLine from '../hooks/use-chart-bar-line'
 import axiosInstance from '@/views/app/pages/api'
+import Charts from '@/components/charts'
 
 export default {
-  name: 'SankeyChart',
+  name: 'StackBarChart',
   props: formInputProps,
   setup (props, context) {
     const { proxyValue, securityConfig } = useFormInput(props, context)
@@ -16,7 +16,7 @@ export default {
 
     const option = computed(() => {
       const dataset = { source: proxyValue.value ? proxyValue.value : dataList.value }
-      return useChartSankey(securityConfig.value, dataset)
+      return useChartBarLine(securityConfig.value, dataset, 'stackBarChart')
     })
 
     const getDataList = (api) => {

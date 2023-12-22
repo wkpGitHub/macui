@@ -183,6 +183,12 @@ export const componentsGroupList = [
         icon: 'el-icon-s-operation',
         label: '堆叠折线图',
         hideLabel: true
+      },
+      {
+        type: 'stackBarChart',
+        icon: 'el-icon-s-operation',
+        label: '堆叠柱状图',
+        hideLabel: true
       }
     ]
   },

@@ -3,7 +3,7 @@ import { addConfigPrefix, handelLabelSizeOptions, getOutParams } from '../../uti
 import { tooltipConfig, titleConfig, legendConfig, xAxisConfig, yAxisConfig } from './common-config'
 
 export default {
-  searchApi: {
+  api: {
     type: 'select-api',
     label: '查询接口'
   },
@@ -16,9 +16,9 @@ export default {
       xType: '',
       field: ''
     },
-    dependOn: ['searchApi'],
-    changeConfig: async (config, { searchApi }) => {
-      config.xFields = await getOutParams(searchApi?.apiId)
+    dependOn: ['api'],
+    changeConfig: (config, { api }) => {
+      config.xFields = getOutParams(api.outParams)
       return config
     }
   },
@@ -50,9 +50,9 @@ export default {
     label: 'y轴(度量)',
     required: true,
     type: 'yAxis',
-    dependOn: ['searchApi'],
-    changeConfig: async (config, { searchApi }) => {
-      config.yFields = await getOutParams(searchApi?.apiId, 'value')
+    dependOn: ['api'],
+    changeConfig: (config, { api }) => {
+      config.yFields = getOutParams(api.outParams, 'value')
       return config
     }
   },
@@ -118,6 +118,19 @@ export const cssConfigure = {
                 value: true,
                 inactiveValue: false,
                 label: '自适应'
+              }
+            },
+            barWidth: {
+              type: 'slider',
+              label: '柱宽',
+              min: 1,
+              max: 80,
+              defaultValue: 40,
+              showInput: true,
+              dependOn: ['config.barGapSelfAdaption'],
+              changeConfig: (config, { config: chartConfig }) => {
+                config.disabled = chartConfig.barGapSelfAdaption
+                return config
               }
             },
             barGap: {
