@@ -229,7 +229,7 @@ export default {
     selectType: {
       label: '查询记录',
       type: 'radio',
-      defaultValue: 'single',
+      defaultValue: 'multi',
       options: [
         { label: '单条记录', value: 'single' },
         { label: '多条记录', value: 'multi' }
@@ -271,16 +271,40 @@ export default {
       staticInfo: '筛选条件',
       ...staticInfoStyle
     },
-    filterFields: {
-      type: 'filterCondition',
-      dependOn: ['objectKey', 'fields'],
+    filterMode: {
+      dependOn: ['objectKey'],
       readable: false,
       changeConfig (config, { objectKey }) {
         config.writable = !!objectKey
         return config
       },
-      asyncOptions ({ fields }) {
-        return cloneDeep(fields || [])
+      required: true,
+      type: 'radio',
+      defaultValue: 'normal',
+      options: [
+        { label: '简单模式', value: 'normal' },
+        { label: '表达式', value: 'fx' }
+      ]
+    },
+    filterFields: {
+      type: 'filterCondition',
+      dependOn: ['objectKey', 'fields', 'filterMode'],
+      readable: false,
+      changeConfig (config, { objectKey, fields, filterMode }) {
+        config.writable = !!objectKey
+        config.type = filterMode === 'fx' ? 'setFx' : 'filterCondition'
+        config.options = cloneDeep(fields || [])
+        return config
+      },
+      changeValue ({ filterMode }) {
+        let value = {
+          logic: 'and',
+          children: []
+        }
+        if (filterMode === 'fx') {
+          value = []
+        }
+        return { value }
       }
     },
     _staticInfo3: {
@@ -335,7 +359,6 @@ export default {
     id: '', // 不重复 前端生成 建议使用 uuid
     type: 'query-data-records',
     title: '查询记录',
-
     children: []
   }
 }

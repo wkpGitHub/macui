@@ -834,8 +834,8 @@ export default {
   title: 'http请求',
   formField: generateFieldList(defineFormFieldConfig({
     _staticInfo: { type: 'staticInfo', staticInfo: '基本信息', ...staticInfoStyle },
-    title: { label: '节点标题' },
-    sourceName: { label: '入参来源' },
+    title: { label: '节点标题', defaultValue: 'http请求' },
+    // sourceName: { label: '入参来源' },
     targetName: { label: '节点出参' },
     url: { label: '请求地址', required: true },
     method: {
@@ -864,8 +864,9 @@ export default {
 
     _staticInfo1: { type: 'staticInfo', staticInfo: '提交参数', ...staticInfoStyle },
     customQueryMerge: {
-      label: 'Query转换',
+      label: 'Query参数',
       type: 'switch',
+      defaultValue: true,
       activeText: '追加',
       inactiveText: '覆盖'
     },
@@ -877,8 +878,9 @@ export default {
       }))
     },
     customHeaderMerge: {
-      label: 'Header转换',
+      label: 'Header参数',
       type: 'switch',
+      defaultValue: true,
       activeText: '追加',
       inactiveText: '覆盖'
     },
@@ -919,39 +921,39 @@ export default {
       label: '文件下载',
       type: 'switch'
     },
-    enableCustomOutput: {
-      label: '返回结果转换',
-      type: 'switch',
-      dependOn: ['isDownload'],
-      changeConfig (config, { isDownload }) {
-        config.readable = !isDownload
-        config.writable = !isDownload
-        return config
-      }
-    },
-    customOutputMerge: {
-      label: '转换模式',
-      type: 'switch',
-      readable: false,
-      activeText: '追加',
-      inactiveText: '覆盖',
-      dependOn: ['isDownload', 'enableCustomOutput'],
-      changeConfig (config, { isDownload, enableCustomOutput }) {
-        config.readable = !isDownload & enableCustomOutput
-        config.writable = !isDownload & enableCustomOutput
-        return config
-      }
-    },
-    outputTransform: {
-      readable: false,
-      dependOn: ['isDownload', 'enableCustomOutput'],
-      changeConfig (config, { isDownload, enableCustomOutput }) {
-        config.readable = !isDownload & enableCustomOutput
-        config.writable = !isDownload & enableCustomOutput
-        console.log(isDownload, 'enableCustomOutput')
-        return config
-      }
-    },
+    // enableCustomOutput: {
+    //   label: '返回结果转换',
+    //   type: 'switch',
+    //   dependOn: ['isDownload'],
+    //   changeConfig (config, { isDownload }) {
+    //     config.readable = !isDownload
+    //     config.writable = !isDownload
+    //     return config
+    //   }
+    // },
+    // customOutputMerge: {
+    //   label: '转换模式',
+    //   type: 'switch',
+    //   readable: false,
+    //   activeText: '追加',
+    //   inactiveText: '覆盖',
+    //   dependOn: ['isDownload', 'enableCustomOutput'],
+    //   changeConfig (config, { isDownload, enableCustomOutput }) {
+    //     config.readable = !isDownload & enableCustomOutput
+    //     config.writable = !isDownload & enableCustomOutput
+    //     return config
+    //   }
+    // },
+    // outputTransform: {
+    //   readable: false,
+    //   dependOn: ['isDownload', 'enableCustomOutput'],
+    //   changeConfig (config, { isDownload, enableCustomOutput }) {
+    //     config.readable = !isDownload & enableCustomOutput
+    //     config.writable = !isDownload & enableCustomOutput
+    //     console.log(isDownload, 'enableCustomOutput')
+    //     return config
+    //   }
+    // },
     enableResponseAdaptor: {
       label: '返回结果适配',
       type: 'switch',
@@ -971,7 +973,11 @@ export default {
         config.readable = !isDownload & enableResponseAdaptor
         config.writable = !isDownload & enableResponseAdaptor
         return config
-      }
+      },
+      defaultValue: `module.exports = (responseData) => {
+  // 对 responseData 进行处理或者转换（responseData是接口返回数据）
+  return responseData
+} `
     },
 
     _staticInfo3: { type: 'staticInfo', staticInfo: '认证鉴权', ...staticInfoStyle },

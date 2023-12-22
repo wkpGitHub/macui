@@ -42,7 +42,13 @@ export const fieldList = generateFieldList({
   },
   isFileDown: {
     type: 'switch',
-    label: '文件下载'
+    label: '文件下载',
+    dependOn: ['_apiMap'],
+    changeValue ({ _apiMap }) {
+      if (_apiMap) {
+        return { value: _apiMap.apiType === 'fileDown' }
+      }
+    }
   },
   // headers: {
   //   label: '请求头【key为&，将解构整个对象】',

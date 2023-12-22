@@ -118,23 +118,34 @@ export default {
         config.writable = !!objectKey
         return config
       },
-      label: '新增模式',
+      label: '类型选择',
       required: true,
       type: 'radio',
       defaultValue: 'normal',
       options: [
         { label: '简单模式', value: 'normal' },
-        { label: '复杂模式', value: 'advanced' }
+        { label: '表达式', value: 'fx' }
       ]
     },
     filterFields: {
       type: 'filterCondition',
-      dependOn: ['objectKey', 'fields'],
+      dependOn: ['objectKey', 'fields', 'filterMode'],
       readable: false,
-      changeConfig (config, { objectKey, fields }) {
+      changeConfig (config, { objectKey, fields, filterMode }) {
         config.writable = !!objectKey
+        config.type = filterMode === 'fx' ? 'setFx' : 'filterCondition'
         config.options = cloneDeep(fields || [])
         return config
+      },
+      changeValue ({ filterMode }) {
+        let value = {
+          logic: 'and',
+          children: []
+        }
+        if (filterMode === 'fx') {
+          value = []
+        }
+        return { value }
       }
     }
   })),

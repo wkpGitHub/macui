@@ -84,7 +84,7 @@ export const compList = [
   // examineAndApproveTaskConfig,
   datasourceSqlConfig,
   scriptConfig,
-  connectorConfig
+  // connectorConfig
   // emailConfig,
   // writeConfig,
   // captureTimeConfig,

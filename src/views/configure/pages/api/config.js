@@ -7,7 +7,10 @@ const apiTypeOpts = [
   { label: '详情', value: 'detail' },
   { label: '保存', value: 'save' },
   { label: '删除', value: 'delete' },
-  { label: '统计', value: 'agg' }
+  { label: '统计', value: 'agg' },
+  { label: '上传', value: 'fileUpload' },
+  { label: '下载', value: 'fileDown' },
+  { label: '图片', value: 'image' }
 ]
 
 export const searchFieldList = generateFieldList(defineSearchFieldConfig({
