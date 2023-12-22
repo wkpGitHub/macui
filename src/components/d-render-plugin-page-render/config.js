@@ -43,6 +43,7 @@ export default {
   scatterChart: () => () => import('./block-view-chart/scatter-chart'),
   sankeyChart: () => () => import('./block-view-chart/sankey-chart'),
   stackAreaChart: () => () => import('./block-view-chart/stack-area-chart'),
+  stackBarChart: () => () => import('./block-view-chart/stack-bar-chart'),
   tree: () => () => import('./tree'),
   input: (mode) => {
     if (mode === '/view') {

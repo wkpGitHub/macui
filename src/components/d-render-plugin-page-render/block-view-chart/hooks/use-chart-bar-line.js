@@ -1,7 +1,7 @@
 
 export default function useChartBarLine (securityConfig, dataset, configChartType) {
   const {
-    grid, xAxis = { alias: '', field: '', xType: '' }, yType, yAxis = { columns: [{ name: '', field: '', alias: '' }] }, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap, isShowLabel, labelSize, labelColor, labelPosition, isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, isShowXAxis = true, xAxisPosition = 'bottom', xAxisNameColor, xAxisNameSize, isShowAxisTick = true, isShowSplitLine = false, xSplitLineColor, xSplitLineWidth = 1, xSplitLineType = 'solid', isShowAxisLabel = true, axisLabelColor, axisLabelRotate = 0, axisLabelSize,
+    grid, xAxis = { alias: '', field: '', xType: '' }, yType, yAxis = { columns: [{ name: '', field: '', alias: '' }] }, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap, barWidth, isShowLabel, labelSize, labelColor, labelPosition, isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, isShowXAxis = true, xAxisPosition = 'bottom', xAxisNameColor, xAxisNameSize, isShowAxisTick = true, isShowSplitLine = false, xSplitLineColor, xSplitLineWidth = 1, xSplitLineType = 'solid', isShowAxisLabel = true, axisLabelColor, axisLabelRotate = 0, axisLabelSize,
     isShowYAxis = true, yAxisPosition, yAxisNameColor, yAxisNameSize, yAxisValue = true, yAxisMinValue, yAxisMaxValue, yAxisSplitNumber, isShowYAxisTick = false, isShowYSplitLine = true, ySplitLineColor, ySplitLineWidth, ySplitLineType = 'solid', isShowYAxisLabel = true, yAxisLabelColor, yAxisLabelRotate = 0, yAxisLabelSize, yAxisLabelFormatType = 'auto', yAxisLabelDecimalNum = 0, yAxisLabelNumUnit = '', yAxisLabelUnitSuffix = '', isShowYAxisLabelMillage = false,
     isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false,
     isShowLegend = true, legendIcon, legendOrient, legendTextSize, legendTextColor, legendLeft, legendTop,
@@ -106,7 +106,7 @@ export default function useChartBarLine (securityConfig, dataset, configChartTyp
     })
     seriesArr.push({
       name: alias || name,
-      type: configChartType === 'stackArea' ? 'line' : configChartType,
+      type: configChartType === 'stackArea' ? 'line' : (configChartType === 'stackBarChart' ? 'bar' : configChartType),
       itemStyle: colorScheme ? { color: handleColor(colorScheme[index]) } : {},
       markLine: {
         data: markLineDataArr
@@ -120,6 +120,7 @@ export default function useChartBarLine (securityConfig, dataset, configChartTyp
         // tooltip: [advancedConfig.includes('isReversed') ? (xAxis.field ? xAxis.field : 'name') : field]
       },
       barGap: barGapSelfAdaption ? null : `${barGap}%`,
+      barWidth: barGapSelfAdaption ? null : barWidth,
       label: {
         show: !!isShowLabel,
         fontSize: labelSize,
@@ -133,12 +134,12 @@ export default function useChartBarLine (securityConfig, dataset, configChartTyp
       symbol: configChartType === 'scatter' ? scatterSymbol : lineSymbol,
       symbolSize: configChartType === 'scatter' ? scatterSymbolSize : lineSymbolSize,
       smooth: lineSmooth,
-      stack: configChartType === 'stackArea' ? 'Total' : '',
+      stack: ['stackArea', 'stackBarChart'].includes(configChartType) ? 'Total' : '',
       areaStyle: {
         opacity: configChartType === 'stackArea' ? 0.7 : 0
       },
       emphasis: {
-        disabled: configChartType !== 'stackArea',
+        disabled: !['stackArea', 'stackBarChart'].includes(configChartType),
         focus: 'series'
       }
     })

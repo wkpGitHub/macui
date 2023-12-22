@@ -120,6 +120,19 @@ export const cssConfigure = {
                 label: '自适应'
               }
             },
+            barWidth: {
+              type: 'slider',
+              label: '柱宽',
+              min: 1,
+              max: 80,
+              defaultValue: 40,
+              showInput: true,
+              dependOn: ['config.barGapSelfAdaption'],
+              changeConfig: (config, { config: chartConfig }) => {
+                config.disabled = chartConfig.barGapSelfAdaption
+                return config
+              }
+            },
             barGap: {
               type: 'slider',
               label: '柱间隔',
