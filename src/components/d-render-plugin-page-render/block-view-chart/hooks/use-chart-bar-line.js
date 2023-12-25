@@ -1,12 +1,17 @@
 
 export default function useChartBarLine (securityConfig, dataset, configChartType) {
-  const {
+  let {
     grid, xAxis = { alias: '', field: '', xType: '' }, yType, yAxis = { columns: [{ name: '', field: '', alias: '' }] }, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap, barWidth, isShowLabel, labelSize, labelColor, labelPosition, isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, isShowXAxis = true, xAxisPosition = 'bottom', xAxisNameColor, xAxisNameSize, isShowAxisTick = true, isShowSplitLine = false, xSplitLineColor, xSplitLineWidth = 1, xSplitLineType = 'solid', isShowAxisLabel = true, axisLabelColor, axisLabelRotate = 0, axisLabelSize,
     isShowYAxis = true, yAxisPosition, yAxisNameColor, yAxisNameSize, yAxisValue = true, yAxisMinValue, yAxisMaxValue, yAxisSplitNumber, isShowYAxisTick = false, isShowYSplitLine = true, ySplitLineColor, ySplitLineWidth, ySplitLineType = 'solid', isShowYAxisLabel = true, yAxisLabelColor, yAxisLabelRotate = 0, yAxisLabelSize, yAxisLabelFormatType = 'auto', yAxisLabelDecimalNum = 0, yAxisLabelNumUnit = '', yAxisLabelUnitSuffix = '', isShowYAxisLabelMillage = false,
     isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false,
     isShowLegend = true, legendIcon, legendOrient, legendTextSize, legendTextColor, legendLeft, legendTop,
     lineStyle = 2, lineType = 'solid', lineSymbol = 'circle', lineSymbolSize = 8, lineSmooth = true, scatterSymbol = 'circle', scatterSymbolSize = 20
   } = securityConfig
+
+  // 针对-横向柱状图-单独做处理
+  if (configChartType === 'horizontalBarChart' && advancedConfig === '') {
+    advancedConfig = 'isReversed'
+  }
 
   const yAxisArr = []
   const seriesArr = []
@@ -106,7 +111,7 @@ export default function useChartBarLine (securityConfig, dataset, configChartTyp
     })
     seriesArr.push({
       name: alias || name,
-      type: configChartType === 'stackArea' ? 'line' : (configChartType === 'stackBarChart' ? 'bar' : configChartType),
+      type: configChartType === 'stackArea' ? 'line' : (['horizontalBarChart', 'stackBarChart'].includes(configChartType) ? 'bar' : configChartType),
       itemStyle: colorScheme ? { color: handleColor(colorScheme[index]) } : {},
       markLine: {
         data: markLineDataArr

@@ -92,6 +92,8 @@ const eventHandleMap = {
         drPageRender.dataBus(event.target, _value.list)
       } else if (item.config.type === 'stackBarChart') {
         drPageRender.dataBus(event.target, _value.list)
+      } else if (item.config.type === 'horizontalBarChart') {
+        drPageRender.dataBus(event.target, _value.list)
       } else {
         drPageRender.dataBus(event.target, _value)
       }

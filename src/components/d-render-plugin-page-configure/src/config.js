@@ -23,6 +23,7 @@ export default {
   scatterChart: () => import('./block-view-chart/scatter-chart'),
   stackAreaChart: () => import('./block-view-chart/line-chart'),
   stackBarChart: () => import('./block-view-chart/bar-chart'),
+  horizontalBarChart: () => import('./block-view-chart/horizontal-bar-chart'),
   select: () => import('./select'),
   date: () => import('./date-picker'),
   textarea: () => import('./input'),
