@@ -45,6 +45,7 @@ export default {
   stackAreaChart: () => () => import('./block-view-chart/stack-area-chart'),
   stackBarChart: () => () => import('./block-view-chart/stack-bar-chart'),
   horizontalBarChart: () => () => import('./block-view-chart/horizontal-bar-chart'),
+  stackHorizontalBarChart: () => () => import('./block-view-chart/stack-horizontal-bar-chart'),
   tree: () => () => import('./tree'),
   input: (mode) => {
     if (mode === '/view') {

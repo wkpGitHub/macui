@@ -8,8 +8,8 @@ export default function useChartBarLine (securityConfig, dataset, configChartTyp
     lineStyle = 2, lineType = 'solid', lineSymbol = 'circle', lineSymbolSize = 8, lineSmooth = true, scatterSymbol = 'circle', scatterSymbolSize = 20
   } = securityConfig
 
-  // 针对-横向柱状图-单独做处理
-  if (configChartType === 'horizontalBarChart' && advancedConfig === '') {
+  // 针对-横向柱状图、横向堆叠柱状图、-单独做处理
+  if (['horizontalBarChart', 'stackHorizontalBarChart'].includes(configChartType) && advancedConfig === '') {
     advancedConfig = 'isReversed'
   }
 
@@ -111,7 +111,7 @@ export default function useChartBarLine (securityConfig, dataset, configChartTyp
     })
     seriesArr.push({
       name: alias || name,
-      type: configChartType === 'stackArea' ? 'line' : (['horizontalBarChart', 'stackBarChart'].includes(configChartType) ? 'bar' : configChartType),
+      type: configChartType === 'stackArea' ? 'line' : (['horizontalBarChart', 'stackBarChart', 'stackHorizontalBarChart'].includes(configChartType) ? 'bar' : configChartType),
       itemStyle: colorScheme ? { color: handleColor(colorScheme[index]) } : {},
       markLine: {
         data: markLineDataArr
@@ -139,12 +139,12 @@ export default function useChartBarLine (securityConfig, dataset, configChartTyp
       symbol: configChartType === 'scatter' ? scatterSymbol : lineSymbol,
       symbolSize: configChartType === 'scatter' ? scatterSymbolSize : lineSymbolSize,
       smooth: lineSmooth,
-      stack: ['stackArea', 'stackBarChart'].includes(configChartType) ? 'Total' : '',
+      stack: ['stackArea', 'stackBarChart', 'stackHorizontalBarChart'].includes(configChartType) ? 'Total' : '',
       areaStyle: {
         opacity: configChartType === 'stackArea' ? 0.7 : 0
       },
       emphasis: {
-        disabled: !['stackArea', 'stackBarChart'].includes(configChartType),
+        disabled: !['stackArea', 'stackBarChart', 'stackHorizontalBarChart'].includes(configChartType),
         focus: 'series'
       }
     })

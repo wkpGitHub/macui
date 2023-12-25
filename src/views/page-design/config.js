@@ -195,6 +195,12 @@ export const componentsGroupList = [
         icon: 'el-icon-s-operation',
         label: '横向柱状图',
         hideLabel: true
+      },
+      {
+        type: 'stackHorizontalBarChart',
+        icon: 'el-icon-s-operation',
+        label: '横向堆叠柱状图',
+        hideLabel: true
       }
     ]
   },
