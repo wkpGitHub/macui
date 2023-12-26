@@ -1,7 +1,7 @@
 
 export default function useChartPie (securityConfig, dataset, configChartType) {
   let {
-    grid, radius = [0, 100], xField = 'name', yField = { columns: [] },
+    radius = [0, 100], xField = 'name', yField = { columns: [] },
     isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false, // 标题配置
     opacity, // 颜色配置
     isShowLabel = false, labelFormat = 'dimension', labelSize, labelColor, pieLabelPosition, keepDecimal, // 标签配置
@@ -91,13 +91,6 @@ export default function useChartPie (securityConfig, dataset, configChartType) {
       },
       left: legendLeft || 'right',
       top: legendTop || 'auto'
-    },
-    grid: {
-      left: grid?.left || '3%',
-      right: grid?.right || '10%',
-      bottom: grid?.bottom || '3%',
-      top: grid?.top || 60,
-      containLabel: true
     },
     dataset,
     series: seriesArr

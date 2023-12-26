@@ -209,23 +209,6 @@ export const cssConfigure = {
         children: generateFieldList(addConfigPrefix(
           legendConfig
         ))
-      },
-      {
-        title: '组件样式',
-        children: generateFieldList(addConfigPrefix(
-          {
-            grid: {
-              type: 'chartMargin',
-              label: '边距',
-              defaultValue: {
-                top: '',
-                right: '',
-                left: '',
-                bottom: ''
-              }
-            }
-          })
-        )
       }
     ]
   }
