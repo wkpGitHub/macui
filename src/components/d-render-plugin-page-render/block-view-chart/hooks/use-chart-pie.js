@@ -6,7 +6,8 @@ export default function useChartPie (securityConfig, dataset, configChartType) {
     opacity, // 颜色配置
     isShowLabel = false, labelFormat = 'dimension', labelSize, labelColor, pieLabelPosition, keepDecimal, // 标签配置
     isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, // 提示配置
-    isShowLegend = true, legendIcon, legendOrient, legendTextSize, legendTextColor, legendLeft, legendTop // 图例配置
+    isShowLegend = true, legendIcon, legendOrient, legendTextSize, legendTextColor, legendLeft, legendTop, // 图例配置
+    roseType = 'radius', borderRadius = 8 // 针对南丁格尔玫瑰图
   } = securityConfig
 
   // 针对环形图单独做处理
@@ -32,8 +33,10 @@ export default function useChartPie (securityConfig, dataset, configChartType) {
         color: labelColor || '#333',
         position: pieLabelPosition || 'outside'
       },
+      roseType: configChartType === 'nightingaleChart' ? roseType : '',
       itemStyle: {
-        opacity: opacity / 100
+        opacity: opacity / 100,
+        borderRadius: configChartType === 'nightingaleChart' ? borderRadius : 0
       },
       emphasis: {
         label: {

@@ -26,6 +26,7 @@ export default {
   horizontalBarChart: () => import('./block-view-chart/horizontal-bar-chart'),
   stackHorizontalBarChart: () => import('./block-view-chart/horizontal-bar-chart'),
   annulusChart: () => import('./block-view-chart/pie-chart'),
+  nightingaleChart: () => import('./block-view-chart/nightingale-chart'),
   select: () => import('./select'),
   date: () => import('./date-picker'),
   textarea: () => import('./input'),

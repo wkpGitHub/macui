@@ -47,6 +47,7 @@ export default {
   horizontalBarChart: () => () => import('./block-view-chart/horizontal-bar-chart'),
   stackHorizontalBarChart: () => () => import('./block-view-chart/stack-horizontal-bar-chart'),
   annulusChart: () => () => import('./block-view-chart/annulus-chart'),
+  nightingaleChart: () => () => import('./block-view-chart/nightingale-chart'),
   tree: () => () => import('./tree'),
   input: (mode) => {
     if (mode === '/view') {

@@ -207,6 +207,12 @@ export const componentsGroupList = [
         icon: 'el-icon-s-operation',
         label: '环形图',
         hideLabel: true
+      },
+      {
+        type: 'nightingaleChart',
+        icon: 'el-icon-s-operation',
+        label: '南丁格尔玫瑰图',
+        hideLabel: true
       }
     ]
   },
