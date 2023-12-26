@@ -1,6 +1,6 @@
 
-export default function useChartPie (securityConfig, dataset) {
-  const {
+export default function useChartPie (securityConfig, dataset, configChartType) {
+  let {
     grid, radius = [0, 100], xField = 'name', yField = { columns: [] },
     isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false, // 标题配置
     opacity, // 颜色配置
@@ -8,6 +8,9 @@ export default function useChartPie (securityConfig, dataset) {
     isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, // 提示配置
     isShowLegend = true, legendIcon, legendOrient, legendTextSize, legendTextColor, legendLeft, legendTop // 图例配置
   } = securityConfig
+
+  // 针对环形图单独做处理
+  if (configChartType === 'annulusChart' && radius[0] === 0 && radius[1] === 100) { radius = [60, 80] }
 
   const handleLabelFormat = ({ name, data, percent }, column) => {
     let labelStr = ''

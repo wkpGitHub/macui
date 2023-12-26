@@ -201,6 +201,12 @@ export const componentsGroupList = [
         icon: 'el-icon-s-operation',
         label: '横向堆叠柱状图',
         hideLabel: true
+      },
+      {
+        type: 'annulusChart',
+        icon: 'el-icon-s-operation',
+        label: '环形图',
+        hideLabel: true
       }
     ]
   },

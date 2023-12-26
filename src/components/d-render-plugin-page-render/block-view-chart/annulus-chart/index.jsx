@@ -6,7 +6,7 @@ import Charts from '@/components/charts'
 import axiosInstance from '@/views/app/pages/api'
 
 export default {
-  name: 'PieChart',
+  name: 'AnnulusChart',
   props: formInputProps,
   setup (props, context) {
     const { proxyValue, securityConfig } = useFormInput(props, context)
@@ -16,7 +16,7 @@ export default {
 
     const option = computed(() => {
       const dataset = { source: proxyValue.value ? proxyValue.value : dataList.value }
-      return useChartPie(securityConfig.value, dataset, 'pieChart')
+      return useChartPie(securityConfig.value, dataset, 'annulusChart')
     })
 
     const getDataList = (api) => {
