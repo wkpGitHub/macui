@@ -60,4 +60,12 @@ const loginRoute = {
   name: 'login',
   component: () => import('@cip/plugins/pages/smart-center/login')
 }
-export const routes = [loginRoute, configureRoute, previewRoute, designRoute]
+
+const noLayoutPreviewRoute = {
+  path: '/view/:appPath/:path(.*)',
+  name: 'viewPage',
+  props: true,
+  component: () => import('@/views/app/pages/low-code')
+}
+
+export const routes = [loginRoute, configureRoute, previewRoute, designRoute, noLayoutPreviewRoute]
