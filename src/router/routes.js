@@ -49,7 +49,7 @@ const previewRoute = {
 }
 
 const designRoute = {
-  path: '/configure/:appPath/pages-design/:id',
+  path: '/design/:appPath/:id',
   name: 'configurePagesDesign',
   props: true,
   component: () => import('@/views/page-design')
