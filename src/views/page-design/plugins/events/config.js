@@ -1,5 +1,5 @@
 import { generateFieldList, CipForm } from 'd-render'
-import { getModuleTree, getListConfigByKey } from '@/components/d-render-plugin-page-render/use-event-configure'
+import { getModuleTree, getListConfigByKey } from '@lc/components/d-render-plugin-page-render/use-event-configure'
 import { cloneDeep } from '@cip/utils/util.js'
 import { reactive } from 'vue'
 import CipDialog from '@cip/components/cip-dialog'

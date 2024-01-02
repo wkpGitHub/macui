@@ -1,5 +1,5 @@
 import { generateFieldList } from 'd-render'
-import { pageInfoEntityEntity } from '@/api/entity/chr'
+import { pageInfoEntityEntity } from '@lc/api/entity/chr'
 import { keysToConfigMap } from '@d-render/shared'
 import { cloneDeep, depthFirstSearchIndexTree, getFieldValue, getPropertyKeyByPath } from '@cip/utils/util'
 export const pageSimpleFieldList = generateFieldList(

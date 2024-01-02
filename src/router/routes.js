@@ -1,7 +1,7 @@
-import ManagerFramework from '@/views/manager/framework'
-const ctx = require.context('@/views/manager', true, /(\w+\/)*(routes|routes\/index)\.js$/i)
-const configureCtx = require.context('@/views/configure', true, /(\w+\/)*(routes|routes\/index)\.js$/i)
-const previewCtx = require.context('@/views/preview', true, /(\w+\/)*(routes|routes\/index)\.js$/i)
+import ManagerFramework from '@lc/views/manager/framework'
+const ctx = require.context('@lc/views/manager', true, /(\w+\/)*(routes|routes\/index)\.js$/i)
+const configureCtx = require.context('@lc/views/configure', true, /(\w+\/)*(routes|routes\/index)\.js$/i)
+const previewCtx = require.context('@lc/views/preview', true, /(\w+\/)*(routes|routes\/index)\.js$/i)
 const getChildren = (ctx) => {
   const result = []
   const paths = ctx.keys()
@@ -36,7 +36,7 @@ const configureRoute = {
   path: '/configure/:appPath',
   name: 'configureFramework',
   props: true,
-  component: () => import('@/views/configure/framework'),
+  component: () => import('@lc/views/configure/framework'),
   children: configureChildren
 }
 
@@ -44,7 +44,7 @@ const previewRoute = {
   path: '/preview/:appPath',
   name: 'previewFramework',
   props: true,
-  component: () => import('@/views/preview/framework'),
+  component: () => import('@lc/views/preview/framework'),
   children: previewChildren
 }
 
@@ -52,7 +52,7 @@ const designRoute = {
   path: '/design/:appPath/:id',
   name: 'configurePagesDesign',
   props: true,
-  component: () => import('@/views/page-design')
+  component: () => import('@lc/views/page-design')
 }
 
 const loginRoute = {
@@ -65,7 +65,7 @@ const noLayoutPreviewRoute = {
   path: '/view/:appPath/:path(.*)',
   name: 'viewPage',
   props: true,
-  component: () => import('@/views/app/pages/low-code')
+  component: () => import('@lc/views/app/pages/low-code')
 }
 
 export const routes = [loginRoute, configureRoute, previewRoute, designRoute, noLayoutPreviewRoute]

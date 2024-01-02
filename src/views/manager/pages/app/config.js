@@ -1,7 +1,7 @@
-import { appEntityEntity } from '@/api/entity/chr'
+import { appEntityEntity } from '@lc/api/entity/chr'
 import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig, defineSearchFieldConfig } from 'd-render'
 import { keysToConfigMap } from '@d-render/shared'
-import { appService } from '@/api/service/chr'
+import { appService } from '@lc/api/service/chr'
 const commonConfig = {
   path: { label: '路径' },
   logo: { label: 'logo', type: 'image' }

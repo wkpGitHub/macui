@@ -1,5 +1,5 @@
-import { dicValueEntityEntity } from '@/api/entity/chr'
-// import { daa } from '@/api/service/chr'
+import { dicValueEntityEntity } from '@lc/api/entity/chr'
+// import { daa } from '@lc/api/service/chr'
 import { generateFieldList, defineTableFieldConfig } from 'd-render'
 import { keysToConfigMap } from '@d-render/shared'
 

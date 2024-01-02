@@ -1,9 +1,9 @@
 import { PlInfo as CipPageInfo } from '@cip/page-layout'
 import { layoutProps } from '@d-render/shared'
-import { useComponentSlots } from '@/components/d-render-plugin-page-render/use-component-slots'
-import { isInitSearch, getInputParams } from '@/components/d-render-plugin-page-render/use-event-configure'
+import { useComponentSlots } from '@lc/components/d-render-plugin-page-render/use-component-slots'
+import { isInitSearch, getInputParams } from '@lc/components/d-render-plugin-page-render/use-event-configure'
 import { inject } from 'vue'
-import axiosInstance from '@/views/app/pages/api'
+import axiosInstance from '@lc/views/app/pages/api'
 
 export default {
   props: layoutProps,

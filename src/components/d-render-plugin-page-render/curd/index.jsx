@@ -1,10 +1,10 @@
 /* eslint-disable */
 import { PlList as CipPageLayoutList } from '@cip/page-layout'
 import { layoutProps, setFieldValue, getFieldValue } from '@d-render/shared'
-import { useComponentSlots } from '@/components/d-render-plugin-page-render/use-component-slots'
+import { useComponentSlots } from '@lc/components/d-render-plugin-page-render/use-component-slots'
 import { getListConfigByType, getInputParams, isInitSearch } from '../use-event-configure'
 import './index.less'
-import axiosInstance from '@/views/app/pages/api'
+import axiosInstance from '@lc/views/app/pages/api'
 import { inject } from 'vue'
 import {CipButton} from '@xdp/button'
 import {ElMessage, ElMessageBox} from 'element-plus'

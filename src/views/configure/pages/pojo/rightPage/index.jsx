@@ -1,8 +1,8 @@
 import CipButton from '@cip/components/cip-button'
 import { reactive, watch } from 'vue'
-import { dataFieldEntityEntity, dbInfoEntityEntity } from '@/api/entity/chr'
+import { dataFieldEntityEntity, dbInfoEntityEntity } from '@lc/api/entity/chr'
 import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig, CipForm } from 'd-render'
-import { dataInfoService } from '@/api'
+import { dataInfoService } from '@lc/api'
 import CipMessage from '@cip/components/cip-message'
 
 export default {

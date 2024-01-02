@@ -46,7 +46,7 @@ import { isDesignOptions, setOptionWritable } from './util'
 import { setFieldValue, getFieldValue } from '@cip/utils/util'
 import { analyseData, getPropertyKeyByPath } from 'd-render/cip-table/util'
 import CipDialog from '@cip/components/cip-dialog'
-import { dataInfoService } from '@/api'
+import { dataInfoService } from '@lc/api'
 
 export default {
   name: 'basic-table',

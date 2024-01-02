@@ -5,7 +5,7 @@ import CipTableButton from '@cip/components/cip-table-button'
 import CipTree from '@cip/components/cip-tree'
 import CipButton from '@cip/components/cip-button'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
-import SetFx from '@/components/custom-form-input/set-fx'
+import SetFx from '@lc/components/custom-form-input/set-fx'
 
 export default defineComponent({
   name: 'select-field',

@@ -2,8 +2,8 @@ import { ref, computed, watch, onMounted, inject } from 'vue'
 import { useFormInput, formInputProps } from '@d-render/shared'
 import { useEventConfigure, bindEvent, getInputParams, isInitSearch } from '../../use-event-configure'
 import useChartBarLine from '../hooks/use-chart-bar-line'
-import axiosInstance from '@/views/app/pages/api'
-import Charts from '@/components/charts'
+import axiosInstance from '@lc/views/app/pages/api'
+import Charts from '@lc/components/charts'
 
 export default {
   name: 'StackBarChart',

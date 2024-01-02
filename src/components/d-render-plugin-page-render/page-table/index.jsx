@@ -1,6 +1,6 @@
 import { CipTable, CipFormInputTransform } from 'd-render'
 import { computed, inject } from 'vue'
-import axiosInstance from '@/views/app/pages/api'
+import axiosInstance from '@lc/views/app/pages/api'
 import { getInputParams, useEventConfigure, bindEvent, isInitSearch } from '../use-event-configure'
 import { setFieldValue } from '@d-render/shared'
 import { CipButtonText } from '@xdp/button'

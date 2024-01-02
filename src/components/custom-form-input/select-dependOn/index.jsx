@@ -4,9 +4,9 @@ import CipButtonText from '@cip/components/cip-button-text'
 import CipDialog from '@cip/components/cip-dialog'
 import { reactive, inject, computed } from 'vue'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
-import { getModuleTree } from '@/components/d-render-plugin-page-render/use-event-configure'
+import { getModuleTree } from '@lc/components/d-render-plugin-page-render/use-event-configure'
 import LSelect from '../select-dependOn/select'
-import { dataInfoService } from '@/api'
+import { dataInfoService } from '@lc/api'
 
 const signOptions = [
   { label: '等于', value: '==' },

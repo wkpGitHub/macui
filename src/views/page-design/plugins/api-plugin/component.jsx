@@ -1,5 +1,5 @@
 import { CipForm, generateFieldList } from 'd-render'
-import { fieldList } from '@/components/custom-form-input/select-api/config'
+import { fieldList } from '@lc/components/custom-form-input/select-api/config'
 
 const methodsConfigFieldList = generateFieldList({
   apiList: {

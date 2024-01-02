@@ -4,7 +4,7 @@ import { generateFieldList } from 'd-render'
 import FormTable from '@cip/d-render-plugin-cci/esm/input/basic/table'
 import { ElTooltip, ElInput, ElTree } from 'element-plus'
 import { ArrowDown } from '@element-plus/icons-vue'
-import { pageInfoService } from '@/api'
+import { pageInfoService } from '@lc/api'
 
 export default {
   props: formInputProps,

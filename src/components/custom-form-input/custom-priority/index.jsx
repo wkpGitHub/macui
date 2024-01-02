@@ -1,7 +1,7 @@
 import { defineComponent } from 'vue'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import draggable from 'vuedraggable'
-import Ellipsis from '@/components/custom-form-input/common/Ellipsis'
+import Ellipsis from '@lc/components/custom-form-input/common/Ellipsis'
 import styles from './index.module.less'
 
 export default defineComponent({

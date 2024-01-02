@@ -1,6 +1,6 @@
 import { PlLeftRight as CipPageLeftRight } from '@cip/page-layout'
 import { layoutProps } from '@d-render/shared'
-import { useComponentSlots } from '@/components/d-render-plugin-page-render/use-component-slots'
+import { useComponentSlots } from '@lc/components/d-render-plugin-page-render/use-component-slots'
 
 export default {
   props: layoutProps,

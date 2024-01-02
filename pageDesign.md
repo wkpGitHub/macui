@@ -72,5 +72,5 @@ export class FieldConfigurePlugin extends ConfigurePlugin {
 // 根据插件的type: this.type = PLUGIN_ENUM.PREVIEW
 
 
-@/views/app/pages/low-code
-@/components/page-render
+@lc/views/app/pages/low-code
+@lc/components/page-render

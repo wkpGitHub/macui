@@ -1,6 +1,6 @@
 import { useRouter } from 'vue-router'
 import CipPageCurd from '@cip/components/cip-page-curd'
-import { appService } from '@/api/service/chr'
+import { appService } from '@lc/api/service/chr'
 import { tableColumns, formFieldList, searchFieldList } from './config'
 import CipButtonText from '@cip/components/cip-button-text'
 import { defineComponent } from 'vue'

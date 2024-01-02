@@ -1,6 +1,6 @@
-import { dataFieldEntityEntity, dataInfoEntityEntity } from '@/api/entity/chr'
+import { dataFieldEntityEntity, dataInfoEntityEntity } from '@lc/api/entity/chr'
 import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig } from 'd-render'
-import { baseDicService } from '@/api'
+import { baseDicService } from '@lc/api'
 import { v4 as uuid } from 'uuid'
 
 export const formFieldList = generateFieldList(defineFormFieldConfig({

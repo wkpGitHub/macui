@@ -2,7 +2,7 @@ import { ElInput } from 'element-plus'
 // import { CipFormInputTransform } from 'd-render'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import { useEvents } from '../use-event'
-import { getFxValue, useWatch } from '@/components/d-render-plugin-page-render/use-event-configure'
+import { getFxValue, useWatch } from '@lc/components/d-render-plugin-page-render/use-event-configure'
 import { inject } from 'vue'
 
 export default {

@@ -1,4 +1,4 @@
-import { dataInfoEntityEntity } from '@/api/entity/chr'
+import { dataInfoEntityEntity } from '@lc/api/entity/chr'
 import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig, defineSearchFieldConfig } from 'd-render'
 
 export const searchFieldList = generateFieldList(defineSearchFieldConfig({

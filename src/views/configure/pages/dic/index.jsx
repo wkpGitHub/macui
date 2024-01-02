@@ -1,6 +1,6 @@
 import { ref, watch } from 'vue'
 import { PlLeftRight as CipPageLayoutLeftRight } from '@cip/page-layout'
-import { dataInfoService } from '@/api'
+import { dataInfoService } from '@lc/api'
 import PageTree from './page-tree'
 import { tableColumns, formFieldList } from './config'
 import CipPageCurd from '@cip/components/cip-page-curd'

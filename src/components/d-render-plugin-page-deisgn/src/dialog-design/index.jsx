@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { layoutProps } from '@d-render/shared'
-import { useComponentSlots } from '@/components/d-render-plugin-page-render/use-component-slots'
+import { useComponentSlots } from '@lc/components/d-render-plugin-page-render/use-component-slots'
 import { ElButton } from 'element-plus'
 
 import './index.less'

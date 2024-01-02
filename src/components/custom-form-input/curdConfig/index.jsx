@@ -3,7 +3,7 @@ import { defineComponent, watch, reactive, computed, inject } from 'vue'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import { CipForm, defineFormFieldConfig, generateFieldList } from 'd-render'
 // import cipStore from '@cip/components/store'
-import { apiConfigService, centerService } from '@/api/service/chr'
+import { apiConfigService, centerService } from '@lc/api/service/chr'
 import { getItemConfig } from './config'
 
 export default defineComponent({

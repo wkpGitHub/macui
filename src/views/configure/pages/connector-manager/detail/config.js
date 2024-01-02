@@ -1,4 +1,4 @@
-import { baseDicService } from '@/api'
+import { baseDicService } from '@lc/api'
 import {
   generateFieldList,
   defineFormFieldConfig,

@@ -1,7 +1,7 @@
 import { ref, watch } from 'vue'
-import CipPageSave from '@/components/cip-page-save'
+import CipPageSave from '@lc/components/cip-page-save'
 import { formFieldList } from './config'
-import { dataInfoService } from '@/api/service/chr'
+import { dataInfoService } from '@lc/api/service/chr'
 import CipMessage from '@cip/components/cip-message'
 export default {
   props: {

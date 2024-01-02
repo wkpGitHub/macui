@@ -2,7 +2,7 @@ import { reactive, computed } from 'vue'
 import CipDialog from '@cip/components/cip-dialog'
 // import { ElTag } from 'element-plus'
 import CipTree from '@cip/components/cip-tree'
-import { getModuleTree } from '@/components/d-render-plugin-page-render/use-event-configure'
+import { getModuleTree } from '@lc/components/d-render-plugin-page-render/use-event-configure'
 
 export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign) {
   const state = reactive({ isShow: false, item: {} })

@@ -22,7 +22,7 @@
 import { defineComponent, ref, provide } from 'vue'
 import { pageInfoToMenu } from '../util'
 import Main from '@cip/components/main'
-import { appService, privilegeService, pageInfoService } from '@/api'
+import { appService, privilegeService, pageInfoService } from '@lc/api'
 import store from '@cip/components/store'
 export default defineComponent({
   components: { Main },

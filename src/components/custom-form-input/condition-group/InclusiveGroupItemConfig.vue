@@ -89,10 +89,10 @@
 </template>
 
 <script>
-// import OrgPicker from '@/components/common/OrgPicker'
+// import OrgPicker from '@lc/components/common/OrgPicker'
 // import OrgItems from '../OrgItems'
 import RoleDialog from './role-dialog'
-import Ellipsis from '@/components/custom-form-input/common/Ellipsis'
+import Ellipsis from '@lc/components/custom-form-input/common/Ellipsis'
 import { ref, computed } from 'vue'
 import { ElForm, ElFormItem, ElSwitch, ElPopover, ElCheckboxGroup, ElCheckbox, ElSelect, ElInput, ElOption, ElButton } from 'element-plus'
 import { cloneDeep } from '@cip/utils/util'

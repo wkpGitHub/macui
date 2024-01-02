@@ -1,6 +1,6 @@
 import { ref, watch, computed } from 'vue'
-import PageRender from '@/components/page-render'
-import { pageInfoService } from '@/api'
+import PageRender from '@lc/components/page-render'
+import { pageInfoService } from '@lc/api'
 import { apiConfigToApi } from '../api'
 export default {
   props: {

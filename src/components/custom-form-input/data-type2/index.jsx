@@ -2,7 +2,7 @@ import { defineComponent, computed } from 'vue'
 import { ElSelect, ElOption, ElCascader } from 'element-plus'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import cipStore from '@cip/components/store'
-import { dataInfoService } from '@/api'
+import { dataInfoService } from '@lc/api'
 
 export default defineComponent({
   name: 'select-field',

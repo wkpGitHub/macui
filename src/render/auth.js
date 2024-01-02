@@ -1,4 +1,4 @@
-import { accountService } from '@/api'
+import { accountService } from '@lc/api'
 import store from '@cip/components/store'
 import { Token } from '@/lib/token'
 import { settingValueTransformState } from '@d-render/shared'

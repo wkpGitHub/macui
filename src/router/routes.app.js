@@ -1,4 +1,4 @@
-const appCtx = require.context('@/views/app', true, /(\w+\/)*(routes|routes\/index)\.js$/i)
+const appCtx = require.context('@lc/views/app', true, /(\w+\/)*(routes|routes\/index)\.js$/i)
 const getChildren = (ctx) => {
   const result = []
   const paths = ctx.keys()
@@ -19,13 +19,13 @@ const loginRoute = {
 export const appRoute = {
   path: '/:appPath',
   name: 'appFramework',
-  component: () => import('@/views/app/framework'),
+  component: () => import('@lc/views/app/framework'),
   props: true
 }
 export const appHideRoute = {
   path: '/:appPath',
   name: 'appFramework',
-  component: () => import('@/views/app/framework'),
+  component: () => import('@lc/views/app/framework'),
   props: ({ params }) => {
     return {
       appPath: params.appPath,

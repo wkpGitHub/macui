@@ -27,7 +27,7 @@ import '@page-layout/theme-standard/style'
 // import DG from '@page-layout/theme-dg'
 // import '@page-layout/theme-dg/style'
 import '@page-layout/theme-supergravity/style'
-import { baseDicService } from '@/api'
+import { baseDicService } from '@lc/api'
 export default {
   components: { CipConfigProvide, ElConfigProvider, PlConfigProvide },
   setup () {

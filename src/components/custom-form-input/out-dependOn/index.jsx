@@ -2,7 +2,7 @@ import { ElTreeSelect, ElInput, ElButton } from 'element-plus'
 import CipDialog from '@cip/components/cip-dialog'
 import { reactive, inject, computed } from 'vue'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
-import { getModuleTree } from '@/components/d-render-plugin-page-render/use-event-configure'
+import { getModuleTree } from '@lc/components/d-render-plugin-page-render/use-event-configure'
 
 function getModules (list = [], pKey = '', id) {
   let _list = []

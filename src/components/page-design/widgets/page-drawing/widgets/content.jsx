@@ -48,7 +48,7 @@ export default defineComponent({
     const getFormContentComponent = (type) => {
       return defineAsyncComponent(() => import(`./${type}`))
     }
-    // 数据来自 @/views/page-design/index.jsx
+    // 数据来自 @lc/views/page-design/index.jsx
     const pageDeisgn = inject('pageDesign')
     const getComponentType = (element) => {
       const { config: { type } } = element

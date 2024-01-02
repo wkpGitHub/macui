@@ -21,7 +21,7 @@
 <script>
 import { defineComponent, ref, provide } from 'vue'
 import Main from '@cip/components/main'
-import { menuService, privilegeService } from '@/api'
+import { menuService, privilegeService } from '@lc/api'
 export default defineComponent({
   components: { Main },
   props: {

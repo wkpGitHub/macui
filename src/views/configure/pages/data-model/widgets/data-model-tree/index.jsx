@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { ElTree, ElIcon, ElInput } from 'element-plus'
-import { dataInfoService } from '@/api'
+import { dataInfoService } from '@lc/api'
 import { Plus, Delete } from '@element-plus/icons-vue'
 import Folder from './svg/folder'
 import Database from './svg/database'

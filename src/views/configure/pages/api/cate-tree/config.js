@@ -1,4 +1,4 @@
-import { apiConfigService } from '@/api'
+import { apiConfigService } from '@lc/api'
 import { defineFormFieldConfig, generateFieldList } from 'd-render'
 
 export const formFieldList = generateFieldList(defineFormFieldConfig({

@@ -1,7 +1,7 @@
 import { layoutProps } from '@d-render/shared'
 import { computed, provide, reactive } from 'vue'
 import { CipForm } from 'd-render'
-import { useComponentSlots } from '@/components/d-render-plugin-page-render/use-component-slots'
+import { useComponentSlots } from '@lc/components/d-render-plugin-page-render/use-component-slots'
 import './index.less'
 
 export default {

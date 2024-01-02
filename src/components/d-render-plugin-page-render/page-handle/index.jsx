@@ -1,10 +1,10 @@
 import { PlHandle as CipPageHandle } from '@cip/page-layout'
 import { layoutProps } from '@d-render/shared'
 import { useComponentSlots } from '../use-component-slots'
-import { useEventConfigure, bindEvent, isInitSearch, getInputParams } from '@/components/d-render-plugin-page-render/use-event-configure'
+import { useEventConfigure, bindEvent, isInitSearch, getInputParams } from '@lc/components/d-render-plugin-page-render/use-event-configure'
 import { ElButton } from 'element-plus'
 import { inject } from 'vue'
-import axiosInstance from '@/views/app/pages/api'
+import axiosInstance from '@lc/views/app/pages/api'
 import { getFieldValue } from '@cip/utils/util'
 import './index.less'
 

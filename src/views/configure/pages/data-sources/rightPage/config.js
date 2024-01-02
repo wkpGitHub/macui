@@ -1,6 +1,6 @@
-import { dataFieldEntityEntity, dataInfoEntityEntity } from '@/api/entity/chr'
+import { dataFieldEntityEntity, dataInfoEntityEntity } from '@lc/api/entity/chr'
 import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig } from 'd-render'
-import { baseDicService } from '@/api'
+import { baseDicService } from '@lc/api'
 
 export const formFieldList = generateFieldList(defineFormFieldConfig({
   title: { required: true, span: 6 },

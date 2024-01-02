@@ -1,5 +1,5 @@
-import { dbInfoEntityEntity } from '@/api/entity/chr'
-import { dbInfoService, baseDicService } from '@/api/service/chr'
+import { dbInfoEntityEntity } from '@lc/api/entity/chr'
+import { dbInfoService, baseDicService } from '@lc/api/service/chr'
 import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig, defineSearchFieldConfig } from 'd-render'
 import { keysToConfigMap } from '@d-render/shared'
 

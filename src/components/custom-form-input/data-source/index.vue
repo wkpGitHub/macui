@@ -19,7 +19,7 @@
 import { ElCascader } from 'element-plus'
 import { formInputProps, fromInputEmits, useFormInput, useOptions } from '@d-render/shared'
 import { computed, ref } from 'vue'
-import { dataInfoService } from '@/api'
+import { dataInfoService } from '@lc/api'
 export default {
   components: { ElCascader },
   props: formInputProps,

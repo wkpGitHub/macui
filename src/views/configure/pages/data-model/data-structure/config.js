@@ -1,4 +1,4 @@
-import { dataFieldEntityEntity, dbInfoEntityEntity } from '@/api/entity/chr'
+import { dataFieldEntityEntity, dbInfoEntityEntity } from '@lc/api/entity/chr'
 import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig } from 'd-render'
 import { v4 as uuid } from 'uuid'
 

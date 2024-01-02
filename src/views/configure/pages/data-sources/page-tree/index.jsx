@@ -1,7 +1,7 @@
 import { onMounted, ref, nextTick } from 'vue'
 import CipTree from '@cip/components/cip-tree'
 import styles from './index.module.less'
-import { dataInfoService, dbInfoService } from '@/api/service/chr'
+import { dataInfoService, dbInfoService } from '@lc/api/service/chr'
 import CipDialog from '@cip/components/cip-dialog'
 import { CipForm } from 'd-render'
 import { useDataModel } from './use-page'

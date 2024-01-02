@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router'
 import { PlLeftRight as CipPageLayoutLeftRight } from '@cip/page-layout'
 import CateTree from './cate-tree'
 import CipPageCurd from '@cip/components/cip-page-curd'
-import { apiConfigService } from '@/api/service/chr'
+import { apiConfigService } from '@lc/api/service/chr'
 import CipButtonText from '@cip/components/cip-button-text'
 import { tableColumns, searchFieldList, formFieldList } from './config'
 

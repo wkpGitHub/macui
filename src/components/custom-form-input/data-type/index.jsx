@@ -2,7 +2,7 @@ import { formInputProps, formInputEmits, useFormInput, isNotEmpty, isInputEmpty 
 // import { CipTable, CipForm } from 'd-render'
 import { ElIcon, ElTreeSelect } from 'element-plus'
 import { ref, computed } from 'vue'
-import { dataInfoService } from '@/api/service/chr'
+import { dataInfoService } from '@lc/api/service/chr'
 
 import Folder from './svg/folder'
 import Database from './svg/database'

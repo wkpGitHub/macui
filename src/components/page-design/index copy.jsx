@@ -13,8 +13,8 @@ import PageParams from './widgets/side-components/page-params'
 import CodeSource from './widgets/side-components/code-source'
 import './index.less'
 import { reactive } from '@vue/reactivity'
-import { modulesConfig } from '@/components/page-design/config'
-import { dataInfoService } from '@/api'
+import { modulesConfig } from '@lc/components/page-design/config'
+import { dataInfoService } from '@lc/api'
 import DataModel from './widgets/side-components/data-model'
 
 export default {

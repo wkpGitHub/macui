@@ -3,7 +3,7 @@ import CipDialog from '@cip/components/cip-dialog'
 import { ElCard, ElMessage } from 'element-plus'
 import CipTree from '@cip/components/cip-tree'
 // import cipStore from '@cip/components/store'
-import { getModuleTree, getFxValue } from '@/components/d-render-plugin-page-render/use-event-configure'
+import { getModuleTree, getFxValue } from '@lc/components/d-render-plugin-page-render/use-event-configure'
 
 export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign) {
   function onConfirm (resolve, reject) {

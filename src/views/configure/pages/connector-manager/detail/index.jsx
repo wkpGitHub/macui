@@ -5,7 +5,7 @@ import { PlLeftRight as CipPageLayoutLeftRight, PlHandle as CipPageLayoutHandle 
 import { CipForm } from 'd-render'
 import { CipButton } from '@xdp/button'
 import { httpFormFieldList, emailFormFieldList } from './config'
-import { connectorService } from '@/api'
+import { connectorService } from '@lc/api'
 import CipMessage from '@cip/components/cip-message'
 import CipMessageBox from '@cip/components/cip-message-box'
 import styles from './index.module.less'

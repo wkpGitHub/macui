@@ -1,5 +1,5 @@
 import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig } from 'd-render'
-import { apiConfigService } from '@/api'
+import { apiConfigService } from '@lc/api'
 
 function findObjectById (arr, id) {
   for (let i = 0; i < arr.length; i++) {

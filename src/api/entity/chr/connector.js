@@ -1,4 +1,4 @@
-import { baseDicService } from '@/api/service/chr/base-dic'
+import { baseDicService } from '@lc/api/service/chr/base-dic'
 
 export const connectorEntity = {
   name: { _renderConfig: { label: '名称' } },

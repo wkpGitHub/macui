@@ -1,6 +1,6 @@
 import Model, { transformData } from '@cip/utils/model'
 import req from '@cip/request'
-import { accountEntity } from '@/api/entity'
+import { accountEntity } from '@lc/api/entity'
 class AccountService extends Model {
   // 登录
   // 登录

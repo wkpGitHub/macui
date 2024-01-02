@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 import CipDialog from '@cip/components/cip-dialog'
 import CipTree from '@cip/components/cip-tree'
-import { apiConfigService, centerService } from '@/api'
+import { apiConfigService, centerService } from '@lc/api'
 
 export function useFxDialog (proxyValue, proxyOtherValue) {
   const state = reactive({ isShow: false, item: {}, data: [] })

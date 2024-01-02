@@ -2,7 +2,7 @@ import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { CipButtonText } from '@xdp/button'
 import CipPageCurd from '@cip/components/cip-page-curd'
-import { connectorService } from '@/api'
+import { connectorService } from '@lc/api'
 import {
   searchFieldList,
   tableColumns,

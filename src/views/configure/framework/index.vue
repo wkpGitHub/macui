@@ -17,8 +17,8 @@
 <script>
 import { defineComponent, ref, provide, onMounted, computed, watch } from 'vue'
 import Main from '@cip/components/main'
-import { menuService, privilegeService } from '@/api'
-import { appService } from '@/api/service/chr'
+import { menuService, privilegeService } from '@lc/api'
+import { appService } from '@lc/api/service/chr'
 import store from '@cip/components/store'
 export default defineComponent({
   components: { Main },

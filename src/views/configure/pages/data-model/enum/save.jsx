@@ -1,7 +1,7 @@
 import { watch, ref, onMounted } from 'vue'
 import CipPageCurd from '@cip/components/cip-page-curd'
 import { PlHandle as CipPageLayoutHandle } from '@cip/page-layout'
-import { dataInfoService } from '@/api/service/chr'
+import { dataInfoService } from '@lc/api/service/chr'
 import { tableColumns, formFieldList } from './config'
 import CipButton from '@cip/components/cip-button'
 export default {

@@ -5,7 +5,7 @@ import CipTree from '@cip/components/cip-tree'
 import CipDialog from '@cip/components/cip-dialog'
 import { CipForm } from 'd-render'
 import { useCurd } from '@cip/hooks/use-curd'
-import { apiConfigService } from '@/api'
+import { apiConfigService } from '@lc/api'
 import { formFieldList } from './config'
 import { useTree } from './hooks'
 

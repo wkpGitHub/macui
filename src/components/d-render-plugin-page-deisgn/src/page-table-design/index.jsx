@@ -3,7 +3,7 @@ import { computed, inject, watch } from 'vue'
 import { useComponentSlots } from '@d-render/design/esm/hooks/use-component-slots'
 import './index.less'
 import { v4 as uuidv4 } from 'uuid'
-import { getListConfigById } from '@/components/d-render-plugin-page-render/use-event-configure'
+import { getListConfigById } from '@lc/components/d-render-plugin-page-render/use-event-configure'
 
 export default {
   props: {

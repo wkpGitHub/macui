@@ -1,4 +1,4 @@
-// import { xx } from '@/api'
+// import { xx } from '@lc/api'
 import PageLayoutInfo from '@cip/page-layout/info'
 import { ElIcon } from 'element-plus'
 import { CaretLeft, CaretRight } from '@element-plus/icons-vue'

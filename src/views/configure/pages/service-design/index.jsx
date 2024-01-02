@@ -17,7 +17,7 @@ import {
 import styles from './index.module.less'
 import './ausyda.css'
 import { Ausyda, initFlow } from './ausyda.js'
-import { centerService } from '@/api'
+import { centerService } from '@lc/api'
 
 export default defineComponent({
   props: {

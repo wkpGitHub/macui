@@ -1,4 +1,4 @@
-import PageD from '@/components/page-render'
+import PageD from '@lc/components/page-render'
 export default PageD
 
 // import { CipFormRender } from 'd-render'

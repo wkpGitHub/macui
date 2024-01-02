@@ -34,7 +34,7 @@ import proxyConfig from '_config/proxy-config'
 import CipMessage from '@cip/components/cip-message'
 import redirectLogin from '@cip/request-plugin-redirect-login'
 
-import { menuService } from '@/api'
+import { menuService } from '@lc/api'
 // import * as xx from 'https://unpkg.com/vue@3/dist/vue.global.js'
 const dRender = new DRender()
 dRender.setConfig(renderConfig)

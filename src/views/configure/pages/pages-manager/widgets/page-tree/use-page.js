@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { pageInfoService } from '@/api/service/chr'
+import { pageInfoService } from '@lc/api/service/chr'
 import CipMessage from '@cip/components/cip-message'
 export const usePage = (pages, getPages) => {
   const page = ref({})

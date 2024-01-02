@@ -1,5 +1,5 @@
 import { layoutProps } from '@d-render/shared'
-import { useComponentSlots } from '@/components/d-render-plugin-page-render/use-component-slots'
+import { useComponentSlots } from '@lc/components/d-render-plugin-page-render/use-component-slots'
 import { CipForm } from 'd-render'
 import './index.less'
 export default {

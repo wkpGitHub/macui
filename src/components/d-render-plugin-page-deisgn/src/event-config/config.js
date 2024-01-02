@@ -1,6 +1,6 @@
 import { generateFieldList } from 'd-render'
 import { EVENT_TYPE, TYPE_KEY } from './const'
-import { getModuleTree } from '@/components/d-render-plugin-page-render/use-event-configure'
+import { getModuleTree } from '@lc/components/d-render-plugin-page-render/use-event-configure'
 
 // 左侧树
 export const fieldList = generateFieldList({

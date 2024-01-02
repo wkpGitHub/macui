@@ -1,4 +1,4 @@
-// import * as service from '@/api'
+// import * as service from '@lc/api'
 import { ref, reactive, computed, provide, watch } from 'vue'
 import { setFieldValue } from '@d-render/shared'
 import { useRouter, useRoute } from 'vue-router'
@@ -6,8 +6,8 @@ import * as sharedUtils from '@d-render/shared/utils/util'
 import CipMessage from '@cip/components/cip-message'
 import CipMessageBox from '@cip/components/cip-message-box'
 import DrPage from './component.jsx'
-import axiosInstance from '@/views/app/pages/api'
-import { getVarValue, handleEvent, downloadFile, getFxValue } from '@/components/d-render-plugin-page-render/use-event-configure'
+import axiosInstance from '@lc/views/app/pages/api'
+import { getVarValue, handleEvent, downloadFile, getFxValue } from '@lc/components/d-render-plugin-page-render/use-event-configure'
 const utils = sharedUtils
 utils.$message = CipMessage
 utils.$messageBox = CipMessageBox

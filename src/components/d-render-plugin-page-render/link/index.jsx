@@ -1,6 +1,6 @@
 // import { CipFormInputTransform } from 'd-render'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
-import { getFxValue } from '@/components/d-render-plugin-page-render/use-event-configure'
+import { getFxValue } from '@lc/components/d-render-plugin-page-render/use-event-configure'
 import { inject, computed } from 'vue'
 import { ElLink } from 'element-plus'
 

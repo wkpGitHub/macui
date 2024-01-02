@@ -1,6 +1,6 @@
-import { apiInfoEntityEntity } from '@/api/entity/chr'
+import { apiInfoEntityEntity } from '@lc/api/entity/chr'
 import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig, defineSearchFieldConfig } from 'd-render'
-import { apiConfigService } from '@/api/service/chr'
+import { apiConfigService } from '@lc/api/service/chr'
 
 const apiTypeOpts = [
   { label: '查询', value: 'query' },

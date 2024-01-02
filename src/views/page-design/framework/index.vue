@@ -5,7 +5,7 @@
 </template>
 <script>
 import { defineComponent, ref, onMounted, computed, watch } from 'vue'
-import { appService } from '@/api/service/chr'
+import { appService } from '@lc/api/service/chr'
 import store from '@cip/components/store'
 export default defineComponent({
   props: {

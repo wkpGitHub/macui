@@ -3,7 +3,7 @@ import { PlLeftRight as CipPageLayoutLeftRight } from '@cip/page-layout'
 import CipPageCurd from '@cip/components/cip-page-curd'
 import { CipButtonText } from '@xdp/button'
 import PageTree from './page-tree'
-import { dataInfoService } from '@/api'
+import { dataInfoService } from '@lc/api'
 import {
   tableColumns,
   formFieldList,

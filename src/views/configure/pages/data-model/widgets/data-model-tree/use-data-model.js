@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
 import { generateFieldList } from 'd-render'
 import { keysToConfigMap } from '@d-render/shared'
-import { dataInfoService, dbInfoService } from '@/api'
+import { dataInfoService, dbInfoService } from '@lc/api'
 import CipMessage from '@cip/components/cip-message'
 
 export const useDataModel = (getData) => {

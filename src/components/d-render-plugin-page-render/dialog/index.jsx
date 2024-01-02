@@ -5,7 +5,7 @@ import { useComponentSlots } from '../use-component-slots'
 import { useEventConfigure, bindEvent, getInputParams } from '../use-event-configure'
 import { ElButton } from 'element-plus'
 import {inject} from 'vue'
-import axiosInstance from '@/views/app/pages/api'
+import axiosInstance from '@lc/views/app/pages/api'
 import {useMethods} from './methods'
 
 export default {

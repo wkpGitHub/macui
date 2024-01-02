@@ -1,5 +1,5 @@
-import { baseDicService } from '@/api'
-import { connectorEntity } from '@/api/entity/chr'
+import { baseDicService } from '@lc/api'
+import { connectorEntity } from '@lc/api/entity/chr'
 import {
   generateFieldList,
   defineFormFieldConfig,

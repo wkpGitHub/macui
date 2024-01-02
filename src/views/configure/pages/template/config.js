@@ -1,4 +1,4 @@
-import { apiInfoEntityEntity } from '@/api/entity/chr'
+import { apiInfoEntityEntity } from '@lc/api/entity/chr'
 import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig, defineSearchFieldConfig } from 'd-render'
 import { keysToConfigMap } from '@d-render/shared'
 
