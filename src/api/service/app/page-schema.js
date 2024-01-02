@@ -4,7 +4,7 @@ class PageSchemaService {
   info ({ id }) {
     console.log(id)
     return new Promise((resolve, reject) => {
-      import(`@/manager-schemas/${id}.json`)
+      import(`@lc/manager-schemas/${id}.json`)
         .then((res) => {
           resolve({ data: res })
         })

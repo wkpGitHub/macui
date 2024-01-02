@@ -1,6 +1,6 @@
 import { generateFieldList, defineTableFieldConfig, defineFormFieldConfig } from 'd-render'
 
-// import { dataTypeOpts } from '@/lib/contants'
+// import { dataTypeOpts } from '@lc/lib/contants'
 
 export function getFieldList (key, formModal, type = 'table', otherColumns = {}) {
   return generateFieldList(defineFormFieldConfig({

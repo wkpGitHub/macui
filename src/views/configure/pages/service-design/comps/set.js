@@ -1,5 +1,5 @@
 import { generateFieldList, defineFormFieldConfig } from 'd-render'
-// import { dataTypeOpts } from '@/lib/contants'
+// import { dataTypeOpts } from '@lc/lib/contants'
 // {
 //   id: '',
 //   type: 'set',

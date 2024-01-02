@@ -10,7 +10,7 @@ import CipMessageBox from '@cip/components/cip-message-box'
 import LayoutBox from '@lc/components/d-render-plugin-page-render/layout-box'
 import { cloneDeep, formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import { getConfig, EVENT_TYPE } from '@lc/views/page-design/plugins/events/config'
-import { filterList } from '@/lib/utils'
+import { filterList } from '@lc/lib/utils'
 import VueDraggable from 'vuedraggable'
 import './index.less'
 export default {

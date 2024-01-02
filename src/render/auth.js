@@ -1,6 +1,6 @@
 import { accountService } from '@lc/api'
 import store from '@cip/components/store'
-import { Token } from '@/lib/token'
+import { Token } from '@lc/lib/token'
 import { settingValueTransformState } from '@d-render/shared'
 /**
  * 根据code获取token

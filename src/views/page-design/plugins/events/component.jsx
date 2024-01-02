@@ -1,7 +1,7 @@
 import { ref, watch, provide, computed, nextTick, withModifiers, inject } from 'vue'
 import { ElDropdown, ElDropdownMenu, ElDropdownItem, ElButton, ElCollapse, ElCollapseItem, ElIcon } from 'element-plus'
 import { Plus, Delete, Edit } from '@element-plus/icons-vue'
-import { filterList } from '@/lib/utils'
+import { filterList } from '@lc/lib/utils'
 import { EVENT_TYPE, getConfig, useUpdateView } from './config'
 import CipMessageBox from '@cip/components/cip-message-box'
 import LayoutBox from '@lc/components/d-render-plugin-page-render/layout-box'

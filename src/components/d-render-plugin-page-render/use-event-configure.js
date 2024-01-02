@@ -1,5 +1,5 @@
 import { inject, watch } from 'vue'
-import { formatPath, formatQuery } from '@/lib/utils'
+import { formatPath, formatQuery } from '@lc/lib/utils'
 import { isLayoutType } from 'd-render'
 import { setFieldValue, getFieldValue } from '@d-render/shared'
 
