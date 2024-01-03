@@ -1,5 +1,50 @@
 import { handelLabelSizeOptions } from '../../utils'
 
+// tooltip-不包含内容格式
+export const tooltipConfigNoContent = {
+  isShowTooltip: {
+    type: 'singleCheckbox',
+    label: '显示',
+    defaultValue: true,
+    option: {
+      value: true,
+      inactiveValue: false,
+      label: '显示'
+    }
+  },
+  tooltipSize: {
+    type: 'select',
+    label: '字体大小',
+    defaultValue: 14,
+    options: handelLabelSizeOptions(10, 20),
+    dependOn: ['config.isShowTooltip'],
+    changeConfig: (config, { config: chartConfig }) => {
+      if (!chartConfig.isShowTooltip) config.readable = false
+      return config
+    }
+  },
+  tooltipColor: {
+    type: 'colorPicker',
+    label: '字体颜色',
+    defaultValue: '#333',
+    dependOn: ['config.isShowTooltip'],
+    changeConfig: (config, { config: chartConfig }) => {
+      if (!chartConfig.isShowTooltip) config.readable = false
+      return config
+    }
+  },
+  tooltipBg: {
+    type: 'colorPicker',
+    label: '背景',
+    defaultValue: '#fff',
+    dependOn: ['config.isShowTooltip'],
+    changeConfig: (config, { config: chartConfig }) => {
+      if (!chartConfig.isShowTooltip) config.readable = false
+      return config
+    }
+  }
+}
+
 export const tooltipConfig = {
   isShowTooltip: {
     type: 'singleCheckbox',
@@ -36,6 +81,32 @@ export const tooltipConfig = {
     type: 'colorPicker',
     label: '背景',
     defaultValue: '#fff',
+    dependOn: ['config.isShowTooltip'],
+    changeConfig: (config, { config: chartConfig }) => {
+      if (!chartConfig.isShowTooltip) config.readable = false
+      return config
+    }
+  },
+  tooltipContent: {
+    type: 'textarea',
+    label: '内容格式',
+    description: <div>
+      <div>变量&#123;a&#125;, &#123;b&#125;, &#123;c&#125;, &#123;d&#125;在不同图表类型下代表数据含义为：</div>
+      <div>折线图、柱状图 : </div>
+      <li>&#123;a&#125;（系列名称）</li>
+      <li>&#123;b&#125;（类目值）</li>
+      <li>&#123;c&#125;（数值）</li>
+      <div>饼图 : </div>
+      <li>&#123;a&#125;（系列名称）</li>
+      <li>&#123;b&#125;（数据项名称）</li>
+      <li>&#123;c&#125;（数值）</li>
+      <li>&#123;d&#125;（百分比）</li>
+      <div>散点图 : </div>
+      <li>&#123;a&#125;（系列名称）</li>
+      <li>&#123;b&#125;数据名称</li>
+      <li>&#123;c&#125;（数值数组）</li>
+      <li>&#123;d&#125;（无）</li>
+    </div>,
     dependOn: ['config.isShowTooltip'],
     changeConfig: (config, { config: chartConfig }) => {
       if (!chartConfig.isShowTooltip) config.readable = false

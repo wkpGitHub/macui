@@ -9,7 +9,7 @@
         v-model="item.field"
         filterable
         placeholder="请选择字段"
-        @change="t => yFieldChange(t)"
+        @change="t => yFieldChange(t, item)"
       >
         <el-option
           v-for="op in yFields"
@@ -47,8 +47,13 @@ export default {
       return securityConfig.value.yFields || []
     })
 
+    const getTitle = (val) => {
+      return yFields.value.find(yField => yField.name === val).title
+    }
+
     // y 轴字段选择
-    const yFieldChange = (name) => {
+    const yFieldChange = (name, item) => {
+      item.name = getTitle(name)
       emitModelValue(proxyValue.value)
     }
 
@@ -56,7 +61,7 @@ export default {
       if (!proxyValue.value.columns) {
         proxyValue.value.columns = []
       }
-      proxyValue.value.columns.push({ field: '' })
+      proxyValue.value.columns.push({ name: '', field: '' })
       emitModelValue(proxyValue.value)
     }
 
@@ -67,7 +72,7 @@ export default {
     }
 
     onMounted(() => {
-      proxyValue.value = proxyValue.value ? proxyValue.value : { columns: [{ field: '' }] }
+      proxyValue.value = proxyValue.value ? proxyValue.value : { columns: [{ name: '', field: '' }] }
     })
 
     return {
