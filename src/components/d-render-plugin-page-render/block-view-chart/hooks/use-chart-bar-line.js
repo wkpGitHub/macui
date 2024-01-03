@@ -1,7 +1,7 @@
 
 export default function useChartBarLine (securityConfig, dataset, configChartType) {
   let {
-    grid, xAxis = { alias: '', field: '', xType: '' }, yType, yAxis = { columns: [{ name: '', field: '', alias: '' }] }, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap, barWidth, isShowLabel, labelSize, labelColor, labelPosition, isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, isShowXAxis = true, xAxisPosition = 'bottom', xAxisNameColor, xAxisNameSize, isShowAxisTick = true, isShowSplitLine = false, xSplitLineColor, xSplitLineWidth = 1, xSplitLineType = 'solid', isShowAxisLabel = true, axisLabelColor, axisLabelRotate = 0, axisLabelSize,
+    grid, xAxis = { alias: '', field: '', xType: '' }, yType, yAxis = { columns: [{ name: '', field: '', alias: '' }] }, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap, barWidth, isShowLabel, labelSize, labelColor, labelPosition, isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, tooltipContent, isShowXAxis = true, xAxisPosition = 'bottom', xAxisNameColor, xAxisNameSize, isShowAxisTick = true, isShowSplitLine = false, xSplitLineColor, xSplitLineWidth = 1, xSplitLineType = 'solid', isShowAxisLabel = true, axisLabelColor, axisLabelRotate = 0, axisLabelSize,
     isShowYAxis = true, yAxisPosition, yAxisNameColor, yAxisNameSize, yAxisValue = true, yAxisMinValue, yAxisMaxValue, yAxisSplitNumber, isShowYAxisTick = false, isShowYSplitLine = true, ySplitLineColor, ySplitLineWidth, ySplitLineType = 'solid', isShowYAxisLabel = true, yAxisLabelColor, yAxisLabelRotate = 0, yAxisLabelSize, yAxisLabelFormatType = 'auto', yAxisLabelDecimalNum = 0, yAxisLabelNumUnit = '', yAxisLabelUnitSuffix = '', isShowYAxisLabelMillage = false,
     isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false,
     isShowLegend = true, legendIcon, legendOrient, legendTextSize, legendTextColor, legendLeft, legendTop,
@@ -146,9 +146,21 @@ export default function useChartBarLine (securityConfig, dataset, configChartTyp
       emphasis: {
         disabled: !['stackArea', 'stackBarChart', 'stackHorizontalBarChart'].includes(configChartType),
         focus: 'series'
-      }
+      },
+      myCustomProp: field
     })
   })
+
+  /**
+   * 处理自定义tooltip时，显示的内容
+   * @param {*} params 是 formatter 需要的数据集
+   */
+  let formatterFunction = (params) => {
+    return tooltipContent.replace(/\{a\}/g, params.seriesName).replace(/\{b\}/g, params.name).replace(/\{c\}/g, params.value[seriesArr[params.seriesIndex].myCustomProp])
+  }
+  if (!tooltipContent) {
+    formatterFunction = ''
+  }
 
   return {
     title: {
@@ -168,7 +180,7 @@ export default function useChartBarLine (securityConfig, dataset, configChartTyp
       textAlign
     },
     tooltip: {
-      trigger: isShowTooltip ? (configChartType === 'scatter' ? 'axis' : 'item') : 'none',
+      trigger: isShowTooltip ? 'item' : 'none',
       textStyle: {
         color: tooltipColor || '#333',
         fontSize: tooltipSize || 14
@@ -176,16 +188,8 @@ export default function useChartBarLine (securityConfig, dataset, configChartTyp
       backgroundColor: tooltipBg || '#fff',
       axisPointer: {
         type: 'shadow'
-      }
-      // formatter: (params) => {
-      //   const name = params[0].value[xAxis.field]
-      //   const year = params[0].value.year
-      //   if (yType === 'time') {
-      //     return name + '-' + year
-      //   } else {
-
-      //   }
-      // }
+      },
+      formatter: formatterFunction
     },
     legend: {
       show: isShowLegend,
