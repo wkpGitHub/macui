@@ -15,16 +15,17 @@ export const formFieldList = generateFieldList(defineFormFieldConfig({
     ]
   },
   options: {
-    label: ' ',
+    hideLabel: true,
     type: 'table',
+    hideIndex: true,
     dependOn: ['isTree', 'optType'],
     tableColumnStatus: 'writable',
     options: generateFieldList(defineTableFieldConfig({
-      label: { label: '显示文本' },
-      value: { label: '值', type: 'setFx' }
+      label: { label: '显示文本', width: 130 },
+      value: { label: '值', type: 'setFx', width: 130 }
     })),
     changeConfig (config, { optType, isTree }) {
-      config.rowKey = isTree ? 'id' : ''
+      config.rowKey = isTree ? '$id' : ''
       config.writable = optType === CUSTOM
       config.readable = optType === CUSTOM
       return config
@@ -33,6 +34,7 @@ export const formFieldList = generateFieldList(defineFormFieldConfig({
   optHttp: {
     readable: false,
     label: '接口地址',
+    type: 'select-api-tree',
     resetValue: true,
     dependOn: ['optType'],
     changeConfig (config, { optType }) {
@@ -45,7 +47,7 @@ export const formFieldList = generateFieldList(defineFormFieldConfig({
     readable: false,
     label: '表达式',
     resetValue: true,
-    type: 'setFx',
+    type: 'pageFx',
     dependOn: ['optType'],
     changeConfig (config, { optType }) {
       config.writable = optType === CTX

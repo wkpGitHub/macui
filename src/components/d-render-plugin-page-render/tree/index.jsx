@@ -1,16 +1,19 @@
-import { defineComponent, reactive, ref, watch } from 'vue'
+import { defineComponent, reactive, ref, watch, inject } from 'vue'
 import { ElTree, ElInput } from 'element-plus'
-import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
-import { useEventConfigure, useWatch } from '../use-event-configure'
+import { formInputProps, fromInputEmits, useFormInput, useOptions } from '@d-render/shared'
+import { useEventConfigure, useWatch, getFxValue } from '../use-event-configure'
+import axiosInstance from '@lc/views/app/pages/api'
 
 export default defineComponent({
   name: 'tree',
   props: formInputProps,
   emits: fromInputEmits,
   setup (props, ctx) {
+    const drPageRender = inject('drPageRender', {})
     const {
       proxyValue,
-      securityConfig
+      securityConfig,
+      updateStream
     } = useFormInput(props, ctx)
     // const drDesign = inject('drDesign')
 
@@ -19,49 +22,28 @@ export default defineComponent({
     const treeRef = ref()
 
     const state = reactive({
-      data: [
-        {
-          label: 'Level one 1',
-          id: 1,
-          children: [
-            {
-              label: 'Level two 1-1',
-              id: '1-1',
-              children: [
-                {
-                  label: 'Level three 1-1-1'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          label: 'Level one 2',
-          id: '2',
-          children: [
-            {
-              label: 'Level two 2-1',
-              id: '2-1',
-              children: [
-                {
-                  label: 'Level three 2-1-1'
-                }
-              ]
-            },
-            {
-              label: 'Level two 2-2',
-              id: '2-2',
-              children: [
-                {
-                  label: 'Level three 2-2-1'
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      data: []
     })
+    const { optionProps } = useOptions(props, false, updateStream)
 
+    function transformOptions (list) {
+      return list.map(item => {
+        const _item = { [optionProps.value.label]: item.label, [optionProps.value.value]: getFxValue(item.value, drPageRender) }
+        if (item.children) {
+          _item.children = transformOptions(item.children)
+        }
+        return _item
+      })
+    }
+    watch(() => securityConfig.value.optApiConfig, optApiConfig => {
+      switch (optApiConfig?.optType) {
+        case 'custom': state.data = transformOptions(securityConfig.value.options)
+          break
+        case 'http': axiosInstance({ url: optApiConfig.optHttp }).then(({ data }) => { state.data = data.data.list })
+          break
+        case 'ctx': state.data = getFxValue(optApiConfig.optCtxVar, drPageRender)
+      }
+    }, { immediate: true })
     const handleEvent = useEventConfigure()
     function onNodeClick (data) {
       proxyValue.value = data[securityConfig.value.nodeKey || 'id']
@@ -100,6 +82,7 @@ export default defineComponent({
         ref={treeRef}
         data={state.data}
         highlightCurrent
+        props={securityConfig.value.optionProps}
         draggable={securityConfig.value.draggable}
         node-key={securityConfig.value.nodeKey || 'id'}
         default-expand-all={securityConfig.value.defaultExpandAll}

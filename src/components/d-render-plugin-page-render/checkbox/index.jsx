@@ -1,12 +1,15 @@
 import { ElCheckbox, ElCheckboxButton, ElCheckboxGroup } from 'element-plus'
 import { formInputProps, fromInputEmits, useInputProps, useFormInput, useOptions } from '@d-render/shared'
-import { computed, /* getCurrentInstance, */ h, defineComponent } from 'vue'
+import { computed, /* getCurrentInstance, */ h, defineComponent, inject, watch } from 'vue'
 import { useEvents } from '../use-event'
+import { getFxValue } from '../use-event-configure'
+import axiosInstance from '@lc/views/app/pages/api'
 
 export default defineComponent({
   props: formInputProps,
   emits: [...fromInputEmits],
   setup (props, context) {
+    const drPageRender = inject('drPageRender', {})
     // const instance = getCurrentInstance()
     const inputProps = useInputProps(props, [
       'min',
@@ -16,6 +19,16 @@ export default defineComponent({
     ])
     const { width, updateStream, inputStyle, inputRef, securityConfig } = useFormInput(props, context)
     const { optionProps, options, getOptions, proxyOptionsValue } = useOptions(props, true, updateStream)
+
+    watch(() => securityConfig.value.optApiConfig, optApiConfig => {
+      switch (optApiConfig?.optType) {
+        case 'custom': options.value = securityConfig.value.options.map(item => ({ [optionProps.value.label]: item.label, [optionProps.value.value]: getFxValue(item.value, drPageRender) }))
+          break
+        case 'http': axiosInstance({ url: optApiConfig.optHttp }).then(({ data }) => { options.value = data.data.list })
+          break
+        case 'ctx': options.value = getFxValue(optApiConfig.optCtxVar, drPageRender)
+      }
+    }, { immediate: true })
     // 废弃
     // instance.ctx.getOptions = getOptions // 此处代码的意义
     context.expose({
