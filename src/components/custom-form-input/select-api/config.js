@@ -2,15 +2,19 @@ import { generateFieldList } from 'd-render'
 import { v4 as uuidv4 } from 'uuid'
 
 export const fieldList = generateFieldList({
-  name: { label: '接口名称', type: 'select-api-tree', otherKey: '_apiMap' },
-  fullPath: {
-    label: '接口地址',
+  name: {
+    label: '接口名称',
     dependOn: ['_apiMap'],
     changeValue ({ _apiMap }) {
       if (_apiMap) {
-        return { value: _apiMap.fullPath }
+        return { value: _apiMap.name }
       }
     }
+  },
+  fullPath: {
+    label: '接口地址',
+    type: 'select-api-tree',
+    otherKey: '_apiMap'
   },
   httpMethod: {
     label: '请求方式',

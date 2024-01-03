@@ -12,15 +12,16 @@ export function useFxDialog (proxyValue, proxyOtherValue) {
   }
 
   function onConfirm (resolve, reject) {
-    debugger
     if (state.item.id) {
       centerService.getContent(state.item.id).then(({ data }) => {
         const { inputParams, outParams } = data.flow || { inputParams: [], outParams: [] }
-        proxyValue.value = state.item.name
-        proxyOtherValue[0].value = {
-          ...state.item,
-          inputParams,
-          outParams
+        proxyValue.value = state.item.fullPath
+        if (proxyOtherValue[0]) {
+          proxyOtherValue[0].value = {
+            ...state.item,
+            inputParams,
+            outParams
+          }
         }
         resolve()
       }).catch(() => reject())

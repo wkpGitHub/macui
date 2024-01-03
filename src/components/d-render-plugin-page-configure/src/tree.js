@@ -7,10 +7,14 @@ export default {
     options: [{ label: '点击事件', value: 'click' }]
   },
   options: {
-    otherKey: ['asyncOptions', 'optionProps', 'optApiConfig'],
+    otherKey: ['optionProps', 'optApiConfig'],
     type: 'setOptions',
     isTree: true,
     label: '设置数据'
+  },
+  'optionProps.children': {
+    label: '子节点字段',
+    defaultValue: 'children'
   }
   // watch: {
   //   label: '文本内容作用于展示块',

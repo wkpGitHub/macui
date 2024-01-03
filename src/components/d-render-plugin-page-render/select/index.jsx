@@ -1,12 +1,15 @@
-import { computed, ref } from 'vue'
+import { computed, ref, inject, watch } from 'vue'
 import { ElSelect, ElOption } from 'element-plus'
 import { useFormInput, useOptions, formInputProps, fromInputEmits } from '@d-render/shared'
 import { useEvents } from '../use-event'
+import { getFxValue } from '../use-event-configure'
+import axiosInstance from '@lc/views/app/pages/api'
 
 export default {
   props: formInputProps,
   emits: [...fromInputEmits],
   setup (props, context) {
+    const drPageRender = inject('drPageRender', {})
     const remoteSearchLoading = ref(false)
     const { width, securityConfig, proxyOtherValue, updateStream, clearable, placeholder } = useFormInput(
       props,
@@ -19,6 +22,15 @@ export default {
       return securityConfig.value.multiple ?? false
     })
     const { optionProps, options, proxyOptionsValue } = useOptions(props, multiple, updateStream, context)
+    watch(() => securityConfig.value.optApiConfig, optApiConfig => {
+      switch (optApiConfig?.optType) {
+        case 'custom': options.value = securityConfig.value.options.map(item => ({ [optionProps.value.label]: item.label, [optionProps.value.value]: getFxValue(item.value, drPageRender) }))
+          break
+        case 'http': axiosInstance({ url: optApiConfig.optHttp }).then(({ data }) => { options.value = data.data.list })
+          break
+        case 'ctx': options.value = getFxValue(optApiConfig.optCtxVar, drPageRender)
+      }
+    }, { immediate: true })
     // 是否可搜索
     const filterable = computed(() => {
       return securityConfig.value.filterable ?? false
