@@ -49,6 +49,7 @@ export default function useChartSankey (securityConfig, dataset) {
         textShadowOffsetX: 6,
         textShadowOffsetY: 6
       },
+      left: textAlign,
       textAlign
     },
     tooltip: {

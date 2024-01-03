@@ -83,6 +83,7 @@ export default function useChartPie (securityConfig, dataset, configChartType) {
         textShadowOffsetX: 6,
         textShadowOffsetY: 6
       },
+      left: textAlign,
       textAlign
     },
     tooltip: {

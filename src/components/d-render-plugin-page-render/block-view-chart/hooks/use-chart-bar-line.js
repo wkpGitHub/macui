@@ -177,6 +177,7 @@ export default function useChartBarLine (securityConfig, dataset, configChartTyp
         textShadowOffsetX: 6,
         textShadowOffsetY: 6
       },
+      left: textAlign,
       textAlign
     },
     tooltip: {
