@@ -1,7 +1,7 @@
 
 export default function useChartBarLine (securityConfig, dataset, configChartType) {
   let {
-    grid, xAxis = { alias: '', field: '', xType: '' }, yType, yAxis = { columns: [{ name: '', field: '', alias: '' }] }, advancedConfig = '', colorScheme, gradation = false, opacity, barGapSelfAdaption = true, barGap, barWidth, isShowLabel, labelSize, labelColor, labelPosition, isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, tooltipContent, isShowXAxis = true, xAxisPosition = 'bottom', xAxisNameColor, xAxisNameSize, isShowAxisTick = true, isShowSplitLine = false, xSplitLineColor, xSplitLineWidth = 1, xSplitLineType = 'solid', isShowAxisLabel = true, axisLabelColor, axisLabelRotate = 0, axisLabelSize,
+    grid, xAxis = { alias: '', field: '', xType: '' }, yType, yAxis = { columns: [{ name: '', field: '', alias: '' }] }, advancedConfig = '', colorScheme = ['rgb(84, 112, 198)', 'rgb(145, 204, 117)', 'rgb(250, 200, 88)', 'rgb(238, 102, 102)', 'rgb(115, 192, 222)', 'rgb(59, 162, 114)', 'rgb(252, 132, 82)', 'rgb(154, 96, 180)', 'rgb(234, 124, 204)'], gradation = false, stackAreaGradation = false, opacity = 100, barGapSelfAdaption = true, barGap, barWidth, isShowLabel, labelSize, labelColor, labelPosition, isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, tooltipContent, isShowXAxis = true, xAxisPosition = 'bottom', xAxisNameColor, xAxisNameSize, isShowAxisTick = true, isShowSplitLine = false, xSplitLineColor, xSplitLineWidth = 1, xSplitLineType = 'solid', isShowAxisLabel = true, axisLabelColor, axisLabelRotate = 0, axisLabelSize,
     isShowYAxis = true, yAxisPosition, yAxisNameColor, yAxisNameSize, yAxisValue = true, yAxisMinValue, yAxisMaxValue, yAxisSplitNumber, isShowYAxisTick = false, isShowYSplitLine = true, ySplitLineColor, ySplitLineWidth, ySplitLineType = 'solid', isShowYAxisLabel = true, yAxisLabelColor, yAxisLabelRotate = 0, yAxisLabelSize, yAxisLabelFormatType = 'auto', yAxisLabelDecimalNum = 0, yAxisLabelNumUnit = '', yAxisLabelUnitSuffix = '', isShowYAxisLabelMillage = false,
     isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false,
     isShowLegend = true, legendIcon, legendOrient, legendTextSize, legendTextColor, legendLeft, legendTop,
@@ -18,8 +18,8 @@ export default function useChartBarLine (securityConfig, dataset, configChartTyp
   let markLineDataArr = []
   let markPointArr = []
 
-  const handleColor = (color) => {
-    return gradation
+  const handleColor = (color, isGradation) => {
+    return isGradation
       ? {
           type: 'linear',
           x: 0,
@@ -112,7 +112,7 @@ export default function useChartBarLine (securityConfig, dataset, configChartTyp
     seriesArr.push({
       name: alias || name,
       type: configChartType === 'stackArea' ? 'line' : (['horizontalBarChart', 'stackBarChart', 'stackHorizontalBarChart'].includes(configChartType) ? 'bar' : configChartType),
-      itemStyle: colorScheme ? { color: handleColor(colorScheme[index]) } : {},
+      itemStyle: { color: handleColor(colorScheme[index], gradation) },
       markLine: {
         data: markLineDataArr
       },
@@ -141,7 +141,8 @@ export default function useChartBarLine (securityConfig, dataset, configChartTyp
       smooth: lineSmooth,
       stack: ['stackArea', 'stackBarChart', 'stackHorizontalBarChart'].includes(configChartType) ? 'Total' : '',
       areaStyle: {
-        opacity: configChartType === 'stackArea' ? 0.7 : 0
+        opacity: configChartType === 'stackArea' ? 0.7 : 0,
+        color: handleColor(colorScheme[index], configChartType === 'stackArea' && stackAreaGradation)
       },
       emphasis: {
         disabled: !['stackArea', 'stackBarChart', 'stackHorizontalBarChart'].includes(configChartType),

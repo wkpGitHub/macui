@@ -88,6 +88,16 @@ export const cssConfigure = {
               otherKey: ['config.yAxis'],
               chartType: 'bar'
             },
+            stackAreaGradation: {
+              label: '渐变',
+              description: '对折线图无用，用于堆叠折线图',
+              type: 'singleCheckbox',
+              option: {
+                value: true,
+                inactiveValue: false,
+                label: ''
+              }
+            },
             opacity: {
               type: 'slider',
               label: '不透明度',
