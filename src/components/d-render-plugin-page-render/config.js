@@ -43,6 +43,7 @@ export default {
   scatterChart: () => () => import('./block-view-chart/scatter-chart'),
   sankeyChart: () => () => import('./block-view-chart/sankey-chart'),
   stackLineChart: () => () => import('./block-view-chart/stack-line-chart'),
+  areaChart: () => () => import('./block-view-chart/area-chart'),
   stackBarChart: () => () => import('./block-view-chart/stack-bar-chart'),
   horizontalBarChart: () => () => import('./block-view-chart/horizontal-bar-chart'),
   stackHorizontalBarChart: () => () => import('./block-view-chart/stack-horizontal-bar-chart'),

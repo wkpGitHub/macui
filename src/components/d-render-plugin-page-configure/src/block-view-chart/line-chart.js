@@ -90,7 +90,7 @@ export const cssConfigure = {
             },
             stackAreaGradation: {
               label: '渐变',
-              description: '对折线图无用，用于堆叠折线图',
+              description: '此属性对折线图无用',
               type: 'singleCheckbox',
               option: {
                 value: true,

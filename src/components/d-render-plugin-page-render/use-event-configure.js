@@ -90,6 +90,8 @@ const eventHandleMap = {
         drPageRender.dataBus(event.target, _value.list)
       } else if (item.config.type === 'stackLineChart') {
         drPageRender.dataBus(event.target, _value.list)
+      } else if (item.config.type === 'areaChart') {
+        drPageRender.dataBus(event.target, _value.list)
       } else if (item.config.type === 'stackBarChart') {
         drPageRender.dataBus(event.target, _value.list)
       } else if (item.config.type === 'horizontalBarChart') {

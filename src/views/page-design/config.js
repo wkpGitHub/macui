@@ -179,15 +179,21 @@ export const componentsGroupList = [
         hideLabel: true
       },
       {
-        type: 'stackLineChart',
+        type: 'areaChart',
         icon: 'el-icon-s-operation',
-        label: '堆叠折线图',
+        label: '面积图',
         hideLabel: true
       },
       {
-        type: 'stackBarChart',
+        type: 'annulusChart',
         icon: 'el-icon-s-operation',
-        label: '堆叠柱状图',
+        label: '环形图',
+        hideLabel: true
+      },
+      {
+        type: 'stackLineChart',
+        icon: 'el-icon-s-operation',
+        label: '堆叠折线图',
         hideLabel: true
       },
       {
@@ -197,15 +203,15 @@ export const componentsGroupList = [
         hideLabel: true
       },
       {
-        type: 'stackHorizontalBarChart',
+        type: 'stackBarChart',
         icon: 'el-icon-s-operation',
-        label: '横向堆叠柱状图',
+        label: '堆叠柱状图',
         hideLabel: true
       },
       {
-        type: 'annulusChart',
+        type: 'stackHorizontalBarChart',
         icon: 'el-icon-s-operation',
-        label: '环形图',
+        label: '横向堆叠柱状图',
         hideLabel: true
       },
       {
