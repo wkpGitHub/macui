@@ -21,7 +21,7 @@ export default {
   pieChart: () => import('./block-view-chart/pie-chart'),
   sankeyChart: () => import('./block-view-chart/sankey-chart'),
   scatterChart: () => import('./block-view-chart/scatter-chart'),
-  stackAreaChart: () => import('./block-view-chart/line-chart'),
+  stackLineChart: () => import('./block-view-chart/line-chart'),
   stackBarChart: () => import('./block-view-chart/bar-chart'),
   horizontalBarChart: () => import('./block-view-chart/horizontal-bar-chart'),
   stackHorizontalBarChart: () => import('./block-view-chart/horizontal-bar-chart'),

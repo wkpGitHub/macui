@@ -179,7 +179,7 @@ export const componentsGroupList = [
         hideLabel: true
       },
       {
-        type: 'stackAreaChart',
+        type: 'stackLineChart',
         icon: 'el-icon-s-operation',
         label: '堆叠折线图',
         hideLabel: true

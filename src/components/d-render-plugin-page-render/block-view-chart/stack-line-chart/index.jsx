@@ -6,7 +6,7 @@ import Charts from '@lc/components/charts'
 import axiosInstance from '@lc/views/app/pages/api'
 
 export default {
-  name: 'StackAreaChart',
+  name: 'StackLineChart',
   props: formInputProps,
   setup (props, context) {
     const { proxyValue, securityConfig } = useFormInput(props, context)
@@ -16,7 +16,7 @@ export default {
 
     const option = computed(() => {
       const dataset = { source: proxyValue.value ? proxyValue.value : dataList.value }
-      return useChartBarLine(securityConfig.value, dataset, 'stackArea')
+      return useChartBarLine(securityConfig.value, dataset, 'stackLine')
     })
 
     const getDataList = (api) => {

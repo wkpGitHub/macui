@@ -42,7 +42,7 @@ export default {
   pieChart: () => () => import('./block-view-chart/pie-chart'),
   scatterChart: () => () => import('./block-view-chart/scatter-chart'),
   sankeyChart: () => () => import('./block-view-chart/sankey-chart'),
-  stackAreaChart: () => () => import('./block-view-chart/stack-area-chart'),
+  stackLineChart: () => () => import('./block-view-chart/stack-line-chart'),
   stackBarChart: () => () => import('./block-view-chart/stack-bar-chart'),
   horizontalBarChart: () => () => import('./block-view-chart/horizontal-bar-chart'),
   stackHorizontalBarChart: () => () => import('./block-view-chart/stack-horizontal-bar-chart'),

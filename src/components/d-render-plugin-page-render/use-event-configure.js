@@ -88,7 +88,7 @@ const eventHandleMap = {
         drPageRender.dataBus(event.target, _value.list)
       } else if (item.config.type === 'sankeyChart') {
         drPageRender.dataBus(event.target, _value.list)
-      } else if (item.config.type === 'stackAreaChart') {
+      } else if (item.config.type === 'stackLineChart') {
         drPageRender.dataBus(event.target, _value.list)
       } else if (item.config.type === 'stackBarChart') {
         drPageRender.dataBus(event.target, _value.list)

@@ -111,7 +111,7 @@ export default function useChartBarLine (securityConfig, dataset, configChartTyp
     })
     seriesArr.push({
       name: alias || name,
-      type: configChartType === 'stackArea' ? 'line' : (['horizontalBarChart', 'stackBarChart', 'stackHorizontalBarChart'].includes(configChartType) ? 'bar' : configChartType),
+      type: configChartType === 'stackLine' ? 'line' : (['horizontalBarChart', 'stackBarChart', 'stackHorizontalBarChart'].includes(configChartType) ? 'bar' : configChartType),
       itemStyle: { color: handleColor(colorScheme[index], gradation) },
       markLine: {
         data: markLineDataArr
@@ -139,13 +139,13 @@ export default function useChartBarLine (securityConfig, dataset, configChartTyp
       symbol: configChartType === 'scatter' ? scatterSymbol : lineSymbol,
       symbolSize: configChartType === 'scatter' ? scatterSymbolSize : lineSymbolSize,
       smooth: lineSmooth,
-      stack: ['stackArea', 'stackBarChart', 'stackHorizontalBarChart'].includes(configChartType) ? 'Total' : '',
+      stack: ['stackLine', 'stackBarChart', 'stackHorizontalBarChart'].includes(configChartType) ? 'Total' : '',
       areaStyle: {
-        opacity: configChartType === 'stackArea' ? 0.7 : 0,
-        color: handleColor(colorScheme[index], configChartType === 'stackArea' && stackAreaGradation)
+        opacity: configChartType === 'stackLine' ? 0.7 : 0,
+        color: handleColor(colorScheme[index], configChartType === 'stackLine' && stackAreaGradation)
       },
       emphasis: {
-        disabled: !['stackArea', 'stackBarChart', 'stackHorizontalBarChart'].includes(configChartType),
+        disabled: !['stackLine', 'stackBarChart', 'stackHorizontalBarChart'].includes(configChartType),
         focus: 'series'
       },
       myCustomProp: field
