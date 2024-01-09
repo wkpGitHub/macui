@@ -245,11 +245,11 @@ export const componentsGroupList = [
         gutter: 0,
         options: [
           {
-            span: 12,
+            flexBasis: '50%',
             children: []
           },
           {
-            span: 12,
+            flexBasis: '50%',
             children: []
           }
         ]

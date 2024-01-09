@@ -36,6 +36,10 @@ export default {
     component: () => () => import('./curd'),
     layout: true
   },
+  grid: {
+    component: () => () => import('./grid'),
+    layout: true
+  },
   selectTreePanel: () => () => import('./select-tree-panel'),
   lineChart: () => () => import('./block-view-chart/line-chart'),
   barChart: () => () => import('./block-view-chart/bar-chart'),

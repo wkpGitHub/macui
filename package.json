@@ -134,6 +134,7 @@
       "git add"
     ]
   },
+  "eslintIgnore": ["**/esm/**"],
   "zentaoUrl": "http://zentao.citycloud.com.cn/zentao",
   "repository": "https://git.citycloud.com.cn:3000/cci_tech_research/coding-hammer-ui.git"
 }
