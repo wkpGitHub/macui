@@ -20,11 +20,19 @@ export default {
     })
 
     const divWidth = computed(() => {
-      return securityConfig.value.width || securityConfig.value.width === 0 ? securityConfig.value.width + 'px' : '100%'
+      if (['px', '%'].includes(securityConfig.value.width) || !securityConfig.value.width) {
+        return '100%'
+      } else {
+        return securityConfig.value.width
+      }
     })
 
     const divHeight = computed(() => {
-      return securityConfig.value.height || securityConfig.value.height === 0 ? securityConfig.value.height + 'px' : '250px'
+      if (['px', '%'].includes(securityConfig.value.height) || !securityConfig.value.height) {
+        return '250px'
+      } else {
+        return securityConfig.value.height
+      }
     })
 
     const getDataList = (api) => {

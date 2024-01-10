@@ -3,15 +3,11 @@ import { handelLabelSizeOptions } from '../../utils'
 export const basicConfig = {
   width: {
     label: '宽度',
-    type: 'number',
-    description: '单位为像素',
-    min: 0
+    type: 'set-css-value'
   },
   height: {
     label: '高度',
-    type: 'number',
-    description: '单位为像素',
-    min: 0
+    type: 'set-css-value'
   },
   style: {
     dependOn: ['config.width', 'config.height'],
@@ -19,8 +15,8 @@ export const basicConfig = {
     changeValue: ({ config }) => {
       return {
         value: {
-          width: config.width || config.width === 0 ? config.width + 'px' : '100%',
-          height: config.height || config.height === 0 ? config.height + 'px' : '250px'
+          width: ['px', '%'].includes(config.width) || !config.width ? '100%' : config.width,
+          height: ['px', '%'].includes(config.height) || !config.height ? '250px' : config.height
         }
       }
     }

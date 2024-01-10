@@ -48,7 +48,7 @@ export default ({
       chart.resize()
     }
 
-    watch(() => props.width, (newVal) => {
+    watch(() => props.width, () => {
       setTimeout(() => {
         resize()
       }, 200)
