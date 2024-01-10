@@ -1,5 +1,28 @@
 import { handelLabelSizeOptions } from '../../utils'
 
+export const basicConfig = {
+  width: {
+    label: '宽度',
+    type: 'set-css-value'
+  },
+  height: {
+    label: '高度',
+    type: 'set-css-value'
+  },
+  style: {
+    dependOn: ['config.width', 'config.height'],
+    readable: false,
+    changeValue: ({ config }) => {
+      return {
+        value: {
+          width: ['px', '%'].includes(config.width) || !config.width ? '100%' : config.width,
+          height: ['px', '%'].includes(config.height) || !config.height ? '250px' : config.height
+        }
+      }
+    }
+  }
+}
+
 // tooltip-不包含内容格式
 export const tooltipConfigNoContent = {
   isShowTooltip: {
