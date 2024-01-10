@@ -1,6 +1,6 @@
 import { generateFieldList } from 'd-render'
 import { addConfigPrefix, handelLabelSizeOptions, getOutParams } from '../../utils'
-import { tooltipConfig, titleConfig, legendConfig, xAxisConfig, yAxisConfig } from './common-config'
+import { basicConfig, tooltipConfig, titleConfig, legendConfig, xAxisConfig, yAxisConfig } from './common-config'
 
 export default {
   api: {
@@ -13,7 +13,7 @@ export default {
     type: 'xAxis',
     defaultValue: {
       alias: '',
-      xType: '',
+      xType: 'category',
       field: ''
     },
     dependOn: ['api'],
@@ -27,6 +27,7 @@ export default {
     required: true,
     placeholder: '请选择y轴类型',
     type: 'select',
+    defaultValue: 'value',
     options: [
       {
         label: '数值轴',
@@ -77,6 +78,12 @@ export const cssConfigure = {
   __collapse2: {
     type: 'collapse',
     options: [
+      {
+        title: '基础样式',
+        children: generateFieldList(addConfigPrefix(
+          basicConfig
+        ))
+      },
       {
         title: '颜色',
         children: generateFieldList(addConfigPrefix(

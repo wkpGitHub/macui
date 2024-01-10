@@ -1,6 +1,6 @@
 import { generateFieldList } from 'd-render'
 import { addConfigPrefix, handelLabelSizeOptions, getOutParams } from '../../utils'
-import { tooltipConfigNoContent, titleConfig } from './common-config'
+import { basicConfig, tooltipConfigNoContent, titleConfig } from './common-config'
 
 export default {
   api: {
@@ -60,6 +60,12 @@ export const cssConfigure = {
   __collapse2: {
     type: 'collapse',
     options: [
+      {
+        title: '基础样式',
+        children: generateFieldList(addConfigPrefix(
+          basicConfig
+        ))
+      },
       {
         title: '标签',
         children: generateFieldList(addConfigPrefix(

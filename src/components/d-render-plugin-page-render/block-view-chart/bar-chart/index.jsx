@@ -19,6 +19,14 @@ export default {
       return useChartBarLine(securityConfig.value, dataset, 'bar')
     })
 
+    const divWidth = computed(() => {
+      return securityConfig.value.width || securityConfig.value.width === 0 ? securityConfig.value.width + 'px' : '100%'
+    })
+
+    const divHeight = computed(() => {
+      return securityConfig.value.height || securityConfig.value.height === 0 ? securityConfig.value.height + 'px' : '250px'
+    })
+
     const getDataList = (api) => {
       axiosInstance({
         url: api.fullPath,
@@ -37,12 +45,12 @@ export default {
       isInitSearch(securityConfig.value.api, drPageRender) && getDataList(securityConfig.value.api)
     })
 
-    return () => <div style="width: 100%; height: 250px" >
-      <Charts
-        option={option.value}
-        isListeningClick={true}
-        onClick={(e) => bindEvent(handleEvent, 'click', props, e.data)}
-      ></Charts>
-    </div>
+    return () => <Charts
+      width={divWidth.value}
+      height={divHeight.value}
+      option={option.value}
+      isListeningClick={true}
+      onClick={(e) => bindEvent(handleEvent, 'click', props, e.data)}
+    ></Charts>
   }
 }
