@@ -5,11 +5,12 @@ import CipTabPane from '@cip/components/cip-tabs-plus/tab'
 import { reactive } from 'vue'
 import PojoPage from '../pojo'
 import DicPage from '../dic'
+import MaterialPage from '../material'
 
 export default {
   setup () {
     const state = reactive({
-      active: 0,
+      active: 2,
       dataModel: {},
       loading: false
     })
@@ -20,11 +21,13 @@ export default {
           <CipTabs v-model={state.active}>
             <CipTabPane lazy label='枚举' name={0}></CipTabPane>
             <CipTabPane lazy label='自定义对象' name={1}></CipTabPane>
+            <CipTabPane lazy label='素材' name={2}></CipTabPane>
           </CipTabs>
         </div>
         <div class="flex-auto">
           {state.active === 0 && <DicPage />}
           {state.active === 1 && <PojoPage />}
+          {state.active === 2 && <MaterialPage />}
         </div>
       </div>
     </PageLayoutInfo>

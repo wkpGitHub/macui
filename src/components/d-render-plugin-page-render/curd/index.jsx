@@ -13,19 +13,21 @@ export default {
   props: layoutProps,
   setup (props, context) {
     const { componentSlots } = useComponentSlots(props, context)
+    const drPageRender = inject('drPageRender', {})
+    const { options, type, hideItem, ...attr } = props.config
+    const { dialog } = componentSlots.value
+    const { api, deleteApi, options: curdOptions } = props.config
+    
+    const children = []
+    curdOptions?.forEach(o => o.children && children.push(...o.children))
+    const searchForm = getListConfigByType(children, 'searchForm')
+    const pageTable = getListConfigByType(children, 'pageTable')
+    const pagination = getListConfigByType(children, 'pagination')
+    const dialogItem = getListConfigByType(children, 'dialog')
+    const [pageNum, total] = pagination.config.otherKey
+    setFieldValue(drPageRender.model, pageNum, 1)
+    setFieldValue(drPageRender.model, pagination.config.key, pagination.config.defaultValue || 10)
     return () => {
-      const drPageRender = inject('drPageRender', {})
-      const { options, type, hideItem, ...attr } = props.config
-      const { dialog } = componentSlots.value
-      const { api, deleteApi, options: curdOptions } = props.config
-      
-      const children = []
-      curdOptions?.forEach(o => o.children && children.push(...o.children))
-      const searchForm = getListConfigByType(children, 'searchForm')
-      const pageTable = getListConfigByType(children, 'pageTable')
-      const pagination = getListConfigByType(children, 'pagination')
-      const dialogItem = getListConfigByType(children, 'dialog')
-      
       if (!props.config.getData) {
         function getData (axisOptions={}) {
           const {params, ...otherOptions} = axisOptions
@@ -33,17 +35,17 @@ export default {
             url: api.fullPath,
             method: api.httpMethod,
             ...otherOptions,
-            params: {...getInputParams(api, drPageRender), ...params},
+            params: {...getInputParams(api, drPageRender), ...params, pageNum: getFieldValue(drPageRender.model, pageNum), pageSize: getFieldValue(drPageRender.model, pagination.config.key)},
           }).then(({ data }) => {
             const { page, list } = data.data
             setFieldValue(drPageRender.model, pageTable.key, list)
-            const [pageNum, total] = pagination.config.otherKey
             setFieldValue(drPageRender.model, pageNum, page.pageNum)
             setFieldValue(drPageRender.model, total, page.total)
           })
         }
         props.config.getData = getData
         searchForm.config.getData = getData
+        pagination.config.getData = getData
         // 初始拉取
         isInitSearch(api, drPageRender) && getData()
       }

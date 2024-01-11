@@ -7,15 +7,30 @@ class MaterialService extends Model {
     return req('get', 'apiChr', '/api/v1/material/page', { ...searchFilter, offset, limit })
   }
 
+  tree (name) {
+    return req('get', 'apiChr', '/api/v1/material/tree', { name })
+  }
+
+  // 创建文件夹
+  mkdir (data) {
+    return req('post', 'apiChr', '/api/v1/material/mkdir', data)
+  }
+
   @transformData()
   create (data) {
     const form = new FormData()
-    form.append('file', data.file)
+    Object.keys(data).forEach(key => {
+      form.append(key, data[key])
+    })
     return req('post', 'apiChr', '/api/v1/material/save', form)
   }
 
   img (id) {
     return `${requestStore.apiConfig.apiChr}/api/v1/material/img/${id}`
+  }
+
+  download (id) {
+    return `${requestStore.apiConfig.apiChr}/api/v1/material/down/${id}`
   }
 
   @transformData()
@@ -30,12 +45,7 @@ class MaterialService extends Model {
 
   @transformData()
   delete ({ id }) {
-    return req('delete', 'apiChr', `/api/v1/discovery/rule/${id}/del`)
-  }
-
-  @transformData()
-  batchDelete (data) {
-    return req('delete', 'apiChr', '/api/v1/discovery/rule/deleteBatch', { ids: data.map(item => item.id) })
+    return req('get', 'apiChr', '/api/v1/material/delete', { id })
   }
 }
 

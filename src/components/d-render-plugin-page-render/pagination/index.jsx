@@ -42,7 +42,11 @@ export default {
       v-model:offset={offset.value}
       total={proxyOtherValue[1].value}
       pageSizes={pageSizes.value}
-      onRefresh={() => handleEvent(inputProps.value.onRefresh)}
+      onRefresh={() => {
+        props.config.getData?.()
+        handleEvent(inputProps.value.onRefresh)
+      }
+      }
     ></CipPagination>
   }
 }
