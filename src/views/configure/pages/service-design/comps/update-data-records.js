@@ -13,6 +13,7 @@ export default {
       required: true,
       otherKey: 'fields'
     },
+    targetName: { label: '节点出参' },
     filterMode: {
       dependOn: ['objectKey'],
       readable: false,

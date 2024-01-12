@@ -317,6 +317,10 @@ const nodeConfig = {
     }
   }
 }
+
+function isBranch (obj) {
+  return Object.prototype.hasOwnProperty.call(obj?.config || {}, 'expression')
+}
 export class Ausyda {
   constructor ({ el, data }) {
     this.initDom(el)
@@ -355,10 +359,10 @@ export class Ausyda {
             const { parent, index } = d
             const { children } = parent
             // 当前删除的是分支
-            if (parent.type === 'branch' && Object.prototype.hasOwnProperty.call(d, 'expression')) {
+            if (parent.type === 'branch' && isBranch(d, 'expression')) {
               const nextItem = children[index + 1]
               // 下一个不是分支节点，也不是分支结束节点；那么下一个要继承这个分支的属性
-              if (nextItem && (!Object.prototype.hasOwnProperty.call(nextItem, 'expression') && nextItem.type !== 'branch-close')) {
+              if (nextItem && (!isBranch(nextItem, 'expression') && nextItem.type !== 'branch-close')) {
                 BRANCH_KEYS.forEach(key => {
                   nextItem[key] = d[key]
                 })
@@ -592,7 +596,7 @@ export class Ausyda {
       children.forEach((item, index) => {
         item.parent = parent
         item.index = index
-        if (Object.prototype.hasOwnProperty.call(item, 'expression')) {
+        if (isBranch(item, 'expression')) {
           // 如果是分支，继承父亲的高度
           item.top = nodeConfig[parent.type].y + (parent.top || 0) + 80
           // 如果从第一个分支跳出来，进入下一个刚好是分支，那就清空nextTop
@@ -662,7 +666,7 @@ export class Ausyda {
           // 如果下一个节点是分支
           const nextItem = children[index + 1]
           currentBranchMaxWidth = Math.max(currentBranchMaxWidth, item.width)
-          if (nextItem && Object.prototype.hasOwnProperty.call(nextItem, 'expression')) {
+          if (nextItem && isBranch(nextItem, 'expression')) {
             currentBranchs.forEach(item => { item.branchWidth = currentBranchMaxWidth })
             parent.width += currentBranchMaxWidth + 40
             currentBranchMaxWidth = 0
@@ -691,7 +695,7 @@ export class Ausyda {
           }
           // 如果下一个节点是分支
           const nextItem = children[index + 1]
-          if ((nextItem && Object.prototype.hasOwnProperty.call(nextItem, 'expression')) || item.type === 'branch-close') {
+          if ((nextItem && isBranch(nextItem, 'expression')) || item.type === 'branch-close') {
             // branchLeft += (nextItem.branchWidth / 2 + item.branchWidth / 2 + 40)
             branchLeft += item.branchWidth + 40
           }
@@ -733,7 +737,7 @@ export class Ausyda {
             target: item,
             source: parent
           })
-        } else if (Object.prototype.hasOwnProperty.call(item, 'expression')) {
+        } else if (isBranch(item, 'expression')) {
           // 分支的开始节点，连接父节点
           links.push({
             id: `${item.id}-${parent.id}`,
@@ -782,7 +786,7 @@ export class Ausyda {
           // 如果下一个节点是分支
           const nextItem = children[index + 1]
           // 这样判断，就断定这个节点不可能是最后一个节点。最后一个节点没有下一个节点
-          if (nextItem && (Object.prototype.hasOwnProperty.call(nextItem, 'expression') || nextItem.type === 'branch-close')) {
+          if (nextItem && (isBranch(nextItem, 'expression') || nextItem.type === 'branch-close')) {
             // 排排除分支，分支一定是有branch-close节点，当前branch不和下个节点连线，让branch-close再和下个节点，或者结束节点（父节点的branch-close节点）连接
             // 再排除掉loop. 循环一定是有loop-close节点，当前loop不和下个节点连线，让loop-close节点再和下个节点，或者结束节点（父节点的branch-close节点）连接
             if (!['branch', 'loop'].includes(item.type) || item.folded) {
@@ -849,7 +853,6 @@ export class Ausyda {
       // 如果这个分支是空的，追加第一个子节点
       if (parent.children.length === 1) {
         parent.children.unshift({
-          expression: true,
           config: {
             expression: '分支',
             conditions: [{ type: 'operate', value: 'tr', desc: 'true' }]
@@ -899,7 +902,6 @@ export class Ausyda {
   addBranch (node, parent) {
     const index = parent.children.length - 1
     parent.children.splice(index, 0, {
-      expression: true,
       config: {
         expression: '分支' + (index + 1),
         conditions: [{ type: 'operate', value: 'tr', desc: 'true' }]
