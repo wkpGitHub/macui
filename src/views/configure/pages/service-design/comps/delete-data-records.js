@@ -129,23 +129,27 @@ export default {
     },
     filterFields: {
       type: 'filterCondition',
-      dependOn: ['objectKey', 'fields', 'filterMode'],
+      dependOn: ['objectKey', 'fields', {
+        key: 'filterMode',
+        effect: {
+          changeValue ({ filterMode }) {
+            let value = {
+              logic: 'and',
+              children: []
+            }
+            if (filterMode === 'fx') {
+              value = []
+            }
+            return { value }
+          }
+        }
+      }],
       readable: false,
       changeConfig (config, { objectKey, fields, filterMode }) {
         config.writable = !!objectKey
         config.type = filterMode === 'fx' ? 'setFx' : 'filterCondition'
         config.options = cloneDeep(fields || [])
         return config
-      },
-      changeValue ({ filterMode }) {
-        let value = {
-          logic: 'and',
-          children: []
-        }
-        if (filterMode === 'fx') {
-          value = []
-        }
-        return { value }
       }
     }
   })),

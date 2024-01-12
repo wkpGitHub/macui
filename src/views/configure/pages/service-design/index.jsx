@@ -1,5 +1,5 @@
 import { defineComponent, ref, reactive, onMounted, nextTick, provide } from 'vue'
-import { ElInputNumber, ElLink } from 'element-plus'
+import { ElInputNumber, ElLink, ElMessageBox } from 'element-plus'
 import { Setting } from '@element-plus/icons-vue'
 import { PlHandle as CipPageLayoutHandle } from '@cip/page-layout'
 import CipButton from '@cip/components/cip-button'
@@ -126,9 +126,7 @@ export default defineComponent({
         })
         // 点击节点删除按钮
         au.on('deleteNode', (d, cb) => {
-          alert(d.title)
-          // 执行回调函数删除节点
-          cb()
+          ElMessageBox.confirm(`确认删除${d.title}？`, '提示', { type: 'warning' }).then(() => cb())
         })
         au.on('scale', (ratio) => {
           zoom.value = Math.floor(ratio * 100)

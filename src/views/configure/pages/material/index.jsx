@@ -87,6 +87,17 @@ export default {
       getPages()
     })
 
+    // function genDropdownMenu (data) {
+    //   debugger
+    //   return <ul class="el-dropdown-menu">
+    //     <li class="el-dropdown-menu__item">下载</li>
+    //   </ul>
+    // }
+
+    function handleContextMenu (e, data) {
+      console.log(e, data)
+    }
+
     return () => <div class={styles.wrapper}>
       <CipTree
         v-loading={state.loading}
@@ -96,6 +107,7 @@ export default {
         config={treeConfig}
         options={pages.value}
         onTree-reload={getPages}
+        onNode-contextmenu={handleContextMenu}
       >
       </CipTree>
       <CipDialog
