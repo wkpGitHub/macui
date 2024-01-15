@@ -6,7 +6,8 @@ export default {
   props: {
     id: [Number, String],
     appPath: String,
-    path: [Number, String] // 支持uuid 数字id
+    path: [Number, String], // 支持uuid 数字id
+    query: Object // 被使用为组件，代替路由参数
   },
   setup (props) {
     const pageSchema = ref({})
@@ -35,6 +36,7 @@ export default {
         onUpdate:model={(val) => {
           model.value = val
         }}
+        query={props.query}
         schema={pageSchema.value}
         service={service.value}
       />

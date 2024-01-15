@@ -22,7 +22,7 @@ export const formFieldList = generateFieldList(defineFormFieldConfig({
     tableColumnStatus: 'writable',
     options: generateFieldList(defineTableFieldConfig({
       label: { label: '显示文本', width: 130 },
-      value: { label: '值', type: 'setFx', width: 130 }
+      value: { label: '值', type: 'pageFx', width: 130 }
     })),
     changeConfig (config, { optType, isTree }) {
       config.rowKey = isTree ? '$id' : ''

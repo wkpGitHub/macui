@@ -19,6 +19,7 @@ export default {
     schema: { type: Object, default: () => ({}) },
     model: Object,
     service: Object,
+    query: Object, // 被使用为组件，代替路由参数
     equipment: { type: String, default: 'pc' }
   },
   emits: ['update:model'],
@@ -74,7 +75,7 @@ export default {
     }, { immediate: true })
     const router = useRouter()
     const variables = computed(() => {
-      const _variables = { ...route.query }
+      const _variables = { ...route.query, ...props.query }
       ;(securityScheme.value.variables || []).forEach((current) => {
         _variables[current.name] = _variables[current.name] || current.value
       })

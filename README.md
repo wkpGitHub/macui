@@ -116,9 +116,10 @@ export default {
   setup() {
     const state = reactive({
       appPath: 'lRoad',
-      path: '/yhb/yhb001'
+      path: '/yhb/yhb001',
+      query: {id: '123'} // 其他参数，在页面接口中使用
     })
-    return () => <PageView appPath={state.appPath} path={state.path}  />;  
+    return () => <PageView appPath={state.appPath} path={state.path} query={state.query}  />;  
   }
 }
 ```
