@@ -55,6 +55,27 @@ const aliasConfig = {
 
 module.exports = aliasConfig
 ```
+
+### 修改自己项目中的 config/proxy-config.js
+```js
+const CHR = '/chr'
+const proxyConfig = [
+  {
+    key: 'apiChr', 
+    target: process.env.VUE_APP_API_CHR_TARGET + CHR,
+    productionTarget: process.env.VUE_APP_API_CHR_PRODUCTION_TARGET + CHR
+  },
+  {
+    key: 'apiBasic', 
+    target: process.env.VUE_APP_API_BASIC_TARGET,
+    productionTarget: process.env.VUE_APP_API_BASIC_PRODUCTION_TARGET
+  },
+  // ... 其他代码
+]
+
+module.exports = proxyConfig
+
+```
 ### 修改自己项目中d-render.config.js
 ```js
 // ... 其他代码
