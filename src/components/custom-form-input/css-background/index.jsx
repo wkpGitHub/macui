@@ -2,6 +2,8 @@ import { defineComponent, reactive, watch } from 'vue'
 import { ElSelect, ElOption, ElColorPicker, ElInput, ElButton } from 'element-plus'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import { Upload } from '@element-plus/icons-vue'
+import CipUpload from '@cip/components/cip-upload'
+import { materialService } from '@lc/api'
 
 export default defineComponent({
   props: formInputProps,
@@ -31,6 +33,12 @@ export default defineComponent({
       proxyValue.value = `url(${v})`
     })
 
+    function uploadFile ({ file }) {
+      materialService.create({ file }).then(({ data }) => {
+        state.url = materialService.img(data.id)
+      })
+    }
+
     return () => <div style={{ width: '100%' }} class="flex">
       <ElSelect size="small" v-model={state.type} style={{ width: '70px' }} class="mr-1 flex-shrink">
         <ElOption value="颜色" label="颜色"></ElOption>
@@ -39,7 +47,9 @@ export default defineComponent({
       {state.type === '颜色'
         ? <ElColorPicker size="small" show-alpha v-model={state.color} />
         : <ElInput size="small" placeholder="图片地址" v-model={state.url}>{{
-          append: () => <ElButton size="small" icon={Upload}></ElButton>
+          append: () => <CipUpload action="" uploadFile={uploadFile}>{{
+            default: () => <ElButton size="small" icon={Upload}>上传</ElButton>
+          }}</CipUpload>
         }}</ElInput>}
     </div >
   }

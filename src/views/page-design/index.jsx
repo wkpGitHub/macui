@@ -3,7 +3,7 @@ import Framework from './framework/index.vue'
 import ToolBar from './widgets/tool-bar'
 // import ApiConfig from './widgets/api-config'
 // import DrPageDesign from '@lc/components/page-design'
-import { DrBasicDesign } from '@d-render/design'
+import { DrBasicDesign } from './esm/main'
 import '@d-render/design/dist/index.css'
 import { componentsGroupList } from './config'
 import { pageInfoService } from '@lc/api'
@@ -69,6 +69,7 @@ export default {
       form: 'formDesign',
       entity: 'entityDesign',
       curd: 'curdDesign',
+      div: 'divDesign',
       pageHandle: 'pageHandleDesign'
     }
     setPageInfo()
@@ -89,7 +90,7 @@ export default {
       new FormPreviewPlugin()
     ]
 
-    return () => <Framework appPath={props.appPath} >
+    return () => <Framework appPath={props.appPath}>
      <DrBasicDesign
        v-model:schema={schema.value}
        v-model:equipment={equipment.value}

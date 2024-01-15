@@ -41,7 +41,7 @@ const configureRoute = {
 }
 
 const previewRoute = {
-  path: '/preview/:appPath',
+  path: '/app/:appPath',
   name: 'previewFramework',
   props: true,
   component: () => import('@lc/views/preview/framework'),

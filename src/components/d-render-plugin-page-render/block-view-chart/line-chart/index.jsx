@@ -1,33 +1,23 @@
-import { ref, computed, watch, onMounted, inject } from 'vue'
+import { computed, watch, onMounted, inject } from 'vue'
 import { useFormInput, formInputProps } from '@d-render/shared'
-import { useEventConfigure, bindEvent, getInputParams, isInitSearch } from '../../use-event-configure'
+import { useEventConfigure, bindEvent, isInitSearch } from '../../use-event-configure'
 import useChartBarLine from '../hooks/use-chart-bar-line'
+import useChartData from '../hooks/use-chart-data'
 import Charts from '@lc/components/charts'
-import axiosInstance from '@lc/views/app/pages/api'
 
 export default {
   name: 'LineChart',
   props: formInputProps,
   setup (props, context) {
     const { proxyValue, securityConfig } = useFormInput(props, context)
-    const dataList = ref([])
     const handleEvent = useEventConfigure()
     const drPageRender = inject('drPageRender', {})
+    const { dataList, divWidth, divHeight, getDataList } = useChartData(securityConfig, drPageRender)
 
     const option = computed(() => {
       const dataset = { source: proxyValue.value ? proxyValue.value : dataList.value }
       return useChartBarLine(securityConfig.value, dataset, 'line')
     })
-
-    const getDataList = (api) => {
-      axiosInstance({
-        url: api.fullPath,
-        method: api.httpMethod,
-        params: getInputParams(api, drPageRender)
-      }).then(({ data }) => {
-        dataList.value = data.data?.list || []
-      })
-    }
 
     watch(() => securityConfig.value.api, (newVal) => {
       getDataList(newVal)
@@ -37,12 +27,12 @@ export default {
       isInitSearch(securityConfig.value.api, drPageRender) && getDataList(securityConfig.value.api)
     })
 
-    return () => <div style="width: 100%; height: 250px" >
-      <Charts
-        option={option.value}
-        isListeningClick={true}
-        onClick={(e) => bindEvent(handleEvent, 'click', props, e.data)}
-      ></Charts>
-    </div>
+    return () => <Charts
+    width={divWidth.value}
+    height={divHeight.value}
+    option={option.value}
+    isListeningClick={true}
+    onClick={(e) => bindEvent(handleEvent, 'click', props, e.data)}
+  ></Charts>
   }
 }

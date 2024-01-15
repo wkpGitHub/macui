@@ -36,13 +36,18 @@ export default {
     component: () => () => import('./curd'),
     layout: true
   },
+  grid: {
+    component: () => () => import('./grid'),
+    layout: true
+  },
   selectTreePanel: () => () => import('./select-tree-panel'),
   lineChart: () => () => import('./block-view-chart/line-chart'),
   barChart: () => () => import('./block-view-chart/bar-chart'),
   pieChart: () => () => import('./block-view-chart/pie-chart'),
   scatterChart: () => () => import('./block-view-chart/scatter-chart'),
   sankeyChart: () => () => import('./block-view-chart/sankey-chart'),
-  stackAreaChart: () => () => import('./block-view-chart/stack-area-chart'),
+  stackLineChart: () => () => import('./block-view-chart/stack-line-chart'),
+  areaChart: () => () => import('./block-view-chart/area-chart'),
   stackBarChart: () => () => import('./block-view-chart/stack-bar-chart'),
   horizontalBarChart: () => () => import('./block-view-chart/horizontal-bar-chart'),
   stackHorizontalBarChart: () => () => import('./block-view-chart/stack-horizontal-bar-chart'),

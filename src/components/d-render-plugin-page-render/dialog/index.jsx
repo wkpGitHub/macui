@@ -22,7 +22,7 @@ export default {
       axiosInstance({
         url: api.fullPath,
         method: api.httpMethod,
-        body: {...getInputParams(api, drPageRender), ...drPageRender.model[key]}
+        data: {...getInputParams(api, drPageRender), ...drPageRender.model[key]}
       }).then(({data}) => {
         bindEvent(handleEvent, 'confirm', props, data?.data)
         resolve()

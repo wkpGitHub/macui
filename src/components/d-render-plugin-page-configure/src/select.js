@@ -13,7 +13,7 @@ export default {
     ]
   },
   options: {
-    otherKey: ['asyncOptions', 'optionProps', 'optApiConfig'],
+    otherKey: ['optionProps', 'optApiConfig'],
     type: 'setOptions',
     label: '设置数据'
   }

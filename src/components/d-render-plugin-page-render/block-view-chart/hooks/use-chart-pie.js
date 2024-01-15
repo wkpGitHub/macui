@@ -5,7 +5,7 @@ export default function useChartPie (securityConfig, dataset, configChartType) {
     isShowText = true, text, subtext, textSize, textColor, textAlign = 'auto', textFontStyle = 'bolder', textShadow = false, // 标题配置
     opacity, // 颜色配置
     isShowLabel = false, labelFormat = 'dimension', labelSize, labelColor, pieLabelPosition, keepDecimal, // 标签配置
-    isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, // 提示配置
+    isShowTooltip = true, tooltipSize, tooltipColor, tooltipBg, tooltipContent, // 提示配置
     isShowLegend = true, legendIcon, legendOrient, legendTextSize, legendTextColor, legendLeft, legendTop, // 图例配置
     roseType = 'radius', borderRadius = 8 // 针对南丁格尔玫瑰图
   } = securityConfig
@@ -24,6 +24,7 @@ export default function useChartPie (securityConfig, dataset, configChartType) {
   const seriesArr = []
   yField.columns.forEach(column => {
     seriesArr.push({
+      name: column.name,
       type: 'pie',
       radius: [`${radius[0]}%`, `${radius[1]}%`],
       label: {
@@ -51,9 +52,21 @@ export default function useChartPie (securityConfig, dataset, configChartType) {
       encode: {
         itemName: xField,
         value: column.field
-      }
+      },
+      myCustomProp: column.field
     })
   })
+
+  /**
+   * 处理自定义tooltip时，显示的内容
+   * @param {*} params 是 formatter 需要的数据集
+   */
+  let formatterFunction = (params) => {
+    return tooltipContent.replace(/\{a\}/g, params.seriesName).replace(/\{b\}/g, params.name).replace(/\{c\}/g, params.value[seriesArr[params.seriesIndex].myCustomProp]).replace(/\{d\}/g, params.percent)
+  }
+  if (!tooltipContent) {
+    formatterFunction = ''
+  }
 
   return {
     title: {
@@ -70,6 +83,7 @@ export default function useChartPie (securityConfig, dataset, configChartType) {
         textShadowOffsetX: 6,
         textShadowOffsetY: 6
       },
+      left: textAlign,
       textAlign
     },
     tooltip: {
@@ -78,7 +92,8 @@ export default function useChartPie (securityConfig, dataset, configChartType) {
         color: tooltipColor || '#333',
         fontSize: tooltipSize || 14
       },
-      backgroundColor: tooltipBg || '#fff'
+      backgroundColor: tooltipBg || '#fff',
+      formatter: formatterFunction
     },
     legend: {
       show: isShowLegend,

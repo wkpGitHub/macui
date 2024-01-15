@@ -6,7 +6,7 @@
           theme="standard"
           :layout="layout"
           :with-tabs="false"
-          :root-path="`/preview/${appPath}`"
+          :root-path="`/app/${appPath}`"
     >
       <template #collapse>
       </template>

@@ -1,4 +1,4 @@
-import { onMounted, onBeforeMount, ref, watch } from 'vue'
+import { onMounted, onBeforeUnmount, ref, watch } from 'vue'
 import * as echarts from 'echarts'
 
 export default ({
@@ -8,9 +8,13 @@ export default ({
       type: Object,
       default: () => {}
     },
-    height: {
+    width: {
       type: String,
       default: '100%'
+    },
+    height: {
+      type: String,
+      default: '250px'
     },
     isListeningClick: {
       type: Boolean,
@@ -44,6 +48,18 @@ export default ({
       chart.resize()
     }
 
+    watch(() => props.width, () => {
+      setTimeout(() => {
+        resize()
+      }, 200)
+    }, { deep: true })
+
+    watch(() => props.height, () => {
+      setTimeout(() => {
+        resize()
+      }, 200)
+    }, { deep: true })
+
     watch(() => props.option, (newVal) => {
       chart?.clear()
       chart.setOption(newVal)
@@ -53,11 +69,11 @@ export default ({
       init()
     })
 
-    onBeforeMount(() => {
+    onBeforeUnmount(() => {
       window.removeEventListener('resize', resize)
       chart?.dispose()
     })
 
-    return () => <div ref={chartRef} style={{ width: '100%', height: props.height }}></div>
+    return () => <div ref={chartRef} style={{ width: props.width, height: props.height }}></div>
   }
 })

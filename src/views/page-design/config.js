@@ -179,15 +179,21 @@ export const componentsGroupList = [
         hideLabel: true
       },
       {
-        type: 'stackAreaChart',
+        type: 'areaChart',
         icon: 'el-icon-s-operation',
-        label: '堆叠折线图',
+        label: '面积图',
         hideLabel: true
       },
       {
-        type: 'stackBarChart',
+        type: 'annulusChart',
         icon: 'el-icon-s-operation',
-        label: '堆叠柱状图',
+        label: '环形图',
+        hideLabel: true
+      },
+      {
+        type: 'stackLineChart',
+        icon: 'el-icon-s-operation',
+        label: '堆叠折线图',
         hideLabel: true
       },
       {
@@ -197,15 +203,15 @@ export const componentsGroupList = [
         hideLabel: true
       },
       {
-        type: 'stackHorizontalBarChart',
+        type: 'stackBarChart',
         icon: 'el-icon-s-operation',
-        label: '横向堆叠柱状图',
+        label: '堆叠柱状图',
         hideLabel: true
       },
       {
-        type: 'annulusChart',
+        type: 'stackHorizontalBarChart',
         icon: 'el-icon-s-operation',
-        label: '环形图',
+        label: '横向堆叠柱状图',
         hideLabel: true
       },
       {
@@ -239,11 +245,11 @@ export const componentsGroupList = [
         gutter: 0,
         options: [
           {
-            span: 12,
+            flexBasis: '50%',
             children: []
           },
           {
-            span: 12,
+            flexBasis: '50%',
             children: []
           }
         ]
@@ -268,11 +274,11 @@ export const componentsGroupList = [
       { type: 'dateRange', icon: 'el-icon-date', label: '日期范围' },
       { type: 'time', icon: 'el-icon-time', label: '时间' },
       { type: 'timeRange', icon: 'el-icon-time', label: '时间范围' },
-      { type: 'radio', icon: 'el-icon-document-checked', label: '单选框组', options: ['选项一', '选项二', '选项三'], display: 'inline-flex' },
-      { type: 'checkbox', icon: 'el-icon-document-checked', label: '多选框组', options: ['选项一', '选项二', '选项三'], display: 'inline-flex' },
+      { type: 'radio', icon: 'el-icon-document-checked', label: '单选框组', options: [], display: 'inline-flex' },
+      { type: 'checkbox', icon: 'el-icon-document-checked', label: '多选框组', options: [], display: 'inline-flex' },
       { type: 'number', icon: 'el-icon-set-up', label: '计数器', min: 0, step: 1 },
       { type: 'numberRange', icon: 'el-icon-set-up', label: '计数区间', min: 0, step: 1, width: '100%' },
-      { type: 'select', icon: 'el-icon-bottom', label: '下拉选择框', options: ['选项一', '选项二', '选项三'] },
+      { type: 'select', icon: 'el-icon-bottom', label: '下拉选择框', options: [] },
       { type: 'switch', icon: 'el-icon-open', label: '开关' },
       { type: 'rate', icon: 'el-icon-star-off', label: '评分', max: 5 },
       { type: 'link', icon: 'el-icon-link', label: '超链接' },

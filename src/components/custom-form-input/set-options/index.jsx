@@ -1,7 +1,7 @@
 import { defineComponent, computed } from 'vue'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import { CipForm } from 'd-render'
-import { HTTP, formFieldList } from './config'
+import { formFieldList } from './config'
 
 export default defineComponent({
   name: 'set-options',
@@ -25,21 +25,13 @@ export default defineComponent({
     })
 
     function emitValue (val) {
-      proxyOtherValue[1].value = val.optionProps
+      proxyOtherValue[0].value = val.optionProps
       proxyValue.value = val.options
 
-      proxyOtherValue[2].value = {
+      proxyOtherValue[1].value = {
         optType: val.optType,
-        optHttp: val.optHttp
-      }
-
-      if (val.optType === HTTP) {
-        proxyOtherValue[0].value = async function as () {
-          const res = await fetch(val.optHttp)
-          return res.json
-        }.toString()
-      } else {
-        proxyOtherValue[0].value = undefined
+        optHttp: val.optHttp,
+        optCtxVar: val.optCtxVar
       }
     }
     return () => <CipForm

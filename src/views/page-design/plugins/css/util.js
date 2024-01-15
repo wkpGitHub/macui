@@ -33,6 +33,29 @@ export const getComponentCssConfigure = async (val, type) => {
                 type: 'css-border',
                 otherKey: ['border-top', 'border-bottom', 'border-left', 'border-right']
               },
+              borderRadius: {
+                label: '圆角',
+                type: 'set-css-value'
+              },
+              overflow: {
+                label: '溢出显示方式',
+                size: 'small',
+                type: 'select',
+                options: [
+                  { label: '可见', value: 'visible' },
+                  { label: '隐藏', value: 'hidden' },
+                  { label: '滚动条', value: 'auto' }
+                ]
+              },
+              boxSizing: {
+                label: '盒模型',
+                size: 'small',
+                type: 'select',
+                options: [
+                  { label: 'IE 盒模型', value: 'border-box' },
+                  { label: '标准盒模型', value: 'content-box' }
+                ]
+              },
               background: {
                 label: '背景',
                 type: 'css-background'
@@ -121,6 +144,28 @@ export const getComponentCssConfigure = async (val, type) => {
                   }
                   return config
                 }
+              },
+              gap: {
+                label: '间距',
+                type: 'css-gap',
+                dependOn: ['display'],
+                readable: false,
+                changeConfig (config, { display }) {
+                  if (display === 'flex') {
+                    config.writable = true
+                    config.readable = true
+                  }
+                  return config
+                }
+              },
+              flex: {
+                label: '弹性元素空间',
+                size: 'small',
+                type: 'select',
+                options: [
+                  { label: '不可伸缩', value: 'none' },
+                  { label: '自适应', value: 'auto' }
+                ]
               }
             })
           }

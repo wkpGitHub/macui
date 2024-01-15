@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.wrapper">
+  <div style="height: 100%;">
     <slot v-if="ready"></slot>
   </div>
 </template>
@@ -41,8 +41,8 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="less" module>
-.wrapper{
+<style lang="less">
+.dr-design-drawing-content__wrapper{
   height: 100%;
 }
 </style>

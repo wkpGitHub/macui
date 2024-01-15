@@ -4,7 +4,7 @@ export const pageInfoToMenu = {
   fromData (data, parentPath) {
     const appPath = store.state.app.path
     const result = {
-      route: `/preview/${appPath}/${parentPath}/${data.path}`,
+      route: `/app/${appPath}/${parentPath}/${data.path}`,
       title: data.name,
       name: `lowCodePage-${data.id}`
     }

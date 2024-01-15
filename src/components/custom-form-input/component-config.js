@@ -57,6 +57,7 @@ export default {
   'link-params': () => () => import('./link-params'),
   'css-position': () => () => import('./css-position'),
   'css-border': () => () => import('./css-border'),
+  'css-gap': () => () => import('./css-gap'),
   'css-background': () => () => import('./css-background'),
   'css-display': () => () => import('./css-display'),
   'background-props': () => () => import('./background-props'),
