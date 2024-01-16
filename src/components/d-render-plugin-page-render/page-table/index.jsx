@@ -68,10 +68,14 @@ export default {
         }
       }
 
+      const offset = computed(() => {
+        return tableConfig.value.hideIndex ? undefined : 0
+      })
+
       return <CipTable
         {...tableConfig.value}
         data={modelValue}
-        offset={tableConfig.value.hideIndex ? undefined : 0}
+        offset={offset.value }
         onUpdate:data={componentProps['onUpdate:modelValue']}
         onUpdate:selectColumns={v => {
           setFieldValue(drPageRender.model, props.config.otherKey[0], v)

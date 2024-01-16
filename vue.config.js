@@ -15,7 +15,7 @@ console.log(webpackAlias)
 const staticGzip = require('@cip/build/static_gzip') // 生成静态gzip文件
 console.log('vue.config.js')
 // 从command中获取publicPath、outputDir
-const { publicPath = '/', outputDir = 'dist', assetsDir, entryFile = './src/main.js' } = getParamsFromCommand(process.argv)
+const { publicPath = '/', outputDir = 'dist', assetsDir = 'public', entryFile = './src/main.js' } = getParamsFromCommand(process.argv)
 module.exports = defineConfig({
   publicPath,
   assetsDir, // 智能平台的需要使用public

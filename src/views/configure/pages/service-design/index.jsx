@@ -99,9 +99,9 @@ export default defineComponent({
           // 更新节点
           state.selectNode = {}
           d.isBranch = false
-          state.selectNode = d
           hiddenDialog()
           nextTick(() => {
+            state.selectNode = d
             nodeSetState.isShow = true
           })
         })
