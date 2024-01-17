@@ -1,5 +1,5 @@
 import { ElInput } from 'element-plus'
-import { computed, watch, ref, nextTick, onMounted } from 'vue'
+import { computed, watch, ref, nextTick, onMounted, inject } from 'vue'
 import {
   useFormInput,
   formInputProps,
@@ -9,12 +9,17 @@ import {
   getUsingConfig
 } from '@d-render/shared'
 import { useEvents } from '../use-event'
+import { getFxValue } from '@lc/components/d-render-plugin-page-render/use-event-configure'
 export default {
   props: formInputProps,
   emits: [...fromInputEmits],
   setup (props, context) {
     const cipConfig = useCipConfig()
     const { width, clearable, securityConfig, proxyValue, inputStyle, placeholder } = useFormInput(props, context)
+    const drPageRender = inject('drPageRender', {})
+    if (securityConfig.value.defaultValue) {
+      proxyValue.value = getFxValue(securityConfig.value.defaultValue || [], drPageRender)
+    }
     const inputRef = ref()
     const limit = computed(() => {
       return getUsingConfig(

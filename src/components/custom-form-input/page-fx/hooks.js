@@ -357,9 +357,13 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign) {
   }
 
   function getApiResults () {
-    return (drDesign.schema?.apiList || []).filter(api => !api.isFileDown).map(api => ({
+    return (drDesign.schema?.apiList || []).filter(api => !api.apiType !== 'fileDown').map(api => ({
       title: api.name,
-      name: api.objId
+      name: api.objId,
+      children: (api.outParams || []).map(item => ({
+        title: item.title,
+        name: `${api.objId}.${item.name}`
+      }))
     }))
   }
 

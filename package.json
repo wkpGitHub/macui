@@ -6,6 +6,7 @@
     "server:app": "npm run serve -- --entryFile=./src/main.app.js",
     "fix": "vue-cli-service serve --mode fix",
     "build": "vue-cli-service build",
+    "build:zt": "npm run build -- --publicPath=/zt/chr",
     "build:app": "npm run build -- --entryFile=./src/main.app.js --outputDir=dist-app",
     "analyse": "vue-cli-service build --report",
     "analyse:app": "npm run analyse -- --entryFile=./src/main.app.js",

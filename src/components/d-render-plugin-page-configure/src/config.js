@@ -1,6 +1,8 @@
 export default {
   input: () => import('./input'),
   img: () => import('./img'),
+  div: () => import('./div'),
+  span: () => import('./span'),
   link: () => import('./link'),
   grid: () => import('./grid'),
   tree: () => import('./tree'),
@@ -36,5 +38,8 @@ export default {
   number: () => import('./number'),
   switch: () => import('./switch'),
   rate: () => import('./rate'),
-  slider: () => import('./slider')
+  slider: () => import('./slider'),
+  dateRange: () => import('./date-range'),
+  timeRange: () => import('./time-range'),
+  numberRange: () => import('./number-range')
 }

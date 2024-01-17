@@ -24,7 +24,7 @@ export default {
       return generateFieldList(configure)
     }
     const fieldComponentConfigureFieldConfigList = ref([])
-    watch(() => props.selectItem?.config?.type, (val) => {
+    watch([() => props.selectItem?.config?.type, () => props.selectItem?.config?.key], ([val]) => {
       if (val) {
         fieldComponentConfigureFieldConfigList.value = []
         // dependOn存在缓存问题，暂时先进行清空再赋值操作

@@ -3,6 +3,7 @@ export default {
   tableButton: () => () => import('./table-button'),
   button: () => () => import('./button'),
   img: () => () => import('./img'),
+  span: () => () => import('./span'),
   color: () => () => import('./color'),
   link: () => () => import('./link'),
   pageTable: () => () => import('./page-table'),

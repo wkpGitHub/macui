@@ -14,6 +14,7 @@ export default {
   setup (props, context) {
     const { componentSlots } = useComponentSlots(props, context)
     const drPageRender = inject('drPageRender', {})
+    if (!drPageRender.model) drPageRender.model = {}
     const { options, type, hideItem, ...attr } = props.config
     const { dialog } = componentSlots.value
     const { api, deleteApi, options: curdOptions } = props.config
