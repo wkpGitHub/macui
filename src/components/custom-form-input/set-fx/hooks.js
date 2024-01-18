@@ -113,32 +113,32 @@ export function useFxDialog (proxyValue, config) {
 
   const operateList = [
     [
-      { type: 'operate', value: 'plus', desc: '+' },
-      { type: 'operate', value: 'minus', desc: '-' },
-      { type: 'operate', value: 'multi', desc: '×' },
-      { type: 'operate', value: 'divi', desc: '÷' },
-      { type: 'operate', value: 'mod', desc: 'mod' }
+      { type: 'operate', value: '+', desc: '+' },
+      { type: 'operate', value: '-', desc: '-' },
+      { type: 'operate', value: '*', desc: '×' },
+      { type: 'operate', value: '/', desc: '÷' },
+      { type: 'operate', value: '%', desc: 'mod' }
     ],
     [
-      { type: 'operate', value: 'eq', desc: '=' },
-      { type: 'operate', value: 'ne', desc: '!=' },
-      { type: 'operate', value: 'gt', desc: '>' },
-      { type: 'operate', value: 'lt', desc: '<' },
-      { type: 'operate', value: 'ge', desc: '>=' },
-      { type: 'operate', value: 'le', desc: '<=' }
+      { type: 'operate', value: '==', desc: '=' },
+      { type: 'operate', value: '!=', desc: '!=' },
+      { type: 'operate', value: '>', desc: '>' },
+      { type: 'operate', value: '<', desc: '<' },
+      { type: 'operate', value: '>=', desc: '>=' },
+      { type: 'operate', value: '<=', desc: '<=' }
     ],
     [
-      { type: 'operate', value: 'and', desc: 'and' },
-      { type: 'operate', value: 'or', desc: 'or' },
-      { type: 'operate', value: 'not', desc: 'not' }
+      { type: 'operate', value: '&&', desc: 'and' },
+      { type: 'operate', value: '||', desc: 'or' },
+      { type: 'operate', value: '!', desc: 'not' }
     ],
     [
-      { type: 'operate', value: 'tr', desc: 'true' },
-      { type: 'operate', value: 'fa', desc: 'false' }
+      { type: 'operate', value: 'true', desc: 'true' },
+      { type: 'operate', value: 'false', desc: 'false' }
     ],
     [
-      { type: 'operate', value: 'lb', desc: '(' },
-      { type: 'operate', value: 'rb', desc: ')' }
+      { type: 'operate', value: '(', desc: '(' },
+      { type: 'operate', value: ')', desc: ')' }
     ],
     [
       { type: 'fx', value: 'isNull', desc: '为空', arguments: [[]] },
