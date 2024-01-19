@@ -53,7 +53,7 @@
     "codemirror": "^5.65.6",
     "core-js": "^3.6.5",
     "countup.js": "^2.3.2",
-    "d-render": "2.1.15-beta.16",
+    "d-render": "2.1.20",
     "d3": "^5.16.0",
     "dayjs": "^1.11.6",
     "echarts": "^5.4.3",
@@ -135,7 +135,9 @@
       "git add"
     ]
   },
-  "eslintIgnore": ["**/esm/**"],
+  "eslintIgnore": [
+    "**/esm/**"
+  ],
   "zentaoUrl": "http://zentao.citycloud.com.cn/zentao",
   "repository": "https://git.citycloud.com.cn:3000/cci_tech_research/coding-hammer-ui.git"
 }

@@ -15,14 +15,14 @@ export default {
       securityConfig
     } = useFormInput(props, ctx)
     const drPageRender = inject('drPageRender', {})
-    if (securityConfig.value.defaultValue) {
-      proxyValue.value = getFxValue(securityConfig.value.defaultValue || [], drPageRender)
-    }
     const { eventMap } = useEvents(props, securityConfig)
     useWatch(proxyValue, securityConfig)
 
     return () => {
       const { hideItem, ...otherConfig } = securityConfig.value
+      if (securityConfig.value.defaultValue) {
+        proxyValue.value = getFxValue(securityConfig.value.defaultValue || [], drPageRender)
+      }
 
       return !hideItem && <ElInput
         modelValue={proxyValue.value}

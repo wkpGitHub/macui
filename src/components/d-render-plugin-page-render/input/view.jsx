@@ -1,3 +1,4 @@
+// import { ElInput } from 'element-plus'
 // import { CipFormInputTransform } from 'd-render'
 import { formInputProps, fromInputEmits, useFormInput } from '@d-render/shared'
 import { useEvents } from '../use-event'
@@ -13,18 +14,21 @@ export default {
       proxyValue,
       securityConfig
     } = useFormInput(props, ctx)
-    const drPageRender = inject('drPageRender', { model: {} })
-    const drDesign = inject('drDesign')
-
+    const drPageRender = inject('drPageRender', {})
     const { eventMap } = useEvents(props, securityConfig)
     useWatch(proxyValue, securityConfig)
 
     return () => {
       const { hideItem, ...otherConfig } = securityConfig.value
+      let _v = ''
       if (securityConfig.value.defaultValue) {
-        proxyValue.value = getFxValue(securityConfig.value.defaultValue || [], drPageRender)
+        _v = getFxValue(securityConfig.value.defaultValue || [], drPageRender)
       }
-      return !hideItem && <span {...eventMap.value} {...otherConfig}>{drDesign ? proxyValue.value || '占位文本' : proxyValue.value}</span>
+      return !hideItem && <span
+        // config={otherConfig}
+        {...otherConfig}
+        {...eventMap.value}
+      >{proxyValue.value || _v}</span>
     }
   }
 }

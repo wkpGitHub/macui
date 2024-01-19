@@ -57,7 +57,7 @@ export default {
   tree: () => () => import('./tree'),
   input: (mode) => {
     if (mode === '/view') {
-      return () => import('@cip/d-render-plugin-cci/esm/input/basic/input/view.js')
+      return () => import('./input/view.jsx')
     }
     return () => import('./input')
   },
