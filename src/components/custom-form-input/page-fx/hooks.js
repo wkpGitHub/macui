@@ -65,6 +65,8 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign) {
       children: [
         { label: '为空', value: 'isNull' },
         { label: '不为空', value: 'isNotNull' },
+        { label: '字符串转数字', value: 'Number', info: '字符串转数字( 字符串 )' },
+        { label: '数字转字符串', value: 'String', info: '数字转字符串( 数字 )' },
         { label: '对象转JSON字符串', value: 'JSON.stringify', info: '对象转JSON字符串( 对象 )' },
         { label: 'JSON字符串转对象', value: 'JSON.parse', info: 'JSON字符串转对象( JSON字符 )' },
         { label: '计算长度', value: 'length', info: '计算长度( 数组 或 字符串 )，返回数组或字符串的长度' }
@@ -295,7 +297,9 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign) {
       newArray: { type: 'fx', value: 'new Array', desc: '创建一个数组', arguments: [] },
       arrPush: { type: 'fx', value: 'arrPush', desc: '向数组末尾增加一个成员', arguments: [[], []] },
       arrPop: { type: 'fx', value: 'arrPop', desc: '移除数组最后一个成员', arguments: [[]] },
-      arrSplice: { type: 'fx', value: 'arrSplice', desc: '向数组中插入或移除一个成员', arguments: [[], [], [], []] }
+      arrSplice: { type: 'fx', value: 'arrSplice', desc: '向数组中插入或移除一个成员', arguments: [[], [], [], []] },
+      Number: { type: 'fx', value: 'Number', desc: '字符串转数字', arguments: [[]] },
+      String: { type: 'fx', value: 'String', desc: '数字转字符串', arguments: [[]] }
       // thereIn: {
       //   type: 'fx',
       //   desc: '属于',
@@ -320,11 +324,11 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign) {
     if (currentItem.config?.events) {
       Object.values(currentItem.config.events).forEach(e => {
         children.push({
-          name: `${currentItem.key}_${e.type}`,
+          name: `${currentItem.id}_${e.type}`,
           title: '当前事件回调参数',
           disabled: e.args?.length,
           children: e.args?.map((arg, i) => ({
-            name: `${currentItem.key}_${e.type}.${i}`,
+            name: `${currentItem.id}_${e.type}.${i}`,
             title: arg
           }))
         })
@@ -335,11 +339,11 @@ export function useFxDialog (proxyValue, proxyOtherValue, config, drDesign) {
         if (item.config?.events) {
           Object.values(item.config.events).forEach(e => {
             children.push({
-              name: `${item.key}_${e.type}`,
+              name: `${item.id}_${e.type}`,
               title: `${item.config.label}_${e.label}回调参数`,
               disabled: e.args?.length,
               children: e.args?.map((arg, i) => ({
-                name: `${item.key}_${e.type}.${i}`,
+                name: `${item.id}_${e.type}.${i}`,
                 title: arg
               }))
             })

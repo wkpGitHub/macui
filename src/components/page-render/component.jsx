@@ -59,7 +59,6 @@ export default {
         dataBus: props.dataBus,
         grid: props.grid,
         'onUpdate:model': (val) => {
-          console.log('onUpdate:model', key, val)
           if (componentKey === generateComponentKey(key)) {
             updateModel(val)
           }
