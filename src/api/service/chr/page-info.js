@@ -31,7 +31,8 @@ class PageInfoService extends Model {
       method: 'get',
       apiName: 'apiChr',
       url: '/api/v1/page/detail',
-      params: { id, fullPath, app }
+      params: { id, fullPath, app },
+      options: { autoNotify: false }
     })
   }
 
