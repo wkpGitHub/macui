@@ -105,6 +105,10 @@ export function useFxDialog (proxyValue, config) {
         }))
         targets.push({ label: parent.config.title, value: parent.config.targetName, dataType: parent.config.dataType || 'ENTITY', children })
       }
+      if (parent.type === 'loop') {
+        targets.push({ label: (parent.config?.title || parent.title) + '字段名', value: parent.config?.loopItemName || '_item' })
+        targets.push({ label: (parent.config?.title || parent.title) + '下标名', value: parent.config?.loopIndexName || '_index' })
+      }
       if (parent.parent) deepAdd(parent.parent)
     }
     deepAdd(parent)

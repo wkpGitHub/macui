@@ -38,21 +38,25 @@ export function useFxDialog (proxyValue, config) {
     const targets = []
     console.log(parentState.selectNode)
     const { parent, index } = parentState.selectNode
-    parent.children.forEach((n, i) => {
-      const children = (n.config?.selectFields || n.config?.initFields || []).map(sel => ({
-        label: sel.title,
-        value: n.config.targetName + '.' + sel.name,
-        dataType: sel.dataType
-      }))
-      if (n.config?.targetName && i < index) {
-        targets.push({
-          label: n.config.targetName,
-          value: n.config.targetName,
-          dataType: n.config.dataType || 'ENTITY',
-          children
-        })
-      }
-    })
+    function cDeep (_children) {
+      _children.forEach((n, i) => {
+        const children = (n.config?.selectFields || n.config?.initFields || n.config?.updateFields || n.config?.dataFields || []).map(sel => ({
+          label: sel.title,
+          value: n.config.targetName + '.' + sel.name,
+          dataType: sel.dataType
+        }))
+        if (n.config?.targetName && i < index) {
+          targets.push({
+            label: n.config.targetName,
+            value: n.config.targetName,
+            dataType: n.config.dataType || 'ENTITY',
+            children
+          })
+        }
+        if (n.children) cDeep(n.children)
+      })
+    }
+    cDeep(parent.children)
     function deepAdd (parent) {
       if (parent.config?.targetName) {
         const children = (parent.config?.selectFields || []).map(sel => ({
@@ -61,6 +65,10 @@ export function useFxDialog (proxyValue, config) {
           dataType: sel.dataType
         }))
         targets.push({ label: parent.config.title, value: parent.config.targetName, dataType: parent.config.dataType || 'ENTITY', children })
+      }
+      if (parent.type === 'loop') {
+        targets.push({ label: (parent.config?.title || parent.title) + '字段名', value: parent.config?.loopItemName || '_item' })
+        targets.push({ label: (parent.config?.title || parent.title) + '下标名', value: parent.config?.loopIndexName || '_index' })
       }
       if (parent.parent) deepAdd(parent.parent)
     }
