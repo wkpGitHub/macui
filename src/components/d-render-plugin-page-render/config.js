@@ -63,7 +63,7 @@ export default {
   },
   select: (mode) => {
     if (mode === '/view') {
-      return () => import('@cip/d-render-plugin-cci/esm/input/basic/select/view.js')
+      return () => import('./select/view.jsx')
     }
     return () => import('./select')
   },
