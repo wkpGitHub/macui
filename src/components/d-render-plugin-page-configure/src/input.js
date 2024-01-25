@@ -1,6 +1,16 @@
 export default {
   key: {},
   label: {},
+  labelWidth: { // 配置由插槽实现
+    type: 'number',
+    label: '标签宽度',
+    step: 10
+  },
+  required: {
+    label: '校验',
+    type: 'singleCheckbox',
+    option: { value: true, label: '必填' }
+  },
   events: {
     hideItem: true,
     options: [
