@@ -18,12 +18,12 @@ export default {
     const { eventMap } = useEvents(props, securityConfig)
     useWatch(proxyValue, securityConfig)
 
-    return () => {
-      const { hideItem, ...otherConfig } = securityConfig.value
-      if (securityConfig.value.defaultValue) {
-        proxyValue.value = getFxValue(securityConfig.value.defaultValue || [], drPageRender)
-      }
+    const { hideItem, ...otherConfig } = securityConfig.value
+    if (securityConfig.value.defaultValue) {
+      proxyValue.value = getFxValue(securityConfig.value.defaultValue || [], drPageRender)
+    }
 
+    return () => {
       return !hideItem && <ElInput
         modelValue={proxyValue.value}
         // config={otherConfig}

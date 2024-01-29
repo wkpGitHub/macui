@@ -18,12 +18,13 @@ export default {
     const { eventMap } = useEvents(props, securityConfig)
     useWatch(proxyValue, securityConfig)
 
+    const { hideItem, ...otherConfig } = securityConfig.value
+    let _v = ''
+    if (securityConfig.value.defaultValue) {
+      _v = getFxValue(securityConfig.value.defaultValue || [], drPageRender)
+    }
+
     return () => {
-      const { hideItem, ...otherConfig } = securityConfig.value
-      let _v = ''
-      if (securityConfig.value.defaultValue) {
-        _v = getFxValue(securityConfig.value.defaultValue || [], drPageRender)
-      }
       return !hideItem && <span
         // config={otherConfig}
         {...otherConfig}
