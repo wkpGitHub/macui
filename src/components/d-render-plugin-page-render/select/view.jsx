@@ -1,4 +1,4 @@
-import { computed, h, inject, ref, watch } from 'vue'
+import { computed, h, inject, watch, ref } from 'vue'
 import { formInputViewProps, fromInputEmits, useOptions, useFormView } from '@d-render/shared'
 import { getUsingConfig, isArray } from '@cip/utils/util'
 import { getFxValue } from '../use-event-configure'
@@ -13,7 +13,7 @@ export default {
     const multiple = computed(() => {
       return getUsingConfig(securityConfig.value.multiple, props.multiple)
     })
-    const { optionProps, splitKey } = useOptions(props, multiple)
+    const { optionProps, splitKey, options: originOpts } = useOptions(props, multiple)
     watch(() => securityConfig.value.optApiConfig, optApiConfig => {
       switch (optApiConfig?.optType) {
         case 'custom': options.value = securityConfig.value.options.map(item => ({ [optionProps.value.label]: item.label, [optionProps.value.value]: getFxValue(item.value, drPageRender) }))
@@ -21,6 +21,8 @@ export default {
         case 'http': axiosInstance({ url: optApiConfig.optHttp }).then(({ data }) => { options.value = data.data.list })
           break
         case 'ctx': options.value = getFxValue(optApiConfig.optCtxVar, drPageRender)
+          break
+        default: options.value = originOpts.value
       }
     }, { immediate: true })
     const viewValue = computed(() => {

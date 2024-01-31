@@ -15,7 +15,7 @@ export const apiInfoEntityEntity = {
   creatorId: { type: String, _renderConfig: { label: '创建者id' } },
   creatorName: { type: String, _renderConfig: { label: '创建者姓名' } },
   dataId: { type: Number, _renderConfig: { label: '数据模型id', type: 'number' } },
-  devMode: { type: String, _renderConfig: { label: '开发模式', type: 'select', options: [{ label: 'API', value: 'entity' }, { value: 'flow', label: '服务编排' }] } },
+  devMode: { type: String, _renderConfig: { label: '开发模式', type: 'select' } },
   fullPath: { type: String, _renderConfig: { label: '接口访问全路径' } },
   head: { type: [new Model(apiFieldEntityEntity)], _renderConfig: { label: '请求头', type: 'table' } },
   id: { type: Number, _renderConfig: { label: '主键', type: 'number' } },

@@ -7,7 +7,7 @@ import CipPageCurd from '@cip/components/cip-page-curd'
 import { apiConfigService } from '@lc/api/service/chr'
 import CipButton from '@cip/components/cip-button'
 import CipButtonText from '@cip/components/cip-button-text'
-import { tableColumns, searchFieldList, formFieldList } from './config'
+import { usePage } from './config'
 
 const itemTypeMap = {
   entity: 'API',
@@ -16,6 +16,7 @@ const itemTypeMap = {
 
 export default {
   setup (props, ctx) {
+    const { tableColumns, searchFieldList, formFieldList } = usePage()
     const router = useRouter()
     // 选中左侧树 右侧列表展示对应信息
     const currentNode = ref({})
@@ -46,11 +47,11 @@ export default {
             autoSelected={true}
             ref={curd$}
             outParams={{ pid: currentNode.value.id, isApi: currentNode.value.isApi }}
-            searchFieldList={searchFieldList}
+            searchFieldList={searchFieldList.value}
             entity={apiConfigService}
             curdFn={{ pageFn: 'list', deleteFn: 'configDel', createFn: 'save', updateFn: 'save' }}
-            tableColumns={tableColumns}
-            formFieldList={formFieldList}
+            tableColumns={tableColumns.value}
+            formFieldList={formFieldList.value}
             withCreate={false}
             dialogSize={'small'}
             itemType={itemType.value}

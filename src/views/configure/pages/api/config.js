@@ -1,6 +1,7 @@
 import { apiInfoEntityEntity } from '@lc/api/entity/chr'
 import { generateFieldList, defineFormFieldConfig, defineTableFieldConfig, defineSearchFieldConfig } from 'd-render'
-import { apiConfigService } from '@lc/api/service/chr'
+import { apiConfigService, sysDicService } from '@lc/api'
+import { computed, reactive } from 'vue'
 
 const apiTypeOpts = [
   { label: '查询', value: 'query' },
@@ -13,51 +14,72 @@ const apiTypeOpts = [
   { label: '图片', value: 'image' }
 ]
 
-export const searchFieldList = generateFieldList(defineSearchFieldConfig({
-  path: {},
-  name: {},
-  devMode: {}
-}), apiInfoEntityEntity)
+export function usePage () {
+  const state = reactive({
+    devOpts: [],
+    pidOpts: []
+  })
 
-export const tableColumns = generateFieldList(defineTableFieldConfig({
-  name: {},
-  fullPath: { minWidth: '110px' },
-  devMode: {},
-  apiType: {
-    label: '接口类型',
-    type: 'select',
-    options: apiTypeOpts
-  },
-  updateTime: {}
-}), apiInfoEntityEntity)
+  console.log('sysDicService', sysDicService)
+  sysDicService.maps().then(({ data }) => {
+    const arr = []
+    Object.keys(data.apiDevModel || {}).forEach(key => {
+      arr.push({ value: key, label: data.apiDevModel[key] })
+    })
+    state.devOpts = arr
+  })
+  apiConfigService.list({ pid: 0 }).then(({ data }) => {
+    state.pidOpts = data || []
+  })
 
-export const formFieldList = generateFieldList(defineFormFieldConfig({
-  name: {
-    required: true
-  },
-  path: {
-    required: true
-  },
-  apiType: {
-    label: '接口类型',
-    type: 'select',
-    required: true,
-    options: apiTypeOpts
-  },
-  pid: {
-    label: 'API分组',
-    type: 'select',
-    required: true,
-    optionProps: {
-      label: 'name',
-      value: 'id'
+  const searchFieldList = computed(() => generateFieldList(defineSearchFieldConfig({
+    path: {},
+    name: {},
+    devMode: { options: state.devOpts }
+  }), apiInfoEntityEntity))
+
+  const tableColumns = computed(() => generateFieldList(defineTableFieldConfig({
+    name: {},
+    fullPath: { minWidth: '110px' },
+    devMode: { options: state.devOpts },
+    apiType: {
+      label: '接口类型',
+      type: 'select',
+      options: apiTypeOpts
     },
-    async asyncOptions () {
-      const { data } = await apiConfigService.list({
-        pid: 0
-      })
-      return data || []
-    }
-  },
-  remark: {}
-}), apiInfoEntityEntity)
+    updateTime: {}
+  }), apiInfoEntityEntity))
+
+  const formFieldList = computed(() => generateFieldList(defineFormFieldConfig({
+    name: {
+      required: true
+    },
+    path: {
+      required: true
+    },
+    apiType: {
+      label: '接口类型',
+      type: 'select',
+      required: true,
+      options: apiTypeOpts
+    },
+    devMode: { options: state.devOpts },
+    pid: {
+      label: 'API分组',
+      type: 'select',
+      required: true,
+      optionProps: {
+        label: 'name',
+        value: 'id'
+      },
+      options: state.pidOpts
+    },
+    remark: {}
+  }), apiInfoEntityEntity))
+
+  return {
+    searchFieldList,
+    tableColumns,
+    formFieldList
+  }
+}
