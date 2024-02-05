@@ -61,5 +61,7 @@ export default {
   'css-background': () => () => import('./css-background'),
   'css-display': () => () => import('./css-display'),
   'background-props': () => () => import('./background-props'),
-  'set-css-value': () => () => import('./set-css-value')
+  'set-css-value': () => () => import('./set-css-value'),
+  parseSql: () => () => import('./parse-sql'),
+  sqlInput: () => () => import('./sql-input')
 }

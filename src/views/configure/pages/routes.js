@@ -65,5 +65,11 @@ export const routes = [
       }
     },
     component: () => import('./connector-manager/detail')
+  },
+  {
+    name: 'serviceConfig',
+    path: 'service-config',
+    component: () => import('./api/entity-sql'),
+    props: ({ query }) => ({ ...query })
   }
 ]

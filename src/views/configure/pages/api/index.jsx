@@ -38,6 +38,10 @@ export default {
       })
     }
 
+    function configServe ({ id }) {
+      router.push({ name: 'serviceConfig', query: { id } })
+    }
+
     return () => <CipPageLayoutLeftRight>
         {{
           left: () => <div style={'height: 100%; box-sizing: border-box; padding: 0 24px;'} >
@@ -73,6 +77,7 @@ export default {
               'table-handle': ({ row, deleteItem, editItem }) => <>
                 <CipButtonText onClick={() => editItem(row)}>编辑</CipButtonText>
                 {row.devMode === 'flow' && <CipButtonText onClick={() => createServe(row.id)}>编排</CipButtonText>}
+                {['entity', 'sql'].includes(row.devMode) && <CipButtonText onClick={() => configServe(row)}>配置</CipButtonText>}
                 <CipButtonText onClick={() => deleteItem(row)}>删除</CipButtonText>
               </>
             }}

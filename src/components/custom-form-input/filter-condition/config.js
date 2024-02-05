@@ -5,7 +5,7 @@ import { computed } from 'vue'
 // 字段 type: int  op [equal|not_equal|less|less_or_equal|greater|greater_or_equal|is_empty|is_not_empty]
 // 字段 type: text  op [equal|not_equal|like|not_like|starts_with|ends_with|is_empty|is_not_empty]
 // 字段 type: date  op [equal|not_equal|less|less_or_equal|greater|greater_or_equal|between|not_between]
-const opOptions = [
+export const opOptions = [
   { label: '等于', value: 'eq', usedFieldType: ['INT', 'BIGINT', 'DOUBLE', 'DECIMAL', 'TIMESTAMP', 'STRING', 'TEXT', 'ENTITY', 'POJO', 'DIC', 'BOOLEAN', 'DATE', 'TIME', 'DATETIME'] },
   { label: '不等于', value: 'ne', usedFieldType: ['INT', 'BIGINT', 'DOUBLE', 'DECIMAL', 'TIMESTAMP', 'STRING', 'TEXT', 'ENTITY', 'POJO', 'DIC', 'BOOLEAN', 'DATE', 'TIME', 'DATETIME'] },
   { label: '模糊匹配', value: 'like', usedFieldType: ['STRING', 'TEXT', 'ENTITY', 'POJO', 'DIC'] },

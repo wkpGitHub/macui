@@ -40,6 +40,11 @@ export default [
         name: 'configureServiceDesign',
         title: '服务编排',
         hideInMenu: true
+      },
+      {
+        name: 'serviceConfig',
+        title: '接口配置',
+        hideInMenu: true
       }
     ]
   },
